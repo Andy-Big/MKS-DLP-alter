@@ -1,0 +1,15 @@
+
+*.pbi
+*.xcl
+*.dep
+*.lst
+*.dep
+*.o
+*.log
+*.pbd
+*.browse
+*.linf
+*.pbw
+*.dep
+*.wsdt
+settings/Project.wsdt
