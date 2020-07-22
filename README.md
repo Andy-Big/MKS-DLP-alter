@@ -1,6 +1,7 @@
 # MKS-DLP-alter
  
 Alternative firmware for MKS DLP board v1.1
+Using IAR 8.32 with ST HAL library.
 
 22.07.2020
 - UI display works (ili9488)
