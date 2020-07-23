@@ -109,6 +109,7 @@ void		LCDUI_DrawText(char *str, uint16_t opt=0, int16_t x1=-1, int16_t y=-1, int
 void		LCDUI_DrawCharUTF(char *c, uint16_t opt = 0, int16_t x = -1, int16_t y = -1);
 void		LCDUI_DrawTextUTF(char *str, uint16_t opt=0, int16_t x1=-1, int16_t y=-1, int16_t x2=-1, int16_t y2=-1);
 
+void		LCDUI_DrawBitmap(uint16_t x, uint16_t y, uint8_t *bmp);
 
 
 

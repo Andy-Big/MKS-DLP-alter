@@ -62,6 +62,9 @@ extern ApplicationTypeDef		Appli_state;
 ApplicationTypeDef				Appli_state_old;
 extern TCHAR					UsbPath[4];   /* USBH logical drive path */
 extern FATFS					UsbFS;    /* File system object for USBH logical drive */
+extern TOUCH_INFO				touch_info;
+
+extern uint8_t			*TEST_BMP;
 
 
 __no_init uint8_t filebuff[8192] @ "CCMRAM";
@@ -125,6 +128,8 @@ int main()
 	
 	LCDUI_DrawTextUTF((char*)"> Ready\n");
 
+	HAL_Delay(1000);
+	LCDUI_DrawBitmap(0, 0, (uint8_t*)&TEST_BMP);
 	
 	USB_HOST_VbusFS(0);
 
@@ -137,18 +142,26 @@ int main()
 	TCHAR		fname[512];
 	FIL			file;
 	
-	uint16_t	xcrd = 0, ycrd = 0;
+	TOUCH_POINT		tcrd;
+	TOUCH_STATES	tstate;
 	
 	while(1)
 	{
-		xcrd = Touch_GetX();
-		ycrd = Touch_GetY();
-		if (xcrd > 0 && ycrd > 0)
-			LCDUI_DrawPixel(xcrd, ycrd);
-		sprintf(msg, "x: %5u", xcrd);
-		LCDUI_DrawTextUTF(msg, 0, 400, 5);
-		sprintf(msg, "y: %5u", ycrd);
-		LCDUI_DrawTextUTF(msg, 0, 400, 25);
+		if ((tstate = Touch_GetState()) != TS_FREE)
+		{
+			if (tstate == TS_SPRESSED || tstate == TS_LPRESSED)
+			{
+				Touch_GetCoords(&tcrd);
+				sprintf(msg, "x: %5u", tcrd.xc);
+				LCDUI_DrawTextUTF(msg, 0, 400, 5);
+				sprintf(msg, "y: %5u", tcrd.yc);
+				LCDUI_DrawTextUTF(msg, 0, 400, 25);
+			}
+			if (tstate == TS_SRELEASED || tstate == TS_LRELEASED)
+			{
+				Touch_SetState(TS_WORKED);
+			}
+		}
 		USB_HOST_Process();
 		if (Appli_state_old != Appli_state)
 		{

@@ -2582,4 +2582,7 @@
             <name>$PROJ_DIR$\src\System\stm32f4xx_it.c</name>
         </file>
     </group>
+    <file>
+        <name>$PROJ_DIR$\README.md</name>
+    </file>
 </project>

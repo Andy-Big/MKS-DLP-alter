@@ -370,11 +370,14 @@ void		LCD_Initializtion(void)
 
 		LCD_WriteCmd(0X00B0); //Interface Mode Control
 		LCD_WriteRAM(0x0000);
+		
 		LCD_WriteCmd(0x00B1); //Frame rate 70HZ
 		LCD_WriteRAM(0x00B0);
 		LCD_WriteRAM(0x0011);
+		
 		LCD_WriteCmd(0x00B4);
 		LCD_WriteRAM(0x0002);
+		
 		LCD_WriteCmd(0x00B6); //RGB/MCU Interface Control
 		LCD_WriteRAM(0x0002);
 		LCD_WriteRAM(0x0042);

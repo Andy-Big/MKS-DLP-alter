@@ -13,3 +13,5 @@
 *.dep
 *.wsdt
 settings/Project.wsdt
+*.sim
+*.tmp

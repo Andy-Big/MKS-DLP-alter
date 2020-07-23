@@ -877,3 +877,60 @@ void	LCDUI_DrawTextUTF(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t 
 
 
 
+void		LCDUI_DrawBitmap(uint16_t x, uint16_t y, uint8_t *bmp)
+{
+	if (x >= LCD_WIDTH || y >= LCD_HEIGHT || bmp == NULL)
+		return;
+	
+	uint8_t 	*pbmp = bmp;
+	uint32_t	bwidth = *(uint32_t*)(pbmp+18);
+	uint32_t	bheight = *(uint32_t*)(pbmp+22);
+	if (bheight & 0x80000000)
+	{
+		bheight = 0xFFFFFFFF - bheight + 1;
+	}
+	else
+	{
+		LCD_WriteCmd(0x0036);
+		LCD_WriteRAM(0x00F8);
+	}
+	uint32_t	linesize = bwidth * 2;
+	while (linesize % 4)
+	{
+		linesize++;
+	}
+	
+	uint16_t paintx = bwidth;
+	if (paintx + x > LCD_WIDTH)
+		paintx = LCD_WIDTH - x;
+	uint16_t painty = bheight;
+	if (paintx + x > LCD_HEIGHT)
+		painty = LCD_HEIGHT - y;
+
+	// image data offset
+	uint32_t index = *(uint32_t *)(pbmp + 10);
+	pbmp += index;
+
+	LCD_SetWindows(x, y, x + paintx, y + painty);
+	LCD_WriteRAM_Prepare();
+	
+	for (uint16_t iy = 0; iy < painty; iy++)
+	{
+		for (uint16_t ix = 0; ix < paintx; ix++)
+		{
+			LCD_WriteRAM(*(uint16_t*)(pbmp + ix*2));
+		}
+		pbmp += linesize;
+	}
+	if (!(bheight & 0x80000000))
+	{
+		LCD_WriteCmd(0x0036);
+		LCD_WriteRAM(0x00B8);
+	}
+}
+//==============================================================================
+
+
+
+
+

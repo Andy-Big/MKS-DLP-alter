@@ -731,19 +731,19 @@
                 </option>
                 <option>
                     <name>IlinkRawBinaryFile</name>
-                    <state></state>
+                    <state>D:\Electronics\Projects\MKS_DLP_new\SRC\IMGS\original\logo1.bmp</state>
                 </option>
                 <option>
                     <name>IlinkRawBinarySymbol</name>
-                    <state></state>
+                    <state>TEST_BMP</state>
                 </option>
                 <option>
                     <name>IlinkRawBinarySegment</name>
-                    <state></state>
+                    <state>readonly</state>
                 </option>
                 <option>
                     <name>IlinkRawBinaryAlign</name>
-                    <state></state>
+                    <state>8</state>
                 </option>
                 <option>
                     <name>IlinkDefines</name>
@@ -2322,4 +2322,7 @@
             <name>$PROJ_DIR$\src\System\stm32f4xx_it.c</name>
         </file>
     </group>
+    <file>
+        <name>$PROJ_DIR$\README.md</name>
+    </file>
 </project>

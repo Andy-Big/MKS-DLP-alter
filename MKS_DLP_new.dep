@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
     <fileVersion>4</fileVersion>
-    <fileChecksum>2412432532</fileChecksum>
+    <fileChecksum>3973662880</fileChecksum>
     <configuration>
         <name>MKS_DLP_new_debug</name>
         <outputs>
@@ -313,9 +313,10 @@
             <file>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_fsmc.c</file>
             <file>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_usb.c</file>
             <file>$PROJ_DIR$\src\Middlewares\Third_Party\FatFs\src\ff_gen_drv.c</file>
-            <file>$PROJ_DIR$\src\Middlewares\Third_Party\FatFs\src\option\ccsbcs.c</file>
             <file>$PROJ_DIR$\src\Middlewares\Third_Party\FatFs\src\ffunicode.c</file>
             <file>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim.c</file>
+            <file>$PROJ_DIR$\..\IMGS\original\logo1.bmp</file>
+            <file>$PROJ_DIR$\README.md</file>
         </outputs>
         <file>
             <name>[ROOT_NODE]</name>
@@ -460,7 +461,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 131 80 61 148 74 33 43 66 249 79 49 78 48 53 301 65 87 46 298 82 51 89 69 59 139 81 41 84 29 50 39 132 34 54 91 129 38 127 263 36 32 40 73 42 269 136 68 133 76 31 90 58 55 44 57 30</file>
+                    <file> 79 139 81 129 132 36 80 131 43 69 41 84 50 54 127 40 73 42 44 48 59 61 87 29 39 34 91 38 263 32 269 31 57 30 51 89 66 53 74 301 249 65 49 46 78 298 82 90 58 55 76 136 33 148 68 133</file>
                 </tool>
             </inputs>
         </file>
@@ -736,7 +737,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 80 262 298 84 45 70 131 82 58 79 60 75 52 69 66 134 64 270 89 61 78 31 65 33 55 139 87 46 77 265 63 152 135 51 48 76 29 50 39 132 34 54 91 129 38 127 263 36 32 40 73 42 269 90 249 44 57 30 59 49 85 252 136 81 148 68 133 53 74 301 41 86 137 35 88 37 149</file>
+                    <file> 35 301 131 134 70 75 61 52 298 82 133 137 64 270 89 78 87 80 68 53 79 59 37 149 63 152 135 51 48 76 29 50 39 132 34 54 91 129 38 127 263 36 32 40 73 42 269 136 81 148 66 74 41 84 86 88 31 90 249 65 33 58 55 44 57 30 69 139 49 46 85 45 77 262 265 252 60</file>
                 </tool>
             </inputs>
         </file>
@@ -943,7 +944,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 65 61 132 29 36 84 79 80 129 40 90 75 59 87 49 50 54 127 32 42 131 148 69 139 81 249 46 39 34 91 38 263 73 269 68 133 51 76 66 53 74 301 41 78 298 82 31 136 70 33 58 55 44 57 30</file>
+                    <file> 32 87 54 84 59 80 49 50 127 42 90 61 65 79 29 132 129 36 40 131 148 75 69 139 81 249 46 39 34 91 38 263 73 269 68 133 51 76 66 53 74 301 41 78 298 82 31 136 70 33 58 55 44 57 30</file>
                 </tool>
             </inputs>
         </file>
@@ -985,7 +986,7 @@
             <inputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 26 248 118 277 259 273 268 96 97 125 120 126 92 121 93 182 299 176 158 110 99 103 161 109 159 105 112 260 100 254 111 279 261 276 175 272 274 251 253 250 257 115 154 102 141 171 275 271 173 94 258 264 266 255 174 278 67 62 83 56 71</file>
+                    <file> 26 310 248 118 277 259 273 268 96 97 125 120 126 92 121 93 182 299 176 158 110 99 103 161 109 159 105 112 260 100 254 111 279 261 276 175 272 274 251 253 250 257 115 154 102 141 171 275 271 173 94 258 264 266 255 174 278 67 62 83 56 71</file>
                 </tool>
             </inputs>
         </file>
@@ -1596,10 +1597,6 @@
                 </tool>
             </inputs>
         </file>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\System\system_stm32f4xx.c</name>
-            <tool>C-STAT</tool>
-        </forcedrebuild>
     </configuration>
     <configuration>
         <name>MKS_DLP_new_release</name>

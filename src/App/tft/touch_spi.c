@@ -1,40 +1,165 @@
 #include "touch_spi.h"
 #include "lcd_low.h"
 
-/* SPI2 init function */
+
+
+
+#define TOUCH_PRESSED()		(touch_point.xc || touch_point.yc)
+#define	_touch_CS_Enable()	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET)
+#define _touch_CS_Disable()	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET)
+
 
 SPI_HandleTypeDef	hTouch;
 DMA_HandleTypeDef	hTouchDmaRx;
 DMA_HandleTypeDef	hTouchDmaTx;
-uint16_t			tchx_min = 1500, tchx_max = 31300, tchy_min = 1000, tchy_max = 31200;
-uint16_t			tchx = 0, tchy = 0;
 
-uint8_t				dmabuff[TOUCH_BUFF_SIZE];
+uint8_t			dmabuff[TOUCH_BUFF_SIZE];
+TOUCH_INFO		touch_info;
+TOUCH_POINT		touch_point;
 
 
 
-void	Touch_CS_Enable()
+
+
+void		_touch_ReadCoords()
 {
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
+	if (hTouchDmaRx.State != HAL_DMA_STATE_READY)
+	{
+		touch_point.xc = touch_point.yc = 0;
+		return;
+	}
+	
+	uint32_t	vavg = 0;
+	uint8_t		*buff = dmabuff+1;
+
+	// Calculate X coord
+	for (uint8_t i = 0; i < TOUCH_READS; i++)
+	{
+		vavg += (uint16_t)(*buff)<<8;
+		buff++;
+		vavg += *buff;
+		buff += 5;
+	}
+	vavg = vavg / TOUCH_READS;
+	if (vavg < touch_info.x_min || vavg > touch_info.x_max)
+		touch_point.xc = 0;
+	else
+		touch_point.xc = LCD_WIDTH - (vavg - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
+
+	// Calculate X coord
+	vavg = 0;
+	buff = dmabuff+4;
+
+	for (uint8_t i = 0; i < TOUCH_READS; i++)
+	{
+		vavg += (uint16_t)(*buff)<<8;
+		buff++;
+		vavg += *buff;
+		buff += 5;
+	}
+	vavg = vavg / TOUCH_READS;
+	if (vavg < touch_info.y_min || vavg > touch_info.y_max)
+		touch_point.yc = 0;
+	else
+		touch_point.yc = (vavg - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
+	
+	
+	// Start new read
+	_touch_CS_Enable();
+	memset(dmabuff, 0, TOUCH_BUFF_SIZE);
+	
+	for (uint8_t i = 0; i < TOUCH_BUFF_SIZE; i+=6)
+		dmabuff[i] = 0x90;
+	for (uint8_t i = 3; i < TOUCH_BUFF_SIZE; i+=6)
+		dmabuff[i] = 0xD0;
+
+	HAL_SPI_TransmitReceive_DMA(&hTouch, dmabuff, dmabuff, sizeof(dmabuff));
+	
+	_touch_RefreshState();
+	return;
 }
 //==============================================================================
 
 
 
 
-void	Touch_CS_Disable()
+void		_touch_RefreshState()
 {
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
+	switch (touch_info.state)
+	{
+		case TS_WORKED:
+			if (!TOUCH_PRESSED())
+			{
+				touch_info.state = TS_FREE;
+			}
+			break;
+		case TS_FREE:
+		case TS_SRELEASED:
+		case TS_LRELEASED:
+			if (TOUCH_PRESSED())
+			{
+				touch_info.state = TS_PREPRESSED;
+				touch_info.time = 0;
+			}
+			break;
+		case TS_PREPRESSED:
+			if (TOUCH_PRESSED())
+			{
+				if (touch_info.time > 6)
+					touch_info.state = TS_SPRESSED;
+				else
+					touch_info.time++;
+			}
+			else
+			{
+				touch_info.state = TS_WORKED;
+				touch_info.time = 0;
+			}
+			break;
+		case TS_SPRESSED:
+			if (TOUCH_PRESSED())
+			{
+				if (touch_info.time > 150)
+				{
+					touch_info.state = TS_LPRESSED;
+				}
+				else
+					touch_info.time++;
+			}
+			else
+			{
+				touch_info.state = TS_SRELEASED;
+				touch_info.time = 0;
+			}
+			break;
+		case TS_LPRESSED:
+			if (!TOUCH_PRESSED())
+			{
+				touch_info.state = TS_LRELEASED;
+				touch_info.time = 0;
+			}
+			else
+				touch_info.time++;
+			break;
+	}
 }
 //==============================================================================
 
 
 
 
-void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+
+
+
+
+
+
+
+
+void		HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	if (hspi->Instance == hTouch.Instance)
-		Touch_CS_Disable();
+		_touch_CS_Disable();
 }
 //==============================================================================
 
@@ -43,7 +168,7 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 
 
 
-void Touch_Init(void)
+void		Touch_Init(void)
 {
 	
 	hTouch.Instance = SPI2;
@@ -62,13 +187,23 @@ void Touch_Init(void)
 	{
 		Error_Handler();
 	}
+
+	touch_info.x_min = 1500;
+	touch_info.x_max = 31300;
+	touch_info.y_min = 1000;
+	touch_info.y_max = 31200;
+	touch_info.state = TS_FREE;
+	touch_info.time = 0;
+
+	touch_point.xc = 0;
+	touch_point.yc = 0;
 }
 //==============================================================================
 
 
 
 
-void Touch_Enable()
+void		Touch_Enable()
 {
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 	/* SPI2 clock enable */
@@ -141,7 +276,7 @@ void Touch_Enable()
 
 
 
-void Touch_Disable()
+void		Touch_Disable()
 {
 	/* Peripheral clock disable */
 	__HAL_RCC_SPI2_CLK_DISABLE();
@@ -162,80 +297,28 @@ void Touch_Disable()
 
 
 
-void	Touch_ReadCoords()
+TOUCH_STATES	Touch_GetState()
 {
-	if (hTouchDmaRx.State != HAL_DMA_STATE_READY)
-	{
-		tchx = tchy = 0;
-		return;
-	}
-	
-	uint32_t	vavg = 0;
-	uint8_t		*buff = dmabuff+1;
-
-	// Calculate X coord
-	for (uint8_t i = 0; i < TOUCH_READS; i++)
-	{
-		vavg += (uint16_t)(*buff)<<8;
-		buff++;
-		vavg += *buff;
-		buff += 5;
-	}
-	vavg = vavg / TOUCH_READS;
-	if (vavg < tchx_min || vavg > tchx_max)
-		tchx = 0;
-	else
-		tchx = LCD_WIDTH - (vavg - tchx_min) * LCD_WIDTH / (tchx_max - tchx_min);
-
-	// Calculate X coord
-	vavg = 0;
-	buff = dmabuff+4;
-
-	for (uint8_t i = 0; i < TOUCH_READS; i++)
-	{
-		vavg += (uint16_t)(*buff)<<8;
-		buff++;
-		vavg += *buff;
-		buff += 5;
-	}
-	vavg = vavg / TOUCH_READS;
-	if (vavg < tchy_min || vavg > tchy_max)
-		tchy = 0;
-	else
-		tchy = (vavg - tchy_min) * LCD_HEIGHT / (tchy_max - tchy_min);
-	
-	
-	// Start new read
-	Touch_CS_Enable();
-	memset(dmabuff, 0, TOUCH_BUFF_SIZE);
-	
-	for (uint8_t i = 0; i < TOUCH_BUFF_SIZE; i+=6)
-		dmabuff[i] = 0x90;
-	for (uint8_t i = 3; i < TOUCH_BUFF_SIZE; i+=6)
-		dmabuff[i] = 0xD0;
-
-	HAL_SPI_TransmitReceive_DMA(&hTouch, dmabuff, dmabuff, sizeof(dmabuff));
-	
-	dmabuff[0] = 0x90;
-	return;
+	return touch_info.state;
 }
 //==============================================================================
 
 
 
 
-uint16_t	Touch_GetX()
+void		Touch_SetState(TOUCH_STATES newstate)
 {
-	return tchx;
+	touch_info.state = newstate;
 }
 //==============================================================================
 
 
 
 
-uint16_t	Touch_GetY()
+void		Touch_GetCoords(TOUCH_POINT *pt)
 {
-	return tchy;
+	pt->xc = touch_point.xc;
+	pt->yc = touch_point.yc;
 }
 //==============================================================================
 

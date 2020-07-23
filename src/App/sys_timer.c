@@ -11,7 +11,7 @@ void		HAL_IncTick(void)
 	
 	// Read Touch each 16 ms
 	if ((uwTick & 0x0000000F) == 0)
-		Touch_ReadCoords();
+		_touch_ReadCoords();
 }
 
 //==============================================================================
