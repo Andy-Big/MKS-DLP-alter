@@ -13,4 +13,4 @@ Using IAR 8.32 with ST HAL library.
 - working file system for USB mass storage
 
 23.07.2020
-Added images for splash, main and service screens. My designer is like a sumo ballerina, so it sucks. But I can't get it any better :(
+- Added images for splash, main and service screens. My designer is like a sumo ballerina, so it sucks. But I can't get it any better :(
