@@ -124,8 +124,7 @@ int main()
 	Appli_state_old = Appli_state;
 	
 	FATFS_Init();
-	
-	
+		
 	LCDUI_DrawTextUTF((char*)"> Ready\n");
 
 	HAL_Delay(1000);
