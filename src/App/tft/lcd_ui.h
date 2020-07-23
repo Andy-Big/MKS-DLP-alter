@@ -8,9 +8,10 @@
 // ****************** fonts definitions *******************
 typedef enum
 {
-	LCDUI_FONT_H18B	= 1,
-	LCDUI_FONT_H18,
+	LCDUI_FONT_H18 = 0,
+	LCDUI_FONT_H18BOLD,
 	LCDUI_FONT_H24,
+	LCDUI_FONT_H24BOLD,
 } LCDUI_FONT_TYPE;
 
 

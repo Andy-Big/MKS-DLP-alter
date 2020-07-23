@@ -21,6 +21,10 @@
         <encoding>System</encoding>
     </override>
     <override>
+        <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\tft\fonts\fnt24b.c</path>
+        <encoding>UTF-8</encoding>
+    </override>
+    <override>
         <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\tft\fonts\tft_font_1b12h.c</path>
         <encoding>UTF-8</encoding>
     </override>

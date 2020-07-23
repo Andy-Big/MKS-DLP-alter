@@ -1,7 +1,7 @@
 #include "lcd_ui_fonts.h"
 
 
-const uint8_t fnt24_raw[] = {
+const uint8_t fnt24[] = {
 			// "SP-32" width 8
 			// ........
 			// ........
@@ -4784,7 +4784,7 @@ const uint8_t fnt24_raw[] = {
 		0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x80,
 
 };
-const uint16_t fnt24_raw_width[] = {
+const uint16_t fnt24_width[] = {
 		8, // "SP-32" 
 		4, // "!-33" 
 		12, // ""-34" 
@@ -4949,8 +4949,8 @@ const uint16_t fnt24_raw_width[] = {
 
 LCDUI_FONT fnt_h24 =
 				{
-					(uint16_t*)fnt24_raw_width,
-					(uint8_t*)fnt24_raw,
+					(uint16_t*)fnt24_width,
+					(uint8_t*)fnt24,
 					24,
-					sizeof(fnt24_raw_width)
+					sizeof(fnt24_width)
 				};

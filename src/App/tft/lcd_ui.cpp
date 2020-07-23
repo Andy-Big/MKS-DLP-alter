@@ -8,8 +8,11 @@
 
 
 extern LCDUI_FONT		fnt_h18;
-extern LCDUI_FONT		fnt_h18b;
+extern LCDUI_FONT		fnt_h18bold;
 extern LCDUI_FONT		fnt_h24;
+extern LCDUI_FONT		fnt_h24bold;
+extern const uint16_t	ascii_8x16[];
+extern const uint16_t	ASCII_Table_16x24[];
 
 //uint8_t 		lcdui_startH, lcdui_endH, lcdui_startV, lcdui_endV, lcdui_ramAddrOne, lcdui_ramAddrTwo;
 int16_t			lcdui_width = 480, lcdui_height = 320, lcdui_cursor_x = 0, lcdui_cursor_y = 0;
@@ -540,14 +543,18 @@ void	LCDUI_SetFont(LCDUI_FONT_TYPE newfont)
 			lcdui_current_font = &fnt_h18;
 			break;
 
-		case LCDUI_FONT_H18B:
-			lcdui_current_font = &fnt_h18b;
+		case LCDUI_FONT_H18BOLD:
+			lcdui_current_font = &fnt_h18bold;
 			break;
 
 		case LCDUI_FONT_H24:
 			lcdui_current_font = &fnt_h24;
 			break;
 
+		case LCDUI_FONT_H24BOLD:
+			lcdui_current_font = &fnt_h24bold;
+			break;
+		
 	}
 }
 //==============================================================================

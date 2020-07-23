@@ -2131,6 +2131,9 @@
                 <file>
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt24.c</name>
                 </file>
+                <file>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt24b.c</name>
+                </file>
             </group>
             <file>
                 <name>$PROJ_DIR$\src\App\tft\lcd_low.c</name>
