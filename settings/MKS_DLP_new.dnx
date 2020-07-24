@@ -16,7 +16,7 @@
         <LeaveTargetRunning>_ 0</LeaveTargetRunning>
     </StLinkDriver>
     <DebugChecksum>
-        <Checksum>721793666</Checksum>
+        <Checksum>1031421580</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -64,12 +64,13 @@
     </array_types>
     <watch_formats>
         <Fmt0>{W}1:TEST_BMP	4	0</Fmt0>
-        <Fmt1>{W}1:lcdui_color	4	0</Fmt1>
-        <Fmt2>{W}1:unicode_char	4	0</Fmt2>
-        <Fmt3>{W}1:unistr[uinilen]	5	0</Fmt3>
-        <Fmt4>{W}1:utfchar	4	0</Fmt4>
-        <Fmt5>{W}1:vavg	4	0</Fmt5>
-        <Fmt6>{W}1:vcurr	4	0</Fmt6>
+        <Fmt1>{W}1:c	5	0</Fmt1>
+        <Fmt2>{W}1:lcdui_color	4	0</Fmt2>
+        <Fmt3>{W}1:unicode_char	4	0</Fmt3>
+        <Fmt4>{W}1:unistr[uinilen]	5	0</Fmt4>
+        <Fmt5>{W}1:utfchar	4	0</Fmt5>
+        <Fmt6>{W}1:vavg	4	0</Fmt6>
+        <Fmt7>{W}1:vcurr	4	0</Fmt7>
     </watch_formats>
     <Trace1>
         <Enabled>0</Enabled>
@@ -129,6 +130,14 @@
         <ShowTimeSum>1</ShowTimeSum>
         <SumSortOrder>0</SumSortOrder>
     </EventLog>
+    <DisassembleMode>
+        <mode>0</mode>
+    </DisassembleMode>
+    <Breakpoints2>
+        <Bp0>_ 1 "EMUL_CODE" "{$PROJ_DIR$\src\FATFS\App\fatfs.c}.48.3" 0 0 1 "" 0 "" 0</Bp0>
+        <Bp1>_ 1 "EMUL_CODE" "{$PROJ_DIR$\src\App\main.cpp}.121.2" 0 0 1 "" 0 "" 0</Bp1>
+        <Count>2</Count>
+    </Breakpoints2>
     <TermIOLog>
         <LoggingEnabled>_ 0</LoggingEnabled>
         <LogFile>_ ""</LogFile>
@@ -138,6 +147,10 @@
         <LogFile>_ ""</LogFile>
         <Category>_ 0</Category>
     </LogFile>
+    <Aliases>
+        <Count>0</Count>
+        <SuppressDialog>0</SuppressDialog>
+    </Aliases>
     <DriverProfiling>
         <Enabled>0</Enabled>
         <Mode>1</Mode>
@@ -156,15 +169,4 @@
         <Probe0>I0</Probe0>
         <ProbeSetup0>2 1 1 2 0 0</ProbeSetup0>
     </PowerProbe>
-    <DisassembleMode>
-        <mode>0</mode>
-    </DisassembleMode>
-    <Breakpoints2>
-        <Bp0>_ 1 "EMUL_CODE" "{$PROJ_DIR$\src\App\main.cpp}.161.2" 0 0 1 "" 0 "" 0</Bp0>
-        <Count>1</Count>
-    </Breakpoints2>
-    <Aliases>
-        <Count>0</Count>
-        <SuppressDialog>0</SuppressDialog>
-    </Aliases>
 </settings>

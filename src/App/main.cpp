@@ -128,6 +128,7 @@ int main()
 		
 	LCDUI_DrawTextUTF((char*)"> Ready\n");
 
+	LCDUI_SetCursorCoord(5, 0);
 	LCDUI_SetFont(LCDUI_FONT_H12);
 	LCDUI_DrawTextUTF((char*)"Test for small font reading. Проверка читамости маленького шрифта.\n\
 /**************************************************************************//**\n\
@@ -161,7 +162,7 @@ int main()
 	LCDUI_SetFont(LCDUI_FONT_H18);
 	
 	HAL_Delay(1000);
-	LCDUI_DrawBitmap(0, 0, (uint8_t*)&TEST_BMP);
+//	LCDUI_DrawBitmap(0, 0, (uint8_t*)&TEST_BMP);
 	
 	USB_HOST_VbusFS(0);
 

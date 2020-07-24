@@ -6,12 +6,23 @@
 // Return ANSI char
 char	UTF8toANSI(uint8_t *utfchar)
 {
+	// Latin
 	if (*utfchar < 128)
 		return utfchar[0];
 	
-	uint32_t	t1, t2;
+	uint32_t	t1 = 0, t2 = 32;
+
+	t1 = ((uint16_t)utfchar[0] << 8) | utfchar[1];
 	
-	// UTF-8 to ANSI
+	// UTF-8 to ANSI for cyrillic
+	if (t1 > 0xD08F && t1 < 0xD0C0)
+		t2 = t1 - 0xCFD0;
+	if (t1 > 0xD17F && t1 < 0xD190)
+		t2 = t1 - 0xD090;
+	
+	
+	return t2;
+/*
 	t1 = (uint8_t)(utfchar[0] & 0x1F);
 	t1 <<= 6;
 	t2 = (utfchar[1] & 0x3F);
@@ -19,7 +30,7 @@ char	UTF8toANSI(uint8_t *utfchar)
 	if (t1 < 849 || t1 > 1103)
 		return 0;
 	return (char)(t1 - 848);
-			
+*/
 }
 //==============================================================================
 
