@@ -12,9 +12,9 @@ char	UTF8toANSI(uint8_t *utfchar)
 	uint32_t	t1, t2;
 	
 	// UTF-8 to ANSI
-	t1 = (uint8_t)(utfchar[1] & 0x1F);
+	t1 = (uint8_t)(utfchar[0] & 0x1F);
 	t1 <<= 6;
-	t2 = (utfchar[0] & 0x3F);
+	t2 = (utfchar[1] & 0x3F);
 	t1 += t2;
 	if (t1 < 849 || t1 > 1103)
 		return 0;

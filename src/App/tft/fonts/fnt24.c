@@ -1,7 +1,8 @@
+#include "includes.h"
 #include "lcd_ui_fonts.h"
 
 
-const uint8_t fnt24[] = {
+const uint8_t fnt24_data[] = {
 			// "SP-32" width 8
 			// ........
 			// ........
@@ -4947,10 +4948,10 @@ const uint16_t fnt24_width[] = {
 };
 
 
-LCDUI_FONT fnt_h24 =
-				{
-					(uint16_t*)fnt24_width,
-					(uint8_t*)fnt24,
-					24,
-					sizeof(fnt24_width)
-				};
+
+LCDUI_FONT font_fnt24 = {
+		(uint16_t*)fnt24_width,
+		(uint8_t*)fnt24_data,
+		24,
+		sizeof(fnt24_width)/sizeof(uint16_t)
+		};

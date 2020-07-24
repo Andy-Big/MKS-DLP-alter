@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
     <fileVersion>4</fileVersion>
-    <fileChecksum>3612305798</fileChecksum>
+    <fileChecksum>346176127</fileChecksum>
     <configuration>
         <name>MKS_DLP_new_debug</name>
         <outputs>
@@ -366,22 +366,36 @@
             <file>$PROJ_DIR$\src\System\startup_stm32f407xx.s</file>
             <file>$PROJ_DIR$\src\Middlewares\ST\STM32_USB_Host_Library\Core\Src\usbh_core.c</file>
             <file>$PROJ_DIR$\src\Middlewares\Third_Party\FatFs\src\ffunicode.c</file>
+            <file>$PROJ_DIR$\src\Middlewares\Third_Party\FatFs\src\option\ccsbcs.c</file>
             <file>$PROJ_DIR$\src\Middlewares\ST\STM32_USB_Host_Library\Core\Src\usbh_ioreq.c</file>
             <file>$PROJ_DIR$\src\USB_HOST\App\usb_host.c</file>
             <file>$PROJ_DIR$\src\Middlewares\ST\STM32_USB_Host_Library\Class\MSC\Src\usbh_msc_bot.c</file>
             <file>$PROJ_DIR$\src\Middlewares\Third_Party\FatFs\src\diskio.c</file>
             <file>$PROJ_DIR$\src\Middlewares\ST\STM32_USB_Host_Library\Class\MSC\Src\usbh_msc.c</file>
             <file>$PROJ_DIR$\MKS_DLP_new_debug\List\fnt24b.lst</file>
+            <file>$PROJ_DIR$\MKS_DLP_new_debug\Obj\fnt18bold.o</file>
+            <file>$PROJ_DIR$\MKS_DLP_new_debug\Obj\fnt24bold.pbi</file>
+            <file>$PROJ_DIR$\MKS_DLP_new_debug\Obj\fnt12.pbi</file>
+            <file>$PROJ_DIR$\MKS_DLP_new_debug\Obj\fnt18bold.pbi</file>
+            <file>$PROJ_DIR$\MKS_DLP_new_debug\Obj\fnt12.o</file>
+            <file>$PROJ_DIR$\MKS_DLP_new_debug\Obj\fnt24bold.o</file>
             <file>$PROJ_DIR$\src\App\tft\fonts\fnt24b.c</file>
+            <file>$PROJ_DIR$\MKS_DLP_new_debug\List\fnt24bold.lst</file>
+            <file>$PROJ_DIR$\MKS_DLP_new_debug\List\fnt18bold.lst</file>
+            <file>$PROJ_DIR$\src\App\tft\fonts\fnt18bold.c</file>
+            <file>$PROJ_DIR$\src\App\tft\fonts\fnt12.c</file>
+            <file>$PROJ_DIR$\src\App\tft\fonts\fnt24bold.c</file>
             <file>$PROJ_DIR$\MKS_DLP_new_debug\Obj\fnt24b.pbi</file>
             <file>$PROJ_DIR$\MKS_DLP_new_debug\Obj\fnt24b.o</file>
+            <file>$PROJ_DIR$\MKS_DLP_new_debug\List\fnt12.lst</file>
+            <file>$PROJ_DIR$\MKS_DLP_new_debug\Exe\MKS_DLP_new.bin</file>
         </outputs>
         <file>
             <name>[ROOT_NODE]</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 222</file>
+                    <file> 222 104 116</file>
                 </tool>
             </outputs>
         </file>
@@ -431,11 +445,11 @@
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 316 71 333 81 84 85 204 330 97 310 313 306 320 317 83 106 73 325 264 321 356 304 39 69 72 314 286 336 74 340 112 95 312 273 339 331 64 319 341 326 327 79 335 117 66 309 347 46 38 308 276 343 357</file>
+                    <file> 71 333 81 84 85 204 330 97 310 313 306 320 317 83 106 73 325 264 321 356 304 39 69 72 314 286 336 74 340 112 95 312 273 339 331 64 319 341 326 327 79 335 117 66 309 347 46 38 308 276 343 357 316</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 343 309 64 83 97 66 312 46 333 81 84 73 304 327 38 339 314 39 71 306 264 313 331 341 79 347 276 72 286 74 117 310 320 106 321 85 204 330 317 325 356 69 273 95 336 112 316 340 319 326 335 308 357</file>
+                    <file> 336 85 106 204 81 273 321 84 310 325 95 39 320 97 330 317 356 69 112 316 333 306 83 264 313 73 304 331 64 341 327 79 66 347 38 276 343 339 312 72 314 286 74 117 309 46 71 340 319 326 335 308 357</file>
                 </tool>
             </inputs>
         </file>
@@ -485,11 +499,11 @@
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 316 71 333 81 84 85 204 330 97 310 313 306 320 317 83 106 73 325 264 321 356 304 39 69 72 314 286 336 74 340 112 95 312 273 339 331 64 319 341 326 327 79 335 117 66 309 347 46 38 308 276 343 357</file>
+                    <file> 71 333 81 84 85 204 330 97 310 313 306 320 317 83 106 73 325 264 321 356 304 39 69 72 314 286 336 74 340 112 95 312 273 339 331 64 319 341 326 327 79 335 117 66 309 347 46 38 308 276 343 357 316</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 343 309 64 83 97 66 312 46 333 81 84 73 304 327 38 339 314 39 71 306 264 313 331 341 79 347 276 72 286 74 117 310 320 106 321 85 204 330 317 325 356 69 273 95 336 112 316 340 319 326 335 308 357</file>
+                    <file> 336 85 106 204 81 273 321 84 310 325 95 39 320 97 330 317 356 69 112 316 333 306 83 264 313 73 304 331 64 341 327 79 66 347 38 276 343 339 312 72 314 286 74 117 309 46 71 340 319 326 335 308 357</file>
                 </tool>
             </inputs>
         </file>
@@ -1056,7 +1070,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 208 321 311 74 335 86 69 127 318 39 273 95 111 323 261 76 286 204 308 357 320 97 84 81 317 310 329 107 332 305 71 356 304 331 64 341 327 79 66 347 38 276 343 339 312 72 314 336 330 340 73 319 326 106 325 324 99 287 280 333 328 80 112 85 117 309 46 306 83 264 313 96 105 342 75 344 109</file>
+                    <file> 39 75 321 81 111 311 117 96 318 69 85 84 333 105 323 261 76 273 95 112 83 313 73 286 80 71 329 127 107 332 305 356 304 331 64 341 327 79 66 347 38 276 343 339 312 72 314 97 309 46 306 264 342 320 344 109 336 74 204 330 340 319 326 335 308 357 310 106 317 325 86 324 99 287 280 208 328</file>
                 </tool>
             </inputs>
         </file>
@@ -1299,7 +1313,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 84 321 39 83 316 333 204 81 317 69 340 117 305 306 264 330 97 325 273 95 332 76 310 320 106 85 313 73 356 304 331 64 341 327 79 66 347 38 276 343 339 312 72 314 286 112 309 46 71 336 74 319 326 335 308 357</file>
+                    <file> 97 356 81 276 331 321 320 79 339 286 316 84 341 347 73 319 39 305 310 106 85 313 304 64 327 66 38 343 312 72 314 74 326 332 76 333 306 83 264 204 330 317 325 69 273 95 336 335 308 357 71 112 340 117 309 46</file>
                 </tool>
             </inputs>
         </file>
@@ -1361,14 +1375,18 @@
             <name>$PROJ_DIR$\MKS_DLP_new_debug\Exe\MKS_DLP_new.out</name>
             <outputs>
                 <tool>
+                    <name>ILINK</name>
+                    <file> 104 116</file>
+                </tool>
+                <tool>
                     <name>OBJCOPY</name>
-                    <file> 220</file>
+                    <file> 383</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 21 262 207 37 258 216 268 283 82 88 43 369 52 67 92 53 77 141 285 158 100 41 90 47 128 40 124 62 58 259 93 210 50 282 271 260 137 284 270 197 209 215 198 60 121 59 118 155 277 269 138 78 225 279 263 218 156 272 307 322 89 334 98</file>
+                    <file> 21 262 207 37 258 216 268 283 372 82 368 43 373 52 67 92 53 77 141 285 158 100 41 90 47 128 40 124 62 58 259 93 210 50 282 271 260 137 284 270 197 209 215 198 60 121 59 118 155 277 269 138 78 225 279 263 218 156 272 307 322 89 334 98</file>
                 </tool>
             </inputs>
         </file>
@@ -1872,11 +1890,11 @@
             <outputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 366 369</file>
+                    <file> 367 381</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 368</file>
+                    <file> 380</file>
                 </tool>
             </outputs>
             <inputs>
@@ -1887,6 +1905,75 @@
                 <tool>
                     <name>BICOMP</name>
                     <file> 343 309 64 83 97 66 312 46 333 81 84 73 304 327 38 339 314 39 71 306 264 313 331 341 79 347 276 72 286 74 117 310 320 106 321 85 204 330 317 325 356 69 273 95 336 112 316 340 319 326 335 308 357</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\src\App\tft\fonts\fnt18bold.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 376 368</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 371</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 71 333 81 84 85 204 330 97 310 313 306 320 317 83 106 73 325 264 321 356 304 39 69 72 314 286 336 74 340 112 95 312 273 339 331 64 319 341 326 327 79 335 117 66 309 347 46 38 308 276 343 357 316</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 336 85 106 204 81 273 321 84 310 325 95 39 320 97 330 317 356 69 112 316 333 306 83 264 313 73 304 331 64 341 327 79 66 347 38 276 343 339 312 72 314 286 74 117 309 46 71 340 319 326 335 308 357</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\src\App\tft\fonts\fnt12.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 382 372</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 370</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 71 333 81 84 85 204 330 97 310 313 306 320 317 83 106 73 325 264 321 356 304 39 69 72 314 286 336 74 340 112 95 312 273 339 331 64 319 341 326 327 79 335 117 66 309 347 46 38 308 276 343 357 316</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 336 85 106 204 81 273 321 84 310 325 95 39 320 97 330 317 356 69 112 316 333 306 83 264 313 73 304 331 64 341 327 79 66 347 38 276 343 339 312 72 314 286 74 117 309 46 71 340 319 326 335 308 357</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\src\App\tft\fonts\fnt24bold.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 375 373</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 369</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 71 333 81 84 85 204 330 97 310 313 306 320 317 83 106 73 325 264 321 356 304 39 69 72 314 286 336 74 340 112 95 312 273 339 331 64 319 341 326 327 79 335 117 66 309 347 46 38 308 276 343 357 316</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 336 85 106 204 81 273 321 84 310 325 95 39 320 97 330 317 356 69 112 316 333 306 83 264 313 73 304 331 64 341 327 79 66 347 38 276 343 339 312 72 314 286 74 117 309 46 71 340 319 326 335 308 357</file>
                 </tool>
             </inputs>
         </file>

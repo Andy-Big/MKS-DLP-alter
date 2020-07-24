@@ -656,15 +656,15 @@
                 <option>
                     <name>OOCOutputFormat</name>
                     <version>3</version>
-                    <state>1</state>
+                    <state>3</state>
                 </option>
                 <option>
                     <name>OCOutputOverride</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>MKS_DLP_new.hex</state>
+                    <state>MKS_DLP_new.bin</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -2123,16 +2123,19 @@
             <group>
                 <name>fonts</name>
                 <file>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt12.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt18.c</name>
                 </file>
                 <file>
-                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt18b.c</name>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt18bold.c</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt24.c</name>
                 </file>
                 <file>
-                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt24b.c</name>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt24bold.c</name>
                 </file>
             </group>
             <file>

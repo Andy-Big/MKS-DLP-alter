@@ -7,16 +7,15 @@
 #include "lcd_ui_fonts.h"
 
 
-extern LCDUI_FONT		fnt_h18;
-extern LCDUI_FONT		fnt_h18bold;
-extern LCDUI_FONT		fnt_h24;
-extern LCDUI_FONT		fnt_h24bold;
-extern const uint16_t	ascii_8x16[];
-extern const uint16_t	ASCII_Table_16x24[];
+extern LCDUI_FONT		font_fnt12;
+extern LCDUI_FONT		font_fnt18;
+extern LCDUI_FONT		font_fnt18bold;
+extern LCDUI_FONT		font_fnt24;
+extern LCDUI_FONT		font_fnt24bold;
 
 //uint8_t 		lcdui_startH, lcdui_endH, lcdui_startV, lcdui_endV, lcdui_ramAddrOne, lcdui_ramAddrTwo;
 int16_t			lcdui_width = 480, lcdui_height = 320, lcdui_cursor_x = 0, lcdui_cursor_y = 0;
-LCDUI_FONT		*lcdui_current_font = &fnt_h18;
+LCDUI_FONT		*lcdui_current_font = &font_fnt18;
 uint16_t		lcdui_bgcolor = LCDUI_RGB(0x000000), lcdui_color = LCDUI_RGB(0xFFFFFF);
 
 
@@ -29,7 +28,7 @@ void	LCDUI_Init()
 	lcdui_height = 320;
 	lcdui_cursor_x = 0;
 	lcdui_cursor_y = 0;
-	lcdui_current_font = &fnt_h18;
+	lcdui_current_font = &font_fnt18;
 	lcdui_bgcolor = LCDUI_RGB(0x000000);
 	lcdui_color = LCDUI_RGB(0xFFFFFF);
 }
@@ -539,20 +538,24 @@ void	LCDUI_SetFont(LCDUI_FONT_TYPE newfont)
 
 	switch (newfont)
 	{
+		case LCDUI_FONT_H12:
+			lcdui_current_font = &font_fnt12;
+			break;
+
 		case LCDUI_FONT_H18:
-			lcdui_current_font = &fnt_h18;
+			lcdui_current_font = &font_fnt18;
 			break;
 
 		case LCDUI_FONT_H18BOLD:
-			lcdui_current_font = &fnt_h18bold;
+			lcdui_current_font = &font_fnt18bold;
 			break;
 
 		case LCDUI_FONT_H24:
-			lcdui_current_font = &fnt_h24;
+			lcdui_current_font = &font_fnt24;
 			break;
 
 		case LCDUI_FONT_H24BOLD:
-			lcdui_current_font = &fnt_h24bold;
+			lcdui_current_font = &font_fnt24bold;
 			break;
 		
 	}

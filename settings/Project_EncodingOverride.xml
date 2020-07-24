@@ -5,8 +5,12 @@
         <encoding>UTF-8</encoding>
     </override>
     <override>
+        <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\tft\fonts\fnt12.c</path>
+        <encoding>Win-1251</encoding>
+    </override>
+    <override>
         <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\tft\fonts\fnt18.c</path>
-        <encoding>UTF-8</encoding>
+        <encoding>Win-1251</encoding>
     </override>
     <override>
         <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\tft\fonts\fnt18_raw.c</path>
@@ -17,12 +21,24 @@
         <encoding>UTF-8</encoding>
     </override>
     <override>
+        <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\tft\fonts\fnt18bold.c</path>
+        <encoding>Win-1251</encoding>
+    </override>
+    <override>
+        <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\tft\fonts\fnt24.c</path>
+        <encoding>Win-1251</encoding>
+    </override>
+    <override>
         <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\tft\fonts\fnt24_raw.c</path>
         <encoding>System</encoding>
     </override>
     <override>
         <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\tft\fonts\fnt24b.c</path>
         <encoding>UTF-8</encoding>
+    </override>
+    <override>
+        <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\tft\fonts\fnt24bold.c</path>
+        <encoding>Win-1251</encoding>
     </override>
     <override>
         <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\tft\fonts\tft_font_1b12h.c</path>

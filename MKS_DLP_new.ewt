@@ -2391,16 +2391,19 @@
             <group>
                 <name>fonts</name>
                 <file>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt12.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt18.c</name>
                 </file>
                 <file>
-                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt18b.c</name>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt18bold.c</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt24.c</name>
                 </file>
                 <file>
-                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt24b.c</name>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt24bold.c</name>
                 </file>
             </group>
             <file>

@@ -118,6 +118,7 @@ int main()
 	LCD_BackLight(1);
 	
 	LCDUI_SetCursorCoord(5, 0);
+	LCDUI_DrawTextUTF((char*)"> Проверка\n");
 	LCDUI_DrawTextUTF((char*)"> Starting\n");
 
 	USB_HOST_Init();
@@ -127,6 +128,38 @@ int main()
 		
 	LCDUI_DrawTextUTF((char*)"> Ready\n");
 
+	LCDUI_SetFont(LCDUI_FONT_H12);
+	LCDUI_DrawTextUTF((char*)"Test for small font reading. Проверка читамости маленького шрифта.\n\
+/**************************************************************************//**\n\
+ * @file     cmsis_armcc.h\n\
+ * @brief    CMSIS compiler ARMCC (Arm Compiler 5) header file\n\
+ * @version  V5.0.4\n\
+ * @date     10. January 2018\n\
+ ******************************************************************************/\n\
+/*\n\
+ * Copyright (c) 2009-2018 Arm Limited. All rights reserved.\n\
+ *\n\
+ * SPDX-License-Identifier: Apache-2.0\n\
+ *\n\
+ * Licensed under the Apache License, Version 2.0 (the License); you may\n\
+ * not use this file except in compliance with the License.\n\
+ * You may obtain a copy of the License at\n\
+ *\n\
+ * www.apache.org/licenses/LICENSE-2.0\n\
+ *\n\
+ * Unless required by applicable law or agreed to in writing, software\n\
+ * distributed under the License is distributed on an AS IS BASIS, WITHOUT\n\
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n\
+ * See the License for the specific language governing permissions and\n\
+ * limitations under the License.\n\
+ \n\
+\n\
+#ifndef __CMSIS_ARMCC_H\n\
+#define __CMSIS_ARMCC_H\n\
+");
+
+	LCDUI_SetFont(LCDUI_FONT_H18);
+	
 	HAL_Delay(1000);
 	LCDUI_DrawBitmap(0, 0, (uint8_t*)&TEST_BMP);
 	
