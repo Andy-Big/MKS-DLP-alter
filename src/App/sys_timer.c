@@ -1,6 +1,6 @@
 #include "sys_timer.h"
 
-#include "touch_spi.h"
+#include "touch.h"
 
 
 

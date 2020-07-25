@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <userOverrides>
     <override>
+        <path>D:\Electronics\Projects\MKS_DLP_new\MKS-DLP-FIRMWARE-master\Src\spi.c</path>
+        <encoding>GB2312</encoding>
+    </override>
+    <override>
         <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\main.cpp</path>
         <encoding>UTF-8</encoding>
     </override>

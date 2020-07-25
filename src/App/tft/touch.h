@@ -1,5 +1,5 @@
-#ifndef __touch_spi_H
-#define __touch_spi_H
+#ifndef __touch_H
+#define __touch_H
 
 #ifdef __cplusplus
  extern "C" {
@@ -9,13 +9,7 @@
 #include "includes.h"
 #include "main.h"
 
-#define USE_HAL_SPI_REGISTER_CALLBACKS	1U
 
-
-
-#define		TOUCH_READS			(uint8_t)16
-#define		TOUCH_BUFF_SIZE		(uint8_t)6*TOUCH_READS
-	 
 typedef enum
 {
 	TS_FREE,
@@ -61,5 +55,5 @@ void		Touch_GetCoords(TOUCH_POINT *pt);
 #ifdef __cplusplus
  }
 #endif
-#endif /*__touch_spi_H */
+#endif /*__touch_H */
 

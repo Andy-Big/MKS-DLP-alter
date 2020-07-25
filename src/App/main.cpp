@@ -31,7 +31,7 @@
 
 #include "usbh_platform.h"
 #include "lcd_low.h"
-#include "touch_spi.h"
+#include "touch.h"
 
 #include "lcd_ui.h"
 //#include "wchar.h"

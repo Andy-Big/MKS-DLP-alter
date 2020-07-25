@@ -2102,6 +2102,30 @@
         </settings>
     </configuration>
     <group>
+        <name>__ORIGINAL_SOURCES__</name>
+        <excluded>
+            <configuration>MKS_DLP_new_debug</configuration>
+        </excluded>
+        <file>
+            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\spi.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\w25qxx\spi_flash.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\w25qxx\spi_flash.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\SSD2828\ssd2828.cpp</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\SSD2828\ssd2828.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\w25qxx\w25qxx.c</name>
+        </file>
+    </group>
+    <group>
         <name>Application</name>
         <group>
             <name>FATFS</name>
@@ -2145,26 +2169,32 @@
                 <name>$PROJ_DIR$\src\App\tft\lcd_ui.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\src\App\tft\touch_spi.c</name>
+                <name>$PROJ_DIR$\src\App\tft\touch.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\unicode_utils.cpp</name>
+            </file>
+        </group>
+        <group>
+            <name>TIMERS</name>
+            <file>
+                <name>$PROJ_DIR$\src\App\rtc.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\sys_timer.c</name>
             </file>
         </group>
         <file>
             <name>$PROJ_DIR$\src\App\fsmc.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\src\App\fst_spi.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\src\App\gpio.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\src\App\main.cpp</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\App\rtc.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\App\sys_timer.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\App\unicode_utils.cpp</name>
         </file>
     </group>
     <group>
