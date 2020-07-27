@@ -3,6 +3,8 @@
 
 #include "includes.h"
 #include "lcd_ui_fonts.h"
+#include "lcd_low.h"
+#include "unicode_utils.h"
 
 
 
@@ -75,22 +77,24 @@ typedef enum
 
 void		LCDUI_DrawCircle_helper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername);
 void		LCDUI_FillCircle_helper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta);
-uint16_t	LCDUI_getcharwidth(char c);
-uint8_t*	LCDUI_getchardata(char c);
+uint16_t	_lcdui_GetCharWidth(char c);
+uint8_t*	_lcdui_GetCharData(char c);
 
 
 
 
 void		LCDUI_Init();
 
-void		LCDUI_SetColor(uint16_t color);
-void		LCDUI_SetBackColor(uint16_t color);
+uint16_t	LCDUI_SetColor(uint16_t color);
+uint16_t	LCDUI_SetBackColor(uint16_t color);
 void		LCDUI_SetCursorCoord(int16_t x, int16_t y);
 
 uint16_t	LCDUI_GetScreenWidth();
 uint16_t	LCDUI_GetScreenHeight();
 uint16_t	LCDUI_GetCurrentCursorX();
 uint16_t	LCDUI_GetCurrentCursorY();
+uint16_t	LCDUI_GetCurrentColor();
+uint16_t	LCDUI_GetCurrentBackColor();
 
 void		LCDUI_Clear();
 void		LCDUI_DrawPixel(uint16_t x1, uint16_t y1);
@@ -104,8 +108,10 @@ void		LCDUI_DrawRect(int16_t x, int16_t y, int16_t w, int16_t h);
 void		LCDUI_DrawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r);
 void		LCDUI_FillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r);
 	
-void		LCDUI_SetFont(LCDUI_FONT_TYPE newfont);
-uint32_t	LCDUI_GetTextWidth(const char *str);
+LCDUI_FONT_TYPE		LCDUI_SetFont(LCDUI_FONT_TYPE newfont);
+LCDUI_FONT_TYPE		LCDUI_GetCurrentFont();
+uint32_t	LCDUI_GetTextWidth(char *str);
+uint32_t	LCDUI_GetTextWidthUTF(char *str);
 uint32_t	LCDUI_GetCurrentFontHeight();
 void		LCDUI_DrawChar(char c, uint16_t opt = 0, int16_t x = -1, int16_t y = -1);
 void		LCDUI_DrawText(char *str, uint16_t opt=0, int16_t x1=-1, int16_t y=-1, int16_t x2=-1, int16_t y2=-1);

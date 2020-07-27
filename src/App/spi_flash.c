@@ -11,7 +11,7 @@ volatile uint32_t		d = 0;
 
 inline void		___spifl_wait_cs()
 {
-	volatile uint8_t i = 100;
+	volatile uint8_t i = 50;
 	while (i)
 		i--;
 }
@@ -217,7 +217,8 @@ void		SPIFL_ReadBuff(uint32_t addr, uint32_t dlen, uint8_t *dbuff)
 	FLASH_SPIWriteReadByte((addr >> 8) & 0xFF);
 	FLASH_SPIWriteReadByte(addr & 0xFF);
 
-	if (dlen > 48)
+	// DMA is not allowed with CCM SRAM (at address 0x10000000)
+	if (dlen > 48 && ((uint32_t)dbuff & 0xFF000000) != 0x10000000)
 		FLASH_SPIReadBuffDMA(dlen, dbuff);
 	else
 		FLASH_SPIReadBuff(dlen, dbuff);

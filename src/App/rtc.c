@@ -29,47 +29,47 @@ RTC_HandleTypeDef hRTC;
 /* RTC init function */
 void RTC_Init(void)
 {
-  RTC_TimeTypeDef sTime = {0};
-  RTC_DateTypeDef sDate = {0};
+	RTC_TimeTypeDef sTime = {0};
+	RTC_DateTypeDef sDate = {0};
 
-  /** Initialize RTC Only 
-  */
-  hRTC.Instance = RTC;
-  hRTC.Init.HourFormat = RTC_HOURFORMAT_24;
-  hRTC.Init.AsynchPrediv = 127;
-  hRTC.Init.SynchPrediv = 255;
-  hRTC.Init.OutPut = RTC_OUTPUT_DISABLE;
-  hRTC.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
-  hRTC.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
-  if (HAL_RTC_Init(&hRTC) != HAL_OK)
-  {
-    Error_Handler();
-  }
+	/** Initialize RTC Only 
+	*/
+	hRTC.Instance = RTC;
+	hRTC.Init.HourFormat = RTC_HOURFORMAT_24;
+	hRTC.Init.AsynchPrediv = 127;
+	hRTC.Init.SynchPrediv = 255;
+	hRTC.Init.OutPut = RTC_OUTPUT_DISABLE;
+	hRTC.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+	hRTC.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+	if (HAL_RTC_Init(&hRTC) != HAL_OK)
+	{
+		Error_Handler();
+	}
 
-  /* USER CODE BEGIN Check_RTC_BKUP */
-    
-  /* USER CODE END Check_RTC_BKUP */
+	/* USER CODE BEGIN Check_RTC_BKUP */
 
-  /** Initialize RTC and set the Time and Date 
-  */
-  sTime.Hours = 0x0;
-  sTime.Minutes = 0x0;
-  sTime.Seconds = 0x0;
-  sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
-  sTime.StoreOperation = RTC_STOREOPERATION_RESET;
-  if (HAL_RTC_SetTime(&hRTC, &sTime, RTC_FORMAT_BCD) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sDate.WeekDay = RTC_WEEKDAY_MONDAY;
-  sDate.Month = RTC_MONTH_JULY;
-  sDate.Date = 20;
-  sDate.Year = 20;
+	/* USER CODE END Check_RTC_BKUP */
 
-  if (HAL_RTC_SetDate(&hRTC, &sDate, RTC_FORMAT_BCD) != HAL_OK)
-  {
-    Error_Handler();
-  }
+	/** Initialize RTC and set the Time and Date 
+	*/
+	sTime.Hours = 0x18;
+	sTime.Minutes = 0x0;
+	sTime.Seconds = 0x0;
+	sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+	sTime.StoreOperation = RTC_STOREOPERATION_RESET;
+	if (HAL_RTC_SetTime(&hRTC, &sTime, RTC_FORMAT_BCD) != HAL_OK)
+	{
+		Error_Handler();
+	}
+	sDate.WeekDay = RTC_WEEKDAY_MONDAY;
+	sDate.Month = RTC_MONTH_JULY;
+	sDate.Date = 20;
+	sDate.Year = 20;
+
+	if (HAL_RTC_SetDate(&hRTC, &sDate, RTC_FORMAT_BCD) != HAL_OK)
+	{
+		Error_Handler();
+	}
 
 }
 

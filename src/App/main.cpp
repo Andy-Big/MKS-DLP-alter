@@ -73,33 +73,24 @@ extern TOUCH_INFO				touch_info;
 extern uint8_t			*TEST_BMP;
 
 
-__no_init uint8_t 		filebuff[8192] @ "CCMRAM";
+__no_init uint8_t 		fbuff[8192] @ "CCMRAM";
 __no_init uint8_t 		uibuff[8192];
 
 
-FIL			file;
-TCHAR		path[512];
+FIL				ufile;
+FIL				sfile;
+TCHAR			u_tfname[512];
+TCHAR			s_tfname[512];
+char			cfname[1024];
+char			msg[512];
+FRESULT			fres;
+DIR				dir = {0};
+FILINFO			finfo = {0};
 
 
-/* USER CODE END PV */
-
-/* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void MX_USB_HOST_Process(void);
 
-/* USER CODE BEGIN PFP */
-
-/* USER CODE END PFP */
-
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
-/**
-  * @brief  The application entry point.
-  * @retval int
-  */
 
 int main()
 {
@@ -109,48 +100,52 @@ int main()
 	
 	GPIO_Init();
 
-	Touch_Init();
-	Touch_Enable();
+	LCD_Initializtion();
+	LCDUI_Init();
 	
 	FLASH_SPIInit();
 	FLASH_SPIEnable();
 	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_2);
 	SPIFL_Init();
+
+	FATFS_Init();
+
+	LCDUI_SetFont(LCDUI_FONT_H18);
+	LCDUI_SetColor(COLOR_GREEN);
+	LCDUI_SetBackColor(COLOR_BLACK);
+	LCDUI_Clear();
+	TGUI_Init();
 	
-	volatile TGUI_BUTTON btn1;
-	btn1.text = "dfghj";
+	LCD_BackLight(1);
+	LCDUI_DrawTextUTF((char*)"> Booting...\n");
+	
+	
+	if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
+	{
+		LCDUI_DrawTextUTF((char*)"> !! Internal flash filesystem error, booting stoped\n");
+		while(1);
+	}
+
+	Touch_Init();
+	Touch_Enable();
 	
 	RTC_Init();
 	USB_HOST_VbusFS(1);
 
 	RTC_Enable(&hRTC);
 
-	LCD_Initializtion();
-	LCDUI_Init();
+	USB_HOST_Init();
+	Appli_state_old = Appli_state;
 	
-	LCDUI_SetFont(LCDUI_FONT_H18);
-	LCDUI_SetColor(COLOR_GREEN);
-	LCDUI_SetBackColor(COLOR_BLACK);
-	LCDUI_Clear();
-	LCD_BackLight(1);
+/*	
+	if (tguiActiveScreen->buttons[0].funcs._call_paint != NULL)
+		tguiActiveScreen->buttons[0].funcs._call_paint((void*)&(tguiActiveScreen->buttons[0]), NULL);
 	
 	LCDUI_SetCursorCoord(5, 0);
 	LCDUI_DrawTextUTF((char*)"> Проверка\n");
 	LCDUI_DrawTextUTF((char*)"> Starting...\n");
 
-	USB_HOST_Init();
-	Appli_state_old = Appli_state;
-	
-	FATFS_Init();
 
-	FRESULT		fres;
-	DIR			dir = {0};
-	FILINFO		finfo = {0};
-	char		msg[512];
-	TCHAR		path[512];
-	char		cpath[256];
-	TCHAR		fname[512];
-	
 	if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
 	{
 		LCDUI_DrawTextUTF((char*)"> !! Internal flash filesystem error, creating new one...\n");
@@ -165,10 +160,10 @@ int main()
 				LCDUI_DrawTextUTF((char*)"> !! Failed to mount new filesystem\n");
 		}
 	}
+
 	else
 	{
 		LCDUI_DrawTextUTF((char*)"> Internal flash filesystem is ready\n");
-/*
 			// Test for file write/read speed
 
 			uint32_t	wr = 0;
@@ -217,7 +212,7 @@ int main()
 			{
 				LCDUI_DrawTextUTF((char*)"> !! Error creating test file\n");
 			}
-*/
+
 						tstrcpy(path, SpiflPath);
 						fres = f_opendir(&dir, path);
 						while(1)
@@ -248,10 +243,7 @@ int main()
 //							f_unlink(path);
 						}
 	}
-	
-	LCDUI_DrawTextUTF((char*)"> System ready\n");
-
-
+*/	
 //	LCDUI_DrawBitmap(0, 0, (uint8_t*)&TEST_BMP);
 	
 	USB_HOST_VbusFS(0);
@@ -263,14 +255,6 @@ int main()
 	{
 		if ((tstate = Touch_GetState()) != TS_FREE)
 		{
-			if (tstate == TS_SPRESSED || tstate == TS_LPRESSED)
-			{
-				Touch_GetCoords(&tcrd);
-				sprintf(msg, "x: %5u", tcrd.xc);
-				LCDUI_DrawTextUTF(msg, 0, 400, 5);
-				sprintf(msg, "y: %5u", tcrd.yc);
-				LCDUI_DrawTextUTF(msg, 0, 400, 25);
-			}
 			if (tstate == TS_SRELEASED || tstate == TS_LRELEASED)
 			{
 				Touch_SetState(TS_WORKED);
@@ -289,106 +273,92 @@ int main()
 					break;
 
 				case APPLICATION_READY:
-					LCDUI_DrawTextUTF((char*)"> USB mass storage connected\n");
-					if (f_mount(&UsbFS, UsbPath, 1) != FR_OK)
+					if (f_mount(&UsbFS, UsbPath, 1) == FR_OK)
 					{
-						LCDUI_DrawTextUTF((char*)"> Error mounting USB drive\n");
-					}
-					else
-					{
-						DWORD fclust, fsect, tsect;
-						FATFS *fs;
-						if (f_getfree(UsbPath, &fclust, &fs) != FR_OK)
+						// Check for images update on USB disk
+						tstrcpy(u_tfname, UsbPath);
+						tstrcat_utf(u_tfname, (char*)"alterupd\\images");
+						// Found update directory
+						if (f_opendir(&dir, u_tfname) == FR_OK)
 						{
-							LCDUI_DrawTextUTF((char*)"> ! Error reading USB drive info\n");
-							break;
-						}
-						tsect = (fs->n_fatent - 2) * fs->csize / 1000;
-						tsect = tsect * fs->ssize / 1000;
-						fsect = fclust * fs->csize / 1000;
-						fsect = fsect * fs->ssize / 1000;
-						sprintf(msg, "> USB drive size: %u MB total, %u MB free\n", tsect, fsect);
-						LCDUI_DrawTextUTF(msg);
-						LCDUI_DrawTextUTF((char*)"> --------- ROOT DIRECTORY LIST -------\n");
-						tstrcpy(path, UsbPath);
-						fres = f_opendir(&dir, path);
-						while(1)
-						{
-							if ((fres = f_readdir(&dir, &finfo)) != FR_OK)
+							while(1)
 							{
-								LCDUI_DrawTextUTF((char*)"> ! Error reading root directory\n");
-								break;
-							}
-							if (finfo.fname[0] == 0)
-								break;
-							if (finfo.fattrib & AM_DIR)
-							{
-								cpath[0] = 0;
-								UnicodeToUTF8_Str((char*)cpath, finfo.fname, sizeof(cpath));
-								sprintf(msg, "  %s    DIR\n", cpath);
-								LCDUI_DrawTextUTF(msg);
-							}
-							else
-							{
-								cpath[0] = 0;
-								UnicodeToANSI_Str((char*)cpath, finfo.fname, sizeof(cpath));
-								sprintf(msg, "%s", cpath);
-								uint16_t cy = LCDUI_GetCurrentCursorY();
-								LCDUI_DrawText(msg, 0, 10, -1, 350, cy + LCDUI_GetCurrentFontHeight());
-								sprintf(msg, "%u\n", finfo.fsize);
-								LCDUI_DrawText(msg, 0, 360, cy);
-
-/*								
-								// Read speed test
-								if (strcmp(cpath, "speedtest.bin") == 0)
+								if (f_readdir(&dir, &finfo) != FR_OK)
+									break;
+								if (finfo.fname[0] == 0)
+									break;
+								if (!(finfo.fattrib & AM_DIR))
 								{
-									LCDUI_DrawTextUTF((char*)"> Found SPEEDTEST file\n");
-									tstrcpy(fname, UsbPath);
-									tstrcat(fname, finfo.fname);
-									fres = f_open(&file, fname, FA_READ | FA_OPEN_EXISTING);
-									if (fres != FR_OK)
+									UnicodeToANSI_Str((char*)cfname, finfo.fname, sizeof(cfname));
+									if ( (strcmp(cfname, "logo.bmp") == 0 && finfo.fsize < 320000) 
+										|| (strcmp(cfname, "scr_main.bmp") == 0 && finfo.fsize < 320000)
+										|| (strcmp(cfname, "scr_service.bmp") == 0 && finfo.fsize < 320000) )
 									{
-										LCDUI_DrawTextUTF((char*)"> ! Error open SPEEDTEST file\n");
-									}
-									else
-									{
-										LCDUI_DrawTextUTF((char*)"> Read speed test begin...\n");
-										uint32_t ticks = HAL_GetTick();
-										uint32_t readed = 0, treaded = 0, toread = 8000;
-										uint32_t cycles = 0;
+										// Found update file, copying it into SPIFlash filesystem
+										
+										// Open file for read in USB
+										tstrcpy(u_tfname, UsbPath);
+										tstrcat_utf(u_tfname, (char*)"alterupd\\images\\");
+										tstrcat(u_tfname, finfo.fname);
+										if (f_open(&ufile, u_tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
+										{
+											LCDUI_DrawTextUTF((char*)"> !! Error opening file in USB filesystem\n");
+											break;
+										}
+												
+										// Open file for write in SPIFlash
+										tstrcpy(s_tfname, SpiflPath);
+										tstrcat(s_tfname, finfo.fname);
+										if (f_open(&sfile, s_tfname, FA_CREATE_ALWAYS | FA_WRITE) != FR_OK)
+										{
+											LCDUI_DrawTextUTF((char*)"> !! Error creating file in SPIFlash filesystem\n");
+											break;
+										}
+										
+										// Copying
+										sprintf(msg, "> Copying file \"%s\" ", cfname);
+										LCDUI_DrawTextUTF(msg);
+										DWORD 		readed = 0, writed = 0;
+										uint8_t		iter = 0;
 										do
 										{
-											f_read(&file, filebuff, toread, &readed);
-											treaded += readed;
-											cycles++;
-										}
-										while (readed == toread);
-										ticks = HAL_GetTick() - ticks;
-										float rate = (float)treaded/1000000.0;
-										rate = rate / ((float)ticks/1000.0);
-										sprintf(msg, "> Readed %u MB in %u ms - %0.4f MB/s\n", treaded/1000000, ticks, rate);
-										LCDUI_DrawTextUTF(msg);
+											if (f_read(&ufile, fbuff, sizeof(uibuff), &readed) != FR_OK)
+											{
+												LCDUI_DrawTextUTF((char*)"> !! Error reading file from USB filesystem\n");
+												break;
+											}
+											if (f_write(&sfile, fbuff, readed, &writed) != FR_OK)
+											{
+												LCDUI_DrawTextUTF((char*)"> !! Error writing file to SPIFlash filesystem\n");
+												break;
+											}
+											iter++;
+											if ((iter % 2) == 0)
+												LCDUI_DrawTextUTF((char*)".");
+										} while (readed == sizeof(uibuff));
+										f_close(&ufile);
+										f_close(&sfile);
+										LCDUI_DrawTextUTF((char*)" success\n");
+										LCDUI_SetCursorCoord(0, -1);
 									}
-
-									
-									fres = f_close(&file);
 								}
-*/
+								
 							}
-							
+							f_close(&ufile);
+							f_close(&sfile);
+							f_closedir(&dir);
+							// Rename directory
+							tstrcpy(u_tfname, UsbPath);
+							tstrcat_utf(u_tfname, (char*)"alterupd\\images");
+							tstrcpy(s_tfname, UsbPath);
+							tstrcat_utf(s_tfname, (char*)"alterupd\\images.old");
+							f_rename(u_tfname, s_tfname);
 						}
-						LCDUI_SetCursorCoord(0, -1);
-						LCDUI_DrawTextUTF((char*)"> -------------------------------------\n");
-						
 					}
 					break;
 
 				case APPLICATION_DISCONNECT:
 					Appli_state_old = Appli_state = APPLICATION_IDLE;
-					LCDUI_Clear();
-					LCDUI_SetCursorCoord(5, 0);
-					LCDUI_DrawTextUTF((char*)"> USB disconnected\n");
-					LCDUI_DrawTextUTF((char*)"> Ready\n");
 					break;
 
 			}

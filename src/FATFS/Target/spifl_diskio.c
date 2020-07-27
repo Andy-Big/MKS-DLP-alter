@@ -127,7 +127,6 @@ DRESULT SPIFL_ioctl(BYTE lun, BYTE cmd, void *buff)
 
 		// Erase sectors
 		case CTRL_TRIM :
-			LBA_t	*sectors = (LBA_t*)buff;
 			//SPIFL_WriteBuff(sector * (_spifl_info.sector_size / _SPIFL_SECT_DIVIDER), count * (_spifl_info.sector_size / _SPIFL_SECT_DIVIDER), (uint8_t*)buff);
 			res = RES_OK;
 			break;

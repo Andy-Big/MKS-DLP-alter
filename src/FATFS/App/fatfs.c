@@ -17,6 +17,7 @@
   */
 
 #include "fatfs.h"
+#include "rtc.h"
 
 uint8_t		retUSBH;    /* Return value for USBH */
 TCHAR		UsbPath[4];   /* USBH logical drive path */
@@ -41,7 +42,21 @@ void FATFS_Init(void)
   */
 DWORD get_fattime(void)
 {
-  return 0;
+	DWORD		datetime = 0;
+	RTC_TimeTypeDef		htime;
+	RTC_DateTypeDef		hdate;
+	
+	HAL_RTC_GetTime(&hRTC, &htime, RTC_FORMAT_BIN);
+	HAL_RTC_GetDate(&hRTC, &hdate, RTC_FORMAT_BIN);
+	
+	datetime = (uint32_t)(hdate.Year + 20) << 25;
+	datetime += (uint32_t)(hdate.Month) << 21;
+	datetime += (uint32_t)(hdate.Date) << 16;
+	datetime += (uint32_t)(htime.Hours) << 11;
+	datetime += (uint32_t)(htime.Minutes) << 5;
+	datetime += htime.Seconds;
+	
+	return datetime;
 }
 
 

@@ -2411,12 +2411,6 @@
             </group>
         </group>
         <group>
-            <name>TOUCH GUI</name>
-            <file>
-                <name>$PROJ_DIR$\src\App\tgui.cpp</name>
-            </file>
-        </group>
-        <group>
             <name>LCD_UI</name>
             <group>
                 <name>fonts</name>
@@ -2462,6 +2456,15 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\sys_timer.c</name>
+            </file>
+        </group>
+        <group>
+            <name>TOUCH GUI</name>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_defaultfuncs.cpp</name>
             </file>
         </group>
         <file>

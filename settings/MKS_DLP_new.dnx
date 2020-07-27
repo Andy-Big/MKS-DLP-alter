@@ -16,7 +16,7 @@
         <LeaveTargetRunning>_ 0</LeaveTargetRunning>
     </StLinkDriver>
     <DebugChecksum>
-        <Checksum>753569155</Checksum>
+        <Checksum>3152280833</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -57,13 +57,21 @@
     <struct_types>
         <Fmt0>FATFS-free_clst	4	0</Fmt0>
         <Fmt1>FATFS-last_clst	3	0</Fmt1>
+        <Fmt2>RTC_DateTypeDef-Date	3	0</Fmt2>
+        <Fmt3>RTC_DateTypeDef-Month	3	0</Fmt3>
+        <Fmt4>RTC_DateTypeDef-WeekDay	3	0</Fmt4>
+        <Fmt5>RTC_DateTypeDef-Year	3	0</Fmt5>
+        <Fmt6>RTC_TimeTypeDef-Hours	3	0</Fmt6>
+        <Fmt7>RTC_TimeTypeDef-Minutes	3	0</Fmt7>
+        <Fmt8>RTC_TimeTypeDef-Seconds	3	0</Fmt8>
+        <Fmt9>RTC_TimeTypeDef-TimeFormat	3	0</Fmt9>
     </struct_types>
     <array_types>
         <Fmt0>TCHAR[128]	5	0</Fmt0>
         <Fmt1>TCHAR[13]	5	0</Fmt1>
         <Fmt2>TCHAR[256]	5	0</Fmt2>
         <Fmt3>TCHAR[4]	5	0</Fmt3>
-        <Fmt4>TCHAR[512]	4	0</Fmt4>
+        <Fmt4>TCHAR[512]	5	0</Fmt4>
         <Fmt5>char[128]	5	0</Fmt5>
     </array_types>
     <watch_formats>
@@ -140,6 +148,12 @@
         <ShowTimeSum>1</ShowTimeSum>
         <SumSortOrder>0</SumSortOrder>
     </EventLog>
+    <DisassembleMode>
+        <mode>0</mode>
+    </DisassembleMode>
+    <Breakpoints2>
+        <Count>0</Count>
+    </Breakpoints2>
     <TermIOLog>
         <LoggingEnabled>_ 0</LoggingEnabled>
         <LogFile>_ ""</LogFile>
@@ -149,6 +163,10 @@
         <LogFile>_ ""</LogFile>
         <Category>_ 0</Category>
     </LogFile>
+    <Aliases>
+        <Count>0</Count>
+        <SuppressDialog>0</SuppressDialog>
+    </Aliases>
     <DriverProfiling>
         <Enabled>0</Enabled>
         <Mode>1</Mode>
@@ -167,14 +185,4 @@
         <Probe0>I0</Probe0>
         <ProbeSetup0>2 1 1 2 0 0</ProbeSetup0>
     </PowerProbe>
-    <DisassembleMode>
-        <mode>0</mode>
-    </DisassembleMode>
-    <Breakpoints2>
-        <Count>0</Count>
-    </Breakpoints2>
-    <Aliases>
-        <Count>0</Count>
-        <SuppressDialog>0</SuppressDialog>
-    </Aliases>
 </settings>

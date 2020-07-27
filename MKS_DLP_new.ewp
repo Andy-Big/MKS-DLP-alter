@@ -353,6 +353,7 @@
                     <name>CCIncludePath2</name>
                     <state>$PROJ_DIR$/src/App</state>
                     <state>$PROJ_DIR$/src/App/tft</state>
+                    <state>$PROJ_DIR$/src/App/tgui</state>
                     <state>$PROJ_DIR$/src/FATFS/Target</state>
                     <state>$PROJ_DIR$/src/FATFS/App</state>
                     <state>$PROJ_DIR$/src/USB_HOST/App</state>
@@ -731,19 +732,19 @@
                 </option>
                 <option>
                     <name>IlinkRawBinaryFile</name>
-                    <state>D:\Electronics\Projects\MKS_DLP_new\SRC\IMGS\original\logo1.bmp</state>
+                    <state></state>
                 </option>
                 <option>
                     <name>IlinkRawBinarySymbol</name>
-                    <state>TEST_BMP</state>
+                    <state></state>
                 </option>
                 <option>
                     <name>IlinkRawBinarySegment</name>
-                    <state>readonly</state>
+                    <state></state>
                 </option>
                 <option>
                     <name>IlinkRawBinaryAlign</name>
-                    <state>8</state>
+                    <state></state>
                 </option>
                 <option>
                     <name>IlinkDefines</name>
@@ -2146,12 +2147,6 @@
             </group>
         </group>
         <group>
-            <name>TOUCH GUI</name>
-            <file>
-                <name>$PROJ_DIR$\src\App\tgui.cpp</name>
-            </file>
-        </group>
-        <group>
             <name>LCD_UI</name>
             <group>
                 <name>fonts</name>
@@ -2197,6 +2192,15 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\sys_timer.c</name>
+            </file>
+        </group>
+        <group>
+            <name>TOUCH GUI</name>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_defaultfuncs.cpp</name>
             </file>
         </group>
         <file>

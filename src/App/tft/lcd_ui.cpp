@@ -1,7 +1,5 @@
 #include "includes.h"
-#include "lcd_low.h"
 #include "lcd_ui.h"
-#include "unicode_utils.h"
 
 
 
@@ -15,6 +13,7 @@ extern LCDUI_FONT		font_fnt24bold;
 //uint8_t 		lcdui_startH, lcdui_endH, lcdui_startV, lcdui_endV, lcdui_ramAddrOne, lcdui_ramAddrTwo;
 int16_t			lcdui_width = 480, lcdui_height = 320, lcdui_cursor_x = 0, lcdui_cursor_y = 0;
 LCDUI_FONT		*lcdui_current_font = &font_fnt18;
+LCDUI_FONT_TYPE	lcdui_current_font_type = LCDUI_FONT_H18;
 uint16_t		lcdui_bgcolor = LCDUI_RGB(0x000000), lcdui_color = LCDUI_RGB(0xFFFFFF);
 
 
@@ -36,7 +35,7 @@ void	LCDUI_Init()
 
 
 
-void	LCDUI_DrawCircle_helper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername)
+void	_lcdui_DrawCircle_helper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername)
 {
 	int16_t	f     = r;
 	int16_t	ddF_x = 1;
@@ -83,7 +82,7 @@ void	LCDUI_DrawCircle_helper(int16_t x0, int16_t y0, int16_t r, uint8_t cornerna
 
 
 
-void	LCDUI_FillCircle_helper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta)
+void	_lcdui_FillCircle_helper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta)
 {
 	int16_t 	f     = r;
 	int16_t 	ddF_x = 1;
@@ -120,9 +119,11 @@ void	LCDUI_FillCircle_helper(int16_t x0, int16_t y0, int16_t r, uint8_t cornerna
 
 
 
-void	LCDUI_SetColor(uint16_t color)
+uint16_t	LCDUI_SetColor(uint16_t color)
 {
+	uint16_t oldcolor = lcdui_color;
 	lcdui_color = color;
+	return oldcolor;
 }
 //==============================================================================
 
@@ -130,9 +131,11 @@ void	LCDUI_SetColor(uint16_t color)
 
 
 
-void	LCDUI_SetBackColor(uint16_t color)
+uint16_t	LCDUI_SetBackColor(uint16_t color)
 {
+	uint16_t oldcolor = lcdui_bgcolor;
 	lcdui_bgcolor = color;
+	return oldcolor;
 }
 //==============================================================================
 
@@ -193,6 +196,26 @@ uint16_t	LCDUI_GetCurrentCursorY()
 
 
 
+uint16_t	LCDUI_GetCurrentColor()
+{
+	return lcdui_color;
+}
+//==============================================================================
+
+
+
+
+
+uint16_t	LCDUI_GetCurrentBackColor()
+{
+	return lcdui_bgcolor;
+}
+//==============================================================================
+
+
+
+
+
 void	LCDUI_Clear()
 {
 	LCD_Clear(lcdui_bgcolor);
@@ -214,6 +237,111 @@ void	LCDUI_DrawPixel(uint16_t x1, uint16_t y1)
 
 }
 //==============================================================================
+
+
+
+
+void	LCDUI_DrawFastVLine(int16_t x, int16_t y, int16_t h)
+{
+	if((x >= lcdui_width) || (y >= lcdui_height))
+		return;
+	if((y+h) >= lcdui_height)
+		h = lcdui_height-y;
+	LCD_SetWindows(x, y, 1, h);
+	LCD_WriteRAM_Prepare();
+	while (h-- > 0)
+		LCD_WriteRAM(lcdui_color);
+//	LCD_SetWindows(0, 0, lcdui_width-1, lcdui_height-1);
+}
+//==============================================================================
+
+
+
+
+
+void	LCDUI_DrawFastHLine(int16_t x, int16_t y, int16_t w)
+{
+	if((x >= lcdui_width) || (y >= lcdui_height))
+		return;
+	if((x+w) >= lcdui_width)
+		w = lcdui_width-x;
+	LCD_SetWindows(x, y, w, 1);
+	LCD_WriteRAM_Prepare();
+	while (w-- > 0)
+		LCD_WriteRAM(lcdui_color);
+//	LCD_SetWindows(0, 0, lcdui_width-1, lcdui_height-1);
+}
+//==============================================================================
+
+
+
+
+void	LCDUI_DrawRect(int16_t x, int16_t y, int16_t w, int16_t h)
+{
+	LCDUI_DrawFastHLine(x, y, w);
+	LCDUI_DrawFastHLine(x, y+h, w);
+	LCDUI_DrawFastVLine(x, y, h);
+	LCDUI_DrawFastVLine(x+w, y, h);
+}
+//==============================================================================
+
+
+
+
+
+void	LCDUI_FillRect(int16_t x, int16_t y, int16_t w, int16_t h)
+{
+	if((x >= lcdui_width) || (y >= lcdui_height))
+		return;
+	if((x + w) >= lcdui_width)
+		w = lcdui_width - x;
+	if((y + h) >= lcdui_height)
+		h = lcdui_height - y;
+
+	LCD_SetWindows(x, y, w, h);
+	LCD_WriteRAM_Prepare();
+	h *= w;
+	for(y = 0; y < h; y++)
+	{
+		LCD_WriteRAM(lcdui_color);
+	}
+//	LCDUI_set_window(0, 0, lcdui_width-1, lcdui_height-1);
+}
+//==============================================================================
+
+
+
+
+
+void	LCDUI_DrawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r)
+{
+	// smarter version
+	LCDUI_DrawFastHLine(x+r, y, w-2*r); // Top
+	LCDUI_DrawFastHLine(x+r, y+h, w-2*r); // Bottom
+	LCDUI_DrawFastVLine(x, y+r, h-2*r); // Left
+	LCDUI_DrawFastVLine(x+w, y+r, h-2*r); // Right
+	// draw four corners
+	_lcdui_DrawCircle_helper(x+r, y+r, r, 1);
+	_lcdui_DrawCircle_helper(x+w-r, y+r, r, 2);
+	_lcdui_DrawCircle_helper(x+w-r, y+h-r, r, 4);
+	_lcdui_DrawCircle_helper(x+r, y+h-r, r, 8);
+}
+//==============================================================================
+
+
+
+
+
+void	LCDUI_FillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r)
+{
+	// smarter version
+	LCDUI_FillRect(x+r, y, w-2*r, h);
+	// draw four corners
+	_lcdui_FillCircle_helper(x+w-r-1, y+r, r, 1, h-2*r);
+	_lcdui_FillCircle_helper(x+r, y+r, r, 2, h-2*r);
+}
+//==============================================================================
+
 
 
 
@@ -252,44 +380,6 @@ void	LCDUI_DrawCircle(uint16_t x0, uint16_t y0, uint16_t r)
 		LCDUI_DrawPixel(x0 + y, y0 - x);
 		LCDUI_DrawPixel(x0 - y, y0 - x);
 	}
-}
-//==============================================================================
-
-
-
-
-
-void	LCDUI_DrawFastVLine(int16_t x, int16_t y, int16_t h)
-{
-	if((x >= lcdui_width) || (y >= lcdui_height))
-		return;
-	if((y+h) >= lcdui_height)
-		h = lcdui_height-y;
-	LCDUI_set_window(x, y, x, y+h-1);
-	LCDUI_write_reg_beg(ILI9225_GRAM_DATA_REG);
-	while (h-- > 0)
-		LCDUI_write_data_cont(lcdui_color);
-	LCDUI_write_data_last(lcdui_color);
-	LCDUI_set_window(0, 0, lcdui_width-1, lcdui_height-1);
-}
-//==============================================================================
-
-
-
-
-
-void	LCDUI_DrawFastHLine(int16_t x, int16_t y, int16_t w)
-{
-	if((x >= lcdui_width) || (y >= lcdui_height))
-		return;
-	if((x+w) >= lcdui_width)
-		w = lcdui_width-x;
-	LCDUI_set_window(x, y, x+w, y);
-	LCDUI_write_reg_beg(ILI9225_GRAM_DATA_REG);
-	while (w-- > 0)
-		LCDUI_write_data_cont(lcdui_color);
-	LCDUI_write_data_close();
-	LCDUI_set_window(0, 0, lcdui_width-1, lcdui_height-1);
 }
 //==============================================================================
 
@@ -437,53 +527,8 @@ void	LCDUI_DrawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1)
 
 
 
-void	LCDUI_DrawRect(int16_t x, int16_t y, int16_t w, int16_t h)
-{
-	LCDUI_DrawFastHLine(x, y, w);
-	LCDUI_DrawFastHLine(x, y+h, w);
-	LCDUI_DrawFastVLine(x, y, h);
-	LCDUI_DrawFastVLine(x+w, y, h);
-}
-//==============================================================================
-
-
-
-
-
-void	LCDUI_DrawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r)
-{
-	// smarter version
-	LCDUI_DrawFastHLine(x+r, y, w-2*r); // Top
-	LCDUI_DrawFastHLine(x+r, y+h, w-2*r); // Bottom
-	LCDUI_DrawFastVLine(x, y+r, h-2*r); // Left
-	LCDUI_DrawFastVLine(x+w, y+r, h-2*r); // Right
-	// draw four corners
-	LCDUI_draw_circle_helper(x+r, y+r, r, 1);
-	LCDUI_draw_circle_helper(x+w-r, y+r, r, 2);
-	LCDUI_draw_circle_helper(x+w-r, y+h-r, r, 4);
-	LCDUI_draw_circle_helper(x+r, y+h-r, r, 8);
-}
-//==============================================================================
-
-
-
-
-
-void	LCDUI_FillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r)
-{
-	// smarter version
-	LCDUI_FillRect(x+r, y, w-2*r, h);
-	// draw four corners
-	LCDUI_fill_circle_helper(x+w-r, y+r, r, 1, h-2*r);
-	LCDUI_fill_circle_helper(x+r, y+r, r, 2, h-2*r);
-}
-//==============================================================================
-
 */
-
-
-
-uint16_t	LCDUI_getcharwidth(char c)
+uint16_t	_lcdui_GetCharWidth(char c)
 {
 	if (c < 32)
 		return 0;
@@ -503,7 +548,7 @@ uint16_t	LCDUI_getcharwidth(char c)
 
 
 
-uint8_t*	LCDUI_getchardata(char c)
+uint8_t*	_lcdui_GetCharData(char c)
 {
 	if (c < 32)
 		return 0;
@@ -534,9 +579,8 @@ uint8_t*	LCDUI_getchardata(char c)
 
 
 
-void	LCDUI_SetFont(LCDUI_FONT_TYPE newfont)
+LCDUI_FONT_TYPE		LCDUI_SetFont(LCDUI_FONT_TYPE newfont)
 {
-
 	switch (newfont)
 	{
 		case LCDUI_FONT_H12:
@@ -559,7 +603,12 @@ void	LCDUI_SetFont(LCDUI_FONT_TYPE newfont)
 			lcdui_current_font = &font_fnt24bold;
 			break;
 		
+		default:
+			return lcdui_current_font_type;
 	}
+	LCDUI_FONT_TYPE oldfont = lcdui_current_font_type;
+	lcdui_current_font_type = newfont;
+	return oldfont;
 }
 //==============================================================================
 
@@ -567,15 +616,47 @@ void	LCDUI_SetFont(LCDUI_FONT_TYPE newfont)
 
 
 
-uint32_t	LCDUI_GetTextWidth(const char *str)
+LCDUI_FONT_TYPE		LCDUI_GetCurrentFont()
+{
+	return lcdui_current_font_type;
+}
+//==============================================================================
+
+
+
+
+
+uint32_t	LCDUI_GetTextWidth(char *str)
 {
 	uint32_t i = 0, res = 0;
 	char c;
 	while(c = str[i])
 	{
 		if (c > 31)
-			res += LCDUI_getcharwidth(c);
+			res += _lcdui_GetCharWidth(c);
 		i++;
+	}
+	return res;
+}
+//==============================================================================
+
+
+
+
+
+uint32_t	LCDUI_GetTextWidthUTF(char *str)
+{
+	uint32_t i = 0, res = 0;
+	char c;
+	while(str[i])
+	{
+		c =  UTF8toANSI(str+i);
+		if (c > 31)
+			res += _lcdui_GetCharWidth(c);
+		if (str[i] < 80)
+			i++;
+		else
+			i += 2;
 	}
 	return res;
 }
@@ -614,10 +695,10 @@ void	LCDUI_DrawChar(char c,  uint16_t opt, int16_t x, int16_t y)
 	cres[0] = lcdui_bgcolor;
 	uint16_t	cw = 0, ch = lcdui_current_font->height;
 	uint16_t	i = 0, ptr = 0;
-	cw = LCDUI_getcharwidth(c);
+	cw = _lcdui_GetCharWidth(c);
 	if (cw == 0)
 		return;
-	uint8_t *data = LCDUI_getchardata(c);
+	uint8_t *data = _lcdui_GetCharData(c);
 	if (data == 0)
 		return;
 
@@ -727,7 +808,7 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 			sp = i;
 			sw = cw;
 		}
-		cw += LCDUI_getcharwidth(c);
+		cw += _lcdui_GetCharWidth(c);
 		if (c == '\n' || cw > x2-x1 || c == 0)
 		{
 			if (cw > x2-x1)
@@ -765,7 +846,7 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 		i++;
 		if (c == '.' || c == ',' || c == ':' || c == ';' || c == '!' || c == '?')
 		{
-//			cw += LCDUI_getcharwidth(c);
+//			cw += _lcdui_GetCharWidth(c);
 			sp = i;
 			sw = cw;
 		}
@@ -822,7 +903,7 @@ void	LCDUI_DrawTextUTF(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t 
 			sp = i;
 			sw = cw;
 		}
-		cw += LCDUI_getcharwidth(c);
+		cw += _lcdui_GetCharWidth(c);
 		if (c == '\n' || cw > x2-x1 || c == 0)
 		{
 			if (cw > x2-x1)
@@ -872,7 +953,7 @@ void	LCDUI_DrawTextUTF(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t 
 			i += 2;
 		if (c == '.' || c == ',' || c == ':' || c == ';' || c == '!' || c == '?')
 		{
-//			cw += LCDUI_getcharwidth(c);
+//			cw += _lcdui_GetCharWidth(c);
 			sp = i;
 			sw = cw;
 		}
