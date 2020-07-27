@@ -32,12 +32,11 @@
 #include "usbh_platform.h"
 #include "lcd_low.h"
 #include "touch.h"
-
 #include "lcd_ui.h"
 //#include "wchar.h"
 #include "unicode_utils.h"
-
 #include "spi_flash.h"
+#include "tgui.h"
 
 /* USER CODE END Includes */
 
@@ -115,32 +114,11 @@ int main()
 	
 	FLASH_SPIInit();
 	FLASH_SPIEnable();
-	SPIFL_Init();
-
 	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_2);
-/*
-	for(uint32_t i = 0; i < 6000; i++)
-		uibuff[i] = 0x55;
-	for(uint32_t i = 0; i < 40; i++)
-		SPIFL_WriteBuff(9000, 8096, uibuff);
-	for(uint32_t i = 0; i < 8096; i++)
-		uibuff[i] = 0xAA;
-	SPIFL_ReadBuff(9000, 8096, uibuff);
-
+	SPIFL_Init();
 	
-	uint32_t fspd = FLASH_SPIGetSpeed();
-	while(fspd--);
-	
-	fspd = SPIFL_ReadID();
-	while(fspd--);
-	
-	for (uint32_t i = 0; i < 1000; i++)
-		SPIFL_ReadBuffDMA(1000 * i, 1000, uibuff);
-	for (uint32_t i = 0; i < 1000; i++)
-		SPIFL_ReadBuff(1000 * i, 1000, uibuff);
-	
-	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_64);
-*/
+	volatile TGUI_BUTTON btn1;
+	btn1.text = "dfghj";
 	
 	RTC_Init();
 	USB_HOST_VbusFS(1);
@@ -190,8 +168,10 @@ int main()
 	else
 	{
 		LCDUI_DrawTextUTF((char*)"> Internal flash filesystem is ready\n");
+/*
+			// Test for file write/read speed
+
 			uint32_t	wr = 0;
-			const char	ts[] = "Test string for test file";
 			char		fname[] = "test файл.txt";
 
 			tstrcpy(path, SpiflPath);
@@ -237,7 +217,7 @@ int main()
 			{
 				LCDUI_DrawTextUTF((char*)"> !! Error creating test file\n");
 			}
-	
+*/
 						tstrcpy(path, SpiflPath);
 						fres = f_opendir(&dir, path);
 						while(1)
@@ -267,47 +247,11 @@ int main()
 							tstrcat(path, finfo.fname);
 //							f_unlink(path);
 						}
-
 	}
 	
 	LCDUI_DrawTextUTF((char*)"> System ready\n");
 
 
-/*
-	LCDUI_SetCursorCoord(5, 0);
-	LCDUI_SetFont(LCDUI_FONT_H12);
-	LCDUI_DrawTextUTF((char*)"Test for small font reading. Проверка читамости маленького шрифта.\n\
-\/**************************************************************************\/\/**\n\
- * @file     cmsis_armcc.h\n\
- * @brief    CMSIS compiler ARMCC (Arm Compiler 5) header file\n\
- * @version  V5.0.4\n\
- * @date     10. January 2018\n\
- ******************************************************************************\/\n\
-\/*\n\
- * Copyright (c) 2009-2018 Arm Limited. All rights reserved.\n\
- *\n\
- * SPDX-License-Identifier: Apache-2.0\n\
- *\n\
- * Licensed under the Apache License, Version 2.0 (the License); you may\n\
- * not use this file except in compliance with the License.\n\
- * You may obtain a copy of the License at\n\
- *\n\
- * www.apache.org/licenses/LICENSE-2.0\n\
- *\n\
- * Unless required by applicable law or agreed to in writing, software\n\
- * distributed under the License is distributed on an AS IS BASIS, WITHOUT\n\
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n\
- * See the License for the specific language governing permissions and\n\
- * limitations under the License.\n\
- \n\
-\n\
-#ifndef __CMSIS_ARMCC_H\n\
-#define __CMSIS_ARMCC_H\n\
-");
-	LCDUI_SetFont(LCDUI_FONT_H18);
-*/
-	
-	HAL_Delay(1000);
 //	LCDUI_DrawBitmap(0, 0, (uint8_t*)&TEST_BMP);
 	
 	USB_HOST_VbusFS(0);

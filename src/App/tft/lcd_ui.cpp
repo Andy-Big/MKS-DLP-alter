@@ -4,7 +4,6 @@
 #include "unicode_utils.h"
 
 
-#include "lcd_ui_fonts.h"
 
 
 extern LCDUI_FONT		font_fnt12;

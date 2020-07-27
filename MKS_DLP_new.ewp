@@ -2148,7 +2148,7 @@
         <group>
             <name>TOUCH GUI</name>
             <file>
-                <name>$PROJ_DIR$\src\App\tft\tgui.c</name>
+                <name>$PROJ_DIR$\src\App\tgui.cpp</name>
             </file>
         </group>
         <group>
