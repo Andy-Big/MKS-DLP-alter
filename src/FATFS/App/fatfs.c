@@ -18,23 +18,20 @@
 
 #include "fatfs.h"
 
-uint8_t retUSBH;    /* Return value for USBH */
-TCHAR UsbPath[4];   /* USBH logical drive path */
-FATFS UsbFS;    /* File system object for USBH logical drive */
-FIL USBHFile;       /* File object for USBH */
+uint8_t		retUSBH;    /* Return value for USBH */
+TCHAR		UsbPath[4];   /* USBH logical drive path */
+FATFS		UsbFS;    /* File system object for USBH logical drive */
 
-/* USER CODE BEGIN Variables */
-
-/* USER CODE END Variables */    
+uint8_t		retSPIFL;
+TCHAR		SpiflPath[4];
+FATFS		SpiflFS;
 
 void FATFS_Init(void) 
 {
-  /*## FatFS: Link the USBH driver ###########################*/
-  retUSBH = FATFS_LinkDriver(&USBH_Driver, UsbPath);
+	//## FatFS: Link the USBH driver ###########################
+	retUSBH = FATFS_LinkDriver(&USBH_Driver, UsbPath);
 
-  /* USER CODE BEGIN Init */
-  /* additional user code for init */     
-  /* USER CODE END Init */
+	retSPIFL = FATFS_LinkDriver(&SPIFL_Driver, SpiflPath);
 }
 
 /**
@@ -44,13 +41,8 @@ void FATFS_Init(void)
   */
 DWORD get_fattime(void)
 {
-  /* USER CODE BEGIN get_fattime */
   return 0;
-  /* USER CODE END get_fattime */  
 }
 
-/* USER CODE BEGIN Application */
-     
-/* USER CODE END Application */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

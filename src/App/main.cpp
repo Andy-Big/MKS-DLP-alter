@@ -37,6 +37,8 @@
 //#include "wchar.h"
 #include "unicode_utils.h"
 
+#include "spi_flash.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,16 +62,24 @@
 extern USBH_HandleTypeDef		hUsbHostFS;
 extern ApplicationTypeDef		Appli_state;
 ApplicationTypeDef				Appli_state_old;
+
 extern TCHAR					UsbPath[4];   /* USBH logical drive path */
 extern FATFS					UsbFS;    /* File system object for USBH logical drive */
+
+extern TCHAR					SpiflPath[4];
+extern FATFS					SpiflFS;
+
 extern TOUCH_INFO				touch_info;
 
 extern uint8_t			*TEST_BMP;
 
 
-__no_init uint8_t filebuff[8192] @ "CCMRAM";
+__no_init uint8_t 		filebuff[8192] @ "CCMRAM";
+__no_init uint8_t 		uibuff[8192];
 
 
+FIL			file;
+TCHAR		path[512];
 
 
 /* USER CODE END PV */
@@ -100,14 +110,43 @@ int main()
 	
 	GPIO_Init();
 
+	Touch_Init();
+	Touch_Enable();
+	
+	FLASH_SPIInit();
+	FLASH_SPIEnable();
+	SPIFL_Init();
+
+	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_2);
+/*
+	for(uint32_t i = 0; i < 6000; i++)
+		uibuff[i] = 0x55;
+	for(uint32_t i = 0; i < 40; i++)
+		SPIFL_WriteBuff(9000, 8096, uibuff);
+	for(uint32_t i = 0; i < 8096; i++)
+		uibuff[i] = 0xAA;
+	SPIFL_ReadBuff(9000, 8096, uibuff);
+
+	
+	uint32_t fspd = FLASH_SPIGetSpeed();
+	while(fspd--);
+	
+	fspd = SPIFL_ReadID();
+	while(fspd--);
+	
+	for (uint32_t i = 0; i < 1000; i++)
+		SPIFL_ReadBuffDMA(1000 * i, 1000, uibuff);
+	for (uint32_t i = 0; i < 1000; i++)
+		SPIFL_ReadBuff(1000 * i, 1000, uibuff);
+	
+	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_64);
+*/
+	
 	RTC_Init();
 	USB_HOST_VbusFS(1);
 
 	RTC_Enable(&hRTC);
 
-	Touch_Enable();
-	Touch_Init();
-	
 	LCD_Initializtion();
 	LCDUI_Init();
 	
@@ -119,25 +158,132 @@ int main()
 	
 	LCDUI_SetCursorCoord(5, 0);
 	LCDUI_DrawTextUTF((char*)"> Проверка\n");
-	LCDUI_DrawTextUTF((char*)"> Starting\n");
+	LCDUI_DrawTextUTF((char*)"> Starting...\n");
 
 	USB_HOST_Init();
 	Appli_state_old = Appli_state;
 	
 	FATFS_Init();
-		
-	LCDUI_DrawTextUTF((char*)"> Ready\n");
 
+	FRESULT		fres;
+	DIR			dir = {0};
+	FILINFO		finfo = {0};
+	char		msg[512];
+	TCHAR		path[512];
+	char		cpath[256];
+	TCHAR		fname[512];
+	
+	if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
+	{
+		LCDUI_DrawTextUTF((char*)"> !! Internal flash filesystem error, creating new one...\n");
+		if (f_mkfs(SpiflPath, 0, uibuff, sizeof(uibuff)) != FR_OK)
+		{
+			LCDUI_DrawTextUTF((char*)"> !! Failed to create filesystem\n");
+		}
+		else
+		{
+			LCDUI_DrawTextUTF((char*)"> Filesystem created success\n");
+			if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
+				LCDUI_DrawTextUTF((char*)"> !! Failed to mount new filesystem\n");
+		}
+	}
+	else
+	{
+		LCDUI_DrawTextUTF((char*)"> Internal flash filesystem is ready\n");
+			uint32_t	wr = 0;
+			const char	ts[] = "Test string for test file";
+			char		fname[] = "test файл.txt";
+
+			tstrcpy(path, SpiflPath);
+			tstrcat_utf(path, fname);
+			if (f_open(&file, path, FA_CREATE_ALWAYS | FA_WRITE) == FR_OK)
+			{
+				uint32_t tc = HAL_GetTick();
+				for (uint32_t i = 0; i < 40; i++)
+				{
+					if (f_write(&file, uibuff, 8192, &wr) != FR_OK || wr != 8192)
+					{
+						LCDUI_DrawTextUTF((char*)"> !! Error writing test file\n");
+						break;
+					}
+				}
+				f_close(&file);
+				tc = HAL_GetTick() - tc;
+				sprintf(msg, "> Test file writed: %u KB for %u msec\n", (8192*40)/1000, tc);
+				LCDUI_DrawTextUTF(msg);
+
+				if (f_open(&file, path, FA_OPEN_EXISTING | FA_READ) == FR_OK)
+				{
+					uint32_t tc = HAL_GetTick();
+					for (uint32_t i = 0; i < 40; i++)
+					{
+						if (f_read(&file, uibuff, 8192, &wr) != FR_OK || wr != 8192)
+						{
+							LCDUI_DrawTextUTF((char*)"> !! Error writing test file\n");
+							break;
+						}
+					}
+					f_close(&file);
+					tc = HAL_GetTick() - tc;
+					sprintf(msg, "> Test file readed: %u KB for %u msec\n", (8192*40)/1000, tc);
+					LCDUI_DrawTextUTF(msg);
+				}
+				else
+				{
+					LCDUI_DrawTextUTF((char*)"> !! Error opening test file\n");
+				}
+			}
+			else
+			{
+				LCDUI_DrawTextUTF((char*)"> !! Error creating test file\n");
+			}
+	
+						tstrcpy(path, SpiflPath);
+						fres = f_opendir(&dir, path);
+						while(1)
+						{
+							if ((fres = f_readdir(&dir, &finfo)) != FR_OK)
+							{
+								LCDUI_DrawTextUTF((char*)"> ! Error reading root directory\n");
+								break;
+							}
+							if (finfo.fname[0] == 0)
+								break;
+							if (finfo.fattrib & AM_DIR)
+							{
+								cpath[0] = 0;
+								UnicodeToUTF8_Str((char*)cpath, finfo.fname, sizeof(cpath));
+								sprintf(msg, "  %s    DIR\n", cpath);
+								LCDUI_DrawTextUTF(msg);
+							}
+							else
+							{
+								cpath[0] = 0;
+								UnicodeToANSI_Str((char*)cpath, finfo.fname, sizeof(cpath));
+								sprintf(msg, "  %s    %u\n", cpath, finfo.fsize);
+								LCDUI_DrawText(msg);
+							}
+							tstrcpy(path, SpiflPath);
+							tstrcat(path, finfo.fname);
+//							f_unlink(path);
+						}
+
+	}
+	
+	LCDUI_DrawTextUTF((char*)"> System ready\n");
+
+
+/*
 	LCDUI_SetCursorCoord(5, 0);
 	LCDUI_SetFont(LCDUI_FONT_H12);
 	LCDUI_DrawTextUTF((char*)"Test for small font reading. Проверка читамости маленького шрифта.\n\
-/**************************************************************************//**\n\
+\/**************************************************************************\/\/**\n\
  * @file     cmsis_armcc.h\n\
  * @brief    CMSIS compiler ARMCC (Arm Compiler 5) header file\n\
  * @version  V5.0.4\n\
  * @date     10. January 2018\n\
- ******************************************************************************/\n\
-/*\n\
+ ******************************************************************************\/\n\
+\/*\n\
  * Copyright (c) 2009-2018 Arm Limited. All rights reserved.\n\
  *\n\
  * SPDX-License-Identifier: Apache-2.0\n\
@@ -158,23 +304,14 @@ int main()
 #ifndef __CMSIS_ARMCC_H\n\
 #define __CMSIS_ARMCC_H\n\
 ");
-
 	LCDUI_SetFont(LCDUI_FONT_H18);
+*/
 	
 	HAL_Delay(1000);
 //	LCDUI_DrawBitmap(0, 0, (uint8_t*)&TEST_BMP);
 	
 	USB_HOST_VbusFS(0);
 
-	FRESULT		fres;
-	DIR			dir = {0};
-	FILINFO		finfo = {0};
-	char		msg[512];
-	TCHAR		path[256];
-	char		cpath[256];
-	TCHAR		fname[512];
-	FIL			file;
-	
 	TOUCH_POINT		tcrd;
 	TOUCH_STATES	tstate;
 	
@@ -229,7 +366,7 @@ int main()
 						sprintf(msg, "> USB drive size: %u MB total, %u MB free\n", tsect, fsect);
 						LCDUI_DrawTextUTF(msg);
 						LCDUI_DrawTextUTF((char*)"> --------- ROOT DIRECTORY LIST -------\n");
-						strcpy_uni(path, UsbPath);
+						tstrcpy(path, UsbPath);
 						fres = f_opendir(&dir, path);
 						while(1)
 						{
@@ -250,17 +387,20 @@ int main()
 							else
 							{
 								cpath[0] = 0;
-								UnicodeToUTF8_Str((char*)cpath, finfo.fname, sizeof(cpath));
-								sprintf(msg, "  %s    %u\n", cpath, finfo.fsize);
-								LCDUI_DrawTextUTF(msg);
+								UnicodeToANSI_Str((char*)cpath, finfo.fname, sizeof(cpath));
+								sprintf(msg, "%s", cpath);
+								uint16_t cy = LCDUI_GetCurrentCursorY();
+								LCDUI_DrawText(msg, 0, 10, -1, 350, cy + LCDUI_GetCurrentFontHeight());
+								sprintf(msg, "%u\n", finfo.fsize);
+								LCDUI_DrawText(msg, 0, 360, cy);
 
-								
+/*								
 								// Read speed test
 								if (strcmp(cpath, "speedtest.bin") == 0)
 								{
 									LCDUI_DrawTextUTF((char*)"> Found SPEEDTEST file\n");
-									strcpy_uni(fname, UsbPath);
-									strcat_uni(fname, finfo.fname);
+									tstrcpy(fname, UsbPath);
+									tstrcat(fname, finfo.fname);
 									fres = f_open(&file, fname, FA_READ | FA_OPEN_EXISTING);
 									if (fres != FR_OK)
 									{
@@ -289,10 +429,11 @@ int main()
 									
 									fres = f_close(&file);
 								}
-								
+*/
 							}
 							
 						}
+						LCDUI_SetCursorCoord(0, -1);
 						LCDUI_DrawTextUTF((char*)"> -------------------------------------\n");
 						
 					}

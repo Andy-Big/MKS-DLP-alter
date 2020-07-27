@@ -2403,9 +2403,18 @@
             <group>
                 <name>Target</name>
                 <file>
+                    <name>$PROJ_DIR$\src\FATFS\Target\spifl_diskio.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\src\FATFS\Target\usbh_diskio.c</name>
                 </file>
             </group>
+        </group>
+        <group>
+            <name>TOUCH GUI</name>
+            <file>
+                <name>$PROJ_DIR$\src\App\tft\tgui.c</name>
+            </file>
         </group>
         <group>
             <name>LCD_UI</name>
@@ -2438,6 +2447,12 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\unicode_utils.cpp</name>
+            </file>
+        </group>
+        <group>
+            <name>SPI FLASH</name>
+            <file>
+                <name>$PROJ_DIR$\src\App\spi_flash.c</name>
             </file>
         </group>
         <group>

@@ -43,9 +43,20 @@ void		TOUCH_SPIDisable();
 void		TOUCH_SPIStartRead();
 HAL_SPI_StateTypeDef	TOUCH_SPIGetState();
 
+
+
+uint16_t	_flash_SPIGetFlags();
+
 void		FLASH_SPIInit(void);
 void		FLASH_SPIEnable();
 void		FLASH_SPIDisable();
+void		FLASH_SPISetSpeed(uint8_t prescaler);
+uint8_t		FLASH_SPIGetSpeed();
+
+uint8_t		FLASH_SPIWriteReadByte(uint8_t txval);
+void		FLASH_SPIReadBuff(uint32_t dlen, uint8_t *dbuff);
+void		FLASH_SPIReadBuffDMA(uint32_t dlen, uint8_t *dbuff);
+
 
 
 #ifdef __cplusplus

@@ -16,7 +16,7 @@
         <LeaveTargetRunning>_ 0</LeaveTargetRunning>
     </StLinkDriver>
     <DebugChecksum>
-        <Checksum>561136499</Checksum>
+        <Checksum>2187505704</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -54,23 +54,33 @@
         <ITMportsLogFile>0</ITMportsLogFile>
         <ITMlogFile>$PROJ_DIR$\ITM.log</ITMlogFile>
     </SWOTraceHWSettings>
+    <struct_types>
+        <Fmt0>FATFS-free_clst	4	0</Fmt0>
+        <Fmt1>FATFS-last_clst	3	0</Fmt1>
+    </struct_types>
     <array_types>
         <Fmt0>TCHAR[128]	5	0</Fmt0>
         <Fmt1>TCHAR[13]	5	0</Fmt1>
         <Fmt2>TCHAR[256]	5	0</Fmt2>
         <Fmt3>TCHAR[4]	5	0</Fmt3>
-        <Fmt4>TCHAR[512]	5	0</Fmt4>
+        <Fmt4>TCHAR[512]	4	0</Fmt4>
         <Fmt5>char[128]	5	0</Fmt5>
     </array_types>
     <watch_formats>
         <Fmt0>{W}1:TEST_BMP	4	0</Fmt0>
-        <Fmt1>{W}1:c	5	0</Fmt1>
-        <Fmt2>{W}1:lcdui_color	4	0</Fmt2>
-        <Fmt3>{W}1:unicode_char	4	0</Fmt3>
-        <Fmt4>{W}1:unistr[uinilen]	5	0</Fmt4>
-        <Fmt5>{W}1:utfchar	4	0</Fmt5>
-        <Fmt6>{W}1:vavg	4	0</Fmt6>
-        <Fmt7>{W}1:vcurr	4	0</Fmt7>
+        <Fmt1>{W}1:addr	4	0</Fmt1>
+        <Fmt2>{W}1:c	5	0</Fmt2>
+        <Fmt3>{W}1:d	4	0</Fmt3>
+        <Fmt4>{W}1:dlen	4	0</Fmt4>
+        <Fmt5>{W}1:fspd	4	0</Fmt5>
+        <Fmt6>{W}1:lcdui_color	4	0</Fmt6>
+        <Fmt7>{W}1:towritepage	4	0</Fmt7>
+        <Fmt8>{W}1:towritesect	4	0</Fmt8>
+        <Fmt9>{W}1:unicode_char	4	0</Fmt9>
+        <Fmt10>{W}1:unistr[uinilen]	5	0</Fmt10>
+        <Fmt11>{W}1:utfchar	4	0</Fmt11>
+        <Fmt12>{W}1:vavg	4	0</Fmt12>
+        <Fmt13>{W}1:vcurr	4	0</Fmt13>
     </watch_formats>
     <Trace1>
         <Enabled>0</Enabled>
@@ -134,10 +144,8 @@
         <mode>0</mode>
     </DisassembleMode>
     <Breakpoints2>
-        <Bp0>_ 1 "EMUL_CODE" "{$PROJ_DIR$\src\FATFS\App\fatfs.c}.48.3" 0 0 1 "" 0 "" 0</Bp0>
-        <Bp1>_ 1 "EMUL_CODE" "{$PROJ_DIR$\src\App\main.cpp}.121.2" 0 0 1 "" 0 "" 0</Bp1>
-        <Bp2>_ 1 "EMUL_CODE" "{$PROJ_DIR$\src\App\fst_spi.c}.44.2" 0 0 1 "" 0 "" 0</Bp2>
-        <Count>3</Count>
+        <Bp0>_ 1 "EMUL_CODE" "{$PROJ_DIR$\src\FATFS\Target\spifl_diskio.c}.132.4" 0 0 1 "" 0 "" 0</Bp0>
+        <Count>1</Count>
     </Breakpoints2>
     <TermIOLog>
         <LoggingEnabled>_ 0</LoggingEnabled>

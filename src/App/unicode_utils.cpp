@@ -4,7 +4,7 @@
 
 // Convert UTF8 char to ANSI char
 // Return ANSI char
-char	UTF8toANSI(uint8_t *utfchar)
+char	UTF8toANSI(char *utfchar)
 {
 	// Latin
 	if (*utfchar < 128)
@@ -31,6 +31,32 @@ char	UTF8toANSI(uint8_t *utfchar)
 		return 0;
 	return (char)(t1 - 848);
 */
+}
+//==============================================================================
+
+
+
+
+// Convert UTF8 char to UNICODE char
+// Return UNICODE char
+TCHAR		UTF8toUnicode(char *utfchar)
+{
+	// Latin
+	if (*utfchar < 128)
+		return utfchar[0];
+	
+	uint16_t	t1 = 0, t2 = 0;
+
+	t1 = ((uint16_t)utfchar[0] << 8) | utfchar[1];
+	
+	// UTF-8 to UNICODE for cyrillic
+	if (t1 > 0xD08F && t1 < 0xD0C0)
+		t2 = t1 - 0xCC80;
+	if (t1 > 0xD17F && t1 < 0xD190)
+		t2 = t1 - 0xCD40;
+	
+	
+	return t2;
 }
 //==============================================================================
 
@@ -94,7 +120,7 @@ char		UnicodeToANSI(uint16_t unichar)
 // Convert UTF8 string to ANSI string
 // Return count of converted chars
 // maxlen - max lenght of cstr buffer
-uint16_t	UTF8ToANSI_Str(char *cstr, uint8_t *utfstr, uint16_t maxlen)
+uint16_t	UTF8ToANSI_Str(char *cstr, char *utfstr, uint16_t maxlen)
 {
 	if (cstr == NULL || utfstr == NULL || maxlen < 1)
 		return 0;
@@ -210,7 +236,6 @@ uint32_t	strlen_utf(char *text)
 
 char*	strcpy_utf(char *dst, char* src)
 {
-	uint32_t len = 0;
 	char *cdst = dst;
 	
 	while (*src != 0)
@@ -227,7 +252,6 @@ char*	strcpy_utf(char *dst, char* src)
 			cdst += 2;
 			src += 2;
 		}
-		len++;
 	}
 	*cdst = 0;
 	return dst;
@@ -237,12 +261,12 @@ char*	strcpy_utf(char *dst, char* src)
 
 
 
-uint16_t*	strcpy_uni(uint16_t *dst, uint16_t *src)
+TCHAR*	tstrcpy(TCHAR *dst, TCHAR *src)
 {
 	if (dst == NULL || src == NULL)
 		return dst;
 	
-	uint16_t *cdst = dst, *csrc = src;
+	TCHAR *cdst = dst, *csrc = src;
 	while (*csrc)
 	{
 		*cdst = *csrc;
@@ -258,12 +282,43 @@ uint16_t*	strcpy_uni(uint16_t *dst, uint16_t *src)
 
 
 
-uint16_t*	strcat_uni(uint16_t *dst, uint16_t *src)
+TCHAR*	tstrcpy_utf(TCHAR *dst, char *src)
 {
 	if (dst == NULL || src == NULL)
 		return dst;
 	
-	uint16_t *cdst = dst, *csrc = src;
+	TCHAR *cdst = dst;
+	char *csrc = src;
+	while (*csrc)
+	{
+		if (*src < 0x80)
+		{
+			*cdst = *src;
+			cdst++;
+			src++;
+		}
+		else
+		{
+			*cdst = UTF8toUnicode((char*)src);
+			cdst += 2;
+			src += 2;
+		}
+	}
+	*cdst = 0;
+	
+	return dst;
+}
+//==============================================================================
+
+
+
+
+TCHAR*	tstrcat(TCHAR *dst, TCHAR *src)
+{
+	if (dst == NULL || src == NULL)
+		return dst;
+	
+	TCHAR *cdst = dst, *csrc = src;
 	while (*cdst)
 		cdst++;
 	while (*csrc)
@@ -271,6 +326,33 @@ uint16_t*	strcat_uni(uint16_t *dst, uint16_t *src)
 		*cdst = *csrc;
 		cdst++;
 		csrc++;
+	}
+	*cdst = 0;
+	
+	return dst;
+}
+//==============================================================================
+
+
+
+
+TCHAR*	tstrcat_utf(TCHAR *dst, char *src)
+{
+	if (dst == NULL || src == NULL)
+		return dst;
+	
+	TCHAR *cdst = dst;
+	char *csrc = src;
+	while (*cdst)
+		cdst++;
+	while (*csrc)
+	{
+		*cdst = UTF8toUnicode(csrc);
+		cdst++;
+		if (*csrc < 0x80)
+			csrc++;
+		else
+			csrc += 2;
 	}
 	*cdst = 0;
 	

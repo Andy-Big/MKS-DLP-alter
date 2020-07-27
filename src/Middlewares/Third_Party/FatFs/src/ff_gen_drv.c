@@ -19,13 +19,8 @@
 #include "ff.h"
 #include "ff_gen_drv.h"
 
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
 Disk_drvTypeDef disk = {{0},{0},{0},0};
 
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
 
 /**
   * @brief  Links a compatible diskio driver/lun id and increments the number of active

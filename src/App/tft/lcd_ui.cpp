@@ -143,8 +143,10 @@ void	LCDUI_SetBackColor(uint16_t color)
 
 void	LCDUI_SetCursorCoord(int16_t x, int16_t y)
 {
-	lcdui_cursor_x = x;
-	lcdui_cursor_y = y;
+	if (x >= 0)
+		lcdui_cursor_x = x;
+	if (y >= 0)
+		lcdui_cursor_y = y;
 }
 //==============================================================================
 
@@ -782,7 +784,7 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 
 void	LCDUI_DrawCharUTF(char *c,  uint16_t opt, int16_t x, int16_t y)
 {
-	char cc = UTF8toANSI((uint8_t*)c);
+	char cc = UTF8toANSI(c);
 	LCDUI_DrawChar(cc, opt, x, y);
 }
 //==============================================================================
@@ -815,7 +817,7 @@ void	LCDUI_DrawTextUTF(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t 
 
 	while(1)
 	{
-		c = UTF8toANSI((uint8_t*)cp+i);
+		c = UTF8toANSI(cp+i);
 		if (c == 0 || c == ' ')
 		{
 			sp = i;
@@ -836,7 +838,7 @@ void	LCDUI_DrawTextUTF(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t 
 				lcdui_cursor_x = x1 + (x2 - x1 - cw) / 2;
 			for (uint16_t j = 0; j < sp;)
 			{
-				LCDUI_DrawChar(UTF8toANSI((uint8_t*)cp+j), copt);
+				LCDUI_DrawChar(UTF8toANSI(cp+j), copt);
 				if (*(cp+j) < 0x80)
 					j++;
 				else
@@ -847,7 +849,7 @@ void	LCDUI_DrawTextUTF(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t 
 			cp += sp;
 			i = 0;
 			sp = 0;
-			while(UTF8toANSI((uint8_t*)cp) == ' ')
+			while(UTF8toANSI(cp) == ' ')
 			{
 				if (*cp < 0x80)
 					cp++;
