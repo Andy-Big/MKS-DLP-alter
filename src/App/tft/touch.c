@@ -208,3 +208,12 @@ void		Touch_GetCoords(TOUCH_POINT *pt)
 
 
 
+uint8_t		Touch_IsPressed()
+{
+	return touch_point.xc || touch_point.yc;
+}
+//==============================================================================
+
+
+
+

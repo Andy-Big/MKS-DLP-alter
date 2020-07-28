@@ -10,6 +10,7 @@
 
 
 typedef void (*paintfunc)(void *tguiobj, void* param);
+typedef void (*processfunc)(void *tguiobj, void* param);
 typedef void (*pressfunc)(void *tguiobj, void* *pt);
 
 
@@ -39,12 +40,21 @@ typedef enum
 	VTA_BOTTOM = 2,
 } TEXT_ALIGN_V;
 
+typedef struct
+{
+	TEXT_ALIGN_H	textalign_h:4;
+	TEXT_ALIGN_V	textalign_v:4;
+} TGUI_TEXTOPTIONS;
 
 
 typedef struct
 {
+	uint16_t			scrnametextcolor;
 	uint16_t			scrtextcolor;
 	uint16_t			scrbackcolor;
+	LCDUI_FONT_TYPE		scrfont;
+	LCDUI_FONT_TYPE		scrnamefont;
+	
 
 	uint16_t			btntextcolor_en;
 	uint16_t			btntextcolor_press;
@@ -52,8 +62,6 @@ typedef struct
 	uint16_t			btnbackcolor_en;
 	uint16_t			btnbackcolor_press;
 	uint16_t			btnbackcolor_dis;
-	
-	LCDUI_FONT_TYPE		scrfont;
 	LCDUI_FONT_TYPE		btnfont;
 	
 	char				*imagesdir;
@@ -81,9 +89,12 @@ typedef struct
 
 typedef struct
 {
+	void				*addparameter;
+	
 	TGUI_RECT			position;
 	
 	void				*parentscreen;
+	void				*childscreen;
 
 	char				*bgimagename_en;
 	char				*bgimagename_press;
@@ -100,12 +111,13 @@ typedef struct
 	uint16_t			backcolor_dis;
 	
 	struct {
+		uint8_t				pressed:1;
 		uint8_t				disabled:1;
 		uint8_t				repaintonpress:1;		// repaint or not when pressed - for indicate pressed state
-		BGPAINT_TYPE		bgpainted:2;
-		uint8_t				textalign_h:2;
-		uint8_t				textalign_v:2;
+		BGPAINT_TYPE		bgpaint:2;
 	} options;
+	
+	TGUI_TEXTOPTIONS	textoptions;
 
 	struct {
 		paintfunc		_call_paint;	// repaint button
@@ -122,22 +134,38 @@ typedef struct
 	void				*prevscreen;
 	
 	char				*name;
+	TGUI_RECT			nameposition;
+	TGUI_TEXTOPTIONS	nameoptions;
 	
 	uint8_t				btns_count;
 	TGUI_BUTTON			*buttons;
 	
 	LCDUI_FONT_TYPE		font;
+	LCDUI_FONT_TYPE		namefont;
 	uint16_t			textcolor;
+	uint16_t			nametextcolor;
 	uint16_t			backcolor;
 
 	struct {
 		paintfunc		_callpaint;	// repaint screen
-		pressfunc		_callpress;	// touch events handling
+		processfunc		_callprocess;	// screen process handling (check for changes, touch pressed, etc)
 	} funcs;
 } TGUI_SCREEN;
 
 
 
+#define	FNAME_LOGO				(char*)"logo.cimg"
+#define	FNAME_BKGR_MAIN			(char*)"scr_main.cimg"
+#define	FNAME_BKGR_SERVICE		(char*)"scr_service.cimg"
+
+
+#define UIDBUFF_SIZE		4096*2
+extern uint8_t 			tguiDBuff[UIDBUFF_SIZE];
+#define UIFBUFF_SIZE		UIDBUFF_SIZE/4
+extern uint8_t 			tguiFBuff[UIFBUFF_SIZE];
+
+extern FIL				tguiFile @ "CCMRAM";
+extern TCHAR			tfname[512] @ "CCMRAM";
 
 
 extern TGUI_CONFIG		tguiDefaultConfig;
@@ -152,7 +180,11 @@ extern TGUI_SCREEN		*tguiActiveScreen;
 
 
 void		TGUI_Init();
-
+void		TGUI_DrawLogo();
+// Forced repaint current screen
+void		TGUI_ForceRepaint();
+// Current screen periodical process handling (check for changes, touch pressed, etc)
+void		TGUI_Process();
 
 
 

@@ -69,13 +69,13 @@ void		LCD_CtrlLinesConfig(void)
 
 
 	HAL_FSMC_MspInit();		// initialization FSMC pins
-/*	
+	
 	// DMA
 	__HAL_RCC_DMA2_CLK_ENABLE();
 	hLcdDma.Instance = DMA2_Stream7;
 	hLcdDma.Init.Channel = DMA_CHANNEL_0;
 	hLcdDma.Init.Direction = DMA_MEMORY_TO_MEMORY;
-	hLcdDma.Init.PeriphInc = DMA_PINC_DISABLE;
+	hLcdDma.Init.PeriphInc = DMA_PINC_ENABLE;
 	hLcdDma.Init.MemInc = DMA_MINC_DISABLE;
 	hLcdDma.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
 	hLcdDma.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
@@ -89,7 +89,7 @@ void		LCD_CtrlLinesConfig(void)
 	// DMA2_Stream7_IRQn interrupt configuration
 	HAL_NVIC_SetPriority(DMA2_Stream7_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(DMA2_Stream7_IRQn);
-*/
+
 }
 
 
@@ -202,6 +202,15 @@ void		LCD_WriteRAM(uint16_t RGB_Code)
 {
 	/* Write 16-bit GRAM Reg */
 	LCD->LCD_RAM = RGB_Code;
+}
+
+
+
+
+void		LCD_WriteRAM_DMA(uint16_t *buff, uint16_t len)					 
+{
+	while (HAL_DMA_GetState(&hLcdDma) != HAL_DMA_STATE_READY);
+		HAL_DMA_Start_IT(&hLcdDma, (uint32_t)buff, (uint32_t)&(LCD->LCD_RAM), len);
 }
 
 

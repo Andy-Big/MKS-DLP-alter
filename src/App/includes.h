@@ -16,6 +16,7 @@
 
 #include "stm32f4xx_hal.h"
 
+#include "sys_timer.h"
 
 
 #endif  // __INCLUDES_H

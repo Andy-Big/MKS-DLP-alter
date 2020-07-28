@@ -15,11 +15,7 @@ typedef struct
 	uint8_t		active;
 } SYSTIMERS_STRUCT;
 
-void		HAL_IncTick(void);
-
-uint32_t	SYSTIMER_GetTicks();
-uint32_t	SYSTIMER_GetMSeconds();
-uint32_t	SYSTIMER_GetSeconds();
+void		SYSTIMER_Init();
 
 // Start new countdown timer with starting value -msecs- and return timer number
 uint8_t		SYSTIMER_NewCountDown(uint32_t msecs);

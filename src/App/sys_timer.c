@@ -1,9 +1,13 @@
 #include "sys_timer.h"
-
 #include "touch.h"
 
 
 SYSTIMERS_STRUCT	Timers[TIMER_MAXTIMERS];
+
+
+
+
+
 
 // Redefinition HAL 1ms timer
 void		HAL_IncTick(void)
@@ -26,8 +30,21 @@ void		HAL_IncTick(void)
 
 
 
+void		SYSTIMER_Init()
+{
+	uint8_t tim = 0;
+	for (tim = 0; tim < TIMER_MAXTIMERS; tim++)
+	{
+		Timers[tim].active = 0;
+		Timers[tim].msecs = 0;
+	}
+}
+//==============================================================================	
+
+
+
 // Start new countdown timer with starting value -msecs- and return timer number
-uint8_t SYSTIMER_NewCountDown(uint32_t msecs)
+uint8_t		SYSTIMER_NewCountDown(uint32_t msecs)
 {
 	uint8_t tim = 0;
 	for (tim = 0; tim < TIMER_MAXTIMERS; tim++)
@@ -47,7 +64,7 @@ uint8_t SYSTIMER_NewCountDown(uint32_t msecs)
 
 
 // Stop and delete countdown timer by its number -timer-
-void SYSTIMER_DeleteCountDown(uint8_t timer)
+void		SYSTIMER_DeleteCountDown(uint8_t timer)
 {
 	if (timer < TIMER_MAXTIMERS)
 	{
@@ -60,7 +77,7 @@ void SYSTIMER_DeleteCountDown(uint8_t timer)
 
 
 // Return remain value countdown timer by its number -timer-
-uint32_t SYSTIMER_GetCountDown(uint8_t timer)
+uint32_t		SYSTIMER_GetCountDown(uint8_t timer)
 {
 	if (timer < TIMER_MAXTIMERS)
 	{
@@ -74,9 +91,9 @@ uint32_t SYSTIMER_GetCountDown(uint8_t timer)
 
 
 // Set new value in countdown timer by its number -timer-
-void SYSTIMER_SetCountDown(uint8_t timer, uint32_t msecs)
+void		SYSTIMER_SetCountDown(uint8_t timer, uint32_t msecs)
 {
-	if (timer < TIMER_MAXTIMERS)
+	if (timer < TIMER_MAXTIMERS && Timers[timer].active)
 		Timers[timer].msecs = msecs;
 }
 //==============================================================================	

@@ -16,20 +16,14 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
-
-/* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "fatfs.h"
 #include "rtc.h"
 #include "usb_host.h"
 #include "gpio.h"
 #include "fsmc.h"
-
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-
 #include "usbh_platform.h"
+
 #include "lcd_low.h"
 #include "touch.h"
 #include "lcd_ui.h"
@@ -38,58 +32,46 @@
 #include "spi_flash.h"
 #include "tgui.h"
 
-/* USER CODE END Includes */
 
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
 
-/* USER CODE END PTD */
+#define	SDIR_IMAGES			(char*)"alterupd\\images"
 
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
 
-/* USER CODE END PD */
 
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
 
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
-
-/* USER CODE BEGIN PV */
 extern USBH_HandleTypeDef		hUsbHostFS;
 extern ApplicationTypeDef		Appli_state;
 ApplicationTypeDef				Appli_state_old;
 
 extern TCHAR					UsbPath[4];   /* USBH logical drive path */
 extern FATFS					UsbFS;    /* File system object for USBH logical drive */
-
+uint8_t							UsbMounted;
 extern TCHAR					SpiflPath[4];
 extern FATFS					SpiflFS;
 
-extern TOUCH_INFO				touch_info;
+extern TOUCH_INFO				touchInfo;
+TOUCH_POINT						touchCoord;
+TOUCH_STATES					touchState;
 
-extern uint8_t			*TEST_BMP;
-
-
-__no_init uint8_t 		fbuff[8192] @ "CCMRAM";
-__no_init uint8_t 		uibuff[8192];
-
-
-FIL				ufile;
-FIL				sfile;
-TCHAR			u_tfname[512];
-TCHAR			s_tfname[512];
-char			cfname[1024];
-char			msg[512];
-FRESULT			fres;
-DIR				dir = {0};
-FILINFO			finfo = {0};
+uint8_t							srvMode;
+	
 
 
-void SystemClock_Config(void);
-void MX_USB_HOST_Process(void);
+__no_init uint8_t 				fbuff[8192] @ "CCMRAM";
+		
+		
+__no_init FIL					ufile @ "CCMRAM";
+__no_init FIL					sfile @ "CCMRAM";
+TCHAR							u_tfname[512];
+TCHAR							s_tfname[512];
+char							cfname[1024];
+char							msg[512];
+FRESULT							fres;
+DIR								dir = {0};
+FILINFO							finfo = {0};
+
+
+void		SystemClock_Config(void);
 
 
 int main()
@@ -97,45 +79,100 @@ int main()
 	HAL_Init();
 	SystemClock_Config();
 	SCB->VTOR = FLASH_BASE | 0x10000;
-	
+	SYSTIMER_Init();
 	GPIO_Init();
 
+	// LCD init
 	LCD_Initializtion();
 	LCDUI_Init();
-	
+	// SPI flash interface init
 	FLASH_SPIInit();
 	FLASH_SPIEnable();
 	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_2);
+	// SPI flash logic init
 	SPIFL_Init();
-
+	// FatFS init
 	FATFS_Init();
+	// Touch interface init
+	Touch_Init();
+	Touch_Enable();
+	_touch_ReadCoords();
+	_touch_ReadCoords();
 
 	LCDUI_SetFont(LCDUI_FONT_H18);
-	LCDUI_SetColor(COLOR_GREEN);
+	LCDUI_SetColor(COLOR_WHITE);
 	LCDUI_SetBackColor(COLOR_BLACK);
 	LCDUI_Clear();
 	TGUI_Init();
 	
-	LCD_BackLight(1);
-	LCDUI_DrawTextUTF((char*)"> Booting...\n");
-	
-	
+	// SPIFlash filesystem mounting
 	if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
 	{
 		LCDUI_DrawTextUTF((char*)"> !! Internal flash filesystem error, booting stoped\n");
 		while(1);
 	}
-
-	Touch_Init();
-	Touch_Enable();
 	
+	LCD_BackLight(1);
+	
+	// If touch pressed - service booting with update
+	srvMode = 0;
+	if (Touch_IsPressed())
+	{
+		TOUCH_POINT tp;
+		Touch_GetCoords(&tp);
+		if ( tp.xc > 430 && tp.yc < 50)
+		{
+			srvMode = 1;
+		}
+	}
+	
+	// ------------------ Service mode -------------------
+	if (srvMode)
+	{
+		LCDUI_SetColor(COLOR_GREEN);
+		LCDUI_DrawTextUTF((char*)"> Service mode\n");
+
+		LCDUI_DrawTextUTF((char*)"> Formating internal filesystem...\n");
+		f_mount(NULL,  SpiflPath, 1);
+		if (f_mkfs(SpiflPath, 0, fbuff, sizeof(fbuff)) != FR_OK)
+		{
+			LCDUI_DrawTextUTF((char*)"> !! Failed to formate internal filesystem\n");
+		}
+		else
+		{
+			LCDUI_DrawTextUTF((char*)"> Internal filesystem formated succes\n");
+		}
+		if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
+		{
+			LCDUI_DrawTextUTF((char*)"> !! Failed to mount internal filesystem\n");
+		}
+		else
+		{
+			LCDUI_DrawTextUTF((char*)"> Internal filesystem mounted succes\n");
+		}
+	}
+	else
+	{
+		// Draw initial logo
+		TGUI_DrawLogo();
+	}
+	// Clear CCRAM
+	uint32_t	*ccr = (uint32_t*)0x10000000;
+	for (uint32_t i = 0; i < 65536/4; i++)
+	{
+		*ccr = 0;
+		ccr++;
+	}
+		
 	RTC_Init();
+	// Disable USB power line
 	USB_HOST_VbusFS(1);
 
 	RTC_Enable(&hRTC);
 
 	USB_HOST_Init();
 	Appli_state_old = Appli_state;
+
 	
 /*	
 	if (tguiActiveScreen->buttons[0].funcs._call_paint != NULL)
@@ -246,16 +283,21 @@ int main()
 */	
 //	LCDUI_DrawBitmap(0, 0, (uint8_t*)&TEST_BMP);
 	
+	// Enable USB power line
 	USB_HOST_VbusFS(0);
 
-	TOUCH_POINT		tcrd;
-	TOUCH_STATES	tstate;
+	// ------------------ Service mode -------------------
+	if (!srvMode)
+	{
+		HAL_Delay(1500);
+		TGUI_ForceRepaint();
+	}
 	
 	while(1)
 	{
-		if ((tstate = Touch_GetState()) != TS_FREE)
+		if ((touchState = Touch_GetState()) != TS_FREE)
 		{
-			if (tstate == TS_SRELEASED || tstate == TS_LRELEASED)
+			if (touchState == TS_SRELEASED || touchState == TS_LRELEASED)
 			{
 				Touch_SetState(TS_WORKED);
 			}
@@ -264,7 +306,7 @@ int main()
 		if (Appli_state_old != Appli_state)
 		{
 			Appli_state_old = Appli_state;
-			switch (Appli_state_old)
+			switch (Appli_state)
 			{
 				case APPLICATION_IDLE:
 					break;
@@ -275,90 +317,112 @@ int main()
 				case APPLICATION_READY:
 					if (f_mount(&UsbFS, UsbPath, 1) == FR_OK)
 					{
-						// Check for images update on USB disk
-						tstrcpy(u_tfname, UsbPath);
-						tstrcat_utf(u_tfname, (char*)"alterupd\\images");
-						// Found update directory
-						if (f_opendir(&dir, u_tfname) == FR_OK)
+						UsbMounted = 1;
+						// ------------------ Service mode -------------------
+						if (srvMode)
 						{
-							while(1)
-							{
-								if (f_readdir(&dir, &finfo) != FR_OK)
-									break;
-								if (finfo.fname[0] == 0)
-									break;
-								if (!(finfo.fattrib & AM_DIR))
-								{
-									UnicodeToANSI_Str((char*)cfname, finfo.fname, sizeof(cfname));
-									if ( (strcmp(cfname, "logo.bmp") == 0 && finfo.fsize < 320000) 
-										|| (strcmp(cfname, "scr_main.bmp") == 0 && finfo.fsize < 320000)
-										|| (strcmp(cfname, "scr_service.bmp") == 0 && finfo.fsize < 320000) )
-									{
-										// Found update file, copying it into SPIFlash filesystem
-										
-										// Open file for read in USB
-										tstrcpy(u_tfname, UsbPath);
-										tstrcat_utf(u_tfname, (char*)"alterupd\\images\\");
-										tstrcat(u_tfname, finfo.fname);
-										if (f_open(&ufile, u_tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
-										{
-											LCDUI_DrawTextUTF((char*)"> !! Error opening file in USB filesystem\n");
-											break;
-										}
-												
-										// Open file for write in SPIFlash
-										tstrcpy(s_tfname, SpiflPath);
-										tstrcat(s_tfname, finfo.fname);
-										if (f_open(&sfile, s_tfname, FA_CREATE_ALWAYS | FA_WRITE) != FR_OK)
-										{
-											LCDUI_DrawTextUTF((char*)"> !! Error creating file in SPIFlash filesystem\n");
-											break;
-										}
-										
-										// Copying
-										sprintf(msg, "> Copying file \"%s\" ", cfname);
-										LCDUI_DrawTextUTF(msg);
-										DWORD 		readed = 0, writed = 0;
-										uint8_t		iter = 0;
-										do
-										{
-											if (f_read(&ufile, fbuff, sizeof(uibuff), &readed) != FR_OK)
-											{
-												LCDUI_DrawTextUTF((char*)"> !! Error reading file from USB filesystem\n");
-												break;
-											}
-											if (f_write(&sfile, fbuff, readed, &writed) != FR_OK)
-											{
-												LCDUI_DrawTextUTF((char*)"> !! Error writing file to SPIFlash filesystem\n");
-												break;
-											}
-											iter++;
-											if ((iter % 2) == 0)
-												LCDUI_DrawTextUTF((char*)".");
-										} while (readed == sizeof(uibuff));
-										f_close(&ufile);
-										f_close(&sfile);
-										LCDUI_DrawTextUTF((char*)" success\n");
-										LCDUI_SetCursorCoord(0, -1);
-									}
-								}
-								
-							}
-							f_close(&ufile);
-							f_close(&sfile);
-							f_closedir(&dir);
-							// Rename directory
+							LCDUI_DrawTextUTF((char*)"> +USB storage mounted\n");
+							// Check for images update on USB disk
 							tstrcpy(u_tfname, UsbPath);
-							tstrcat_utf(u_tfname, (char*)"alterupd\\images");
-							tstrcpy(s_tfname, UsbPath);
-							tstrcat_utf(s_tfname, (char*)"alterupd\\images.old");
-							f_rename(u_tfname, s_tfname);
+							tstrcat_utf(u_tfname, SDIR_IMAGES);
+							// Found update directory
+							if (f_opendir(&dir, u_tfname) == FR_OK)
+							{
+								LCDUI_DrawTextUTF((char*)"> Firmware images directory found\n");
+								while(1)
+								{
+									if (f_readdir(&dir, &finfo) != FR_OK)
+										break;
+									if (finfo.fname[0] == 0)
+										break;
+									if (!(finfo.fattrib & AM_DIR))
+									{
+										UnicodeToANSI_Str((char*)cfname, finfo.fname, sizeof(cfname));
+										if (
+												(strcmp(cfname, FNAME_LOGO) == 0 && finfo.fsize < 320000) 
+											|| (strcmp(cfname, FNAME_BKGR_MAIN) == 0 && finfo.fsize < 320000)
+											|| (strcmp(cfname, FNAME_BKGR_SERVICE) == 0 && finfo.fsize < 320000)
+												)
+										{
+											// Found update file, copying it into SPIFlash filesystem
+											
+											// Open file for read in USB
+											tstrcpy(u_tfname, UsbPath);
+											tstrcat_utf(u_tfname, SDIR_IMAGES);
+											tstrcat_utf(u_tfname, (char*)"\\");
+											tstrcat(u_tfname, finfo.fname);
+											if (f_open(&ufile, u_tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
+											{
+												LCDUI_DrawTextUTF((char*)"> !! Error opening file in USB filesystem\n");
+												break;
+											}
+													
+											// Open file for write in SPIFlash
+											tstrcpy(s_tfname, SpiflPath);
+											tstrcat(s_tfname, finfo.fname);
+											if (f_open(&sfile, s_tfname, FA_CREATE_ALWAYS | FA_WRITE) != FR_OK)
+											{
+												LCDUI_DrawTextUTF((char*)"> !! Error creating file in internal filesystem\n");
+												break;
+											}
+											
+											// Copying
+											sprintf(msg, "> Copying file \"%s\" ", cfname);
+											LCDUI_DrawTextUTF(msg);
+											DWORD 		readed = 0, writed = 0;
+											uint8_t		iter = 0;
+											do
+											{
+												if (f_read(&ufile, fbuff, sizeof(fbuff), &readed) != FR_OK)
+												{
+													LCDUI_DrawTextUTF((char*)"> !! Error reading file from USB filesystem\n");
+													break;
+												}
+												if (f_write(&sfile, fbuff, readed, &writed) != FR_OK)
+												{
+													LCDUI_DrawTextUTF((char*)"> !! Error writing file to internal filesystem\n");
+													break;
+												}
+												iter++;
+//												if ((iter % 2) == 0)
+													LCDUI_DrawTextUTF((char*)".");
+											} while (readed == sizeof(fbuff));
+											f_close(&ufile);
+											f_close(&sfile);
+											LCDUI_DrawTextUTF((char*)" success\n");
+											LCDUI_SetCursorCoord(0, -1);
+										}
+									}
+									
+								}
+								f_close(&ufile);
+								f_close(&sfile);
+								f_closedir(&dir);
+/*								
+								// Rename directory
+								tstrcpy(u_tfname, UsbPath);
+								tstrcat_utf(u_tfname, (char*)"alterupd");
+								tstrcpy(s_tfname, UsbPath);
+								tstrcat_utf(s_tfname, (char*)"alterupd.old");
+								f_rename(u_tfname, s_tfname);
+*/
+							}
+							else
+							{
+								LCDUI_DrawTextUTF((char*)"> Update directory not found\n", LCDUI_TEXT_TRANSBACK);
+							}
 						}
 					}
 					break;
 
 				case APPLICATION_DISCONNECT:
-					Appli_state_old = Appli_state = APPLICATION_IDLE;
+					f_mount(NULL, UsbPath, 1);
+					memset(&UsbFS, 0, sizeof(FATFS));
+					UsbMounted = 0;
+					if (srvMode)
+					{
+						LCDUI_DrawTextUTF((char*)"> -USB storage removed\n");
+					}
 					break;
 
 			}

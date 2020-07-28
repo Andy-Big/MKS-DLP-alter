@@ -11,7 +11,7 @@ volatile uint32_t		d = 0;
 
 inline void		___spifl_wait_cs()
 {
-	volatile uint8_t i = 50;
+	volatile uint8_t i = 100;
 	while (i)
 		i--;
 }

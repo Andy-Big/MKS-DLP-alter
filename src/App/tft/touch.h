@@ -50,6 +50,7 @@ void		Touch_Disable();
 TOUCH_STATES	Touch_GetState();
 void		Touch_SetState(TOUCH_STATES newstate);
 void		Touch_GetCoords(TOUCH_POINT *pt);
+uint8_t		Touch_IsPressed();
 
 
 #ifdef __cplusplus
