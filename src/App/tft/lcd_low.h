@@ -27,6 +27,7 @@ void		LCD_WriteRAM_Prepare(void);
 void		LCD_WriteRAM_Continue(void);
 void		LCD_WriteRAM(uint16_t RGB_Code);
 void		LCD_WriteRAM_DMA(uint16_t *buff, uint16_t len);
+void		LCD_WaitDMAReady();
 void		LCD_ReadRAM_Prepare(void);
 void		LCD_ReadRAM_Continue(void);
 uint16_t	LCD_ReadRAM(void);

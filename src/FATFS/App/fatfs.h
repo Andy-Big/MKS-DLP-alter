@@ -29,7 +29,7 @@
 
 
 extern uint8_t		retUSBH; /* Return value for USBH */
-extern TCHAR		USBHPath[4]; /* USBH logical drive path */
+extern TCHAR		UsbPath[4]; /* USBH logical drive path */
 extern FATFS		USBHFatFS; /* File system object for USBH logical drive */
 
 extern uint8_t		retSPIFL;

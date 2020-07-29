@@ -14,11 +14,33 @@ __no_init TCHAR			tfname[512] @ "CCMRAM";
 
 TGUI_CONFIG				tguiDefaultConfig;
 
-TGUI_BUTTON				tguiMainScrButtons[TGUI_BTN_CNT_MAINSCREEN];
+TGUI_BUTTON				tguiScrButtonsMain[TGUI_BTN_CNT_MAINSCREEN];
 TGUI_SCREEN				tguiScreenMain;
+
+TGUI_BUTTON				tguiScrButtonsService[TGUI_BTN_CNT_SERVICESCREEN];
+TGUI_SCREEN				tguiScreenService;
 
 
 TGUI_SCREEN				*tguiActiveScreen;
+
+
+
+
+uint8_t		TGUI_PointInRect(TOUCH_POINT *pt, TGUI_RECT *rc)
+{
+	if (pt->xc >= rc->left && pt->xc <= rc->right)
+		if (pt->yc >= rc->top && pt->yc <= rc->bottom)
+			return 1;
+	
+	return 0;
+}
+//==============================================================================
+
+
+
+
+
+
 
 
 
@@ -53,7 +75,7 @@ void		TGUI_Init()
 	// -------------------- Main Screen elements -----------------------
 {
 	// PRINT button
-	tgb = &(tguiMainScrButtons[0]);
+	tgb = &(tguiScrButtonsMain[0]);
 	memset((void*)tgb, 0, sizeof(TGUI_BUTTON));
 	
 	tgb->position = {15, 100, 465, 165};
@@ -74,6 +96,8 @@ void		TGUI_Init()
 	
 	tgb->options.disabled = 0;
 	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.repaintonpress = 1;
+	
 	tgb->textoptions.textalign_h = HTA_CENTER;
 	tgb->textoptions.textalign_v = VTA_CENTER;
 
@@ -81,66 +105,29 @@ void		TGUI_Init()
 	tgb->funcs._call_press = NULL;
 
 	tgb->parentscreen = &tguiScreenMain;
+	tgb->childscreen = NULL;
 
 	// INFO button
-	tgb = &(tguiMainScrButtons[1]);
-	memset((void*)tgb, 0, sizeof(TGUI_BUTTON));
+	tgb = &(tguiScrButtonsMain[1]);
+	memcpy((void*)tgb, (void*)(&tguiScrButtonsMain[0]), sizeof(TGUI_BUTTON));
 	
 	tgb->position = {245, 185, 465, 250};
 
-	tgb->bgimagename_en = NULL;
-	tgb->bgimagename_press = NULL;
-	tgb->bgimagename_dis = NULL;
-
 	tgb->text = (char*)"ИНФО";
 	tgb->textposition = {320, 188, 460, 247};
-	tgb->font = tgc->btnfont;
-	tgb->textcolor_en = tgc->btntextcolor_en;
-	tgb->textcolor_press = tgc->btntextcolor_press;
-	tgb->textcolor_dis = tgc->btntextcolor_dis;
-	tgb->backcolor_en = tgc->btnbackcolor_en;
-	tgb->backcolor_press = tgc->btnbackcolor_press;
-	tgb->backcolor_dis = tgc->btnbackcolor_dis;
-	
-	tgb->options.disabled = 0;
-	tgb->options.bgpaint = BGP_NONE;
-	tgb->textoptions.textalign_h = HTA_CENTER;
-	tgb->textoptions.textalign_v = VTA_CENTER;
-
-	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = NULL;
-
-	tgb->parentscreen = &tguiScreenMain;
 
 	// SERVICE button
-	tgb = &(tguiMainScrButtons[2]);
-	memset((void*)tgb, 0, sizeof(TGUI_BUTTON));
+	tgb = &(tguiScrButtonsMain[2]);
+	memcpy((void*)tgb, (void*)(&tguiScrButtonsMain[0]), sizeof(TGUI_BUTTON));
 	
 	tgb->position = {15, 185, 235, 250};
 
-	tgb->bgimagename_en = NULL;
-	tgb->bgimagename_press = NULL;
-	tgb->bgimagename_dis = NULL;
-
 	tgb->text = (char*)"СЕРВИС";
 	tgb->textposition = {85, 188, 230, 247};
-	tgb->font = tgc->btnfont;
-	tgb->textcolor_en = tgc->btntextcolor_en;
-	tgb->textcolor_press = tgc->btntextcolor_press;
-	tgb->textcolor_dis = tgc->btntextcolor_dis;
-	tgb->backcolor_en = tgc->btnbackcolor_en;
-	tgb->backcolor_press = tgc->btnbackcolor_press;
-	tgb->backcolor_dis = tgc->btnbackcolor_dis;
-	
-	tgb->options.disabled = 0;
-	tgb->options.bgpaint = BGP_NONE;
-	tgb->textoptions.textalign_h = HTA_CENTER;
-	tgb->textoptions.textalign_v = VTA_CENTER;
 
-	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
 
-	tgb->parentscreen = &tguiScreenMain;
+	tgb->childscreen = (void*)&tguiScreenService;
 
 	
 	
@@ -157,7 +144,7 @@ void		TGUI_Init()
 	tgs->nameoptions.textalign_v = VTA_CENTER;
 
 	tgs->btns_count = TGUI_BTN_CNT_MAINSCREEN;
-	tgs->buttons = tguiMainScrButtons;
+	tgs->buttons = tguiScrButtonsMain;
 
 	tgs->font = tgc->scrfont;
 	tgs->namefont = tgc->scrnamefont;
@@ -166,7 +153,111 @@ void		TGUI_Init()
 	tgs->backcolor = tgc->scrbackcolor;
 
 	tgs->funcs._callpaint = _tgui_DefaultScreenPaint;
-	tgs->funcs._callprocess = NULL;
+	tgs->funcs._process = _tgui_DefaultScreenProcess;
+	
+}
+
+
+
+	// -------------------- Service Screen elements -----------------------
+{
+	// BACK button
+	tgb = &(tguiScrButtonsService[0]);
+	memset((void*)tgb, 0, sizeof(TGUI_BUTTON));
+	
+	tgb->position = {4, 4, 167, 49};
+
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->text = (char*)"НАЗАД";
+	tgb->textposition = {54, 6, 165, 47};
+	tgb->font = tgc->btnfont;
+	tgb->textcolor_en = LCDUI_RGB(0x074B19);
+	tgb->textcolor_press = tgc->btntextcolor_press;
+	tgb->textcolor_dis = tgc->btntextcolor_dis;
+	tgb->backcolor_en = tgc->btnbackcolor_en;
+	tgb->backcolor_press = tgc->btnbackcolor_press;
+	tgb->backcolor_dis = tgc->btnbackcolor_dis;
+	
+	tgb->options.disabled = 0;
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.repaintonpress = 1;
+	
+	tgb->textoptions.textalign_h = HTA_CENTER;
+	tgb->textoptions.textalign_v = VTA_CENTER;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = (pressfunc)BTNA_GOPREVSCR;
+
+	tgb->parentscreen = &tguiScreenService;
+	tgb->childscreen = NULL;
+/*
+	// LANGUAGE button
+	tgb = &(tguiScrButtonsService[1]);
+	memcpy((void*)tgb, (void*)(tguiScrButtonsService[0]), sizeof(TGUI_BUTTON));
+	
+	tgb->position = {245, 185, 465, 250};
+
+	tgb->text = (char*)"ЯЗЫК";
+	tgb->textposition = {320, 188, 460, 247};
+
+	tgb->funcs._call_press = NULL;
+
+	tgb->childscreen = NULL;
+
+	// MOVE.Z button
+	tgb = &(tguiScrButtonsService[2]);
+	memcpy((void*)tgb, (void*)(tguiScrButtonsService[0]), sizeof(TGUI_BUTTON));
+	
+	tgb->position = {15, 185, 235, 250};
+
+	tgb->text = (char*)"ДВИГ. Z";
+	tgb->textposition = {85, 188, 230, 247};
+	
+	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
+
+	tgb->childscreen = NULL;
+
+	// INFO button
+	tgb = &(tguiScrButtonsService[3]);
+	memcpy((void*)tgb, (void*)(tguiScrButtonsService[0]), sizeof(TGUI_BUTTON));
+	
+	tgb->position = {15, 185, 235, 250};
+
+	tgb->text = (char*)"ИНФО";
+	tgb->textposition = {85, 188, 230, 247};
+	
+	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
+
+	tgb->childscreen = NULL;
+*/
+	
+	
+	// SERVICE SCREEN
+	tgs = &tguiScreenService;
+	memset((void*)tgs, 0, sizeof(TGUI_SCREEN));
+	
+	tgs->bgimagename = FNAME_BKGR_SERVICE;
+	tgs->prevscreen = NULL;
+
+	tgs->name = (char*)"СЕРВИС";
+	tgs->nameposition = {205, 3, 475, 30};
+	tgs->nameoptions.textalign_h = HTA_CENTER;
+	tgs->nameoptions.textalign_v = VTA_CENTER;
+
+	tgs->btns_count = TGUI_BTN_CNT_MAINSCREEN;
+	tgs->buttons = tguiScrButtonsService;
+
+	tgs->font = tgc->scrfont;
+	tgs->namefont = tgc->scrnamefont;
+	tgs->textcolor = tgc->scrtextcolor;
+	tgs->nametextcolor = tgc->scrnametextcolor;
+	tgs->backcolor = tgc->scrbackcolor;
+
+	tgs->funcs._callpaint = _tgui_DefaultScreenPaint;
+	tgs->funcs._process = _tgui_DefaultScreenProcess;
 	
 }
 
@@ -201,8 +292,8 @@ void		TGUI_ForceRepaint()
 // Current screen periodical process handling (check for changes, touch pressed, etc)
 void		TGUI_Process()
 {
-	if (tguiActiveScreen->funcs._callprocess != NULL)
-		tguiActiveScreen->funcs._callprocess(tguiActiveScreen, NULL);
+	if (tguiActiveScreen->funcs._process != NULL)
+		tguiActiveScreen->funcs._process(tguiActiveScreen, NULL);
 }
 //==============================================================================
 

@@ -109,7 +109,7 @@ DRESULT SPIFL_ioctl(BYTE lun, BYTE cmd, void *buff)
 
 		// Get number of sectors on the disk (DWORD)
 		case GET_SECTOR_COUNT :
-			*(DWORD*)buff = _spifl_info.sectors_count * _SPIFL_SECT_DIVIDER;
+			*(DWORD*)buff = _spifl_info.sectors_count * _SPIFL_SECT_DIVIDER - (128 * _SPIFL_SECT_DIVIDER); // 128 sectors (128*4096 bytes) reserved for firmware image
 			res = RES_OK;
 			break;
 

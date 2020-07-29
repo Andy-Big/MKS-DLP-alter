@@ -6,6 +6,7 @@
 #include "main.h"
 #include "lcd_ui.h"
 #include "fatfs.h"
+#include "touch.h"
 
 
 
@@ -17,9 +18,10 @@ typedef void (*pressfunc)(void *tguiobj, void* *pt);
 // Method of background repainting for buttons and texts
 typedef enum
 {
-	BGP_NONE = 0,	// backgrount not paints
+	BGP_NONE = 0,		// backgrount not paints
 	BGP_SCREEN = 1,		// background paint from parent background screen
 	BGP_FILL = 2,		// backgriunt filled with background color
+	BGP_IMAGE = 3,		// backgriunt paint from self image file
 } BGPAINT_TYPE;
 
 
@@ -32,6 +34,7 @@ typedef enum
 	HTA_RIGHT = 2,
 } TEXT_ALIGN_H;
 
+
 typedef enum
 {
 	// vertical
@@ -40,12 +43,20 @@ typedef enum
 	VTA_BOTTOM = 2,
 } TEXT_ALIGN_V;
 
+
 typedef struct
 {
 	TEXT_ALIGN_H	textalign_h:4;
 	TEXT_ALIGN_V	textalign_v:4;
 } TGUI_TEXTOPTIONS;
 
+
+typedef enum
+{
+	BTNA_GOCHILDSCR = 0xFFFFFF00,
+	BTNA_GOPREVSCR = 0xFFFFFF01,
+	
+} TGUI_BTNACTIONS;
 
 typedef struct
 {
@@ -148,7 +159,7 @@ typedef struct
 
 	struct {
 		paintfunc		_callpaint;	// repaint screen
-		processfunc		_callprocess;	// screen process handling (check for changes, touch pressed, etc)
+		processfunc		_process;	// screen process handling (check for changes, touch pressed, etc)
 	} funcs;
 } TGUI_SCREEN;
 
@@ -159,9 +170,9 @@ typedef struct
 #define	FNAME_BKGR_SERVICE		(char*)"scr_service.cimg"
 
 
-#define UIDBUFF_SIZE		4096*2
+#define UIDBUFF_SIZE		4096
 extern uint8_t 			tguiDBuff[UIDBUFF_SIZE];
-#define UIFBUFF_SIZE		UIDBUFF_SIZE/4
+#define UIFBUFF_SIZE		512
 extern uint8_t 			tguiFBuff[UIFBUFF_SIZE];
 
 extern FIL				tguiFile @ "CCMRAM";
@@ -171,12 +182,18 @@ extern TCHAR			tfname[512] @ "CCMRAM";
 extern TGUI_CONFIG		tguiDefaultConfig;
 
 #define		TGUI_BTN_CNT_MAINSCREEN			3
-extern TGUI_BUTTON		tguiMainScrButtons[TGUI_BTN_CNT_MAINSCREEN];
+extern TGUI_BUTTON		tguiScrButtonsMain[TGUI_BTN_CNT_MAINSCREEN];
 extern TGUI_SCREEN		tguiScreenMain;
+
+#define		TGUI_BTN_CNT_SERVICESCREEN		4
+extern TGUI_BUTTON		tguiScrButtonsService[TGUI_BTN_CNT_SERVICESCREEN];
+extern TGUI_SCREEN		tguiScreenService;
 
 
 extern TGUI_SCREEN		*tguiActiveScreen;
 
+
+uint8_t		TGUI_PointInRect(TOUCH_POINT *pt, TGUI_RECT *rc);
 
 
 void		TGUI_Init();

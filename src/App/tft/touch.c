@@ -92,7 +92,7 @@ void		_touch_RefreshState()
 		case TS_PREPRESSED:
 			if (TOUCH_PRESSED())
 			{
-				if (touch_info.time > 6)
+				if (touch_info.time > 1)
 					touch_info.state = TS_SPRESSED;
 				else
 					touch_info.time++;
@@ -106,7 +106,7 @@ void		_touch_RefreshState()
 		case TS_SPRESSED:
 			if (TOUCH_PRESSED())
 			{
-				if (touch_info.time > 150)
+				if (touch_info.time > 50)
 				{
 					touch_info.state = TS_LPRESSED;
 				}

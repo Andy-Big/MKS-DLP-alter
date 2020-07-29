@@ -3,6 +3,8 @@
 
 
 
+#define	FW_VERSION			(unsigned short)0x0001
+
 
 
 #include <stdio.h>

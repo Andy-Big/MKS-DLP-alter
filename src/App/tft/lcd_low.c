@@ -216,6 +216,14 @@ void		LCD_WriteRAM_DMA(uint16_t *buff, uint16_t len)
 
 
 
+void		LCD_WaitDMAReady()
+{
+	while (HAL_DMA_GetState(&hLcdDma) != HAL_DMA_STATE_READY);
+}
+
+
+
+
 void		LCD_ReadRAM_Prepare(void)
 {
 		LCD_WriteCmd(0x002E);

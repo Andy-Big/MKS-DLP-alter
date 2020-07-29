@@ -53,6 +53,8 @@ extern TOUCH_INFO				touchInfo;
 TOUCH_POINT						touchCoord;
 TOUCH_STATES					touchState;
 
+uint8_t							tguiTimer;
+
 uint8_t							srvMode;
 	
 
@@ -82,6 +84,8 @@ int main()
 	SYSTIMER_Init();
 	GPIO_Init();
 
+	tguiTimer = SYSTIMER_NewCountDown(0);
+	
 	// LCD init
 	LCD_Initializtion();
 	LCDUI_Init();
@@ -131,7 +135,7 @@ int main()
 	{
 		LCDUI_SetColor(COLOR_GREEN);
 		LCDUI_DrawTextUTF((char*)"> Service mode\n");
-
+/*
 		LCDUI_DrawTextUTF((char*)"> Formating internal filesystem...\n");
 		f_mount(NULL,  SpiflPath, 1);
 		if (f_mkfs(SpiflPath, 0, fbuff, sizeof(fbuff)) != FR_OK)
@@ -150,11 +154,15 @@ int main()
 		{
 			LCDUI_DrawTextUTF((char*)"> Internal filesystem mounted succes\n");
 		}
+*/
 	}
 	else
 	{
 		// Draw initial logo
 		TGUI_DrawLogo();
+		sprintf(msg, "v %d.%02d", (FW_VERSION >> 8) & 0xFF, FW_VERSION & 0xFF);
+		LCDUI_SetColor(LCDUI_RGB(0x808080));
+		LCDUI_DrawText(msg, LCDUI_TEXT_TRANSBACK, 410, 290);
 	}
 	// Clear CCRAM
 	uint32_t	*ccr = (uint32_t*)0x10000000;
@@ -293,13 +301,17 @@ int main()
 		TGUI_ForceRepaint();
 	}
 	
+	SYSTIMER_SetCountDown(tguiTimer, 60);
+
 	while(1)
 	{
-		if ((touchState = Touch_GetState()) != TS_FREE)
+		// ------------------ Service mode -------------------
+		if (!srvMode)
 		{
-			if (touchState == TS_SRELEASED || touchState == TS_LRELEASED)
+			if (SYSTIMER_GetCountDown(tguiTimer) == 0)
 			{
-				Touch_SetState(TS_WORKED);
+				SYSTIMER_SetCountDown(tguiTimer, 60);
+				TGUI_Process();
 			}
 		}
 		USB_HOST_Process();
