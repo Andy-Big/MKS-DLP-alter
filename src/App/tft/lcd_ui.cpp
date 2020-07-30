@@ -653,7 +653,7 @@ uint32_t	LCDUI_GetTextWidthUTF(char *str)
 		c =  UTF8toANSI(str+i);
 		if (c > 31)
 			res += _lcdui_GetCharWidth(c);
-		if (str[i] < 80)
+		if (str[i] < 0x80)
 			i++;
 		else
 			i += 2;

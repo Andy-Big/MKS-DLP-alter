@@ -7,6 +7,7 @@
 #include "lcd_ui.h"
 #include "fatfs.h"
 #include "touch.h"
+#include "languages.h"
 
 
 
@@ -168,6 +169,7 @@ typedef struct
 #define	FNAME_LOGO				(char*)"logo.cimg"
 #define	FNAME_BKGR_MAIN			(char*)"scr_main.cimg"
 #define	FNAME_BKGR_SERVICE		(char*)"scr_service.cimg"
+#define	FNAME_BKGR_LANGUAGE		(char*)"scr_language.cimg"
 
 
 #define UIDBUFF_SIZE		4096
@@ -189,6 +191,10 @@ extern TGUI_SCREEN		tguiScreenMain;
 extern TGUI_BUTTON		tguiScrButtonsService[TGUI_BTN_CNT_SERVICESCREEN];
 extern TGUI_SCREEN		tguiScreenService;
 
+#define		TGUI_BTN_CNT_LANGUAGESCREEN		LNG_LANGS_COUNT + 1
+extern TGUI_BUTTON		tguiScrButtonsLanguage[TGUI_BTN_CNT_LANGUAGESCREEN];
+extern TGUI_SCREEN		tguiScreenLanguage;
+
 
 extern TGUI_SCREEN		*tguiActiveScreen;
 
@@ -197,6 +203,7 @@ uint8_t		TGUI_PointInRect(TOUCH_POINT *pt, TGUI_RECT *rc);
 
 
 void		TGUI_Init();
+void		TGUI_ChangeLanguage(uint8_t lang);
 void		TGUI_DrawLogo();
 // Forced repaint current screen
 void		TGUI_ForceRepaint();

@@ -81,10 +81,19 @@ int main()
 	HAL_Init();
 	SystemClock_Config();
 	SCB->VTOR = FLASH_BASE | 0x10000;
-	SYSTIMER_Init();
+
 	GPIO_Init();
 
+	// FatFS init
+	FATFS_Init();
+	// Touch interface init
+	Touch_Init();
+	Touch_Enable();
+
+	SYSTIMER_Init();
+
 	tguiTimer = SYSTIMER_NewCountDown(0);
+	LANG_SetLanguage(0);
 	
 	// LCD init
 	LCD_Initializtion();
@@ -95,11 +104,6 @@ int main()
 	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_2);
 	// SPI flash logic init
 	SPIFL_Init();
-	// FatFS init
-	FATFS_Init();
-	// Touch interface init
-	Touch_Init();
-	Touch_Enable();
 	_touch_ReadCoords();
 	_touch_ReadCoords();
 
@@ -353,6 +357,7 @@ int main()
 										if (
 												(strcmp(cfname, FNAME_LOGO) == 0 && finfo.fsize < 320000) 
 											|| (strcmp(cfname, FNAME_BKGR_MAIN) == 0 && finfo.fsize < 320000)
+											|| (strcmp(cfname, FNAME_BKGR_LANGUAGE) == 0 && finfo.fsize < 320000)
 											|| (strcmp(cfname, FNAME_BKGR_SERVICE) == 0 && finfo.fsize < 320000)
 												)
 										{
