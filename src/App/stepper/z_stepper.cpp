@@ -506,25 +506,28 @@ void Stepper::StepperHandler() {
 }
 
 
-void Stepper::init() {
+void Stepper::init()
+{
 
-  // Init Dir Pins
+	// Init Dir Pins
 
-   zEndstops.init();
+	zEndstops.init();
 
 
 	// step pin
-    HAL_GPIO_WritePin(Z_STEP_GPIO_Port, Z_STEP_Pin, (GPIO_PinState)0);
+	HAL_GPIO_WritePin(Z_STEP_GPIO_Port, Z_STEP_Pin, (GPIO_PinState)0);
 	// enable pin
-    HAL_GPIO_WritePin(Z_ENA_GPIO_Port, Z_ENA_Pin, (GPIO_PinState)1);
+	HAL_GPIO_WritePin(Z_ENA_GPIO_Port, Z_ENA_Pin, (GPIO_PinState)1);
 
-	
+
 	ENABLE_STEPPER_DRIVER_INTERRUPT();
 
-  zEndstops.enable(true); // Start with endstops active. After homing they can be disabled
-  sei();
+	zEndstops.enable(true); // Start with endstops active. After homing they can be disabled
+	sei();
 
-  set_directions(); // Init directions to last_direction_bits = 0
+	set_directions(); // Init directions to last_direction_bits = 0
+
+	count_position = 0;
 }
 
 

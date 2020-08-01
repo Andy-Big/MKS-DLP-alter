@@ -238,12 +238,9 @@ class Stepper
 		__INLINE static void		trapezoid_generator_reset()
 		{
 			
-			static int8_t last_extruder = -1;
-			
-			if (current_block->direction_bits != last_direction_bits || current_block->active_extruder != last_extruder)
+			if (current_block->direction_bits != last_direction_bits)
 			{
 				last_direction_bits = current_block->direction_bits;
-				last_extruder = current_block->active_extruder;
 				set_directions();
 			}
 			

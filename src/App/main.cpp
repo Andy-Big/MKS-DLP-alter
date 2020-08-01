@@ -35,6 +35,7 @@
 #include "motor.h"
 #include "config.h"
 
+#include "z_stepper.h"
 
 
 #define	SDIR_IMAGES			(char*)"alterupd\\images"
@@ -187,7 +188,16 @@ int main()
 	ZMOTOR_Init();
 	
 	ZMOTOR_MotorEnable();
-	HAL_Delay(1);
+	zmotorState.is_printing = 1;
+	ZMOTOR_MoveAbsolute(3, 1);
+	zStepper.synchronize();
+	ZMOTOR_MoveAbsolute(0, 1);
+	zStepper.synchronize();
+	HAL_Delay(2000);
+	ZMOTOR_MoveAbsolute(3, 1);
+	zmotorState.is_printing = 0;
+	ZMOTOR_MoveAbsolute(50, 5);
+	zStepper.synchronize();
 	ZMOTOR_MotorDisable();
 	
 	

@@ -9,6 +9,7 @@
 
 
 
+MOTOR_STATE			zmotorState;
 
 
 
@@ -55,6 +56,7 @@ void		_zmotor_Pins_Init()
 
 void		ZMOTOR_Init()
 {
+	memset(&zmotorState, 0, sizeof(MOTOR_STATE));
 	
 	_zmotor_Pins_Init();
 
@@ -70,6 +72,7 @@ void		ZMOTOR_Init()
 
 	
 	zPlanner.init();
+	zPlanner.refresh_positioning();
 	zStepper.init();
 
 	// Z motor reference voltage out PWM
@@ -105,6 +108,23 @@ void			ZMOTOR_MotorEnable()
 void			ZMOTOR_MotorDisable()
 {
 	HAL_GPIO_WritePin(Z_ENA_GPIO_Port, Z_ENA_Pin, (GPIO_PinState)1);
+}
+//==============================================================================
+
+
+
+
+void			ZMOTOR_MoveRelative(float dist, float speed)
+{
+}
+//==============================================================================
+
+
+
+
+void			ZMOTOR_MoveAbsolute(float pos, float speed)
+{
+	zPlanner.buffer_segment(pos, speed);
 }
 //==============================================================================
 

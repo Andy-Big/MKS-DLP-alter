@@ -129,8 +129,6 @@ typedef struct
 
 	uint8_t flag;                             // Block flags (See BlockFlag enum above)
 
-	unsigned char active_extruder;            // The extruder to move (if E move)
-
 	// Fields used by the Bresenham algorithm for tracing the line
 	int32_t steps;                  // Step count along each axis
 	uint32_t step_event_count;                // The number of step events required to complete this block
@@ -195,7 +193,6 @@ class Planner
 				 max_jerk,       // The largest speed change requiring no acceleration
 				 min_travel_feedrate_mm_s;
 
-	  static volatile bool is_printing;
 
 	private:
 

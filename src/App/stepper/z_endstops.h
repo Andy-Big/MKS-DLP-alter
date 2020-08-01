@@ -42,6 +42,7 @@ extern Endstops			zEndstops;
 
 
 enum EndstopEnum {
+  Z_EMPTY,
   Z_MIN,
   Z_MAX
 };
