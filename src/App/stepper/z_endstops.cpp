@@ -78,7 +78,7 @@ void Endstops::update() {
   {
     if (zStepper.motor_direction())
 	{ // Z -direction. Gantry down, bed up.
-       __SET_BIT(current_endstop_bits, Z_MIN, (HAL_GPIO_ReadPin(Z_MIN_GPIO_Port, Z_MIN_Pin)) != cfgzMotor.z_min_endstop_inverting);
+       __SET_BIT(current_endstop_bits, Z_MIN, (HAL_GPIO_ReadPin(Z_MIN_GPIO_Port, Z_MIN_Pin) != cfgzMotor.z_min_endstop_inverting));
       if (TEST_ENDSTOP(Z_MIN) && zStepper.current_block->steps > 0)
 	  {
         SBI(endstop_hit_bits, Z_MIN);
@@ -88,7 +88,7 @@ void Endstops::update() {
     }
     else
 	{ // Z +direction. Gantry up, bed down.
-       __SET_BIT(current_endstop_bits, Z_MAX, (HAL_GPIO_ReadPin(Z_MAX_GPIO_Port, Z_MAX_Pin)) != cfgzMotor.z_max_endstop_inverting);
+       __SET_BIT(current_endstop_bits, Z_MAX, (HAL_GPIO_ReadPin(Z_MAX_GPIO_Port, Z_MAX_Pin) != cfgzMotor.z_max_endstop_inverting));
       if (TEST_ENDSTOP(Z_MAX) && zStepper.current_block->steps > 0)
 	  {
         SBI(endstop_hit_bits, Z_MAX);

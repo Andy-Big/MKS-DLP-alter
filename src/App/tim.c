@@ -30,7 +30,7 @@ void TIM_ZStepper_Init(void)
 	TIM_MasterConfigTypeDef sMasterConfig = {0};
 
 	hStepperTim.Instance = TIM2;
-	hStepperTim.Init.Prescaler = 41;
+	hStepperTim.Init.Prescaler = 105;
 	hStepperTim.Init.CounterMode = TIM_COUNTERMODE_UP;
 	hStepperTim.Init.Period = 1000;
 	hStepperTim.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;

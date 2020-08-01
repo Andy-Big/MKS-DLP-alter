@@ -188,15 +188,26 @@ int main()
 	ZMOTOR_Init();
 	
 	ZMOTOR_MotorEnable();
-	zmotorState.is_printing = 1;
-	ZMOTOR_MoveAbsolute(3, 1);
+	systemState.is_printing = 1;
+	HAL_Delay(500);
+	for (uint16_t i = 0; i < 100; i++)
+	{
+		systemState.is_printing = 1;
+		ZMOTOR_MoveAbsolute(3, 10);
+		zStepper.synchronize();
+		HAL_Delay(300);
+		systemState.is_printing = 1;
+		ZMOTOR_MoveAbsolute(0, 10);
+		zStepper.synchronize();
+		HAL_Delay(2000);
+	}
 	zStepper.synchronize();
-	ZMOTOR_MoveAbsolute(0, 1);
-	zStepper.synchronize();
+
 	HAL_Delay(2000);
 	ZMOTOR_MoveAbsolute(3, 1);
-	zmotorState.is_printing = 0;
-	ZMOTOR_MoveAbsolute(50, 5);
+	
+	systemState.is_printing = 0;
+	ZMOTOR_MoveAbsolute(40, 5);
 	zStepper.synchronize();
 	ZMOTOR_MotorDisable();
 	

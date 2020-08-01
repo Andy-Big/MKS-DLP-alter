@@ -77,8 +77,8 @@
 #define F_CPU()						168000000
 #define BLOCK_BUFFER_SIZE			16 // maximize block buffer
 #define MAX_STEP_FREQUENCY			40000 // Max step frequency for Ultimaker (5000 pps / half step)
-#define MINIMUM_PLANNER_SPEED		0.05 // (mm/sec)
-#define MIN_STEPS_PER_SEGMENT		6
+#define MINIMUM_PLANNER_SPEED		0.01 // (mm/sec)
+#define MIN_STEPS_PER_SEGMENT		4
 
 
 class Planner;
@@ -188,7 +188,6 @@ class Planner
 	static uint32_t min_segment_time_us; // Use 'M205 B<µs>' to override
 	static float min_feedrate_mm_s,
 				 acceleration,         // Normal acceleration mm/s^2  DEFAULT ACCELERATION for all printing moves. M204 SXXXX
-				 retract_acceleration, // Retract acceleration mm/s^2 filament pull-back and push-forward while standing still in the other axes M204 TXXXX
 				 travel_acceleration,  // Travel acceleration mm/s^2  DEFAULT ACCELERATION for all NON printing moves. M204 MXXXX
 				 max_jerk,       // The largest speed change requiring no acceleration
 				 min_travel_feedrate_mm_s;

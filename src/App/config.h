@@ -47,21 +47,30 @@ typedef struct
 	float			max_feedrate_mm_s;
 	unsigned long	max_acceleration_mm_per_s2;
 	float			acceleration;
-	float			retract_acceleration;
 	float			travel_acceleration;
 	float			min_feedrate_mm_s;
 	float			min_travel_feedrate_mm_s;
 	float			max_jerk;
 	float			current_vref;
 
-} CFGZ_STRUCT;
+} MOTOR_CONFIG;
+
+
+
+typedef struct
+{
+	float			current_position;
+	float			target_position;
+	uint8_t			is_printing;
+	uint8_t			position_known;
+
+} SYSTEM_STATE;
 
 
 
 
-
-
-extern CFGZ_STRUCT		cfgzMotor;
+extern SYSTEM_STATE			systemState;
+extern MOTOR_CONFIG			cfgzMotor;
 
 
 

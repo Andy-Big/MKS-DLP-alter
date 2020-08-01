@@ -69,7 +69,6 @@ Planner::max_acceleration_mm_per_s2; // Use M201 to override by software
 // Initialized by settings.load()
 float Planner::min_feedrate_mm_s,
 Planner::acceleration,         // Normal acceleration mm/s^2  DEFAULT ACCELERATION for all printing moves. M204 SXXXX
-Planner::retract_acceleration, // Retract acceleration mm/s^2 filament pull-back and push-forward while standing still in the other axes M204 TXXXX
 Planner::travel_acceleration,  // Travel acceleration mm/s^2  DEFAULT ACCELERATION for all NON printing moves. M204 MXXXX
 Planner::max_jerk,       // The largest speed change requiring no acceleration
 Planner::min_travel_feedrate_mm_s;
@@ -441,7 +440,7 @@ void Planner::_buffer_steps(const int32_t target, float fr_mm_s)
 	if (block->steps)
 		HAL_GPIO_WritePin(Z_ENA_GPIO_Port, Z_ENA_Pin, (GPIO_PinState)0);
 		
-	if (zmotorState.is_printing)
+	if (systemState.is_printing)
 		NOLESS(fr_mm_s, min_feedrate_mm_s);
 	else
 		NOLESS(fr_mm_s, min_travel_feedrate_mm_s);
@@ -498,12 +497,12 @@ void Planner::_buffer_steps(const int32_t target, float fr_mm_s)
 	if (!block->steps)
 	{
 		// convert to: acceleration steps/sec^2
-		accel = (int32_t)CEIL((zmotorState.is_printing ? acceleration : travel_acceleration) * steps_per_mm);
+		accel = (int32_t)CEIL((systemState.is_printing ? acceleration : travel_acceleration) * steps_per_mm);
 	}
 	else
 	{
 		// Start with print or travel acceleration
-		accel = (int32_t)CEIL((zmotorState.is_printing ? acceleration : travel_acceleration) * steps_per_mm);
+		accel = (int32_t)CEIL((systemState.is_printing ? acceleration : travel_acceleration) * steps_per_mm);
 		
 		// Limit acceleration per axis
 		if (block->step_event_count <= cutoff_long)
@@ -749,7 +748,7 @@ void Planner::reset_acceleration_rates()
 void Planner::refresh_positioning()
 {
 	steps_to_mm = 1.0 / axis_steps_per_mm;
-	_set_position_mm(zmotorState.current_position);
+	_set_position_mm(systemState.current_position);
 	reset_acceleration_rates();
 }
 

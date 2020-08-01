@@ -3,21 +3,8 @@
 
 #include "includes.h"
 #include "main.h"
-#include "config.h"
 
 
-
-
-typedef struct
-{
-	float			current_position;
-	uint8_t			is_printing;
-} MOTOR_STATE;
-
-
-
-
-extern MOTOR_STATE		zmotorState;
 
 
 void		_zmotor_Pins_Init();

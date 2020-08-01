@@ -1,6 +1,7 @@
 
 #include "motor.h"
 
+#include "config.h"
 #include "z_planner.h"
 #include "z_endstops.h"
 #include "z_stepper.h"
@@ -9,7 +10,6 @@
 
 
 
-MOTOR_STATE			zmotorState;
 
 
 
@@ -56,17 +56,14 @@ void		_zmotor_Pins_Init()
 
 void		ZMOTOR_Init()
 {
-	memset(&zmotorState, 0, sizeof(MOTOR_STATE));
-	
 	_zmotor_Pins_Init();
 
-	zPlanner.axis_steps_per_mm = 		cfgzMotor.axis_steps_per_mm;
-	zPlanner.max_feedrate_mm_s = 		cfgzMotor.max_feedrate_mm_s;
+	zPlanner.axis_steps_per_mm = 			cfgzMotor.axis_steps_per_mm;
+	zPlanner.max_feedrate_mm_s = 			cfgzMotor.max_feedrate_mm_s;
 	zPlanner.max_acceleration_mm_per_s2 =	cfgzMotor.max_acceleration_mm_per_s2;
 	zPlanner.acceleration = 				cfgzMotor.acceleration;
-	zPlanner.retract_acceleration = 		cfgzMotor.retract_acceleration;
-	zPlanner.travel_acceleration = 		cfgzMotor.travel_acceleration;
-	zPlanner.min_feedrate_mm_s = 		cfgzMotor.min_feedrate_mm_s;
+	zPlanner.travel_acceleration = 			cfgzMotor.travel_acceleration;
+	zPlanner.min_feedrate_mm_s = 			cfgzMotor.min_feedrate_mm_s;
 	zPlanner.min_travel_feedrate_mm_s = 	cfgzMotor.min_travel_feedrate_mm_s;
 	zPlanner.max_jerk = 					cfgzMotor.max_jerk;
 

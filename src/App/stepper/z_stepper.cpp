@@ -333,7 +333,7 @@ void Stepper::StepperHandler() {
   for (uint8_t i = step_loops; i--;)
   {
 
-    #define _INVERT_STEP_PIN(AXIS) INVERT_## AXIS ##_STEP_PIN
+//    #define _INVERT_STEP_PIN(AXIS) INVERT_## AXIS ##_STEP_PIN
 
 
 
@@ -349,19 +349,7 @@ void Stepper::StepperHandler() {
      * Delays under 20 cycles (1.25µs) will be very accurate, using NOPs.
      * Longer delays use a loop. The resolution is 8 cycles.
      */
-/*
-    #define _CYCLE_APPROX_1 0
-    #define _CYCLE_APPROX_2 _CYCLE_APPROX_1
-    #define _CYCLE_APPROX_3 _CYCLE_APPROX_2
-    #define _CYCLE_APPROX_4 _CYCLE_APPROX_3
-    #define _CYCLE_APPROX_5 _CYCLE_APPROX_4
-    #define _CYCLE_APPROX_6 _CYCLE_APPROX_5
-    #define _CYCLE_APPROX_7 _CYCLE_APPROX_6 + 5
-
-    #define CYCLES_EATEN_XYZE _CYCLE_APPROX_7
-*/
-    #define CYCLES_EATEN_XYZE 5
-    #define EXTRA_CYCLES_XYZE (STEP_PULSE_CYCLES - (CYCLES_EATEN_XYZE))
+    #define EXTRA_CYCLES_XYZE	1
 
     /**
      * If a minimum pulse time was specified get the timer 0 value.
@@ -371,9 +359,6 @@ void Stepper::StepperHandler() {
      * 20 counts of TCNT0 -by itself- is a good pulse delay.
      * 10µs = 160 or 200 cycles.
      */
-    #if EXTRA_CYCLES_XYZE > 20
-      uint32_t pulse_start = TCNT0;
-    #endif
 
      // Advance the Bresenham counter; start a pulse if the axis needs a step
      counter_Z += current_block->steps;
@@ -383,12 +368,7 @@ void Stepper::StepperHandler() {
 	  }
 
     // For minimum pulse time wait before stopping pulses
-    #if EXTRA_CYCLES_XYZE > 20
-      while (EXTRA_CYCLES_XYZE > (uint32_t)(TCNT0 - pulse_start) * (INT0_PRESCALER)) { /* nada */ }
-      pulse_start = TCNT0;
-    #elif EXTRA_CYCLES_XYZE > 0
       DELAY_NOPS(EXTRA_CYCLES_XYZE);
-    #endif
 
     // Stop an active pulse, reset the Bresenham counter, update the position
     if (counter_Z > 0)
@@ -406,16 +386,14 @@ void Stepper::StepperHandler() {
     }
 
     // For minimum pulse time wait after stopping pulses also
-    #if EXTRA_CYCLES_XYZE > 20
-      if (i) while (EXTRA_CYCLES_XYZE > (uint32_t)(TCNT0 - pulse_start) * (INT0_PRESCALER)) { /* nada */ }
-    #elif EXTRA_CYCLES_XYZE > 0
-      if (i) DELAY_NOPS(EXTRA_CYCLES_XYZE);
-    #endif
+      if (i)
+		  DELAY_NOPS(EXTRA_CYCLES_XYZE);
 
   } // steps_loop
 
   // Calculate new timer value
-  if (step_events_completed <= (uint32_t)current_block->accelerate_until) {
+  if (step_events_completed <= (uint32_t)current_block->accelerate_until)
+  {
 
     MultiU24X32toH16(acc_step_rate, acceleration_time, current_block->acceleration_rate);
     acc_step_rate += current_block->initial_rate;
@@ -442,7 +420,8 @@ void Stepper::StepperHandler() {
     acceleration_time += interval;
 
   }
-  else if (step_events_completed > (uint32_t)current_block->decelerate_after) {
+  else if (step_events_completed > (uint32_t)current_block->decelerate_after)
+  {
     uint16_t step_rate;
     MultiU24X32toH16(step_rate, deceleration_time, current_block->acceleration_rate);
 
@@ -473,7 +452,8 @@ void Stepper::StepperHandler() {
     deceleration_time += interval;
 
   }
-  else {
+  else
+  {
 
     ocr_val = (uint16_t)OCR1A_nominal;
     if (ENDSTOPS_ENABLED && OCR1A_nominal > ENDSTOP_NOMINAL_OCR_VAL)
@@ -579,7 +559,8 @@ void Stepper::set_position_imm(const long v)
 /**
  * Get a stepper's position in steps.
  */
-long Stepper::position() {
+long Stepper::position()
+{
   CRITICAL_SECTION_START;
   const long count_pos = count_position;
   CRITICAL_SECTION_END;
@@ -590,19 +571,22 @@ long Stepper::position() {
  * Get an axis position according to stepper position(s)
  * For CORE machines apply translation from ABC to XYZ.
  */
-float Stepper::get_axis_position_mm() {
+float Stepper::get_axis_position_mm()
+{
   float axis_steps;
     axis_steps = position();
   return axis_steps * planner.steps_to_mm;
 }
 
-void Stepper::finish_and_disable() {
+void Stepper::finish_and_disable()
+{
   synchronize();
   	// enable pin
     HAL_GPIO_WritePin(Z_ENA_GPIO_Port, Z_ENA_Pin, (GPIO_PinState)1);
 }
 
-void Stepper::quick_stop() {
+void Stepper::quick_stop()
+{
   cleaning_buffer_counter = 5000;
   DISABLE_STEPPER_DRIVER_INTERRUPT();
   while (planner.blocks_queued())
@@ -611,7 +595,8 @@ void Stepper::quick_stop() {
   ENABLE_STEPPER_DRIVER_INTERRUPT();
 }
 
-void Stepper::endstop_triggered() {
+void Stepper::endstop_triggered()
+{
 
   endstops_trigsteps = count_position;
 

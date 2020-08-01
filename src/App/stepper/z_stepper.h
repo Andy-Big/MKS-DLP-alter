@@ -54,6 +54,19 @@ class Stepper;
 extern Stepper		zStepper;
 
 
+#define DELAY_NOPS(X) \
+  switch (X) { \
+    case 20: asm("nop\n\t"); case 19: asm("nop\n\t"); \
+    case 18: asm("nop\n\t"); case 17: asm("nop\n\t"); \
+    case 16: asm("nop\n\t"); case 15: asm("nop\n\t"); \
+    case 14: asm("nop\n\t"); case 13: asm("nop\n\t"); \
+    case 12: asm("nop\n\t"); case 11: asm("nop\n\t"); \
+    case 10: asm("nop\n\t"); case 9:  asm("nop\n\t"); \
+    case 8:  asm("nop\n\t"); case 7:  asm("nop\n\t"); \
+    case 6:  asm("nop\n\t"); case 5:  asm("nop\n\t"); \
+    case 4:  asm("nop\n\t"); case 3:  asm("nop\n\t"); \
+    case 2:  asm("nop\n\t"); case 1:  asm("nop\n\t"); \
+  }
 
 #define ENABLE_STEPPER_DRIVER_INTERRUPT()   HAL_TIM_Base_Start_IT(&hStepperTim)
 #define DISABLE_STEPPER_DRIVER_INTERRUPT() 	HAL_TIM_Base_Stop_IT(&hStepperTim)

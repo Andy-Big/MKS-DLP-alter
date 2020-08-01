@@ -5,7 +5,8 @@
 
 
 
-CFGZ_STRUCT			cfgzMotor;
+MOTOR_CONFIG			cfgzMotor;
+SYSTEM_STATE			systemState;
 
 
 
@@ -17,7 +18,8 @@ CFGZ_STRUCT			cfgzMotor;
 
 void			CFG_Init()
 {
-	memset(&cfgzMotor, 0, sizeof(CFGZ_STRUCT));
+	memset(&cfgzMotor, 0, sizeof(MOTOR_CONFIG));
+	memset(&systemState, 0, sizeof(SYSTEM_STATE));
 
 	cfgzMotor.invert_z_dir = 1;
 	cfgzMotor.z_home_dir = -1;
@@ -31,15 +33,14 @@ void			CFG_Init()
 	cfgzMotor.z_pause_pos = 5.0;
 	
 	cfgzMotor.axis_steps_per_mm = 1600;
-	cfgzMotor.max_feedrate_mm_s = 15;
-	cfgzMotor.max_acceleration_mm_per_s2 = 10;
-	cfgzMotor.acceleration = 1;
-	cfgzMotor.retract_acceleration = 3;
-	cfgzMotor.travel_acceleration = 10;
+	cfgzMotor.max_feedrate_mm_s = 40;
+	cfgzMotor.max_acceleration_mm_per_s2 = 40;
+	cfgzMotor.acceleration = 4;
+	cfgzMotor.travel_acceleration = 30;
 	cfgzMotor.min_feedrate_mm_s = 0.01;
-	cfgzMotor.min_travel_feedrate_mm_s = 0.05;
-	cfgzMotor.max_jerk = 0.01;
-	cfgzMotor.current_vref = 600;
+	cfgzMotor.min_travel_feedrate_mm_s = 0.01;
+	cfgzMotor.max_jerk = 0.05;
+	cfgzMotor.current_vref = 300;
 }
 //==============================================================================
 
