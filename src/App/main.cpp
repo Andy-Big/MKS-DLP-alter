@@ -23,6 +23,7 @@
 #include "gpio.h"
 #include "fsmc.h"
 #include "usbh_platform.h"
+#include "tim.h"
 
 #include "lcd_low.h"
 #include "touch.h"
@@ -31,6 +32,8 @@
 #include "unicode_utils.h"
 #include "spi_flash.h"
 #include "tgui.h"
+#include "motor.h"
+#include "config.h"
 
 
 
@@ -177,10 +180,19 @@ int main()
 	}
 		
 	RTC_Init();
+	RTC_Enable(&hRTC);
+
+	// ZMotor
+	CFG_Init();
+	ZMOTOR_Init();
+	
+	ZMOTOR_MotorEnable();
+	HAL_Delay(1);
+	ZMOTOR_MotorDisable();
+	
+	
 	// Disable USB power line
 	USB_HOST_VbusFS(1);
-
-	RTC_Enable(&hRTC);
 
 	USB_HOST_Init();
 	Appli_state_old = Appli_state;
@@ -358,6 +370,7 @@ int main()
 												(strcmp(cfname, FNAME_LOGO) == 0 && finfo.fsize < 320000) 
 											|| (strcmp(cfname, FNAME_BKGR_MAIN) == 0 && finfo.fsize < 320000)
 											|| (strcmp(cfname, FNAME_BKGR_LANGUAGE) == 0 && finfo.fsize < 320000)
+											|| (strcmp(cfname, FNAME_BKGR_INFO) == 0 && finfo.fsize < 320000)
 											|| (strcmp(cfname, FNAME_BKGR_SERVICE) == 0 && finfo.fsize < 320000)
 												)
 										{

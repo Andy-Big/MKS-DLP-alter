@@ -14,3 +14,9 @@ Using IAR 8.32 with ST HAL library.
 
 23.07.2020
 - Added images for splash, main and service screens. I'm a designer like a sumo ballerina, so it sucks. But I can't get it any better :(
+
+30.07.2020
+- Completed the basic user interface
+- The output of background images is optimized
+- Added multilanguage support
+- Laid the foundation for a new bootloader

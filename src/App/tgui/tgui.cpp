@@ -7,6 +7,7 @@
 #include "tgui.h"
 #include "tgui_defaultfuncs.h"
 #include "tgui_langscreenfuncs.h"
+#include "tgui_infoscreenfuncs.h"
 
 __no_init uint8_t 		tguiDBuff[UIDBUFF_SIZE];
 __no_init uint8_t		tguiFBuff[UIFBUFF_SIZE];
@@ -24,6 +25,8 @@ TGUI_SCREEN		tguiScreenService;
 TGUI_BUTTON		tguiScrButtonsLanguage[TGUI_BTN_CNT_LANGUAGESCREEN];
 TGUI_SCREEN		tguiScreenLanguage;
 
+TGUI_BUTTON		tguiScrButtonsInfo[TGUI_BTN_CNT_INFOSCREEN];
+TGUI_SCREEN		tguiScreenInfo;
 
 TGUI_SCREEN		*tguiActiveScreen;
 
@@ -120,6 +123,10 @@ void		TGUI_Init()
 	tgb->text = LANG_GetString(LNGS_INFO);
 	tgb->textposition = {320, 188, 460, 247};
 
+	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
+
+	tgb->childscreen = (void*)&tguiScreenInfo;
+
 	// SERVICE button
 	tgb = &(tguiScrButtonsMain[2]);
 	memcpy((void*)tgb, (void*)(&tguiScrButtonsMain[0]), sizeof(TGUI_BUTTON));
@@ -212,33 +219,6 @@ void		TGUI_Init()
 	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
 
 	tgb->childscreen = &tguiScreenLanguage;
-/*
-	// MOVE.Z button
-	tgb = &(tguiScrButtonsService[2]);
-	memcpy((void*)tgb, (void*)(tguiScrButtonsService[0]), sizeof(TGUI_BUTTON));
-	
-	tgb->position = {15, 185, 235, 250};
-
-	tgb->text = (char*)"ДВИГ. Z";
-	tgb->textposition = {85, 188, 230, 247};
-	
-	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
-
-	tgb->childscreen = NULL;
-
-	// INFO button
-	tgb = &(tguiScrButtonsService[3]);
-	memcpy((void*)tgb, (void*)(tguiScrButtonsService[0]), sizeof(TGUI_BUTTON));
-	
-	tgb->position = {15, 185, 235, 250};
-
-	tgb->text = (char*)"ИНФО";
-	tgb->textposition = {85, 188, 230, 247};
-	
-	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
-
-	tgb->childscreen = NULL;
-*/
 	
 	
 	// SERVICE SCREEN
@@ -246,9 +226,9 @@ void		TGUI_Init()
 	memset((void*)tgs, 0, sizeof(TGUI_SCREEN));
 	
 	tgs->bgimagename = FNAME_BKGR_SERVICE;
-	tgs->prevscreen = NULL;
+	tgs->prevscreen = &tguiScreenMain;
 
-	tgs->name = LANG_GetString(LNGS_SERVICE);
+	tgs->name = LANG_GetString(LNGS_INFO);
 	tgs->nameposition = {205, 3, 475, 30};
 	tgs->nameoptions.textalign_h = HTA_CENTER;
 	tgs->nameoptions.textalign_v = VTA_CENTER;
@@ -277,14 +257,14 @@ void		TGUI_Init()
 		tgb = &(tguiScrButtonsLanguage[i]);
 		memset((void*)tgb, 0, sizeof(TGUI_BUTTON));
 		
-		tgb->position = {25, 65 + (i * 50), 455, 110 + (i * 50)};
+		tgb->position = {25, (uint16_t)(65 + (i * 50)), 455, (uint16_t)(110 + (i * 50))};
 
 		tgb->bgimagename_en = NULL;
 		tgb->bgimagename_press = NULL;
 		tgb->bgimagename_dis = NULL;
 
 		tgb->text = LANG_GetLanguageName(i);
-		tgb->textposition = {55, 67 + (i * 50), 425, 108 + (i * 50)};
+		tgb->textposition = {55, (uint16_t)(67 + (i * 50)), 425, (uint16_t)(108 + (i * 50))};
 		tgb->font = tgc->btnfont;
 
 		tgb->textcolor_en = tgc->btntextcolor_en;
@@ -295,7 +275,7 @@ void		TGUI_Init()
 		tgb->backcolor_dis = tgc->btnbackcolor_dis;
 		
 		tgb->options.disabled = 0;
-		tgb->options.bgpaint = BGP_FILL;
+		tgb->options.bgpaint = BGP_NONE;
 		tgb->options.repaintonpress = 1;
 		
 		tgb->textoptions.textalign_h = HTA_CENTER;
@@ -347,7 +327,7 @@ void		TGUI_Init()
 	memset((void*)tgs, 0, sizeof(TGUI_SCREEN));
 	
 	tgs->bgimagename = FNAME_BKGR_LANGUAGE;
-	tgs->prevscreen = NULL;
+	tgs->prevscreen = &tguiScreenService;
 
 	tgs->name = LANG_GetString(LNGS_LANGUAGE);
 	tgs->nameposition = {205, 3, 475, 30};
@@ -365,6 +345,158 @@ void		TGUI_Init()
 
 	tgs->funcs._callpaint = _tgui_DefaultScreenPaint;
 	tgs->funcs._process = _tgui_LanguageScreenProcess;
+	
+}
+
+
+
+	// -------------------- Info Screen elements -----------------------
+{
+	// BACK button
+	tgb = &(tguiScrButtonsInfo[0]);
+	memset((void*)tgb, 0, sizeof(TGUI_BUTTON));
+	
+	tgb->position = {4, 4, 167, 49};
+
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->text = LANG_GetString(LNGS_BACK);
+	tgb->textposition = {54, 6, 165, 47};
+	tgb->font = tgc->btnfont;
+	tgb->textcolor_en = LCDUI_RGB(0x074B19);
+	tgb->textcolor_press = tgc->btntextcolor_press;
+	tgb->textcolor_dis = tgc->btntextcolor_dis;
+	tgb->backcolor_en = tgc->btnbackcolor_en;
+	tgb->backcolor_press = tgc->btnbackcolor_press;
+	tgb->backcolor_dis = tgc->btnbackcolor_dis;
+	
+	tgb->options.disabled = 0;
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.repaintonpress = 1;
+	
+	tgb->textoptions.textalign_h = HTA_CENTER;
+	tgb->textoptions.textalign_v = VTA_CENTER;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = (pressfunc)BTNA_GOPREVSCR;
+
+	tgb->parentscreen = &tguiScreenInfo;
+	tgb->childscreen = NULL;
+
+	
+	
+	// VERSION_TEXT button
+	tgb = &(tguiScrButtonsInfo[1]);
+	memset((void*)tgb, 0, sizeof(TGUI_BUTTON));
+	
+	tgb->position = {25, 65, 320, 109};
+
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->text = LANG_GetString(LNGS_VERSION);
+	tgb->textposition = {35, 65, 320, 109};
+	tgb->font = LCDUI_FONT_H24;
+	tgb->textcolor_en = LCDUI_RGB(0x00272E);
+	tgb->textcolor_press = tgc->btntextcolor_press;
+	tgb->textcolor_dis = tgc->btntextcolor_dis;
+	tgb->backcolor_en = tgc->btnbackcolor_en;
+	tgb->backcolor_press = tgc->btnbackcolor_press;
+	tgb->backcolor_dis = tgc->btnbackcolor_dis;
+	
+	tgb->options.disabled = 0;
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.repaintonpress = 0;
+	
+	tgb->textoptions.textalign_h = HTA_LEFT;
+	tgb->textoptions.textalign_v = VTA_CENTER;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = NULL;
+
+	tgb->parentscreen = &tguiScreenInfo;
+	tgb->childscreen = NULL;
+
+	// LIGHTTIME_TEXT button
+	tgb = &(tguiScrButtonsInfo[2]);
+	memcpy((void*)tgb, &(tguiScrButtonsInfo[1]), sizeof(TGUI_BUTTON));
+	
+	tgb->position = {25, 110, 320, 154};
+
+	tgb->text = LANG_GetString(LNGS_LIGHTTIME);
+	tgb->textposition = {35, 110, 320, 154};
+
+	// FANSTIME_TEXT button
+	tgb = &(tguiScrButtonsInfo[3]);
+	memcpy((void*)tgb, &(tguiScrButtonsInfo[1]), sizeof(TGUI_BUTTON));
+	
+	tgb->position = {25, 155, 320, 199};
+
+	tgb->text = LANG_GetString(LNGS_FANSTIME);
+	tgb->textposition = {35, 155, 320, 199};
+
+	// VERSION_VAL button
+	tgb = &(tguiScrButtonsInfo[4]);
+	memcpy((void*)tgb, &(tguiScrButtonsInfo[1]), sizeof(TGUI_BUTTON));
+	
+	tgb->position = {320, 65, 444, 109};
+
+	tgb->text = (char*)"v ";
+	tgb->textposition = {320, 65, 444, 109};
+	tgb->textoptions.textalign_h = HTA_RIGHT;
+
+	tgb->funcs._call_paint = _tgui_InfoScreenVersionPaint;
+
+	// LIGHTTIME_VAL button
+	tgb = &(tguiScrButtonsInfo[5]);
+	memcpy((void*)tgb, &(tguiScrButtonsInfo[4]), sizeof(TGUI_BUTTON));
+	
+	tgb->position = {320, 110, 444, 154};
+
+	tgb->text = LANG_GetString(LNGS_SHORTHOUR);
+	tgb->textposition = {320, 110, 444, 154};
+
+	tgb->funcs._call_paint = _tgui_InfoScreenLightTimePaint;
+
+	// FANSTIME_VAL button
+	tgb = &(tguiScrButtonsInfo[6]);
+	memcpy((void*)tgb, &(tguiScrButtonsInfo[4]), sizeof(TGUI_BUTTON));
+	
+	tgb->position = {320, 155, 444, 199};
+
+	tgb->text = LANG_GetString(LNGS_SHORTHOUR);
+	tgb->textposition = {320, 155, 444, 199};
+
+	tgb->funcs._call_paint = _tgui_InfoScreenFansTimePaint;
+
+	
+	
+	// INFO SCREEN
+	tgs = &tguiScreenInfo;
+	memset((void*)tgs, 0, sizeof(TGUI_SCREEN));
+	
+	tgs->bgimagename = FNAME_BKGR_INFO;
+	tgs->prevscreen = &tguiScreenMain;
+
+	tgs->name = LANG_GetString(LNGS_INFO);
+	tgs->nameposition = {205, 3, 475, 30};
+	tgs->nameoptions.textalign_h = HTA_CENTER;
+	tgs->nameoptions.textalign_v = VTA_CENTER;
+
+	tgs->btns_count = TGUI_BTN_CNT_INFOSCREEN;
+	tgs->buttons = tguiScrButtonsInfo;
+
+	tgs->font = tgc->scrfont;
+	tgs->namefont = tgc->scrnamefont;
+	tgs->textcolor = tgc->scrtextcolor;
+	tgs->nametextcolor = tgc->scrnametextcolor;
+	tgs->backcolor = tgc->scrbackcolor;
+
+	tgs->funcs._callpaint = _tgui_DefaultScreenPaint;
+	tgs->funcs._process = _tgui_DefaultScreenProcess;
 	
 }
 
@@ -433,7 +565,43 @@ void		TGUI_ChangeLanguage(uint8_t lang)
 	
 	// LANGUAGE SCREEN
 	tgs = &tguiScreenLanguage;
-	tgs->name = LANG_GetString(LNGS_SERVICE);
+	tgs->name = LANG_GetString(LNGS_LANGUAGE);
+	
+}
+
+
+
+	// -------------------- Info Screen elements -----------------------
+{
+	// BACK button
+	tgb = &(tguiScrButtonsInfo[0]);
+	tgb->text = LANG_GetString(LNGS_BACK);
+
+	// VERSION_TEXT button
+	tgb = &(tguiScrButtonsInfo[1]);
+	tgb->text = LANG_GetString(LNGS_VERSION);
+
+	// LIGHTTIME_TEXT button
+	tgb = &(tguiScrButtonsInfo[2]);
+	tgb->text = LANG_GetString(LNGS_LIGHTTIME);
+
+	// FANSTIME_TEXT button
+	tgb = &(tguiScrButtonsInfo[3]);
+	tgb->text = LANG_GetString(LNGS_FANSTIME);
+
+	// LIGHTTIME_VAL button
+	tgb = &(tguiScrButtonsInfo[5]);
+	tgb->text = LANG_GetString(LNGS_SHORTHOUR);
+
+	// FANSTIME_VAL button
+	tgb = &(tguiScrButtonsInfo[6]);
+	tgb->text = LANG_GetString(LNGS_SHORTHOUR);
+
+	
+	
+	// INFO SCREEN
+	tgs = &tguiScreenInfo;
+	tgs->name = LANG_GetString(LNGS_INFO);
 	
 }
 

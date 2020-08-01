@@ -591,9 +591,6 @@ closeexit:
 void		_tgui_DefaultButtonPaint(void *tguiobj, void *param)
 {
 	TGUI_BUTTON		*thisbtn = (TGUI_BUTTON*)tguiobj;
-//	if (thisbtn->options.repaintonpress == BGP_NONE)
-//		return;
-
 	
 	uint16_t oldcolor = LCDUI_SetColor(thisbtn->backcolor_en);
 	uint16_t oldbackcolor = LCDUI_SetBackColor(thisbtn->backcolor_en);

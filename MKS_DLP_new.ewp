@@ -1278,6 +1278,7 @@
                     <state>USE_HAL_DRIVER</state>
                     <state>STM32F407xx</state>
                     <state>USE_HAL_SPI_REGISTER_CALLBACKS=1U</state>
+                    <state>MKS_DLP_BOARD</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -1405,6 +1406,7 @@
                     <state>$PROJ_DIR$/src/App</state>
                     <state>$PROJ_DIR$/src/App/tft</state>
                     <state>$PROJ_DIR$/src/App/tgui</state>
+                    <state>$PROJ_DIR$/src/App/stepper</state>
                     <state>$PROJ_DIR$/src/FATFS/Target</state>
                     <state>$PROJ_DIR$/src/FATFS/App</state>
                     <state>$PROJ_DIR$/src/USB_HOST/App</state>
@@ -2131,6 +2133,12 @@
     <group>
         <name>Application</name>
         <group>
+            <name>CONFIG</name>
+            <file>
+                <name>$PROJ_DIR$\src\App\config.cpp</name>
+            </file>
+        </group>
+        <group>
             <name>FATFS</name>
             <group>
                 <name>App</name>
@@ -2188,12 +2196,63 @@
             </file>
         </group>
         <group>
+            <name>STEPPER</name>
+            <group>
+                <name>_orig</name>
+                <file>
+                    <name>$PROJ_DIR$\src\App\stepper\_planner.cpp</name>
+                    <excluded>
+                        <configuration>MKSDLP_Alter_debug</configuration>
+                    </excluded>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\src\App\stepper\_stepper.cpp</name>
+                    <excluded>
+                        <configuration>MKSDLP_Alter_debug</configuration>
+                    </excluded>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\src\App\stepper\endstops.cpp</name>
+                    <excluded>
+                        <configuration>MKSDLP_Alter_debug</configuration>
+                    </excluded>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\src\App\stepper\planner.cpp</name>
+                    <excluded>
+                        <configuration>MKSDLP_Alter_debug</configuration>
+                    </excluded>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\src\App\stepper\stepper.cpp</name>
+                    <excluded>
+                        <configuration>MKSDLP_Alter_debug</configuration>
+                    </excluded>
+                </file>
+            </group>
+            <file>
+                <name>$PROJ_DIR$\src\App\stepper\motor.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\stepper\z_endstops.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\stepper\z_planner.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\stepper\z_stepper.cpp</name>
+            </file>
+        </group>
+        <group>
             <name>TIMERS</name>
             <file>
                 <name>$PROJ_DIR$\src\App\rtc.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\sys_timer.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tim.c</name>
             </file>
         </group>
         <group>
@@ -2206,6 +2265,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_defaultfuncs.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_infoscreenfuncs.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_langscreenfuncs.cpp</name>
@@ -2230,6 +2292,12 @@
             <name>$PROJ_DIR$\config\stm32f407xx_flash.icf</name>
             <excluded>
                 <configuration>MKSDLP_Alter_release</configuration>
+                <configuration>MKSDLP_Alter_debug</configuration>
+            </excluded>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\src\System\stm32f4xx_hal_conf.h</name>
+            <excluded>
                 <configuration>MKSDLP_Alter_debug</configuration>
             </excluded>
         </file>

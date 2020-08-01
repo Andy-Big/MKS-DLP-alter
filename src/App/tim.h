@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : RTC.h
+  * File Name          : TIM.h
   * Description        : This file provides code for the configuration
-  *                      of the RTC instances.
+  *                      of the TIM instances.
   ******************************************************************************
   * @attention
   *
@@ -16,35 +16,29 @@
   *
   ******************************************************************************
   */
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __rtc_H
-#define __rtc_H
+#ifndef __tim_H
+#define __tim_H
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
 
 #include "main.h"
 
 
-#define RTC_REG_CLOCKVALID		0x00
-#define RTC_REG_FWREADY			0x01
+extern TIM_HandleTypeDef	hStepperTim;
+extern TIM_HandleTypeDef	hZRefTim;
 
 
 
-extern RTC_HandleTypeDef hRTC;
+void TIM_ZStepper_Init(void);
+void TIM_ZRef_Init(void);
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 
-
-void		RTC_Init(void);
-void		RTC_Enable(RTC_HandleTypeDef* rtcHandle);
-void		RTC_Disable(RTC_HandleTypeDef* rtcHandle);
-void		RTC_BKUPWrite(uint32_t BackupRegister, uint32_t Data);
-uint32_t	RTC_BKUPRead(uint32_t BackupRegister);
 
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ rtc_H */
-
+#endif /*__ tim_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

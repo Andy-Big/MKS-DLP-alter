@@ -20,11 +20,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "rtc.h"
 
-/* USER CODE BEGIN 0 */
 
-/* USER CODE END 0 */
 
 RTC_HandleTypeDef hRTC;
+
+
 
 /* RTC init function */
 void RTC_Init(void)
@@ -41,36 +41,36 @@ void RTC_Init(void)
 	hRTC.Init.OutPut = RTC_OUTPUT_DISABLE;
 	hRTC.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
 	hRTC.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
-	if (HAL_RTC_Init(&hRTC) != HAL_OK)
+	
+	if ((RTC->DR & 0x00FF0000) == 0)
 	{
-		Error_Handler();
+	
+		if (HAL_RTC_Init(&hRTC) != HAL_OK)
+		{
+			Error_Handler();
+		}
+
+		/** Initialize RTC and set the Time and Date 
+		*/
+		sTime.Hours = 18;
+		sTime.Minutes = 0;
+		sTime.Seconds = 0;
+		sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+		sTime.StoreOperation = RTC_STOREOPERATION_RESET;
+		if (HAL_RTC_SetTime(&hRTC, &sTime, RTC_FORMAT_BIN) != HAL_OK)
+		{
+			Error_Handler();
+		}
+		sDate.WeekDay = RTC_WEEKDAY_MONDAY;
+		sDate.Month = RTC_MONTH_JULY;
+		sDate.Date = 20;
+		sDate.Year = 21;
+
+		if (HAL_RTC_SetDate(&hRTC, &sDate, RTC_FORMAT_BIN) != HAL_OK)
+		{
+			Error_Handler();
+		}
 	}
-
-	/* USER CODE BEGIN Check_RTC_BKUP */
-
-	/* USER CODE END Check_RTC_BKUP */
-
-	/** Initialize RTC and set the Time and Date 
-	*/
-	sTime.Hours = 0x18;
-	sTime.Minutes = 0x0;
-	sTime.Seconds = 0x0;
-	sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
-	sTime.StoreOperation = RTC_STOREOPERATION_RESET;
-	if (HAL_RTC_SetTime(&hRTC, &sTime, RTC_FORMAT_BCD) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	sDate.WeekDay = RTC_WEEKDAY_MONDAY;
-	sDate.Month = RTC_MONTH_JULY;
-	sDate.Date = 20;
-	sDate.Year = 20;
-
-	if (HAL_RTC_SetDate(&hRTC, &sDate, RTC_FORMAT_BCD) != HAL_OK)
-	{
-		Error_Handler();
-	}
-
 }
 
 void RTC_Enable(RTC_HandleTypeDef* rtcHandle)
@@ -78,14 +78,8 @@ void RTC_Enable(RTC_HandleTypeDef* rtcHandle)
 
   if(rtcHandle->Instance==RTC)
   {
-  /* USER CODE BEGIN RTC_MspInit 0 */
-
-  /* USER CODE END RTC_MspInit 0 */
     /* RTC clock enable */
     __HAL_RCC_RTC_ENABLE();
-  /* USER CODE BEGIN RTC_MspInit 1 */
-
-  /* USER CODE END RTC_MspInit 1 */
   }
 }
 
@@ -94,19 +88,30 @@ void RTC_Disable(RTC_HandleTypeDef* rtcHandle)
 
   if(rtcHandle->Instance==RTC)
   {
-  /* USER CODE BEGIN RTC_MspDeInit 0 */
-
-  /* USER CODE END RTC_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_RTC_DISABLE();
-  /* USER CODE BEGIN RTC_MspDeInit 1 */
-
-  /* USER CODE END RTC_MspDeInit 1 */
   }
 } 
 
-/* USER CODE BEGIN 1 */
+void RTC_BKUPWrite(uint32_t BackupRegister, uint32_t Data)
+{
+  uint32_t tmp = 0U;
 
-/* USER CODE END 1 */
+  tmp = (uint32_t)&(RTC->BKP0R);
+  tmp += (BackupRegister * 4U);
+
+  *(__IO uint32_t *)tmp = (uint32_t)Data;
+}
+
+uint32_t RTC_BKUPRead(uint32_t BackupRegister)
+{
+  uint32_t tmp = 0U;
+
+  tmp = (uint32_t)&(RTC->BKP0R);
+  tmp += (BackupRegister * 4U);
+
+  return (*(__IO uint32_t *)tmp);
+}
+
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

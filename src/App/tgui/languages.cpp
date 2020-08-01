@@ -15,6 +15,10 @@ LNG_STRINGS		lngLangEng[_LNGS_LASTITEM] = {
 		{ LNGS_NOVEMBER, (char*)"Nov" },
 		{ LNGS_DECEMBER, (char*)"Dec" },
 	
+		{ LNGS_SHORTHOUR,(char*)"h" },
+		{ LNGS_SHORTMINUTE,(char*)"min" },
+		{ LNGS_SHORTSECOND,(char*)"sec" },
+
 		{ LNGS_BACK, (char*)"Back" },
 		{ LNGS_MAINMENU, (char*)"Main menu" },
 		{ LNGS_PRINT, (char*)"Print" },
@@ -23,6 +27,9 @@ LNG_STRINGS		lngLangEng[_LNGS_LASTITEM] = {
 		{ LNGS_LANGUAGE, (char*)"Language" },
 		{ LNGS_MOVEZ, (char*)"Move Z" },
 		{ LNGS_LIGHTTEST, (char*)"Test" },
+		{ LNGS_VERSION,(char*)"Version" },
+		{ LNGS_LIGHTTIME,(char*)"Light time" },
+		{ LNGS_FANSTIME,(char*)"Fans time" },
 		
 	};
 
@@ -40,6 +47,10 @@ LNG_STRINGS		lngLangRus[_LNGS_LASTITEM] = {
 		{ LNGS_NOVEMBER, (char*)"Ноя" },
 		{ LNGS_DECEMBER, (char*)"Дек" },
 	
+		{ LNGS_SHORTHOUR,(char*)"ч" },
+		{ LNGS_SHORTMINUTE,(char*)"мин" },
+		{ LNGS_SHORTSECOND,(char*)"сек" },
+
 		{ LNGS_BACK, (char*)"Назад" },
 		{ LNGS_MAINMENU, (char*)"Главное меню" },
 		{ LNGS_PRINT, (char*)"Печать" },
@@ -48,6 +59,9 @@ LNG_STRINGS		lngLangRus[_LNGS_LASTITEM] = {
 		{ LNGS_LANGUAGE, (char*)"Язык" },
 		{ LNGS_MOVEZ, (char*)"Двиг. Z" },
 		{ LNGS_LIGHTTEST, (char*)"Тест" },
+		{ LNGS_VERSION,(char*)"Версия" },
+		{ LNGS_LIGHTTIME,(char*)"Время засветки" },
+		{ LNGS_FANSTIME,(char*)"Время вентиляторов" },
 		
 	};
 

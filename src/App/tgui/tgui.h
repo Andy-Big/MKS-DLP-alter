@@ -170,6 +170,7 @@ typedef struct
 #define	FNAME_BKGR_MAIN			(char*)"scr_main.cimg"
 #define	FNAME_BKGR_SERVICE		(char*)"scr_service.cimg"
 #define	FNAME_BKGR_LANGUAGE		(char*)"scr_language.cimg"
+#define	FNAME_BKGR_INFO			(char*)"scr_info.cimg"
 
 
 #define UIDBUFF_SIZE		4096
@@ -194,6 +195,10 @@ extern TGUI_SCREEN		tguiScreenService;
 #define		TGUI_BTN_CNT_LANGUAGESCREEN		LNG_LANGS_COUNT + 1
 extern TGUI_BUTTON		tguiScrButtonsLanguage[TGUI_BTN_CNT_LANGUAGESCREEN];
 extern TGUI_SCREEN		tguiScreenLanguage;
+
+#define		TGUI_BTN_CNT_INFOSCREEN			7
+extern TGUI_BUTTON		tguiScrButtonsInfo[TGUI_BTN_CNT_INFOSCREEN];
+extern TGUI_SCREEN		tguiScreenInfo;
 
 
 extern TGUI_SCREEN		*tguiActiveScreen;

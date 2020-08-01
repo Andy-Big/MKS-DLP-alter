@@ -9,6 +9,14 @@
         <encoding>UTF-8</encoding>
     </override>
     <override>
+        <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\stepper\stepper.cpp</path>
+        <encoding>UTF-8</encoding>
+    </override>
+    <override>
+        <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\stepper\stepper.h</path>
+        <encoding>UTF-8</encoding>
+    </override>
+    <override>
         <path>D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\src\App\tft\fonts\fnt12.c</path>
         <encoding>Win-1251</encoding>
     </override>

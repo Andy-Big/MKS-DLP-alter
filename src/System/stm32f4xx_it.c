@@ -33,6 +33,10 @@ extern DMA_HandleTypeDef	hLcdDma;
 extern DMA_HandleTypeDef	hFlashSpiDmaRx;
 extern DMA_HandleTypeDef	hFlashSpiDmaTx;
 
+extern TIM_HandleTypeDef	hStepperTim;
+
+extern void 				IsrStepperHandler();
+//extern void (*IsrStepperHandler)();
 
 /******************************************************************************/
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */ 
@@ -167,5 +171,15 @@ void DMA2_Stream5_IRQHandler(void)
 {
   HAL_DMA_IRQHandler(&hFlashSpiDmaTx);
 }
+
+/**
+  * @brief This function handles TIM2 global interrupt.
+  */
+void TIM2_IRQHandler(void)
+{
+	IsrStepperHandler();
+	HAL_TIM_IRQHandler(&hStepperTim);
+}
+
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
