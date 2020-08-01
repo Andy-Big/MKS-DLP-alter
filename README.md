@@ -20,3 +20,6 @@ Using IAR 8.32 with ST HAL library.
 - The output of background images is optimized
 - Added multilanguage support
 - Laid the foundation for a new bootloader
+
+01.08.2020
+- Fully started the stepper motor. The procedures for working with it are taken from Marlin 1.1.8. All unnecessary was completely cut out, only work with one axis was left. Two classes are used - the scheduler (planner.cpp) and directly working with the motor (stepper.cpp).
