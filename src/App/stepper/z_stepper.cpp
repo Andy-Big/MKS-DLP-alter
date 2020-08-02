@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -38,110 +38,13 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Grbl.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/* The timer calculations of this module informed by the 'RepRap cartesian firmware' by Zack Smith
-   and Philipp Tiefenbacher. */
-
-#include "z_stepper.h"
-#include "z_endstops.h"
-#include "z_planner.h"
-#include "config.h"
-
-
-
-
-
-
-
-extern Stepper		zStepper;
-
-
-
-// public:
-
-block_t* Stepper::current_block = NULL;  // A pointer to the block currently being traced
-
-uint8_t Stepper::last_direction_bits = 0;        // The next stepping-bits to be output
-int16_t Stepper::cleaning_buffer_counter = 0;
-
-long Stepper::counter_Z = 0;
-
-volatile uint32_t Stepper::step_events_completed = 0; // The number of step events executed in the current block
-
-long Stepper::acceleration_time, Stepper::deceleration_time;
-
-volatile long Stepper::count_position = 0;
-volatile signed char Stepper::count_direction = 1;
-
-uint8_t Stepper::step_loops, Stepper::step_loops_nominal;
-
-uint16_t Stepper::OCR1A_nominal,
-         Stepper::acc_step_rate; // needed for deceleration start point
-
-volatile long Stepper::endstops_trigsteps;
-
-
-// intRes = longIn1 * longIn2 >> 24
-// uses:
-// r26 to store 0
-// r27 to store bits 16-23 of the 48bit result. The top bit is used to round the two byte result.
-// note that the lower two bytes and the upper byte of the 48bit result are not calculated.
-// this can cause the result to be out by one as the lower bytes may cause carries into the upper ones.
-// B0 A0 are bits 24-39 and are the returned value
-// C1 B1 A1 is longIn1
-// D2 C2 B2 A2 is longIn2
-//
-#define MultiU24X32toH16(intRes, longIn1, longIn2)  intRes = (uint16_t)((((uint64_t)longIn1 * (uint64_t)longIn2)>> 24)& 0XFFFF);
-/*
-#define MultiU24X32toH16(intRes, longIn1, longIn2) \
-  asm volatile ( \
-                 "clr r26 \n\t" \
-                 "mul %A1, %B2 \n\t" \
-                 "mov r27, r1 \n\t" \
-                 "mul %B1, %C2 \n\t" \
-                 "movw %A0, r0 \n\t" \
-                 "mul %C1, %C2 \n\t" \
-                 "add %B0, r0 \n\t" \
-                 "mul %C1, %B2 \n\t" \
-                 "add %A0, r0 \n\t" \
-                 "adc %B0, r1 \n\t" \
-                 "mul %A1, %C2 \n\t" \
-                 "add r27, r0 \n\t" \
-                 "adc %A0, r1 \n\t" \
-                 "adc %B0, r26 \n\t" \
-                 "mul %B1, %B2 \n\t" \
-                 "add r27, r0 \n\t" \
-                 "adc %A0, r1 \n\t" \
-                 "adc %B0, r26 \n\t" \
-                 "mul %C1, %A2 \n\t" \
-                 "add r27, r0 \n\t" \
-                 "adc %A0, r1 \n\t" \
-                 "adc %B0, r26 \n\t" \
-                 "mul %B1, %A2 \n\t" \
-                 "add r27, r1 \n\t" \
-                 "adc %A0, r26 \n\t" \
-                 "adc %B0, r26 \n\t" \
-                 "lsr r27 \n\t" \
-                 "adc %A0, r26 \n\t" \
-                 "adc %B0, r26 \n\t" \
-                 "mul %D2, %A1 \n\t" \
-                 "add %A0, r0 \n\t" \
-                 "adc %B0, r1 \n\t" \
-                 "mul %D2, %B1 \n\t" \
-                 "add %B0, r0 \n\t" \
-                 "clr r1 \n\t" \
-                 : \
-                 "=&r" (intRes) \
-                 : \
-                 "d" (longIn1), \
-                 "d" (longIn2) \
-                 : \
-                 "r26" , "r27" \
-               )
-*/
-// Some useful constants
+/**
+ * Timer calculations informed by the 'RepRap cartesian firmware' by Zack Smith
+ * and Philipp Tiefenbacher.
+ */
 
 /**
  *         __________________________
@@ -161,13 +64,29 @@ volatile long Stepper::endstops_trigsteps;
  *  The slope of acceleration is calculated using v = u + at where t is the accumulated timer values of the steps so far.
  */
 
+/**
+ * Marlin uses the Bresenham algorithm. For a detailed explanation of theory and
+ * method see https://www.cs.helsinki.fi/group/goa/mallinnus/lines/bresenh.html
+ */
+
+/**
+ * Jerk controlled movements planner added Apr 2018 by Eduardo José Tagle.
+ * Equations based on Synthethos TinyG2 sources, but the fixed-point
+ * implementation is new, as we are running the ISR with a variable period.
+ * Also implemented the Bézier velocity curve evaluation in ARM assembler,
+ * to avoid impacting ISR speed.
+ */
+
+#include "z_stepper.h"
+#include "z_endstops.h"
+#include "z_planner.h"
+#include "config.h"
+#include "motor.h"
 
 
 
 
-void	idle()
-{
-}
+extern Stepper		zStepper;
 
 
 
@@ -175,12 +94,90 @@ void	idle()
 
 
 
+// private:
 
-void Stepper::wake_up()
-{
-  // hStepperTim.Instance->CNT = 0;
-  ENABLE_STEPPER_DRIVER_INTERRUPT();
-}
+block_t* Stepper::current_block; // (= nullptr) A pointer to the block currently being traced
+
+uint8_t Stepper::last_direction_bits, // = 0
+        Stepper::axis_did_move; // = 0
+
+bool Stepper::abort_current_block;
+
+
+uint32_t Stepper::acceleration_time, Stepper::deceleration_time;
+uint8_t Stepper::steps_per_isr;
+
+
+int32_t Stepper::delta_error;
+
+uint32_t Stepper::advance_dividend;
+uint32_t Stepper::advance_divisor = 0,
+         Stepper::step_events_completed = 0, // The number of step events executed in the current block
+         Stepper::accelerate_until,          // The count at which to stop accelerating
+         Stepper::decelerate_after,          // The count at which to start decelerating
+         Stepper::step_event_count;          // The total event count for the current block
+/*
+#ifdef S_CURVE_ACCELERATION
+  int32_t __attribute__((used)) Stepper::bezier_A asm("bezier_A");    // A coefficient in Bézier speed curve with alias for assembler
+  int32_t __attribute__((used)) Stepper::bezier_B asm("bezier_B");    // B coefficient in Bézier speed curve with alias for assembler
+  int32_t __attribute__((used)) Stepper::bezier_C asm("bezier_C");    // C coefficient in Bézier speed curve with alias for assembler
+  uint32_t __attribute__((used)) Stepper::bezier_F asm("bezier_F");   // F coefficient in Bézier speed curve with alias for assembler
+  uint32_t __attribute__((used)) Stepper::bezier_AV asm("bezier_AV"); // AV coefficient in Bézier speed curve with alias for assembler
+  bool Stepper::bezier_2nd_half;    // =false If Bézier curve has been initialized or not
+#endif
+*/
+#ifdef S_CURVE_ACCELERATION
+  int32_t Stepper::bezier_A;    // A coefficient in Bézier speed curve with alias for assembler
+  int32_t Stepper::bezier_B;    // B coefficient in Bézier speed curve with alias for assembler
+  int32_t Stepper::bezier_C;    // C coefficient in Bézier speed curve with alias for assembler
+  uint32_t Stepper::bezier_F;   // F coefficient in Bézier speed curve with alias for assembler
+  uint32_t Stepper::bezier_AV; // AV coefficient in Bézier speed curve with alias for assembler
+  bool Stepper::bezier_2nd_half;    // =false If Bézier curve has been initialized or not
+#endif
+
+int32_t Stepper::ticks_nominal = -1;
+#ifndef S_CURVE_ACCELERATION
+  uint32_t Stepper::acc_step_rate; // needed for deceleration start point
+#endif
+
+int32_t Stepper::endstops_trigsteps;
+int32_t Stepper::count_position{0};
+int8_t Stepper::count_direction{0};
+
+  #define Z_APPLY_DIR(v,Q) Z_DIR_WRITE(v)
+  #define Z_APPLY_STEP(v,Q) Z_STEP_WRITE(v)
+
+
+#define CYCLES_TO_NS(CYC) (1000UL * (CYC) / ((F_CPU) / 1000000))
+#define NS_PER_PULSE_TIMER_TICK (1000000000UL / (STEPPER_TIMER_RATE))
+
+// Round up when converting from ns to timer ticks
+#define NS_TO_PULSE_TIMER_TICKS(NS) (((NS) + (NS_PER_PULSE_TIMER_TICK) / 2) / (NS_PER_PULSE_TIMER_TICK))
+
+#define TIMER_SETUP_NS (CYCLES_TO_NS(TIMER_READ_ADD_AND_STORE_CYCLES))
+
+#define PULSE_HIGH_TICK_COUNT uint32_t(NS_TO_PULSE_TIMER_TICKS(_MIN_PULSE_HIGH_NS - _MIN(_MIN_PULSE_HIGH_NS, TIMER_SETUP_NS)))
+#define PULSE_LOW_TICK_COUNT uint32_t(NS_TO_PULSE_TIMER_TICKS(_MIN_PULSE_LOW_NS - _MIN(_MIN_PULSE_LOW_NS, TIMER_SETUP_NS)))
+
+#define USING_TIMED_PULSE() uint32_t start_pulse_count = 0
+#define START_TIMED_PULSE(DIR) (start_pulse_count = __HAL_TIM_GET_COUNTER(&hStepperTim))
+#define AWAIT_TIMED_PULSE(DIR) while (PULSE_##DIR##_TICK_COUNT > __HAL_TIM_GET_COUNTER(&hStepperTim) - start_pulse_count) { }
+#define START_HIGH_PULSE()  START_TIMED_PULSE(HIGH)
+#define AWAIT_HIGH_PULSE()  AWAIT_TIMED_PULSE(HIGH)
+#define START_LOW_PULSE()   START_TIMED_PULSE(LOW)
+#define AWAIT_LOW_PULSE()   AWAIT_TIMED_PULSE(LOW)
+
+#if MINIMUM_STEPPER_PRE_DIR_DELAY > 0
+  #define DIR_WAIT_BEFORE() DELAY_NS(MINIMUM_STEPPER_PRE_DIR_DELAY)
+#else
+  #define DIR_WAIT_BEFORE()
+#endif
+
+#if MINIMUM_STEPPER_POST_DIR_DELAY > 0
+  #define DIR_WAIT_AFTER() DELAY_NS(MINIMUM_STEPPER_POST_DIR_DELAY)
+#else
+  #define DIR_WAIT_AFTER()
+#endif
 
 /**
  * Set the stepper direction of each axis
@@ -189,8 +186,9 @@ void Stepper::wake_up()
  *   COREXZ: X_AXIS=A_AXIS and Z_AXIS=C_AXIS
  *   COREYZ: Y_AXIS=B_AXIS and Z_AXIS=C_AXIS
  */
-void Stepper::set_directions()
-{
+void Stepper::set_directions() {
+
+  DIR_WAIT_BEFORE();
 
     if (motor_direction())
 	{
@@ -203,328 +201,692 @@ void Stepper::set_directions()
       count_direction = 1;
     }
 
+  DIR_WAIT_AFTER();
 }
+
+#ifdef S_CURVE_ACCELERATION
+  /**
+   *  This uses a quintic (fifth-degree) Bézier polynomial for the velocity curve, giving
+   *  a "linear pop" velocity curve; with pop being the sixth derivative of position:
+   *  velocity - 1st, acceleration - 2nd, jerk - 3rd, snap - 4th, crackle - 5th, pop - 6th
+   *
+   *  The Bézier curve takes the form:
+   *
+   *  V(t) = P_0 * B_0(t) + P_1 * B_1(t) + P_2 * B_2(t) + P_3 * B_3(t) + P_4 * B_4(t) + P_5 * B_5(t)
+   *
+   *  Where 0 <= t <= 1, and V(t) is the velocity. P_0 through P_5 are the control points, and B_0(t)
+   *  through B_5(t) are the Bernstein basis as follows:
+   *
+   *        B_0(t) =   (1-t)^5        =   -t^5 +  5t^4 - 10t^3 + 10t^2 -  5t   +   1
+   *        B_1(t) =  5(1-t)^4 * t    =   5t^5 - 20t^4 + 30t^3 - 20t^2 +  5t
+   *        B_2(t) = 10(1-t)^3 * t^2  = -10t^5 + 30t^4 - 30t^3 + 10t^2
+   *        B_3(t) = 10(1-t)^2 * t^3  =  10t^5 - 20t^4 + 10t^3
+   *        B_4(t) =  5(1-t)   * t^4  =  -5t^5 +  5t^4
+   *        B_5(t) =             t^5  =    t^5
+   *                                      ^       ^       ^       ^       ^       ^
+   *                                      |       |       |       |       |       |
+   *                                      A       B       C       D       E       F
+   *
+   *  Unfortunately, we cannot use forward-differencing to calculate each position through
+   *  the curve, as Marlin uses variable timer periods. So, we require a formula of the form:
+   *
+   *        V_f(t) = A*t^5 + B*t^4 + C*t^3 + D*t^2 + E*t + F
+   *
+   *  Looking at the above B_0(t) through B_5(t) expanded forms, if we take the coefficients of t^5
+   *  through t of the Bézier form of V(t), we can determine that:
+   *
+   *        A =    -P_0 +  5*P_1 - 10*P_2 + 10*P_3 -  5*P_4 +  P_5
+   *        B =   5*P_0 - 20*P_1 + 30*P_2 - 20*P_3 +  5*P_4
+   *        C = -10*P_0 + 30*P_1 - 30*P_2 + 10*P_3
+   *        D =  10*P_0 - 20*P_1 + 10*P_2
+   *        E = - 5*P_0 +  5*P_1
+   *        F =     P_0
+   *
+   *  Now, since we will (currently) *always* want the initial acceleration and jerk values to be 0,
+   *  We set P_i = P_0 = P_1 = P_2 (initial velocity), and P_t = P_3 = P_4 = P_5 (target velocity),
+   *  which, after simplification, resolves to:
+   *
+   *        A = - 6*P_i +  6*P_t =  6*(P_t - P_i)
+   *        B =  15*P_i - 15*P_t = 15*(P_i - P_t)
+   *        C = -10*P_i + 10*P_t = 10*(P_t - P_i)
+   *        D = 0
+   *        E = 0
+   *        F = P_i
+   *
+   *  As the t is evaluated in non uniform steps here, there is no other way rather than evaluating
+   *  the Bézier curve at each point:
+   *
+   *        V_f(t) = A*t^5 + B*t^4 + C*t^3 + F          [0 <= t <= 1]
+   *
+   * Floating point arithmetic execution time cost is prohibitive, so we will transform the math to
+   * use fixed point values to be able to evaluate it in realtime. Assuming a maximum of 250000 steps
+   * per second (driver pulses should at least be 2µS hi/2µS lo), and allocating 2 bits to avoid
+   * overflows on the evaluation of the Bézier curve, means we can use
+   *
+   *   t: unsigned Q0.32 (0 <= t < 1) |range 0 to 0xFFFFFFFF unsigned
+   *   A:   signed Q24.7 ,            |range = +/- 250000 * 6 * 128 = +/- 192000000 = 0x0B71B000 | 28 bits + sign
+   *   B:   signed Q24.7 ,            |range = +/- 250000 *15 * 128 = +/- 480000000 = 0x1C9C3800 | 29 bits + sign
+   *   C:   signed Q24.7 ,            |range = +/- 250000 *10 * 128 = +/- 320000000 = 0x1312D000 | 29 bits + sign
+   *   F:   signed Q24.7 ,            |range = +/- 250000     * 128 =      32000000 = 0x01E84800 | 25 bits + sign
+   *
+   * The trapezoid generator state contains the following information, that we will use to create and evaluate
+   * the Bézier curve:
+   *
+   *  blk->step_event_count [TS] = The total count of steps for this movement. (=distance)
+   *  blk->initial_rate     [VI] = The initial steps per second (=velocity)
+   *  blk->final_rate       [VF] = The ending steps per second  (=velocity)
+   *  and the count of events completed (step_events_completed) [CS] (=distance until now)
+   *
+   *  Note the abbreviations we use in the following formulae are between []s
+   *
+   *  For Any 32bit CPU:
+   *
+   *    At the start of each trapezoid, calculate the coefficients A,B,C,F and Advance [AV], as follows:
+   *
+   *      A =  6*128*(VF - VI) =  768*(VF - VI)
+   *      B = 15*128*(VI - VF) = 1920*(VI - VF)
+   *      C = 10*128*(VF - VI) = 1280*(VF - VI)
+   *      F =    128*VI        =  128*VI
+   *     AV = (1<<32)/TS      ~= 0xFFFFFFFF / TS (To use ARM UDIV, that is 32 bits) (this is computed at the planner, to offload expensive calculations from the ISR)
+   *
+   *    And for each point, evaluate the curve with the following sequence:
+   *
+   *      void lsrs(uint32_t& d, uint32_t s, int cnt) {
+   *        d = s >> cnt;
+   *      }
+   *      void lsls(uint32_t& d, uint32_t s, int cnt) {
+   *        d = s << cnt;
+   *      }
+   *      void lsrs(int32_t& d, uint32_t s, int cnt) {
+   *        d = uint32_t(s) >> cnt;
+   *      }
+   *      void lsls(int32_t& d, uint32_t s, int cnt) {
+   *        d = uint32_t(s) << cnt;
+   *      }
+   *      void umull(uint32_t& rlo, uint32_t& rhi, uint32_t op1, uint32_t op2) {
+   *        uint64_t res = uint64_t(op1) * op2;
+   *        rlo = uint32_t(res & 0xFFFFFFFF);
+   *        rhi = uint32_t((res >> 32) & 0xFFFFFFFF);
+   *      }
+   *      void smlal(int32_t& rlo, int32_t& rhi, int32_t op1, int32_t op2) {
+   *        int64_t mul = int64_t(op1) * op2;
+   *        int64_t s = int64_t(uint32_t(rlo) | ((uint64_t(uint32_t(rhi)) << 32U)));
+   *        mul += s;
+   *        rlo = int32_t(mul & 0xFFFFFFFF);
+   *        rhi = int32_t((mul >> 32) & 0xFFFFFFFF);
+   *      }
+   *      int32_t _eval_bezier_curve_arm(uint32_t curr_step) {
+   *        uint32_t flo = 0;
+   *        uint32_t fhi = bezier_AV * curr_step;
+   *        uint32_t t = fhi;
+   *        int32_t alo = bezier_F;
+   *        int32_t ahi = 0;
+   *        int32_t A = bezier_A;
+   *        int32_t B = bezier_B;
+   *        int32_t C = bezier_C;
+   *
+   *        lsrs(ahi, alo, 1);          // a  = F << 31
+   *        lsls(alo, alo, 31);         //
+   *        umull(flo, fhi, fhi, t);    // f *= t
+   *        umull(flo, fhi, fhi, t);    // f>>=32; f*=t
+   *        lsrs(flo, fhi, 1);          //
+   *        smlal(alo, ahi, flo, C);    // a+=(f>>33)*C
+   *        umull(flo, fhi, fhi, t);    // f>>=32; f*=t
+   *        lsrs(flo, fhi, 1);          //
+   *        smlal(alo, ahi, flo, B);    // a+=(f>>33)*B
+   *        umull(flo, fhi, fhi, t);    // f>>=32; f*=t
+   *        lsrs(flo, fhi, 1);          // f>>=33;
+   *        smlal(alo, ahi, flo, A);    // a+=(f>>33)*A;
+   *        lsrs(alo, ahi, 6);          // a>>=38
+   *
+   *        return alo;
+   *      }
+   *
+   *  This is rewritten in ARM assembly for optimal performance (43 cycles to execute).
+   *
+   *  For AVR, the precision of coefficients is scaled so the Bézier curve can be evaluated in real-time:
+   *  Let's reduce precision as much as possible. After some experimentation we found that:
+   *
+   *    Assume t and AV with 24 bits is enough
+   *       A =  6*(VF - VI)
+   *       B = 15*(VI - VF)
+   *       C = 10*(VF - VI)
+   *       F =     VI
+   *      AV = (1<<24)/TS   (this is computed at the planner, to offload expensive calculations from the ISR)
+   *
+   *    Instead of storing sign for each coefficient, we will store its absolute value,
+   *    and flag the sign of the A coefficient, so we can save to store the sign bit.
+   *    It always holds that sign(A) = - sign(B) = sign(C)
+   *
+   *     So, the resulting range of the coefficients are:
+   *
+   *       t: unsigned (0 <= t < 1) |range 0 to 0xFFFFFF unsigned
+   *       A:   signed Q24 , range = 250000 * 6 = 1500000 = 0x16E360 | 21 bits
+   *       B:   signed Q24 , range = 250000 *15 = 3750000 = 0x393870 | 22 bits
+   *       C:   signed Q24 , range = 250000 *10 = 2500000 = 0x1312D0 | 21 bits
+   *       F:   signed Q24 , range = 250000     =  250000 = 0x0ED090 | 20 bits
+   *
+   *    And for each curve, estimate its coefficients with:
+   *
+   *      void _calc_bezier_curve_coeffs(int32_t v0, int32_t v1, uint32_t av) {
+   *       // Calculate the Bézier coefficients
+   *       if (v1 < v0) {
+   *         A_negative = true;
+   *         bezier_A = 6 * (v0 - v1);
+   *         bezier_B = 15 * (v0 - v1);
+   *         bezier_C = 10 * (v0 - v1);
+   *       }
+   *       else {
+   *         A_negative = false;
+   *         bezier_A = 6 * (v1 - v0);
+   *         bezier_B = 15 * (v1 - v0);
+   *         bezier_C = 10 * (v1 - v0);
+   *       }
+   *       bezier_F = v0;
+   *      }
+   *
+   *    And for each point, evaluate the curve with the following sequence:
+   *
+   *      // unsigned multiplication of 24 bits x 24bits, return upper 16 bits
+   *      void umul24x24to16hi(uint16_t& r, uint24_t op1, uint24_t op2) {
+   *        r = (uint64_t(op1) * op2) >> 8;
+   *      }
+   *      // unsigned multiplication of 16 bits x 16bits, return upper 16 bits
+   *      void umul16x16to16hi(uint16_t& r, uint16_t op1, uint16_t op2) {
+   *        r = (uint32_t(op1) * op2) >> 16;
+   *      }
+   *      // unsigned multiplication of 16 bits x 24bits, return upper 24 bits
+   *      void umul16x24to24hi(uint24_t& r, uint16_t op1, uint24_t op2) {
+   *        r = uint24_t((uint64_t(op1) * op2) >> 16);
+   *      }
+   *
+   *      int32_t _eval_bezier_curve(uint32_t curr_step) {
+   *        // To save computing, the first step is always the initial speed
+   *        if (!curr_step)
+   *          return bezier_F;
+   *
+   *        uint16_t t;
+   *        umul24x24to16hi(t, bezier_AV, curr_step);   // t: Range 0 - 1^16 = 16 bits
+   *        uint16_t f = t;
+   *        umul16x16to16hi(f, f, t);                   // Range 16 bits (unsigned)
+   *        umul16x16to16hi(f, f, t);                   // Range 16 bits : f = t^3  (unsigned)
+   *        uint24_t acc = bezier_F;                    // Range 20 bits (unsigned)
+   *        if (A_negative) {
+   *          uint24_t v;
+   *          umul16x24to24hi(v, f, bezier_C);          // Range 21bits
+   *          acc -= v;
+   *          umul16x16to16hi(f, f, t);                 // Range 16 bits : f = t^4  (unsigned)
+   *          umul16x24to24hi(v, f, bezier_B);          // Range 22bits
+   *          acc += v;
+   *          umul16x16to16hi(f, f, t);                 // Range 16 bits : f = t^5  (unsigned)
+   *          umul16x24to24hi(v, f, bezier_A);          // Range 21bits + 15 = 36bits (plus sign)
+   *          acc -= v;
+   *        }
+   *        else {
+   *          uint24_t v;
+   *          umul16x24to24hi(v, f, bezier_C);          // Range 21bits
+   *          acc += v;
+   *          umul16x16to16hi(f, f, t);                 // Range 16 bits : f = t^4  (unsigned)
+   *          umul16x24to24hi(v, f, bezier_B);          // Range 22bits
+   *          acc -= v;
+   *          umul16x16to16hi(f, f, t);                 // Range 16 bits : f = t^5  (unsigned)
+   *          umul16x24to24hi(v, f, bezier_A);          // Range 21bits + 15 = 36bits (plus sign)
+   *          acc += v;
+   *        }
+   *        return acc;
+   *      }
+   *    These functions are translated to assembler for optimal performance.
+   *    Coefficient calculation takes 70 cycles. Bezier point evaluation takes 150 cycles.
+   */
+
+
+    // For all the other 32bit CPUs
+    __INLINE void Stepper::_calc_bezier_curve_coeffs(const int32_t v0, const int32_t v1, const uint32_t av) {
+      // Calculate the Bézier coefficients
+      bezier_A =  768 * (v1 - v0);
+      bezier_B = 1920 * (v0 - v1);
+      bezier_C = 1280 * (v1 - v0);
+      bezier_F =  128 * v0;
+      bezier_AV = av;
+    }
+
+    __INLINE int32_t Stepper::_eval_bezier_curve(const uint32_t curr_step)
+	{
+        uint32_t t = bezier_AV * curr_step;               // t: Range 0 - 1^32 = 32 bits
+        uint64_t f = t;
+        f *= t;                                           // Range 32*2 = 64 bits (unsigned)
+        f >>= 32;                                         // Range 32 bits  (unsigned)
+        f *= t;                                           // Range 32*2 = 64 bits  (unsigned)
+        f >>= 32;                                         // Range 32 bits : f = t^3  (unsigned)
+        int64_t acc = (int64_t) bezier_F << 31;           // Range 63 bits (signed)
+        acc += ((uint32_t) f >> 1) * (int64_t) bezier_C;  // Range 29bits + 31 = 60bits (plus sign)
+        f *= t;                                           // Range 32*2 = 64 bits
+        f >>= 32;                                         // Range 32 bits : f = t^3  (unsigned)
+        acc += ((uint32_t) f >> 1) * (int64_t) bezier_B;  // Range 29bits + 31 = 60bits (plus sign)
+        f *= t;                                           // Range 32*2 = 64 bits
+        f >>= 32;                                         // Range 32 bits : f = t^3  (unsigned)
+        acc += ((uint32_t) f >> 1) * (int64_t) bezier_A;  // Range 28bits + 31 = 59bits (plus sign)
+        acc >>= (31 + 7);                                 // Range 24bits (plus sign)
+        return (int32_t) acc;
+
+    }
+#endif // S_CURVE_ACCELERATION
 
 /**
  * Stepper Driver Interrupt
  *
  * Directly pulses the stepper motors at high frequency.
- * Timer 1 runs at a base frequency of 2MHz, with this ISR using hStepperTim.Instance->ARR compare mode.
- *
- * hStepperTim.Instance->ARR   Frequency
- *     1     2 MHz
- *    50    40 KHz
- *   100    20 KHz - capped max rate
- *   200    10 KHz - nominal max rate
- *  2000     1 KHz - sleep rate
- *  4000   500  Hz - init rate
  */
- /*
-ISR(TIMER1_COMPA_vect) {
-  #if ENABLED(LIN_ADVANCE)
-    Stepper::advance_isr_scheduler();
-  #else
-    Stepper::isr();
-  #endif
+
+void IsrStepperHandler()
+{ 
+    if (__HAL_TIM_GET_FLAG(&hStepperTim, TIM_FLAG_UPDATE) == SET)
+      __HAL_TIM_CLEAR_FLAG(&hStepperTim, TIM_FLAG_UPDATE);
+	Stepper::isr(); 
+}
+/*
+void Stepper::StepperHandler() {
+  HAL_timer_isr_prologue(STEP_TIMER_NUM);
+
+  Stepper::isr();
+
+  HAL_timer_isr_epilogue(STEP_TIMER_NUM);
 }
 */
+  #define STEP_MULTIPLY(A,B) MultiU32X24toH32(A, B)
 
-//#define _ENABLE_ISRs() do { cli(); if (thermalManager.in_temp_isr) CBI(TIMSK0, OCIE0B); else SBI(TIMSK0, OCIE0B); ENABLE_STEPPER_DRIVER_INTERRUPT(); } while(0)
-#define _ENABLE_ISRs() do { sei(); ENABLE_STEPPER_DRIVER_INTERRUPT(); } while(0)
+void Stepper::isr() {
 
-void IsrStepperHandler() { 
-	Stepper::StepperHandler(); 
-  }
+  static uint32_t nextMainISR = 0;  // Interval until the next main Stepper Pulse phase (0 = Now)
 
-void Stepper::StepperHandler() {
+  // Program timer compare for the maximum period, so it does NOT
+  // flag an interrupt while this ISR is running - So changes from small
+  // periods to big periods are respected and the timer does not reset to 0
+  __HAL_TIM_SET_AUTORELOAD(&hStepperTim, 0xFFFF);
+  if (__HAL_TIM_GET_COUNTER(&hStepperTim) >= 0xFFFF)
+    hStepperTim.Instance->EGR |= TIM_EGR_UG; // Generate an immediate update interrupt
 
+  // Count of ticks for the next ISR
+  uint32_t next_isr_ticks = 0;
 
-  uint16_t ocr_val;
+  // Limit the amount of iterations
+  uint8_t max_loops = 10;
 
-  #define ENDSTOP_NOMINAL_OCR_VAL 3000 // Check endstops every 1.5ms to guarantee two stepper ISRs within 5ms for BLTouch
-  #define OCR_VAL_TOLERANCE       1000 // First max delay is 2.0ms, last min delay is 0.5ms, all others 1.5ms
+  // We need this variable here to be able to use it in the following loop
+  uint32_t min_ticks;
+  do {
+    // Enable ISRs to reduce USART processing latency
+    __enable_irq();
 
-    // Disable Timer0 ISRs and enable global ISR again to capture UART events (incoming chars)
-    //CBI(TIMSK0, OCIE0B); // Temperature ISR
-    DISABLE_STEPPER_DRIVER_INTERRUPT();
-    sei();
+    if (!nextMainISR)
+		pulse_phase_isr();                            // 0 = Do coordinated axes Stepper pulses
 
-    static uint32_t step_remaining = 0;
+    // ^== Time critical. NOTHING besides pulse generation should be above here!!!
 
-  if (step_remaining && ENDSTOPS_ENABLED)
-  {   // Just check endstops - not yet time for a step
-    zEndstops.update();
+    if (!nextMainISR)
+		nextMainISR = block_phase_isr();  // Manage acc/deceleration, get next block
 
-    // Next ISR either for endstops or stepping
-    ocr_val = step_remaining <= ENDSTOP_NOMINAL_OCR_VAL ? step_remaining : ENDSTOP_NOMINAL_OCR_VAL;
-    step_remaining -= ocr_val;
-  
-    hStepperTim.Instance->ARR = ocr_val;
-	register uint32_t tmp = hStepperTim.Instance->CNT;
-    if(tmp > hStepperTim.Instance->ARR)
-      hStepperTim.Instance->CNT = hStepperTim.Instance->ARR-1;
-       
-	tmp = hStepperTim.Instance->CNT + 16;
-    NOLESS(hStepperTim.Instance->ARR, tmp);
-  
-    _ENABLE_ISRs(); // re-enable ISRs
-    return;
-  }
+    // Get the interval to the next ISR call
+    const uint32_t interval = _MIN(
+      nextMainISR,                                       // Time until the next Pulse / Block phase
+      uint32_t(0xFFFF)                    // Come back in a very long time
+    );
 
-  //
-  // When cleaning, discard the current block and run fast
-  //
-  if (cleaning_buffer_counter)
-  {
-    if (cleaning_buffer_counter < 0)
-	{          // Count up for endstop hit
-      if (current_block)
-		  planner.discard_current_block(); // Discard the active block that led to the trigger
-      if (!planner.discard_continued_block())   // Discard next CONTINUED block
-        cleaning_buffer_counter = 0;            // Keep discarding until non-CONTINUED
-    }
-    else
-	{
-      planner.discard_current_block();
-      --cleaning_buffer_counter;                // Count down for abort print
-    }
-    current_block = NULL;                       // Prep to get a new block after cleaning
-    
-    hStepperTim.Instance->ARR = 200;    // Run at max speed - 10 KHz
-	register uint32_t tmp = hStepperTim.Instance->ARR;
-    if(hStepperTim.Instance->CNT > tmp)
-     hStepperTim.Instance->CNT = tmp - 1;
+    //
+    // Compute remaining time for each ISR phase
+    //     NEVER : The phase is idle
+    //      Zero : The phase will occur on the next ISR call
+    //  Non-zero : The phase will occur on a future ISR call
+    //
 
-    _ENABLE_ISRs();
-    return;
-  }
-
-  // If there is no current block, attempt to pop one from the buffer
-  if (!current_block)
-  {
-    // Anything in the buffer?
-    if ((current_block = planner.get_current_block()))
-	{
-      trapezoid_generator_reset();
-
-      // Initialize Bresenham counters to 1/2 the ceiling
-      counter_Z = -(current_block->step_event_count >> 1);
-
-      step_events_completed = 0;
-
-    }
-    else {
-      
-	  hStepperTim.Instance->ARR = 2000;			// Run at slow speed - 1 KHz
-	  register uint32_t tmp = hStepperTim.Instance->ARR;
-	  if(hStepperTim.Instance->CNT > tmp)
-		  hStepperTim.Instance->CNT = tmp - 1;
-
-      _ENABLE_ISRs(); // re-enable ISRs
-      return;
-    }
-  }
-
-  // Update endstops state, if enabled
-  zEndstops.update();
-
-  // Take multiple steps per interrupt (For high speed moves)
-  bool all_steps_done = false;
-  for (uint8_t i = step_loops; i--;)
-  {
-
-//    #define _INVERT_STEP_PIN(AXIS) INVERT_## AXIS ##_STEP_PIN
-
-
+    nextMainISR -= interval;
 
     /**
-     * Estimate the number of cycles that the stepper logic already takes
-     * up between the start and stop of the X stepper pulse.
+     * This needs to avoid a race-condition caused by interleaving
+     * of interrupts required by both the LA and Stepper algorithms.
      *
-     * Currently this uses very modest estimates of around 5 cycles.
-     * True values may be derived by careful testing.
+     * Assume the following tick times for stepper pulses:
+     *   Stepper ISR (S):  1 1000 2000 3000 4000
+     *   Linear Adv. (E): 10 1010 2010 3010 4010
      *
-     * Once any delay is added, the cost of the delay code itself
-     * may be subtracted from this value to get a more accurate delay.
-     * Delays under 20 cycles (1.25µs) will be very accurate, using NOPs.
-     * Longer delays use a loop. The resolution is 8 cycles.
+     * The current algorithm tries to interleave them, giving:
+     *  1:S 10:E 1000:S 1010:E 2000:S 2010:E 3000:S 3010:E 4000:S 4010:E
+     *
+     * Ideal timing would yield these delta periods:
+     *  1:S  9:E  990:S   10:E  990:S   10:E  990:S   10:E  990:S   10:E
+     *
+     * But, since each event must fire an ISR with a minimum duration, the
+     * minimum delta might be 900, so deltas under 900 get rounded up:
+     *  900:S d900:E d990:S d900:E d990:S d900:E d990:S d900:E d990:S d900:E
+     *
+     * It works, but divides the speed of all motors by half, leading to a sudden
+     * reduction to 1/2 speed! Such jumps in speed lead to lost steps (not even
+     * accounting for double/quad stepping, which makes it even worse).
      */
-    #define EXTRA_CYCLES_XYZE	1
+
+    // Compute the tick count for the next ISR
+    next_isr_ticks += interval;
 
     /**
-     * If a minimum pulse time was specified get the timer 0 value.
-     *
-     * TCNT0 has an 8x prescaler, so it increments every 8 cycles.
-     * That's every 0.5µs on 16MHz and every 0.4µs on 20MHz.
-     * 20 counts of TCNT0 -by itself- is a good pulse delay.
-     * 10µs = 160 or 200 cycles.
+     * The following section must be done with global interrupts disabled.
+     * We want nothing to interrupt it, as that could mess the calculations
+     * we do for the next value to program in the period register of the
+     * stepper timer and lead to skipped ISRs (if the value we happen to program
+     * is less than the current count due to something preempting between the
+     * read and the write of the new period value).
      */
+    __disable_irq();
 
-     // Advance the Bresenham counter; start a pulse if the axis needs a step
-     counter_Z += current_block->steps;
-      if (counter_Z > 0)
-	  {
-		  HAL_GPIO_WritePin(Z_STEP_GPIO_Port, Z_STEP_Pin, (GPIO_PinState)1);
-	  }
+    /**
+     * Get the current tick value + margin
+     * Assuming at least 6µs between calls to this ISR...
+     * On AVR the ISR epilogue+prologue is estimated at 100 instructions - Give 8µs as margin
+     * On ARM the ISR epilogue+prologue is estimated at 20 instructions - Give 1µs as margin
+     */
+    min_ticks = __HAL_TIM_GET_COUNTER(&hStepperTim) + uint32_t(1 * (STEPPER_TIMER_TICKS_PER_US));
 
-    // For minimum pulse time wait before stopping pulses
-      DELAY_NOPS(EXTRA_CYCLES_XYZE);
+    /**
+     * NB: If for some reason the stepper monopolizes the MPU, eventually the
+     * timer will wrap around (and so will 'next_isr_ticks'). So, limit the
+     * loop to 10 iterations. Beyond that, there's no way to ensure correct pulse
+     * timing, since the MCU isn't fast enough.
+     */
+    if (!--max_loops) next_isr_ticks = min_ticks;
 
-    // Stop an active pulse, reset the Bresenham counter, update the position
-    if (counter_Z > 0)
-	{
-        counter_Z -= current_block->step_event_count;
-		register long tmp = count_position;
-        tmp += count_direction;
-		count_position = tmp;
-        HAL_GPIO_WritePin(Z_STEP_GPIO_Port, Z_STEP_Pin, (GPIO_PinState)0);
-    }
+    // Advance pulses if not enough time to wait for the next ISR
+  } while (next_isr_ticks < min_ticks);
 
-    if (++step_events_completed >= current_block->step_event_count) {
-      all_steps_done = true;
-      break;
-    }
+  // Now 'next_isr_ticks' contains the period to the next Stepper ISR - And we are
+  // sure that the time has not arrived yet - Warrantied by the scheduler
 
-    // For minimum pulse time wait after stopping pulses also
-      if (i)
-		  DELAY_NOPS(EXTRA_CYCLES_XYZE);
+  // Set the next ISR to fire at the proper time
+  __HAL_TIM_SET_AUTORELOAD(&hStepperTim, uint32_t(next_isr_ticks));
+  if (__HAL_TIM_GET_COUNTER(&hStepperTim) >= uint32_t(next_isr_ticks))
+    hStepperTim.Instance->EGR |= TIM_EGR_UG; // Generate an immediate update interrupt
 
-  } // steps_loop
-
-  // Calculate new timer value
-  if (step_events_completed <= (uint32_t)current_block->accelerate_until)
-  {
-
-    MultiU24X32toH16(acc_step_rate, acceleration_time, current_block->acceleration_rate);
-    acc_step_rate += current_block->initial_rate;
-
-    // upper limit
-    NOMORE(acc_step_rate, current_block->nominal_rate);
-
-    // step_rate to timer interval
-    const uint16_t interval = calc_timer_interval(acc_step_rate);
-
-    ocr_val = (uint16_t)interval;
-    if (ENDSTOPS_ENABLED && interval > ENDSTOP_NOMINAL_OCR_VAL)
-	{
-        const uint16_t remainder = (uint16_t)interval % (ENDSTOP_NOMINAL_OCR_VAL);
-        ocr_val = (remainder < OCR_VAL_TOLERANCE) ? ENDSTOP_NOMINAL_OCR_VAL + remainder : ENDSTOP_NOMINAL_OCR_VAL;
-        step_remaining = (uint16_t)interval - ocr_val;
-    };  // split step into multiple ISRs if larger than ENDSTOP_NOMINAL_OCR_VAL
-    
-	  hStepperTim.Instance->ARR = ocr_val;
-	  register uint32_t tmp = hStepperTim.Instance->ARR;
-	  if(hStepperTim.Instance->CNT > tmp)
-		  hStepperTim.Instance->CNT = tmp - 1;
-
-    acceleration_time += interval;
-
-  }
-  else if (step_events_completed > (uint32_t)current_block->decelerate_after)
-  {
-    uint16_t step_rate;
-    MultiU24X32toH16(step_rate, deceleration_time, current_block->acceleration_rate);
-
-    if (step_rate < acc_step_rate) { // Still decelerating?
-      step_rate = acc_step_rate - step_rate;
-      NOLESS(step_rate, current_block->final_rate);
-    }
-    else
-      step_rate = current_block->final_rate;
-
-    // step_rate to timer interval
-    const uint16_t interval = calc_timer_interval(step_rate);
-
-      ocr_val = (uint16_t)interval;
-      if (ENDSTOPS_ENABLED && interval > ENDSTOP_NOMINAL_OCR_VAL)
-	  {
-        const uint16_t remainder = (uint16_t)interval % (ENDSTOP_NOMINAL_OCR_VAL);
-        ocr_val = (remainder < OCR_VAL_TOLERANCE) ? ENDSTOP_NOMINAL_OCR_VAL + remainder : ENDSTOP_NOMINAL_OCR_VAL;
-        step_remaining = (uint16_t)interval - ocr_val;
-      } // split step into multiple ISRs if larger than ENDSTOP_NOMINAL_OCR_VAL
-	  
-    
-	  hStepperTim.Instance->ARR = ocr_val;
-	  register uint32_t tmp = hStepperTim.Instance->ARR;
-	  if(hStepperTim.Instance->CNT > tmp)
-		  hStepperTim.Instance->CNT = tmp - 1;
-
-    deceleration_time += interval;
-
-  }
-  else
-  {
-
-    ocr_val = (uint16_t)OCR1A_nominal;
-    if (ENDSTOPS_ENABLED && OCR1A_nominal > ENDSTOP_NOMINAL_OCR_VAL)
-    {
-  	const uint16_t remainder = (uint16_t)OCR1A_nominal % (ENDSTOP_NOMINAL_OCR_VAL);
-  	ocr_val = (remainder < OCR_VAL_TOLERANCE) ? ENDSTOP_NOMINAL_OCR_VAL + remainder : ENDSTOP_NOMINAL_OCR_VAL;
-  	step_remaining = (uint16_t)OCR1A_nominal - ocr_val;
-    };  // split step into multiple ISRs if larger than ENDSTOP_NOMINAL_OCR_VAL
-	  
-    
-	  hStepperTim.Instance->ARR = ocr_val;
-	  register uint32_t tmp = hStepperTim.Instance->ARR;
-	  if(hStepperTim.Instance->CNT > tmp)
-		  hStepperTim.Instance->CNT = tmp-1;
-
-    // ensure we're running at the correct step rate, even if we just came off an acceleration
-    step_loops = step_loops_nominal;
-  }
-
-  register uint32_t tmp = hStepperTim.Instance->CNT;
-  tmp += 16;
-  NOLESS(hStepperTim.Instance->ARR, tmp);
-
-  // If current block is finished, reset pointer
-  if (all_steps_done) {
-    current_block = NULL;
-    planner.discard_current_block();
-  }
-  _ENABLE_ISRs(); // re-enable ISRs
+  // Don't forget to finally reenable interrupts
+  __enable_irq();
 }
 
+#define ISR_PULSE_CONTROL	1
+#define ISR_MULTI_STEPS		1
 
-void Stepper::init()
-{
+/**
+ * This phase of the ISR should ONLY create the pulses for the steppers.
+ * This prevents jitter caused by the interval between the start of the
+ * interrupt and the start of the pulses. DON'T add any logic ahead of the
+ * call to this method that might cause variation in the timing. The aim
+ * is to keep pulse timing as regular as possible.
+ */
+void Stepper::pulse_phase_isr() {
 
-	// Init Dir Pins
+  // If we must abort the current block, do so!
+  if (abort_current_block) {
+    abort_current_block = false;
+    if (current_block) discard_current_block();
+  }
 
-	zEndstops.init();
+  // If there is no current block, do nothing
+  if (!current_block) return;
 
+  // Count of pending loops and events for this iteration
+  const uint32_t pending_events = step_event_count - step_events_completed;
+  uint8_t events_to_do = _MIN(pending_events, steps_per_isr);
+
+  // Just update the value we will get at the end of the loop
+  step_events_completed += events_to_do;
+
+  // Take multiple steps per interrupt (For high speed moves)
+  #if ISR_MULTI_STEPS
+    bool firstStep = true;
+    USING_TIMED_PULSE();
+  #endif
+  bool step_needed;
+
+  do {
+    #define _APPLY_STEP(AXIS, INV, ALWAYS) AXIS ##_APPLY_STEP(INV, ALWAYS)
+    #define _INVERT_STEP_PIN(AXIS) INVERT_## AXIS ##_STEP_PIN
+
+    // Determine if a pulse is needed using Bresenham
+      delta_error += advance_dividend;
+      step_needed = (delta_error >= 0);
+      if (step_needed)
+	  {
+        count_position += count_direction;
+        delta_error -= advance_divisor;
+      }
+
+    // Start an active pulse if needed
+    #if ISR_MULTI_STEPS
+      if (firstStep)
+        firstStep = false;
+      else
+        AWAIT_LOW_PULSE();
+    #endif
+
+    if (step_needed)
+	  HAL_GPIO_WritePin(Z_STEP_GPIO_Port, Z_STEP_Pin, (GPIO_PinState)1);
+
+    // TODO: need to deal with MINIMUM_STEPPER_PULSE over i2s
+    #if ISR_MULTI_STEPS
+      START_HIGH_PULSE();
+      AWAIT_HIGH_PULSE();
+    #endif
+
+    if (step_needed)
+	  HAL_GPIO_WritePin(Z_STEP_GPIO_Port, Z_STEP_Pin, (GPIO_PinState)0);
+
+    #if ISR_MULTI_STEPS
+      if (events_to_do) START_LOW_PULSE();
+    #endif
+
+  } while (--events_to_do);
+}
+
+// This is the last half of the stepper interrupt: This one processes and
+// properly schedules blocks from the planner. This is executed after creating
+// the step pulses, so it is not time critical, as pulses are already done.
+
+uint32_t Stepper::block_phase_isr() {
+
+  // If no queued movements, just wait 1ms for the next block
+  uint32_t interval = (STEPPER_TIMER_RATE) / 1000UL;
+
+  // If there is a current block
+  if (current_block) {
+
+    // If current block is finished, reset pointer and finalize state
+    if (step_events_completed >= step_event_count) {
+      discard_current_block();
+    }
+    else {
+      // Step events not completed yet...
+
+      // Are we in acceleration phase ?
+      if (step_events_completed <= accelerate_until) { // Calculate new timer value
+
+        #ifdef S_CURVE_ACCELERATION
+          // Get the next speed to use (Jerk limited!)
+          uint32_t acc_step_rate = acceleration_time < current_block->acceleration_time
+                                   ? _eval_bezier_curve(acceleration_time)
+                                   : current_block->cruise_rate;
+        #else
+          acc_step_rate = STEP_MULTIPLY(acceleration_time, current_block->acceleration_rate) + current_block->initial_rate;
+          NOMORE(acc_step_rate, current_block->nominal_rate);
+        #endif
+
+        // acc_step_rate is in steps/second
+
+        // step_rate to timer interval and steps per stepper isr
+        interval = calc_timer_interval(acc_step_rate, &steps_per_isr);
+        acceleration_time += interval;
+
+      }
+      // Are we in Deceleration phase ?
+      else if (step_events_completed > decelerate_after) {
+        uint32_t step_rate;
+
+        #ifdef S_CURVE_ACCELERATION
+          // If this is the 1st time we process the 2nd half of the trapezoid...
+          if (!bezier_2nd_half) {
+            // Initialize the Bézier speed curve
+            _calc_bezier_curve_coeffs(current_block->cruise_rate, current_block->final_rate, current_block->deceleration_time_inverse);
+            bezier_2nd_half = true;
+            // The first point starts at cruise rate. Just save evaluation of the Bézier curve
+            step_rate = current_block->cruise_rate;
+          }
+          else {
+            // Calculate the next speed to use
+            step_rate = deceleration_time < current_block->deceleration_time
+              ? _eval_bezier_curve(deceleration_time)
+              : current_block->final_rate;
+          }
+        #else
+
+          // Using the old trapezoidal control
+          step_rate = STEP_MULTIPLY(deceleration_time, current_block->acceleration_rate);
+          if (step_rate < acc_step_rate) { // Still decelerating?
+            step_rate = acc_step_rate - step_rate;
+            NOLESS(step_rate, current_block->final_rate);
+          }
+          else
+            step_rate = current_block->final_rate;
+        #endif
+
+        // step_rate is in steps/second
+
+        // step_rate to timer interval and steps per stepper isr
+        interval = calc_timer_interval(step_rate, &steps_per_isr);
+        deceleration_time += interval;
+
+      }
+      // Must be in cruise phase otherwise
+      else {
+
+        // Calculate the ticks_nominal for this nominal speed, if not done yet
+        if (ticks_nominal < 0) {
+          // step_rate to timer interval and loops for the nominal speed
+          ticks_nominal = calc_timer_interval(current_block->nominal_rate, &steps_per_isr);
+        }
+
+        // The timer interval is just the nominal value for the nominal speed
+        interval = ticks_nominal;
+
+      }
+    }
+  }
+
+  // If there is no current block at this point, attempt to pop one from the buffer
+  // and prepare its movement
+  if (!current_block) {
+
+    // Anything in the buffer?
+    if ((current_block = zPlanner.get_current_block())) {
+
+      // Sync block? Sync the stepper counts and return
+      while (TEST(current_block->flag, BLOCK_BIT_SYNC_POSITION)) {
+        _set_position(current_block->position);
+        discard_current_block();
+
+        // Try to get a new block
+        if (!(current_block = zPlanner.get_current_block()))
+          return interval; // No more queued movements!
+      }
+
+      // Flag all moving axes for proper endstop handling
+
+      #define Z_MOVE_TEST !!current_block->steps
+
+      uint8_t axis_bits = 0;
+      if (Z_MOVE_TEST) axis_bits = 1;
+      //if (!!current_block->steps.e) SBI(axis_bits, E_AXIS);
+      //if (!!current_block->steps.a) SBI(axis_bits, X_HEAD);
+      //if (!!current_block->steps.b) SBI(axis_bits, Y_HEAD);
+      //if (!!current_block->steps.c) SBI(axis_bits, Z_HEAD);
+      axis_did_move = axis_bits;
+
+      // No acceleration / deceleration time elapsed so far
+      acceleration_time = deceleration_time = 0;
+
+
+      // Based on the oversampling factor, do the calculations
+      step_event_count = current_block->step_event_count;
+
+      // Initialize Bresenham delta errors to 1/2
+      delta_error = -int32_t(step_event_count);
+
+      // Calculate Bresenham dividends and divisors
+      advance_dividend = current_block->steps << 1;
+      advance_divisor = step_event_count << 1;
+
+      // No step events completed so far
+      step_events_completed = 0;
+
+      // Compute the acceleration and deceleration points
+      accelerate_until = current_block->accelerate_until;
+      decelerate_after = current_block->decelerate_after;
+
+      if (current_block->direction_bits != last_direction_bits)
+      {
+        last_direction_bits = current_block->direction_bits;
+        set_directions();
+      }
+     // At this point, we must ensure the movement about to execute isn't
+      // trying to force the head against a limit switch. If using interrupt-
+      // driven change detection, and already against a limit then no call to
+      // the endstop_triggered method will be done and the movement will be
+      // done against the endstop. So, check the limits here: If the movement
+      // is against the limits, the block will be marked as to be killed, and
+      // on the next call to this ISR, will be discarded.
+      endstops.update();
+
+      // Mark the time_nominal as not calculated yet
+      ticks_nominal = -1;
+
+      #ifdef S_CURVE_ACCELERATION
+        // Initialize the Bézier speed curve
+        _calc_bezier_curve_coeffs(current_block->initial_rate, current_block->cruise_rate, current_block->acceleration_time_inverse);
+        // We haven't started the 2nd half of the trapezoid
+        bezier_2nd_half = false;
+      #else
+        // Set as deceleration point the initial rate of the block
+        acc_step_rate = current_block->initial_rate;
+      #endif
+
+      // Calculate the initial timer interval
+      interval = calc_timer_interval(current_block->initial_rate, &steps_per_isr);
+    }
+  }
+
+  // Return the interval to wait
+  return interval;
+}
+
+// Check if the given block is busy or not - Must not be called from ISR contexts
+// The current_block could change in the middle of the read by an Stepper ISR, so
+// we must explicitly prevent that!
+bool Stepper::is_block_busy(const block_t* const block) {
+    block_t *vnew = current_block;
+
+  // Return if the block is busy or not
+  return block == vnew;
+}
+
+void Stepper::init() {
 
 	// step pin
 	HAL_GPIO_WritePin(Z_STEP_GPIO_Port, Z_STEP_Pin, (GPIO_PinState)0);
 	// enable pin
 	HAL_GPIO_WritePin(Z_ENA_GPIO_Port, Z_ENA_Pin, (GPIO_PinState)1);
 
-
 	ENABLE_STEPPER_DRIVER_INTERRUPT();
+    wake_up();
+    sei();
 
-	zEndstops.enable(true); // Start with endstops active. After homing they can be disabled
-	sei();
+  // Init direction bits for first moves
+  last_direction_bits = cfgzMotor.invert_z_dir;
+  set_directions();
 
-	set_directions(); // Init directions to last_direction_bits = 0
-
-	count_position = 0;
-}
-
-
-/**
- * Block until all buffered steps are executed / cleaned
- */
-void Stepper::synchronize()
-{
-	while (planner.blocks_queued() || cleaning_buffer_counter)
-		idle();
-}
-void Stepper::waitUntilEndOfAllBuffers()
-{
-	while (planner.blocks_queued());
-}
-void Stepper:: waitUntilEndOfAllMoves()
-{
 }
 
 /**
@@ -536,75 +898,55 @@ void Stepper:: waitUntilEndOfAllMoves()
  * This allows get_axis_position_mm to correctly
  * derive the current XYZ position later on.
  */
-void Stepper::set_position(const long c)
-{
-
-  synchronize(); // Bad to set stepper counts in the middle of a move
-
-  CRITICAL_SECTION_START;
-
-    // default non-h-bot planning
+void Stepper::_set_position(const int32_t c) {
     count_position = c;
-
-  CRITICAL_SECTION_END;
-}
-
-void Stepper::set_position_imm(const long v)
-{
-  CRITICAL_SECTION_START;
-  count_position = v;
-  CRITICAL_SECTION_END;
 }
 
 /**
  * Get a stepper's position in steps.
  */
-long Stepper::position()
-{
-  CRITICAL_SECTION_START;
-  const long count_pos = count_position;
-  CRITICAL_SECTION_END;
-  return count_pos;
+int32_t Stepper::position() {
+  const int32_t v = count_position;
+  return v;
 }
 
-/**
- * Get an axis position according to stepper position(s)
- * For CORE machines apply translation from ABC to XYZ.
- */
-float Stepper::get_axis_position_mm()
+// Set the current position in steps
+void Stepper::set_position(const int32_t c)
 {
-  float axis_steps;
-    axis_steps = position();
-  return axis_steps * planner.steps_to_mm;
+  zPlanner.synchronize();
+  const bool was_enabled = suspend();
+  _set_position(c);
+  if (was_enabled)
+	  wake_up();
 }
 
-void Stepper::finish_and_disable()
-{
-  synchronize();
-  	// enable pin
-    HAL_GPIO_WritePin(Z_ENA_GPIO_Port, Z_ENA_Pin, (GPIO_PinState)1);
+void Stepper::set_axis_position(const int32_t v) {
+  zPlanner.synchronize();
+  count_position = v;
 }
 
-void Stepper::quick_stop()
-{
-  cleaning_buffer_counter = 5000;
-  DISABLE_STEPPER_DRIVER_INTERRUPT();
-  while (planner.blocks_queued())
-	  planner.discard_current_block();
-  current_block = NULL;
-  ENABLE_STEPPER_DRIVER_INTERRUPT();
-}
-
+// Signal endstops were triggered - This function can be called from
+// an ISR context  (Temperature, Stepper or limits ISR), so we must
+// be very careful here. If the interrupt being preempted was the
+// Stepper ISR (this CAN happen with the endstop limits ISR) then
+// when the stepper ISR resumes, we must be very sure that the movement
+// is properly canceled
 void Stepper::endstop_triggered()
 {
 
-  endstops_trigsteps = count_position;
+  const bool was_enabled = suspend();
+  endstops_trigsteps = (count_position);
 
-  kill_current_block();
-  cleaning_buffer_counter = -1; // Discard the rest of the move
+  // Discard the rest of the move if there is a current block
+  quick_stop();
+
+  if (was_enabled)
+	  wake_up();
 }
 
-void Stepper::report_positions()
+int32_t Stepper::triggered_position()
 {
+  const int32_t v = endstops_trigsteps;
+  return v;
 }
 

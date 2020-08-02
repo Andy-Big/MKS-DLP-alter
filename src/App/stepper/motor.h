@@ -6,6 +6,9 @@
 
 
 
+void		idle();
+
+
 
 void		_zmotor_Pins_Init();
 

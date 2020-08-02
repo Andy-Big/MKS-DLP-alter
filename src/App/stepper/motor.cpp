@@ -12,6 +12,16 @@
 
 
 
+void		idle()
+{
+	static uint32_t		idlecount = 0;
+	idlecount++;
+}
+
+
+
+
+
 
 
 
@@ -58,14 +68,14 @@ void		ZMOTOR_Init()
 {
 	_zmotor_Pins_Init();
 
-	zPlanner.axis_steps_per_mm = 			cfgzMotor.axis_steps_per_mm;
-	zPlanner.max_feedrate_mm_s = 			cfgzMotor.max_feedrate_mm_s;
-	zPlanner.max_acceleration_mm_per_s2 =	cfgzMotor.max_acceleration_mm_per_s2;
-	zPlanner.acceleration = 				cfgzMotor.acceleration;
-	zPlanner.travel_acceleration = 			cfgzMotor.travel_acceleration;
-	zPlanner.min_feedrate_mm_s = 			cfgzMotor.min_feedrate_mm_s;
-	zPlanner.min_travel_feedrate_mm_s = 	cfgzMotor.min_travel_feedrate_mm_s;
-	zPlanner.max_jerk = 					cfgzMotor.max_jerk;
+	zPlanner.settings.axis_steps_per_mm = 			cfgzMotor.axis_steps_per_mm;
+	zPlanner.settings.max_feedrate_mm_s = 			cfgzMotor.max_feedrate_mm_s;
+	zPlanner.settings.max_acceleration_mm_per_s2 =	cfgzMotor.max_acceleration_mm_per_s2;
+	zPlanner.settings.acceleration = 				cfgzMotor.acceleration;
+	zPlanner.settings.travel_acceleration = 		cfgzMotor.travel_acceleration;
+	zPlanner.settings.min_feedrate_mm_s = 			cfgzMotor.min_feedrate_mm_s;
+	zPlanner.settings.min_travel_feedrate_mm_s = 	cfgzMotor.min_travel_feedrate_mm_s;
+	zPlanner.settings.max_jerk = 					cfgzMotor.max_jerk;
 
 	
 	zPlanner.init();

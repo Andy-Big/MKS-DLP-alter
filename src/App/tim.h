@@ -24,6 +24,10 @@
 
 #include "main.h"
 
+	 
+#define STEPPER_TIMER_PRESCALE		105
+	 
+	 
 
 extern TIM_HandleTypeDef	hStepperTim;
 extern TIM_HandleTypeDef	hZRefTim;

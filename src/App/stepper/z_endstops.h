@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,99 +16,130 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
+#pragma once
 
 /**
- *  endstops.h - manages endstops
+ * endstops.h - manages endstops
  */
-
-#ifndef ENDSTOPS_H
-#define ENDSTOPS_H
 
 #include "main.h"
 
 
 
-	 
+
+
+
+
 class Endstops;
 
 extern Endstops			zEndstops;
 
 
 
+#define ENDSTOPS_ENABLED  zEndstops.enabled
 
 
 
-enum EndstopEnum {
-  Z_EMPTY,
+
+
+
+
+
+
+enum EndstopEnum : char {
   Z_MIN,
   Z_MAX
 };
 
+class Endstops {
+  public:
+      typedef uint8_t esbits_t;
 
-
-
-class Endstops
-{
+  private:
+    static bool enabled, enabled_globally;
+    static esbits_t live_state;
+    static volatile uint8_t hit_state;      // Use X_MIN, Y_MIN, Z_MIN and Z_MIN_PROBE as BIT index
 
   public:
-
-    static bool enabled, enabled_globally;
-    static volatile char endstop_hit_bits; // use X_MIN, Y_MIN, Z_MIN and Z_MIN_PROBE as BIT value
-
-    static uint8_t current_endstop_bits, old_endstop_bits;
-
-    Endstops() {
-      enable_globally(false);
-    };
+    Endstops() {};
 
     /**
      * Initialize the endstop pins
      */
-    void init();
+    static void init();
 
     /**
-     * Update the endstops bits from the pins
+     * Are endstops or the probe set to abort the move?
+     */
+    __INLINE static bool abort_enabled()
+	{
+      return enabled;
+    }
+
+    static inline bool global_enabled()
+	{
+		return enabled_globally;
+	}
+
+    /**
+     * Periodic call to poll endstops if required. Called from temperature ISR
+     */
+    static void poll();
+
+    /**
+     * Update endstops bits from the pins. Apply filtering to get a verified state.
+     * If abort_enabled() and moving towards a triggered switch, abort the current move.
+     * Called from ISR contexts.
      */
     static void update();
 
     /**
-     * Print an error message reporting the position when the endstops were last hit.
+     * Get Endstop hit state.
      */
-    static void report_state(); //call from somewhere to create an serial error message with the locations the endstops where hit, in case they were triggered
+    __INLINE static uint8_t trigger_state()
+	{
+		return hit_state;
+	}
 
     /**
-     * Report endstop positions in response to M119
+     * Get current endstops state
      */
-    static void M119();
+    __INLINE static esbits_t state()
+	{
+      return live_state;
+    }
+
+    /**
+     * Report endstop hits to serial. Called from loop().
+     */
+    static void event_handler();
 
     // Enable / disable endstop checking globally
-    static void enable_globally(bool onoff=true) { enabled_globally = enabled = onoff; }
+    static void enable_globally(const bool onoff=true);
 
     // Enable / disable endstop checking
-    static void enable(bool onoff=true) { enabled = onoff; }
+    static void enable(const bool onoff=true);
 
     // Disable / Enable endstops based on ENSTOPS_ONLY_FOR_HOMING and global enable
-    static void not_homing() { enabled = enabled_globally; }
+    static void not_homing();
+
+    __INLINE static void validate_homing_move()
+	{
+		hit_on_purpose();
+	}
 
     // Clear endstops (i.e., they were hit intentionally) to suppress the report
-    static void hit_on_purpose() { endstop_hit_bits = 0; }
+    __INLINE static void hit_on_purpose()
+	{
+		hit_state = 0;
+	}
 
-    // Enable / disable endstop z-probe checking
-    #if HAS_BED_PROBE
-      static volatile bool z_probe_enabled;
-      static void enable_z_probe(bool onoff=true) { z_probe_enabled = onoff; }
-    #endif
-
-  private:
+    static void resync();
 
 };
 
 extern Endstops endstops;
 
-#define ENDSTOPS_ENABLED  endstops.enabled
-
-
-#endif // ENDSTOPS_H

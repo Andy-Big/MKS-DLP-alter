@@ -186,31 +186,30 @@ int main()
 	// ZMotor
 	CFG_Init();
 	ZMOTOR_Init();
-	
+
 	ZMOTOR_MotorEnable();
 	systemState.is_printing = 1;
 	HAL_Delay(500);
 	for (uint16_t i = 0; i < 100; i++)
 	{
 		systemState.is_printing = 1;
-		ZMOTOR_MoveAbsolute(3, 10);
-		zStepper.synchronize();
-		HAL_Delay(300);
-		systemState.is_printing = 1;
-		ZMOTOR_MoveAbsolute(0, 10);
-		zStepper.synchronize();
-		HAL_Delay(2000);
+		ZMOTOR_MoveAbsolute(64, 20);
+		ZMOTOR_MoveAbsolute(0, 20);
+		systemState.is_printing = 0;
+		ZMOTOR_MoveAbsolute(64, 20);
+		ZMOTOR_MoveAbsolute(0, 20);
+		zPlanner.synchronize();
 	}
-	zStepper.synchronize();
+	zPlanner.synchronize();
 
 	HAL_Delay(2000);
 	ZMOTOR_MoveAbsolute(3, 1);
 	
 	systemState.is_printing = 0;
 	ZMOTOR_MoveAbsolute(40, 5);
-	zStepper.synchronize();
+	zPlanner.synchronize();
 	ZMOTOR_MotorDisable();
-	
+
 	
 	// Disable USB power line
 	USB_HOST_VbusFS(1);
