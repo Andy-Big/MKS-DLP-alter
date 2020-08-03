@@ -11,7 +11,7 @@
 
 void		_tgui_LanguageScreenProcess(void *tguiobj, void *param)
 {
-	TGUI_SCREEN		*thisscr = (TGUI_SCREEN*)tguiobj;
+	TG_SCREEN		*thisscr = (TG_SCREEN*)tguiobj;
 	TOUCH_STATES	ts;
 	TOUCH_POINT		tp;
 	
@@ -54,8 +54,8 @@ void		_tgui_LanguageScreenProcess(void *tguiobj, void *param)
 					{
 						if (thisscr->buttons[i].funcs._call_press == (pressfunc)BTNA_GOCHILDSCR && thisscr->buttons[i].childscreen != NULL)
 						{
-							TGUI_SCREEN		*curscreen = tguiActiveScreen;
-							tguiActiveScreen = (TGUI_SCREEN*)thisscr->buttons[i].childscreen;
+							TG_SCREEN		*curscreen = tguiActiveScreen;
+							tguiActiveScreen = (TG_SCREEN*)thisscr->buttons[i].childscreen;
 							tguiActiveScreen->prevscreen = curscreen;
 							TGUI_ForceRepaint();
 						}
@@ -63,14 +63,14 @@ void		_tgui_LanguageScreenProcess(void *tguiobj, void *param)
 						{
 							if (thisscr->buttons[i].funcs._call_press == (pressfunc)BTNA_GOPREVSCR && tguiActiveScreen->prevscreen != NULL)
 							{
-								tguiActiveScreen = (TGUI_SCREEN*)tguiActiveScreen->prevscreen;
+								tguiActiveScreen = (TG_SCREEN*)tguiActiveScreen->prevscreen;
 								TGUI_ForceRepaint();
 							}
 							else
 							{
 								// Language select
 								TGUI_ChangeLanguage(i);
-//								tguiActiveScreen = (TGUI_SCREEN*)tguiActiveScreen->prevscreen;
+//								tguiActiveScreen = (TG_SCREEN*)tguiActiveScreen->prevscreen;
 								TGUI_ForceRepaint();
 							}
 						}
@@ -78,7 +78,7 @@ void		_tgui_LanguageScreenProcess(void *tguiobj, void *param)
 				}
 
 			}
-			Touch_SetState(TS_WORKED);
+			Touch_SetWorked();
 			break;
 
 		case TS_LRELEASED:
@@ -94,12 +94,25 @@ void		_tgui_LanguageScreenProcess(void *tguiobj, void *param)
 				}
 
 			}
-			Touch_SetState(TS_WORKED);
+			Touch_SetWorked();
 			break;
 	}
 
 	Touch_GetCoords(&tp);
 	
+}
+//==============================================================================
+
+
+
+
+void		_tgui_LanguageButtonPress(void *tguiobj, void *param)
+{
+	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
+	// Language select
+	TGUI_ChangeLanguage(thisbtn->button_id);
+//								tguiActiveScreen = (TG_SCREEN*)tguiActiveScreen->prevscreen;
+	TGUI_ForceRepaint();
 }
 //==============================================================================
 

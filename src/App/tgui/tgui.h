@@ -13,7 +13,7 @@
 
 typedef void (*paintfunc)(void *tguiobj, void* param);
 typedef void (*processfunc)(void *tguiobj, void* param);
-typedef void (*pressfunc)(void *tguiobj, void* *pt);
+typedef void (*pressfunc)(void *tguiobj, void* param);
 
 
 // Method of background repainting for buttons and texts
@@ -49,7 +49,7 @@ typedef struct
 {
 	TEXT_ALIGN_H	textalign_h:4;
 	TEXT_ALIGN_V	textalign_v:4;
-} TGUI_TEXTOPTIONS;
+} TG_TEXTOPTIONS;
 
 
 typedef enum
@@ -57,7 +57,8 @@ typedef enum
 	BTNA_GOCHILDSCR = 0xFFFFFF00,
 	BTNA_GOPREVSCR = 0xFFFFFF01,
 	
-} TGUI_BTNACTIONS;
+} TG_BTNACTIONS;
+
 
 typedef struct
 {
@@ -77,7 +78,7 @@ typedef struct
 	LCDUI_FONT_TYPE		btnfont;
 	
 	char				*imagesdir;
-} TGUI_CONFIG;
+} TG_CONFIG;
 
 
 
@@ -85,7 +86,7 @@ typedef struct
 {
 	uint16_t	x;
 	uint16_t	y;
-} TGUI_POINT;
+} TG_POINT;
 
 
 
@@ -95,7 +96,7 @@ typedef struct
 	uint16_t	top;
 	uint16_t	right;
 	uint16_t	bottom;
-} TGUI_RECT;
+} TG_RECT;
 
 
 
@@ -103,7 +104,12 @@ typedef struct
 {
 	void				*addparameter;
 	
-	TGUI_RECT			position;
+	uint8_t				button_id;
+	
+	// for swithed options buttons
+	uint8_t				group_id;
+	
+	TG_RECT			position;
 	
 	void				*parentscreen;
 	void				*childscreen;
@@ -113,7 +119,7 @@ typedef struct
 	char				*bgimagename_dis;
 
 	char				*text;
-	TGUI_RECT			textposition;
+	TG_RECT			textposition;
 	LCDUI_FONT_TYPE		font;
 	uint16_t			textcolor_en;
 	uint16_t			textcolor_press;
@@ -123,19 +129,21 @@ typedef struct
 	uint16_t			backcolor_dis;
 	
 	struct {
+		uint8_t				needrepaint:1;
 		uint8_t				pressed:1;
 		uint8_t				disabled:1;
 		uint8_t				repaintonpress:1;		// repaint or not when pressed - for indicate pressed state
 		BGPAINT_TYPE		bgpaint:2;
 	} options;
 	
-	TGUI_TEXTOPTIONS	textoptions;
+	TG_TEXTOPTIONS	textoptions;
 
 	struct {
 		paintfunc		_call_paint;	// repaint button
 		pressfunc		_call_press;	// touch events handling
+		processfunc		_call_process;	// periodical processing (for example text value refresh)
 	} funcs;
-} TGUI_BUTTON;
+} TG_BUTTON;
 
 
 
@@ -146,11 +154,11 @@ typedef struct
 	void				*prevscreen;
 	
 	char				*name;
-	TGUI_RECT			nameposition;
-	TGUI_TEXTOPTIONS	nameoptions;
+	TG_RECT			nameposition;
+	TG_TEXTOPTIONS	nameoptions;
 	
 	uint8_t				btns_count;
-	TGUI_BUTTON			*buttons;
+	TG_BUTTON			*buttons;
 	
 	LCDUI_FONT_TYPE		font;
 	LCDUI_FONT_TYPE		namefont;
@@ -162,7 +170,7 @@ typedef struct
 		paintfunc		_callpaint;	// repaint screen
 		processfunc		_process;	// screen process handling (check for changes, touch pressed, etc)
 	} funcs;
-} TGUI_SCREEN;
+} TG_SCREEN;
 
 
 
@@ -182,29 +190,32 @@ extern FIL				tguiFile @ "CCMRAM";
 extern TCHAR			tfname[512] @ "CCMRAM";
 
 
-extern TGUI_CONFIG		tguiDefaultConfig;
-
-#define		TGUI_BTN_CNT_MAINSCREEN			3
-extern TGUI_BUTTON		tguiScrButtonsMain[TGUI_BTN_CNT_MAINSCREEN];
-extern TGUI_SCREEN		tguiScreenMain;
-
-#define		TGUI_BTN_CNT_SERVICESCREEN		4
-extern TGUI_BUTTON		tguiScrButtonsService[TGUI_BTN_CNT_SERVICESCREEN];
-extern TGUI_SCREEN		tguiScreenService;
-
-#define		TGUI_BTN_CNT_LANGUAGESCREEN		LNG_LANGS_COUNT + 1
-extern TGUI_BUTTON		tguiScrButtonsLanguage[TGUI_BTN_CNT_LANGUAGESCREEN];
-extern TGUI_SCREEN		tguiScreenLanguage;
-
-#define		TGUI_BTN_CNT_INFOSCREEN			7
-extern TGUI_BUTTON		tguiScrButtonsInfo[TGUI_BTN_CNT_INFOSCREEN];
-extern TGUI_SCREEN		tguiScreenInfo;
+extern TG_CONFIG		tguiDefaultConfig;
 
 
-extern TGUI_SCREEN		*tguiActiveScreen;
+
+#define		TG_BTN_CNT_MAINSCREEN			4
+#define		TG_TIMEBUTTON_ID				1
+extern TG_BUTTON		tguiScrButtonsMain[TG_BTN_CNT_MAINSCREEN];
+extern TG_SCREEN		tguiScreenMain;
+
+#define		TG_BTN_CNT_SERVICESCREEN		4
+extern TG_BUTTON		tguiScrButtonsService[TG_BTN_CNT_SERVICESCREEN];
+extern TG_SCREEN		tguiScreenService;
+
+#define		TG_BTN_CNT_LANGUAGESCREEN		LNG_LANGS_COUNT + 1
+extern TG_BUTTON		tguiScrButtonsLanguage[TG_BTN_CNT_LANGUAGESCREEN];
+extern TG_SCREEN		tguiScreenLanguage;
+
+#define		TG_BTN_CNT_INFOSCREEN			7
+extern TG_BUTTON		tguiScrButtonsInfo[TG_BTN_CNT_INFOSCREEN];
+extern TG_SCREEN		tguiScreenInfo;
 
 
-uint8_t		TGUI_PointInRect(TOUCH_POINT *pt, TGUI_RECT *rc);
+extern TG_SCREEN		*tguiActiveScreen;
+
+
+uint8_t		TGUI_PointInRect(TOUCH_POINT *pt, TG_RECT *rc);
 
 
 void		TGUI_Init();

@@ -5,11 +5,111 @@
 ********************************************************************************/
 
 #include "tgui_defaultfuncs.h"
+#include "datetime.h"
+#include "sys_timer.h"
 
 
 
 
-void		_tgui_DrawStringInRect(char *str, TGUI_RECT *rect, TGUI_TEXTOPTIONS *opt)
+// period in ms of timer for check to repaint time on main screen
+#define		MS_SECTIMER_PERIOD			500
+uint8_t		scrTimeTimer = INVALID_TIMER;
+
+void		_tgui_ScreenTimeInit()
+{
+	if (scrTimeTimer == INVALID_TIMER)
+		scrTimeTimer = SYSTIMER_NewCountDown(MS_SECTIMER_PERIOD);
+	else
+		SYSTIMER_SetCountDown(scrTimeTimer, MS_SECTIMER_PERIOD);
+}
+//==============================================================================
+
+
+
+
+void		_tgui_ScreenTimeProcess(void *tguiobj, void *param)
+{
+	static uint8_t		minutes = 0;
+
+	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
+
+	// if minutes changed
+	if (SYSTIMER_GetCountDown(scrTimeTimer) == 0)
+	{
+		SYSTIMER_SetCountDown(scrTimeTimer, MS_SECTIMER_PERIOD);
+		uint8_t newminutes = DTIME_GetMinutes();
+		if (newminutes != minutes)
+		{
+			minutes = newminutes;
+			thisbtn->options.needrepaint = 1;
+		}
+	}
+}
+//==============================================================================
+
+
+
+
+void		_tgui_ScreenTimePaint(void *tguiobj, void *param)
+{
+	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
+	
+	DATETIME_STRUCT dt;
+	DTIME_GetDateTime(&dt);
+	
+	char *mshortname;
+	switch (dt.month)
+	{
+		case 2:
+			mshortname = LANG_GetString(LNGS_FEBRUARY);
+			break;
+		case 3:
+			mshortname = LANG_GetString(LNGS_MARCH);
+			break;
+		case 4:
+			mshortname = LANG_GetString(LNGS_APRIL);
+			break;
+		case 5:
+			mshortname = LANG_GetString(LNGS_MAY);
+			break;
+		case 6:
+			mshortname = LANG_GetString(LNGS_JUNE);
+			break;
+		case 7:
+			mshortname = LANG_GetString(LNGS_JULY);
+			break;
+		case 8:
+			mshortname = LANG_GetString(LNGS_AUGUST);
+			break;
+		case 9:
+			mshortname = LANG_GetString(LNGS_SEPTEMBER);
+			break;
+		case 10:
+			mshortname = LANG_GetString(LNGS_OCTOBER);
+			break;
+		case 11:
+			mshortname = LANG_GetString(LNGS_NOVEMBER);
+			break;
+		case 12:
+			mshortname = LANG_GetString(LNGS_DECEMBER);
+			break;
+		default:
+			mshortname = LANG_GetString(LNGS_JANUARY);
+			break;
+	}
+	
+	char	msg[32];
+	sprintf(msg, "%02u:%02u %u %s", dt.hours, dt.minutes, dt.date, mshortname);
+	thisbtn->text = msg;
+	_tgui_DefaultButtonPaint(tguiobj, NULL);
+	thisbtn->text = NULL;
+}
+//==============================================================================
+
+
+
+
+void		_tgui_DrawStringInRect(char *str, TG_RECT *rect, TG_TEXTOPTIONS *opt)
 {
 	if (str == NULL)
 		return;
@@ -590,7 +690,7 @@ closeexit:
 
 void		_tgui_DefaultButtonPaint(void *tguiobj, void *param)
 {
-	TGUI_BUTTON		*thisbtn = (TGUI_BUTTON*)tguiobj;
+	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
 	
 	uint16_t oldcolor = LCDUI_SetColor(thisbtn->backcolor_en);
 	uint16_t oldbackcolor = LCDUI_SetBackColor(thisbtn->backcolor_en);
@@ -647,9 +747,95 @@ void		_tgui_DefaultButtonPaint(void *tguiobj, void *param)
 
 
 
+void		_tgui_DefaultButtonProcess(void *tguiobj, void *param)
+{
+	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
+	TOUCH_STATES	*ts = (TOUCH_STATES*)param;;
+	TOUCH_POINT		tp;
+	
+	if (*ts > TS_PREPRESSED)
+	{
+		Touch_GetCoords(&tp);
+		switch (*ts)
+		{
+			case TS_SPRESSED:
+				if (thisbtn->options.disabled == 0 && thisbtn->options.pressed == 0)
+				{
+					if (TGUI_PointInRect(&tp, &thisbtn->position) == 1)
+					{
+						thisbtn->options.pressed = 1;
+						if (thisbtn->options.repaintonpress == 1 && thisbtn->funcs._call_paint != NULL)
+						{
+							thisbtn->funcs._call_paint((void*)thisbtn, NULL);
+							thisbtn->options.needrepaint = 0;
+						}
+						Touch_SetWorked();
+					}
+				}
+				break;
+
+			case TS_LPRESSED:
+				Touch_SetWorked();
+				break;
+
+			case TS_SRELEASED:
+				if (thisbtn->options.disabled == 0 && thisbtn->options.pressed == 1)
+				{
+					thisbtn->options.pressed = 0;
+					if (thisbtn->options.repaintonpress == 1 && thisbtn->funcs._call_paint != NULL)
+					{
+						thisbtn->funcs._call_paint((void*)thisbtn, NULL);
+						thisbtn->options.needrepaint = 0;
+					}
+					if (thisbtn->funcs._call_press != NULL)
+					{
+						if (thisbtn->funcs._call_press == (pressfunc)BTNA_GOCHILDSCR && thisbtn->childscreen != NULL)
+						{
+							TG_SCREEN		*curscreen = tguiActiveScreen;
+							tguiActiveScreen = (TG_SCREEN*)thisbtn->childscreen;
+							tguiActiveScreen->prevscreen = curscreen;
+							TGUI_ForceRepaint();
+						}
+						else
+						{
+							if (thisbtn->funcs._call_press == (pressfunc)BTNA_GOPREVSCR && tguiActiveScreen->prevscreen != NULL)
+							{
+								tguiActiveScreen = (TG_SCREEN*)tguiActiveScreen->prevscreen;
+								TGUI_ForceRepaint();
+							}
+							else
+							{
+								thisbtn->funcs._call_press((void*)thisbtn, NULL);
+							}
+						}
+					}
+					Touch_SetWorked();
+				}
+				break;
+
+			case TS_LRELEASED:
+				if (thisbtn->options.disabled == 0 && thisbtn->options.pressed == 1)
+				{
+					thisbtn->options.pressed = 0;
+					if (thisbtn->options.repaintonpress == 1 && thisbtn->funcs._call_paint != NULL)
+					{
+						thisbtn->funcs._call_paint((void*)thisbtn, NULL);
+						thisbtn->options.needrepaint = 0;
+					}
+					Touch_SetWorked();
+				}
+				break;
+		}
+	}
+}
+//==============================================================================
+
+
+
+
 void		_tgui_DefaultScreenPaint(void *tguiobj, void *param)
 {
-	TGUI_SCREEN		*thisscr = (TGUI_SCREEN*)tguiobj;
+	TG_SCREEN		*thisscr = (TG_SCREEN*)tguiobj;
 	
 	uint16_t oldcolor = LCDUI_SetColor(thisscr->nametextcolor);
 	uint16_t oldbackcolor = LCDUI_SetBackColor(thisscr->backcolor);
@@ -669,6 +855,7 @@ void		_tgui_DefaultScreenPaint(void *tguiobj, void *param)
 	{
 		if (thisscr->buttons[i].funcs._call_paint != NULL)
 			thisscr->buttons[i].funcs._call_paint(&(thisscr->buttons[i]), 0);
+		thisscr->buttons[i].options.needrepaint = 0;
 	}
 
 	LCDUI_SetColor(oldcolor);
@@ -682,12 +869,10 @@ void		_tgui_DefaultScreenPaint(void *tguiobj, void *param)
 
 void		_tgui_DefaultScreenProcess(void *tguiobj, void *param)
 {
-	TGUI_SCREEN		*thisscr = (TGUI_SCREEN*)tguiobj;
-	TOUCH_STATES	ts;
-	TOUCH_POINT		tp;
+	TG_SCREEN		*thisscr = (TG_SCREEN*)tguiobj;
+	TOUCH_STATES	ts = Touch_GetState();
 	
-	Touch_GetCoords(&tp);
-	ts = Touch_GetState();
+/*
 	switch (ts)
 	{
 		case TS_SPRESSED:
@@ -698,9 +883,11 @@ void		_tgui_DefaultScreenProcess(void *tguiobj, void *param)
 					if (TGUI_PointInRect(&tp, &thisscr->buttons[i].position) == 1)
 					{
 						thisscr->buttons[i].options.pressed = 1;
+						if (thisscr->buttons[i].funcs._call_process != NULL)
 						if (thisscr->buttons[i].options.repaintonpress == 1 && thisscr->buttons[i].funcs._call_paint != NULL)
 						{
 							thisscr->buttons[i].funcs._call_paint(&(thisscr->buttons[i]), NULL);
+							thisscr->buttons[i].options.needrepaint = 0;
 						}
 						break;
 					}
@@ -720,13 +907,14 @@ void		_tgui_DefaultScreenProcess(void *tguiobj, void *param)
 					if (thisscr->buttons[i].options.repaintonpress == 1 && thisscr->buttons[i].funcs._call_paint != NULL)
 					{
 						thisscr->buttons[i].funcs._call_paint(&(thisscr->buttons[i]), NULL);
+						thisscr->buttons[i].options.needrepaint = 0;
 					}
 					if (thisscr->buttons[i].funcs._call_press != NULL)
 					{
 						if (thisscr->buttons[i].funcs._call_press == (pressfunc)BTNA_GOCHILDSCR && thisscr->buttons[i].childscreen != NULL)
 						{
-							TGUI_SCREEN		*curscreen = tguiActiveScreen;
-							tguiActiveScreen = (TGUI_SCREEN*)thisscr->buttons[i].childscreen;
+							TG_SCREEN		*curscreen = tguiActiveScreen;
+							tguiActiveScreen = (TG_SCREEN*)thisscr->buttons[i].childscreen;
 							tguiActiveScreen->prevscreen = curscreen;
 							TGUI_ForceRepaint();
 						}
@@ -734,7 +922,7 @@ void		_tgui_DefaultScreenProcess(void *tguiobj, void *param)
 						{
 							if (thisscr->buttons[i].funcs._call_press == (pressfunc)BTNA_GOPREVSCR && tguiActiveScreen->prevscreen != NULL)
 							{
-								tguiActiveScreen = (TGUI_SCREEN*)tguiActiveScreen->prevscreen;
+								tguiActiveScreen = (TG_SCREEN*)tguiActiveScreen->prevscreen;
 								TGUI_ForceRepaint();
 							}
 							else
@@ -758,6 +946,7 @@ void		_tgui_DefaultScreenProcess(void *tguiobj, void *param)
 					if (thisscr->buttons[i].options.repaintonpress == 1 && thisscr->buttons[i].funcs._call_paint != NULL)
 					{
 						thisscr->buttons[i].funcs._call_paint(&(thisscr->buttons[i]), NULL);
+						thisscr->buttons[i].options.needrepaint = 0;
 					}
 				}
 
@@ -765,9 +954,24 @@ void		_tgui_DefaultScreenProcess(void *tguiobj, void *param)
 			Touch_SetState(TS_WORKED);
 			break;
 	}
+*/
+	for (uint8_t i = 0; i < thisscr->btns_count; i++)
+	{
+		if (thisscr->buttons[i].options.disabled == 0 && thisscr->buttons[i].funcs._call_process != NULL)
+			thisscr->buttons[i].funcs._call_process(&(thisscr->buttons[i]), (void*)&ts);
+		
+		// if active screen has been not changed and item need to repaint
+		if (tguiActiveScreen == thisscr && thisscr->buttons[i].options.needrepaint)
+		{
+			if (thisscr->buttons[i].funcs._call_paint != NULL)
+			{
+				thisscr->buttons[i].funcs._call_paint(&(thisscr->buttons[i]), NULL);
+				thisscr->buttons[i].options.needrepaint = 0;
+			}
+		}
+	}
 
-	Touch_GetCoords(&tp);
-	
+
 }
 //==============================================================================
 

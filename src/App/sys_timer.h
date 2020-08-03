@@ -1,6 +1,10 @@
 #ifndef __sys_timer_H
 #define __sys_timer_H
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 #include "includes.h"
 #include "main.h"
@@ -32,6 +36,9 @@ void		SYSTIMER_SetCountDown(uint8_t timer, uint32_t msecs);
 
 
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*__sys_timer_H */
 

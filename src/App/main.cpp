@@ -186,7 +186,7 @@ int main()
 	// ZMotor
 	CFG_Init();
 	ZMOTOR_Init();
-
+/*
 	ZMOTOR_MotorEnable();
 	systemState.is_printing = 1;
 	HAL_Delay(500);
@@ -224,6 +224,8 @@ int main()
 		HAL_Delay(2000);
 	}
 	zPlanner.synchronize();
+/**/
+	
 	ZMOTOR_MotorDisable();
 	
 	// Disable USB power line

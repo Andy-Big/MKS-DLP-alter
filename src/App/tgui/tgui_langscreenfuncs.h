@@ -7,6 +7,7 @@
 
 
 void		_tgui_LanguageScreenProcess(void *tguiobj, void *param);
+void		_tgui_LanguageButtonPress(void *tguiobj, void *param);
 
 
 

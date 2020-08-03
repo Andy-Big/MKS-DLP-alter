@@ -2283,7 +2283,13 @@
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_langscreenfuncs.cpp</name>
             </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_mainscreenfuncs.cpp</name>
+            </file>
         </group>
+        <file>
+            <name>$PROJ_DIR$\src\App\datetime.cpp</name>
+        </file>
         <file>
             <name>$PROJ_DIR$\src\App\fsmc.c</name>
         </file>

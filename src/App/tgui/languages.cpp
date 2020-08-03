@@ -19,14 +19,17 @@ LNG_STRINGS		lngLangEng[_LNGS_LASTITEM] = {
 		{ LNGS_SHORTMINUTE,(char*)"min" },
 		{ LNGS_SHORTSECOND,(char*)"sec" },
 
+		// Menus and Screens names
 		{ LNGS_BACK, (char*)"Back" },
-		{ LNGS_MAINMENU, (char*)"Main menu" },
-		{ LNGS_PRINT, (char*)"Print" },
-		{ LNGS_SERVICE, (char*)"Service" },
-		{ LNGS_INFO, (char*)"Info" },
-		{ LNGS_LANGUAGE, (char*)"Language" },
-		{ LNGS_MOVEZ, (char*)"Move Z" },
-		{ LNGS_LIGHTTEST, (char*)"Test" },
+		{ LNGS_MAINMENU, (char*)"MAIN MENU" },
+		{ LNGS_PRINT, (char*)"PRINT" },
+		{ LNGS_SERVICE, (char*)"SERVICE" },
+		{ LNGS_INFO, (char*)"INFO" },
+		{ LNGS_LANGUAGE, (char*)"LANGUAGE" },
+		{ LNGS_MOVEZ, (char*)"MOVE Z" },
+		{ LNGS_LIGHTTEST, (char*)"TEST" },
+		
+		// --
 		{ LNGS_VERSION,(char*)"Version" },
 		{ LNGS_LIGHTTIME,(char*)"Light time" },
 		{ LNGS_FANSTIME,(char*)"Fans time" },
@@ -51,14 +54,17 @@ LNG_STRINGS		lngLangRus[_LNGS_LASTITEM] = {
 		{ LNGS_SHORTMINUTE,(char*)"мин" },
 		{ LNGS_SHORTSECOND,(char*)"сек" },
 
+		// Menus and Screens names
 		{ LNGS_BACK, (char*)"Назад" },
-		{ LNGS_MAINMENU, (char*)"Главное меню" },
-		{ LNGS_PRINT, (char*)"Печать" },
-		{ LNGS_SERVICE, (char*)"Сервис" },
-		{ LNGS_INFO, (char*)"Инфо" },
-		{ LNGS_LANGUAGE, (char*)"Язык" },
-		{ LNGS_MOVEZ, (char*)"Двиг. Z" },
-		{ LNGS_LIGHTTEST, (char*)"Тест" },
+		{ LNGS_MAINMENU, (char*)"ГЛАВНОЕ МЕНЮ" },
+		{ LNGS_PRINT, (char*)"ПЕЧАТЬ" },
+		{ LNGS_SERVICE, (char*)"СЕРВИС" },
+		{ LNGS_INFO, (char*)"ИНФО" },
+		{ LNGS_LANGUAGE, (char*)"ЯЗЫК" },
+		{ LNGS_MOVEZ, (char*)"ОСЬ Z" },
+		{ LNGS_LIGHTTEST, (char*)"ТЕСТ" },
+
+		// ---
 		{ LNGS_VERSION,(char*)"Версия" },
 		{ LNGS_LIGHTTIME,(char*)"Время засветки" },
 		{ LNGS_FANSTIME,(char*)"Время вентиляторов" },

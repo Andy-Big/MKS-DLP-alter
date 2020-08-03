@@ -75,9 +75,44 @@ void		_touch_RefreshState()
 	switch (touch_info.state)
 	{
 		case TS_WORKED:
-			if (!TOUCH_PRESSED())
+			switch (touch_info.prevstate)
 			{
-				touch_info.state = TS_FREE;
+				case TS_SRELEASED:
+				case TS_LRELEASED:
+					if (TOUCH_PRESSED())
+					{
+						touch_info.state = TS_PREPRESSED;
+						touch_info.time = 0;
+					}
+					else
+						touch_info.state = TS_FREE;
+					break;
+				case TS_SPRESSED:
+					if (TOUCH_PRESSED())
+					{
+						if (touch_info.time > 50)
+						{
+							touch_info.state = TS_LPRESSED;
+						}
+						else
+							touch_info.time++;
+					}
+					else
+					{
+						touch_info.state = TS_SRELEASED;
+						touch_info.time = 0;
+					}
+					break;
+				case TS_LPRESSED:
+					if (!TOUCH_PRESSED())
+					{
+						touch_info.state = TS_LRELEASED;
+						touch_info.time = 0;
+					}
+					break;
+				default:
+					touch_info.state = TS_FREE;
+					break;
 			}
 			break;
 		case TS_FREE:
@@ -189,9 +224,10 @@ TOUCH_STATES	Touch_GetState()
 
 
 
-void		Touch_SetState(TOUCH_STATES newstate)
+void		Touch_SetWorked()
 {
-	touch_info.state = newstate;
+	touch_info.prevstate = touch_info.state;
+	touch_info.state = TS_WORKED;
 }
 //==============================================================================
 

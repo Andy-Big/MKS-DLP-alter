@@ -12,9 +12,9 @@
 
 typedef enum
 {
-	TS_FREE,
-	TS_WORKED,
-	TS_PREPRESSED,
+	TS_FREE = 0,
+	TS_WORKED = 1,
+	TS_PREPRESSED = 2,
 	TS_SPRESSED,
 	TS_LPRESSED,
 	TS_SRELEASED,
@@ -24,6 +24,7 @@ typedef enum
 typedef struct
 {
 	TOUCH_STATES	state;
+	TOUCH_STATES	prevstate;
 	uint8_t			time;
 	uint16_t		xc;
 	uint16_t		yc;
@@ -48,7 +49,7 @@ void		Touch_Enable();
 void		Touch_Disable();
 
 TOUCH_STATES	Touch_GetState();
-void		Touch_SetState(TOUCH_STATES newstate);
+void		Touch_SetWorked();
 void		Touch_GetCoords(TOUCH_POINT *pt);
 uint8_t		Touch_IsPressed();
 
