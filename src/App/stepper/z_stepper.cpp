@@ -656,6 +656,7 @@ void Stepper::pulse_phase_isr()
 		if (step_needed)
 		{
 			count_position += count_direction;
+			systemState.current_position_steps += count_direction;
 			delta_error -= advance_divisor;
 		}
 		
@@ -705,7 +706,6 @@ uint32_t Stepper::block_phase_isr()
 		if (step_events_completed >= step_event_count)
 		{
 			discard_current_block();
-			systemState.current_position = (float)count_position / zPlanner.settings.axis_steps_per_mm;
 		}
 		else
 		{

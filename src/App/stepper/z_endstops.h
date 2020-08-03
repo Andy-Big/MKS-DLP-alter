@@ -39,12 +39,29 @@ extern Endstops			zEndstops;
 
 
 
-#define ENDSTOPS_ENABLED  zEndstops.enabled
+#define ENDSTOPS_ENABLED	zEndstops.enabled
+
+#define ZE_MAX_Pin			GPIO_PIN_2
+#define ZE_MAX_GPIO_Port	GPIOC
+#define ZE_MAX_EXTI_IRQn	EXTI2_IRQn
+
+#define ZE_MIN_Pin			GPIO_PIN_0
+#define ZE_MIN_GPIO_Port	GPIOC
+#define ZE_MIN_EXTI_IRQn	EXTI0_IRQn
 
 
 
 
 
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+void	EndstopsInterrupt();
+#ifdef __cplusplus
+}
+#endif
 
 
 

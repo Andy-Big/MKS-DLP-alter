@@ -59,7 +59,7 @@ typedef struct
 
 typedef struct
 {
-	float			current_position;
+	int32_t			current_position_steps;
 	float			target_position;
 	uint8_t			is_printing;
 	uint8_t			position_known;

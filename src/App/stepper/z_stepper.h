@@ -402,5 +402,3 @@ class Stepper {
 
 
 };
-
-extern Stepper stepper;

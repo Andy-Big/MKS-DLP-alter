@@ -87,7 +87,9 @@ void		ZMOTOR_Init()
 	zPlanner.min_feedrate_mm_s = 			cfgzMotor.min_feedrate_mm_s;
 	zPlanner.min_travel_feedrate_mm_s = 	cfgzMotor.min_travel_feedrate_mm_s;
 	zPlanner.max_jerk = 					cfgzMotor.max_jerk;
-/**/	
+/**/
+	
+	zEndstops.init();
 	zPlanner.init();
 	zPlanner.refresh_positioning();
 	zStepper.init();

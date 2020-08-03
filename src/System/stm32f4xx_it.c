@@ -36,6 +36,8 @@ extern DMA_HandleTypeDef	hFlashSpiDmaTx;
 extern TIM_HandleTypeDef	hStepperTim;
 
 extern void 				IsrStepperHandler();
+
+extern void					EndstopsInterrupt();
 //extern void (*IsrStepperHandler)();
 
 /******************************************************************************/
@@ -149,7 +151,7 @@ void OTG_FS_IRQHandler(void)
 }
 
 /**
-  * @brief This function handles DMA2 stream7 global interrupt.
+  * @brief This function handles DMA2 stream7 global interrupt - mem to mem
   */
 void DMA2_Stream7_IRQHandler(void)
 {
@@ -173,7 +175,7 @@ void DMA2_Stream5_IRQHandler(void)
 }
 
 /**
-  * @brief This function handles TIM2 global interrupt.
+  * @brief This function handles TIM2 global interrupt - Stepper steps generation timer
   */
 void TIM2_IRQHandler(void)
 {
@@ -181,5 +183,23 @@ void TIM2_IRQHandler(void)
 	IsrStepperHandler();
 }
 
+
+/**
+  * @brief This function handles EXTI line0 interrupt - Z_Min endstop
+  */
+void EXTI0_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+  EndstopsInterrupt();
+}
+
+/**
+  * @brief This function handles EXTI line2 interrupt - Z_Max endstop
+  */
+void EXTI2_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
+  EndstopsInterrupt();
+}
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -35,6 +35,21 @@
 	 
 Endstops			zEndstops;
 
+
+
+
+
+// interrupt routine
+void	EndstopsInterrupt()
+{
+	zEndstops.update();
+}
+
+
+
+
+
+
 // private:
 
 bool Endstops::enabled, Endstops::enabled_globally; // Initialized by settings.load()
@@ -50,13 +65,23 @@ Endstops::esbits_t Endstops::live_state = 0;
 
 void Endstops::init()
 {
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+	
+	/*Configure GPIO pins : PCPin PCPin */
+	GPIO_InitStruct.Pin = ZE_MAX_Pin|ZE_MIN_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+	/* EXTI interrupt init*/
+	HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+
+	HAL_NVIC_SetPriority(EXTI2_IRQn, 0, 0);
+	HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+
 } // Endstops::init
 
-// Called at ~1KHz from Temperature ISR: Poll endstop state if required
-void Endstops::poll()
-{
-    update();
-}
 
 void Endstops::enable_globally(const bool onoff)
 {

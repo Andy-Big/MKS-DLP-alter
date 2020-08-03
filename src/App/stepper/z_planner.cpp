@@ -1170,7 +1170,7 @@ void Planner::reset_acceleration_rates()
 void Planner::refresh_positioning()
 {
 	steps_to_mm = 1.0f / settings.axis_steps_per_mm;
-	set_position_mm(systemState.current_position);
+	set_position_mm((float)systemState.current_position_steps * steps_to_mm);
 	reset_acceleration_rates();
 }
 
