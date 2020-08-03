@@ -33,14 +33,14 @@ void			CFG_Init()
 	cfgzMotor.z_pause_pos = 5.0;
 	
 	cfgzMotor.axis_steps_per_mm = 1600;
-	cfgzMotor.max_feedrate_mm_s = 40;
-	cfgzMotor.max_acceleration_mm_per_s2 = 40;
-	cfgzMotor.acceleration = 4;
-	cfgzMotor.travel_acceleration = 30;
+	cfgzMotor.max_feedrate_mm_s = 100;
+	cfgzMotor.max_acceleration_mm_per_s2 = 100;
+	cfgzMotor.acceleration = 0.7;
+	cfgzMotor.travel_acceleration = 40;
 	cfgzMotor.min_feedrate_mm_s = 0.01;
 	cfgzMotor.min_travel_feedrate_mm_s = 0.01;
 	cfgzMotor.max_jerk = 0.05;
-	cfgzMotor.current_vref = 300;
+	cfgzMotor.current_vref = 800;
 }
 //==============================================================================
 

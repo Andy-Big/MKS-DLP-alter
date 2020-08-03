@@ -276,36 +276,19 @@ class Planner {
     static void check_axes_activity();
 
     // Number of moves currently in the planner including the busy block, if any
-    __INLINE static uint8_t movesplanned()
-	{
-		uint8_t tmp = block_buffer_head;
-		return BLOCK_MOD(tmp - block_buffer_tail);
-	}
+    __INLINE static uint8_t movesplanned() { return BLOCK_MOD(block_buffer_head - block_buffer_tail); }
 
     // Number of nonbusy moves currently in the planner
-    __INLINE static uint8_t nonbusy_movesplanned()
-	{
-		uint8_t tmp = block_buffer_head;
-		return BLOCK_MOD(tmp - block_buffer_nonbusy);
-	}
+    __INLINE static uint8_t nonbusy_movesplanned() { return BLOCK_MOD(block_buffer_head - block_buffer_nonbusy); }
 
     // Remove all blocks from the buffer
-    __INLINE static void clear_block_buffer()
-	{
-		block_buffer_nonbusy = block_buffer_planned = block_buffer_head = block_buffer_tail = 0;
-	}
+    __INLINE static void clear_block_buffer() { block_buffer_nonbusy = block_buffer_planned = block_buffer_head = block_buffer_tail = 0; }
 
     // Check if movement queue is full
-    __INLINE static bool is_full()
-	{
-		return block_buffer_tail == next_block_index(block_buffer_head);
-	}
+    __INLINE static bool is_full() { return block_buffer_tail == next_block_index(block_buffer_head); }
 
     // Get count of movement slots free
-    __INLINE static uint8_t moves_free()
-	{
-		return BLOCK_BUFFER_SIZE - 1 - movesplanned();
-	}
+    __INLINE static uint8_t moves_free() { return BLOCK_BUFFER_SIZE - 1 - movesplanned(); }
 
     /**
      * Planner::get_next_free_block
@@ -314,8 +297,7 @@ class Planner {
      * - Wait for the number of spaces to open up in the planner
      * - Return the first head block
      */
-    __INLINE static block_t* get_next_free_block(uint8_t &next_buffer_head, const uint8_t count=1)
-	{
+    __INLINE static block_t* get_next_free_block(uint8_t &next_buffer_head, const uint8_t count=1) {
 
       // Wait until there are enough slots free
       while (moves_free() < count) { idle(); }
@@ -451,11 +433,7 @@ class Planner {
     /**
      * Does the buffer have any blocks queued?
      */
-    __INLINE static bool has_blocks_queued()
-	{
-		uint8_t tmp = block_buffer_head;
-		return (tmp != block_buffer_tail);
-	}
+    __INLINE static bool has_blocks_queued() { return (block_buffer_head != block_buffer_tail); }
 
     /**
      * Get the current block for processing

@@ -354,6 +354,7 @@
                     <state>$PROJ_DIR$/src/App</state>
                     <state>$PROJ_DIR$/src/App/tft</state>
                     <state>$PROJ_DIR$/src/App/tgui</state>
+                    <state>$PROJ_DIR$/src/App/stepper</state>
                     <state>$PROJ_DIR$/src/FATFS/Target</state>
                     <state>$PROJ_DIR$/src/FATFS/App</state>
                     <state>$PROJ_DIR$/src/USB_HOST/App</state>
@@ -2199,20 +2200,30 @@
             <name>STEPPER</name>
             <group>
                 <name>_orig</name>
-                <file>
-                    <name>$PROJ_DIR$\src\App\stepper\_planner.cpp</name>
-                    <excluded>
-                        <configuration>MKSDLP_Alter_debug</configuration>
-                    </excluded>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\src\App\stepper\_stepper.cpp</name>
-                    <excluded>
-                        <configuration>MKSDLP_Alter_debug</configuration>
-                    </excluded>
-                </file>
+                <excluded>
+                    <configuration>MKSDLP_Alter_release</configuration>
+                    <configuration>MKSDLP_Alter_debug</configuration>
+                </excluded>
                 <file>
                     <name>$PROJ_DIR$\src\App\stepper\endstops.cpp</name>
+                    <excluded>
+                        <configuration>MKSDLP_Alter_debug</configuration>
+                    </excluded>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\gcode\motion\G0_G1.cpp</name>
+                    <excluded>
+                        <configuration>MKSDLP_Alter_debug</configuration>
+                    </excluded>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\MarlinCore.cpp</name>
+                    <excluded>
+                        <configuration>MKSDLP_Alter_debug</configuration>
+                    </excluded>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\module\motion.cpp</name>
                     <excluded>
                         <configuration>MKSDLP_Alter_debug</configuration>
                     </excluded>

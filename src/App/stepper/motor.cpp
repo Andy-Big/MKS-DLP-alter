@@ -68,6 +68,7 @@ void		ZMOTOR_Init()
 {
 	_zmotor_Pins_Init();
 
+//*
 	zPlanner.settings.axis_steps_per_mm = 			cfgzMotor.axis_steps_per_mm;
 	zPlanner.settings.max_feedrate_mm_s = 			cfgzMotor.max_feedrate_mm_s;
 	zPlanner.settings.max_acceleration_mm_per_s2 =	cfgzMotor.max_acceleration_mm_per_s2;
@@ -76,8 +77,17 @@ void		ZMOTOR_Init()
 	zPlanner.settings.min_feedrate_mm_s = 			cfgzMotor.min_feedrate_mm_s;
 	zPlanner.settings.min_travel_feedrate_mm_s = 	cfgzMotor.min_travel_feedrate_mm_s;
 	zPlanner.settings.max_jerk = 					cfgzMotor.max_jerk;
-
-	
+/**/
+/*
+	zPlanner.axis_steps_per_mm = 			cfgzMotor.axis_steps_per_mm;
+	zPlanner.max_feedrate_mm_s = 			cfgzMotor.max_feedrate_mm_s;
+	zPlanner.max_acceleration_mm_per_s2 =	cfgzMotor.max_acceleration_mm_per_s2;
+	zPlanner.acceleration = 				cfgzMotor.acceleration;
+	zPlanner.travel_acceleration = 		cfgzMotor.travel_acceleration;
+	zPlanner.min_feedrate_mm_s = 			cfgzMotor.min_feedrate_mm_s;
+	zPlanner.min_travel_feedrate_mm_s = 	cfgzMotor.min_travel_feedrate_mm_s;
+	zPlanner.max_jerk = 					cfgzMotor.max_jerk;
+/**/	
 	zPlanner.init();
 	zPlanner.refresh_positioning();
 	zStepper.init();
@@ -86,13 +96,13 @@ void		ZMOTOR_Init()
 	TIM_ZRef_Init();
 	HAL_TIM_PWM_Start(&hZRefTim, TIM_CHANNEL_1);
 	hZRefTim.Instance->CCR1 = 0;
-	hZRefTim.Instance->CCR1 = 500*0.364;
 	HAL_TIM_Base_MspInit(&hZRefTim);
 	
 	// Stepper timer
 	TIM_ZStepper_Init();
 	HAL_TIM_Base_MspInit(&hStepperTim);
 	HAL_TIM_Base_Start_IT(&hStepperTim);
+
 	// Set motor current
 	TIM5->CCR1 = cfgzMotor.current_vref < 1000 ? (uint32_t)(cfgzMotor.current_vref * 0.364) : 364;
 	

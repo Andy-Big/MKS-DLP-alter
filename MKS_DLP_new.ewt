@@ -2460,13 +2460,16 @@
             <group>
                 <name>_orig</name>
                 <file>
-                    <name>$PROJ_DIR$\src\App\stepper\_planner.cpp</name>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\src\App\stepper\_stepper.cpp</name>
-                </file>
-                <file>
                     <name>$PROJ_DIR$\src\App\stepper\endstops.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\gcode\motion\G0_G1.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\MarlinCore.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\module\motion.cpp</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\src\App\stepper\planner.cpp</name>

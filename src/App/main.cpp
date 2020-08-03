@@ -193,23 +193,38 @@ int main()
 	for (uint16_t i = 0; i < 100; i++)
 	{
 		systemState.is_printing = 1;
-		ZMOTOR_MoveAbsolute(64, 20);
-		ZMOTOR_MoveAbsolute(0, 20);
+		ZMOTOR_MoveAbsolute(2, 1);
 		systemState.is_printing = 0;
-		ZMOTOR_MoveAbsolute(64, 20);
-		ZMOTOR_MoveAbsolute(0, 20);
+		ZMOTOR_MoveAbsolute(5, 20);
 		zPlanner.synchronize();
+		ZMOTOR_MoveAbsolute(1, 20);
+		systemState.is_printing = 1;
+		ZMOTOR_MoveAbsolute(0, 2);
+		zPlanner.synchronize();
+		HAL_Delay(2000);
+		systemState.is_printing = 1;
+		ZMOTOR_MoveAbsolute(2, 1);
+		systemState.is_printing = 0;
+		ZMOTOR_MoveAbsolute(5, 20);
+		zPlanner.synchronize();
+		ZMOTOR_MoveAbsolute(1, 20);
+		systemState.is_printing = 1;
+		ZMOTOR_MoveAbsolute(0, 2);
+		zPlanner.synchronize();
+		HAL_Delay(2000);
+		systemState.is_printing = 1;
+		ZMOTOR_MoveAbsolute(2, 1);
+		systemState.is_printing = 0;
+		ZMOTOR_MoveAbsolute(100, 40);
+		zPlanner.synchronize();
+		ZMOTOR_MoveAbsolute(1, 20);
+		systemState.is_printing = 1;
+		ZMOTOR_MoveAbsolute(0, 2);
+		zPlanner.synchronize();
+		HAL_Delay(2000);
 	}
 	zPlanner.synchronize();
-
-	HAL_Delay(2000);
-	ZMOTOR_MoveAbsolute(3, 1);
-	
-	systemState.is_printing = 0;
-	ZMOTOR_MoveAbsolute(40, 5);
-	zPlanner.synchronize();
 	ZMOTOR_MotorDisable();
-
 	
 	// Disable USB power line
 	USB_HOST_VbusFS(1);

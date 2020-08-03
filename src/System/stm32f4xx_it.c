@@ -177,8 +177,8 @@ void DMA2_Stream5_IRQHandler(void)
   */
 void TIM2_IRQHandler(void)
 {
-	IsrStepperHandler();
 	HAL_TIM_IRQHandler(&hStepperTim);
+	IsrStepperHandler();
 }
 
 
