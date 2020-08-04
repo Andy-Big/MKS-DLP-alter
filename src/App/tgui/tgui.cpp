@@ -108,7 +108,7 @@ void		TGUI_Init()
 	tgb->bgimagename_press = NULL;
 	tgb->bgimagename_dis = NULL;
 
-	tgb->text = LNGS_PRINT;
+	tgb->text = LSTR_PRINT;
 	tgb->textposition = {115, 103, 450, 162};
 	tgb->font = tgc->btnfont;
 	tgb->textcolor_en = tgc->btntextcolor_en;
@@ -138,7 +138,7 @@ void		TGUI_Init()
 	
 	tgb->position = {245, 185, 465, 250};
 
-	tgb->text = LNGS_INFO;
+	tgb->text = LSTR_INFO;
 	tgb->textposition = {320, 188, 460, 247};
 
 	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
@@ -151,7 +151,7 @@ void		TGUI_Init()
 	
 	tgb->position = {15, 185, 235, 250};
 
-	tgb->text = LNGS_SERVICE;
+	tgb->text = LSTR_SERVICE;
 	tgb->textposition = {85, 188, 230, 247};
 
 	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
@@ -170,7 +170,7 @@ void		TGUI_Init()
 	tgb->bgimagename_press = NULL;
 	tgb->bgimagename_dis = NULL;
 
-	tgb->text = LNGS____;
+	tgb->text = LSTR____;
 	tgb->textposition = {6, 4, 169, 29};
 	tgb->font = LCDUI_FONT_H24;
 	tgb->textcolor_en = LCDUI_RGB(0xBAC5D5);
@@ -203,7 +203,7 @@ void		TGUI_Init()
 	tgs->bgimagename = FNAME_BKGR_MAIN;
 	tgs->prevscreen = NULL;
 
-	tgs->name = LNGS_MAINMENU;
+	tgs->name = LSTR_MAINMENU;
 	tgs->nameposition = {205, 3, 475, 30};
 	tgs->nameoptions.textalign_h = HTA_CENTER;
 	tgs->nameoptions.textalign_v = VTA_CENTER;
@@ -237,7 +237,7 @@ void		TGUI_Init()
 	tgb->bgimagename_press = NULL;
 	tgb->bgimagename_dis = NULL;
 
-	tgb->text = LNGS_BACK;
+	tgb->text = LSTR_BACK;
 	tgb->textposition = {54, 6, 165, 47};
 	tgb->font = tgc->btnfont;
 	tgb->textcolor_en = LCDUI_RGB(0x074B19);
@@ -269,7 +269,7 @@ void		TGUI_Init()
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
-	tgb->text = LNGS_LANGUAGE;
+	tgb->text = LSTR_LANGUAGE;
 	tgb->textposition = {80, 67, 230, 128};
 
 	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
@@ -285,7 +285,7 @@ void		TGUI_Init()
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
-	tgb->text = LNGS_MOVEZ;
+	tgb->text = LSTR_MOVEZ;
 	tgb->textposition = {316, 67, 462, 128};
 
 	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
@@ -300,7 +300,7 @@ void		TGUI_Init()
 	tgs->bgimagename = FNAME_BKGR_SERVICE;
 	tgs->prevscreen = &tguiScreenMain;
 
-	tgs->name = LNGS_INFO;
+	tgs->name = LSTR_INFO;
 	tgs->nameposition = {205, 3, 475, 30};
 	tgs->nameoptions.textalign_h = HTA_CENTER;
 	tgs->nameoptions.textalign_v = VTA_CENTER;
@@ -376,7 +376,7 @@ void		TGUI_Init()
 	tgb->bgimagename_press = NULL;
 	tgb->bgimagename_dis = NULL;
 
-	tgb->text = LNGS_BACK;
+	tgb->text = LSTR_BACK;
 	tgb->textposition = {54, 6, 165, 47};
 	tgb->font = tgc->btnfont;
 	tgb->textcolor_en = LCDUI_RGB(0x074B19);
@@ -408,7 +408,7 @@ void		TGUI_Init()
 	tgs->bgimagename = FNAME_BKGR_LANGUAGE;
 	tgs->prevscreen = &tguiScreenService;
 
-	tgs->name = LNGS_LANGUAGE;
+	tgs->name = LSTR_LANGUAGE;
 	tgs->nameposition = {205, 3, 475, 30};
 	tgs->nameoptions.textalign_h = HTA_CENTER;
 	tgs->nameoptions.textalign_v = VTA_CENTER;
@@ -442,7 +442,7 @@ void		TGUI_Init()
 	tgb->bgimagename_press = NULL;
 	tgb->bgimagename_dis = NULL;
 
-	tgb->text = LNGS_BACK;
+	tgb->text = LSTR_BACK;
 	tgb->textposition = {54, 6, 165, 47};
 	tgb->font = tgc->btnfont;
 	tgb->textcolor_en = LCDUI_RGB(0x074B19);
@@ -478,7 +478,7 @@ void		TGUI_Init()
 	tgb->bgimagename_press = NULL;
 	tgb->bgimagename_dis = NULL;
 
-	tgb->text = LNGS_VERSION;
+	tgb->text = LSTR_VERSION;
 	tgb->textposition = {35, 65, 320, 109};
 	tgb->font = LCDUI_FONT_H24;
 	tgb->textcolor_en = LCDUI_RGB(0x00272E);
@@ -508,7 +508,7 @@ void		TGUI_Init()
 	
 	tgb->position = {25, 110, 320, 154};
 
-	tgb->text = LNGS_LIGHTTIME;
+	tgb->text = LSTR_LIGHTTIME;
 	tgb->textposition = {35, 110, 320, 154};
 
 	// FANSTIME_TEXT button
@@ -517,7 +517,7 @@ void		TGUI_Init()
 	
 	tgb->position = {25, 155, 320, 199};
 
-	tgb->text = LNGS_FANSTIME;
+	tgb->text = LSTR_FANSTIME;
 	tgb->textposition = {35, 155, 320, 199};
 
 	// VERSION_VAL button
@@ -526,7 +526,7 @@ void		TGUI_Init()
 	
 	tgb->position = {320, 65, 444, 109};
 
-	tgb->text = LNGS____;
+	tgb->text = LSTR____;
 	tgb->textposition = {320, 65, 444, 109};
 	tgb->textoptions.textalign_h = HTA_RIGHT;
 
@@ -538,7 +538,7 @@ void		TGUI_Init()
 	
 	tgb->position = {320, 110, 444, 154};
 
-	tgb->text = LNGS____;
+	tgb->text = LSTR____;
 	tgb->textposition = {320, 110, 444, 154};
 
 	tgb->funcs._call_paint = _tgui_InfoScreenLightTimePaint;
@@ -549,7 +549,7 @@ void		TGUI_Init()
 	
 	tgb->position = {320, 155, 444, 199};
 
-	tgb->text = LNGS____;
+	tgb->text = LSTR____;
 	tgb->textposition = {320, 155, 444, 199};
 
 	tgb->funcs._call_paint = _tgui_InfoScreenFansTimePaint;
@@ -563,7 +563,7 @@ void		TGUI_Init()
 	tgs->bgimagename = FNAME_BKGR_INFO;
 	tgs->prevscreen = &tguiScreenMain;
 
-	tgs->name = LNGS_INFO;
+	tgs->name = LSTR_INFO;
 	tgs->nameposition = {205, 3, 475, 30};
 	tgs->nameoptions.textalign_h = HTA_CENTER;
 	tgs->nameoptions.textalign_v = VTA_CENTER;
@@ -597,7 +597,7 @@ void		TGUI_Init()
 	tgb->bgimagename_press = NULL;
 	tgb->bgimagename_dis = NULL;
 
-	tgb->text = LNGS_BACK;
+	tgb->text = LSTR_BACK;
 	tgb->textposition = {54, 6, 165, 47};
 	tgb->font = tgc->btnfont;
 	tgb->textcolor_en = LCDUI_RGB(0x074B19);
@@ -633,7 +633,7 @@ void		TGUI_Init()
 	tgb->textcolor_en = tgc->btntextcolor_en;
 	tgb->textcolor_act = LCDUI_RGB(0xC80000);
 
-	tgb->text = LNGS_10MM;
+	tgb->text = LSTR_10MM;
 	tgb->textposition = {16, 65, 115, 114};
 
 	tgb->funcs._call_press = NULL;
@@ -650,7 +650,7 @@ void		TGUI_Init()
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
-	tgb->text = LNGS_1MM;
+	tgb->text = LSTR_1MM;
 	tgb->textposition = {132, 65, 231, 114};
 
 	tgb->funcs._call_press = NULL;
@@ -668,7 +668,7 @@ void		TGUI_Init()
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
-	tgb->text = LNGS_02MM;
+	tgb->text = LSTR_02MM;
 	tgb->textposition = {248, 65, 347, 114};
 
 	tgb->funcs._call_press = NULL;
@@ -686,7 +686,7 @@ void		TGUI_Init()
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
-	tgb->text = LNGS_005MM;
+	tgb->text = LSTR_005MM;
 	tgb->textposition = {364, 65, 463, 114};
 
 	tgb->funcs._call_press = NULL;
@@ -701,7 +701,7 @@ void		TGUI_Init()
 	tgs->bgimagename = FNAME_BKGR_MOVEZ;
 	tgs->prevscreen = &tguiScreenService;
 
-	tgs->name = LNGS_MOVEZ;
+	tgs->name = LSTR_MOVEZ;
 	tgs->nameposition = {205, 3, 475, 30};
 	tgs->nameoptions.textalign_h = HTA_CENTER;
 	tgs->nameoptions.textalign_v = VTA_CENTER;
@@ -739,20 +739,20 @@ void		TGUI_ChangeLanguage(uint8_t lang)
 {
 	// PRINT button
 	tgb = &(tguiScrMainButtons[0]);
-	tgb->text = LNGS_PRINT;
+	tgb->text = LSTR_PRINT;
 
 	// INFO button
 	tgb = &(tguiScrMainButtons[1]);
-	tgb->text = LNGS_INFO;
+	tgb->text = LSTR_INFO;
 
 	// SERVICE button
 	tgb = &(tguiScrMainButtons[2]);
-	tgb->text = LNGS_SERVICE;
+	tgb->text = LSTR_SERVICE;
 	
 	
 	// MAIN SCREEN
 	tgs = &tguiScreenMain;
-	tgs->name = LNGS_MAINMENU;
+	tgs->name = LSTR_MAINMENU;
 	
 }
 
@@ -761,16 +761,16 @@ void		TGUI_ChangeLanguage(uint8_t lang)
 {
 	// BACK button
 	tgb = &(tguiScrServiceButtons[0]);
-	tgb->text = LNGS_BACK;
+	tgb->text = LSTR_BACK;
 	
 	// LANGUAGE button
 	tgb = &(tguiScrServiceButtons[1]);
-	tgb->text = LNGS_LANGUAGE;
+	tgb->text = LSTR_LANGUAGE;
 	
 	
 	// SERVICE SCREEN
 	tgs = &tguiScreenService;
-	tgs->name = LNGS_SERVICE;
+	tgs->name = LSTR_SERVICE;
 	
 }
 
@@ -780,12 +780,12 @@ void		TGUI_ChangeLanguage(uint8_t lang)
 {
 	// BACK button
 	tgb = &(tguiScrLanguageButtons[TG_BTN_CNT_SCREEN_LANGUAGE-1]);
-	tgb->text = LNGS_BACK;
+	tgb->text = LSTR_BACK;
 
 	
 	// LANGUAGE SCREEN
 	tgs = &tguiScreenLanguage;
-	tgs->name = LNGS_LANGUAGE;
+	tgs->name = LSTR_LANGUAGE;
 	
 }
 
@@ -795,33 +795,33 @@ void		TGUI_ChangeLanguage(uint8_t lang)
 {
 	// BACK button
 	tgb = &(tguiScrInfoButtons[0]);
-	tgb->text = LNGS_BACK;
+	tgb->text = LSTR_BACK;
 
 	// VERSION_TEXT button
 	tgb = &(tguiScrInfoButtons[1]);
-	tgb->text = LNGS_VERSION;
+	tgb->text = LSTR_VERSION;
 
 	// LIGHTTIME_TEXT button
 	tgb = &(tguiScrInfoButtons[2]);
-	tgb->text = LNGS_LIGHTTIME;
+	tgb->text = LSTR_LIGHTTIME;
 
 	// FANSTIME_TEXT button
 	tgb = &(tguiScrInfoButtons[3]);
-	tgb->text = LNGS_FANSTIME;
+	tgb->text = LSTR_FANSTIME;
 
 	// LIGHTTIME_VAL button
 	tgb = &(tguiScrInfoButtons[5]);
-	tgb->text = LNGS_SHORTHOUR;
+	tgb->text = LSTR_SHORTHOUR;
 
 	// FANSTIME_VAL button
 	tgb = &(tguiScrInfoButtons[6]);
-	tgb->text = LNGS_SHORTHOUR;
+	tgb->text = LSTR_SHORTHOUR;
 
 	
 	
 	// INFO SCREEN
 	tgs = &tguiScreenInfo;
-	tgs->name = LNGS_INFO;
+	tgs->name = LSTR_INFO;
 	
 }
 

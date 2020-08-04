@@ -1,0 +1,26 @@
+# Main Screen 
+<SCREEN MainScreen>
+	
+	Caption = LSTR_MAINSCREEN
+	BackImage = "scr_main.cimg"
+	
+	# Print button
+	<ITEM ItemPrint>
+		Coordinates = 120, 65, 340, 100
+		Text = LSTR_PRINT
+		TextCoordinates = 160, 67, 338, 98
+		TextFont = FONT_H24BOLD
+		TextColor = 20, 180, 140
+		TextColorTouch = 20, 220, 200
+		RepaintOnTouch = true
+	</ITEM>
+	
+	# Clock
+	<ITEM ItemClock>
+		Coordinates = 6, 3, 140, 30
+		TextCoordinates = 6, 3, 140, 30
+		TextFont = FONT_H24
+		TextColor = 240, 250, 250
+	</ITEM>
+	
+</SCREEN>

@@ -1,7 +1,7 @@
 #include "languages.h"
 
 
-constexpr char		*clngLangEng[_LNGS_LASTITEM] = {
+constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"---",
 		(char*)"Jan",
 		(char*)"Feb",
@@ -40,7 +40,7 @@ constexpr char		*clngLangEng[_LNGS_LASTITEM] = {
 		
 	};
 
-constexpr char		*clngLangRus[_LNGS_LASTITEM] = {
+constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"---",
 		(char*)"Янв",
 		(char*)"Фев",
@@ -96,7 +96,7 @@ char		**lngCurrent = (char**)clngLangEng;
 /*
 char*		LANG_GetString(LNG_STRING_ID id)
 {
-	for (uint16_t i = 0; i < _LNGS_LASTITEM; i++)
+	for (uint16_t i = 0; i < _LSTR_LASTITEM; i++)
 	{
 		if (lngCurrLanguage[i].str_id == id)
 			return lngCurrLanguage[i].str_text;

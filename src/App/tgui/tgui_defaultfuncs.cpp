@@ -61,40 +61,40 @@ void		_tgui_ScreenTimePaint(void *tguiobj, void *param)
 	switch (dt.month)
 	{
 		case 2:
-			mshortname = LANG_GetString(LNGS_FEBRUARY);
+			mshortname = LANG_GetString(LSTR_FEBRUARY);
 			break;
 		case 3:
-			mshortname = LANG_GetString(LNGS_MARCH);
+			mshortname = LANG_GetString(LSTR_MARCH);
 			break;
 		case 4:
-			mshortname = LANG_GetString(LNGS_APRIL);
+			mshortname = LANG_GetString(LSTR_APRIL);
 			break;
 		case 5:
-			mshortname = LANG_GetString(LNGS_MAY);
+			mshortname = LANG_GetString(LSTR_MAY);
 			break;
 		case 6:
-			mshortname = LANG_GetString(LNGS_JUNE);
+			mshortname = LANG_GetString(LSTR_JUNE);
 			break;
 		case 7:
-			mshortname = LANG_GetString(LNGS_JULY);
+			mshortname = LANG_GetString(LSTR_JULY);
 			break;
 		case 8:
-			mshortname = LANG_GetString(LNGS_AUGUST);
+			mshortname = LANG_GetString(LSTR_AUGUST);
 			break;
 		case 9:
-			mshortname = LANG_GetString(LNGS_SEPTEMBER);
+			mshortname = LANG_GetString(LSTR_SEPTEMBER);
 			break;
 		case 10:
-			mshortname = LANG_GetString(LNGS_OCTOBER);
+			mshortname = LANG_GetString(LSTR_OCTOBER);
 			break;
 		case 11:
-			mshortname = LANG_GetString(LNGS_NOVEMBER);
+			mshortname = LANG_GetString(LSTR_NOVEMBER);
 			break;
 		case 12:
-			mshortname = LANG_GetString(LNGS_DECEMBER);
+			mshortname = LANG_GetString(LSTR_DECEMBER);
 			break;
 		default:
-			mshortname = LANG_GetString(LNGS_JANUARY);
+			mshortname = LANG_GetString(LSTR_JANUARY);
 			break;
 	}
 	
@@ -102,7 +102,7 @@ void		_tgui_ScreenTimePaint(void *tguiobj, void *param)
 	sprintf(msg, "%02u:%02u %u %s", dt.hours, dt.minutes, dt.date, mshortname);
 	thisbtn->text = (LNG_STRING_ID)((DWORD)&msg);
 	_tgui_DefaultButtonPaint(tguiobj, NULL);
-	thisbtn->text = LNGS____;
+	thisbtn->text = LSTR____;
 }
 //==============================================================================
 
