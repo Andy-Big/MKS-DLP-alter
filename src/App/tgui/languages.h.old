@@ -8,10 +8,9 @@
 #define	LNG_LANGS_COUNT		(uint8_t)2
 
 
-typedef enum 
+typedef enum
 {
-	LNGS____ = (uint32_t)0,
-	LNGS_JANUARY,
+	LNGS_JANUARY = 0,
 	LNGS_FEBRUARY,
 	LNGS_MARCH,
 	LNGS_APRIL,
@@ -45,9 +44,7 @@ typedef enum
 	LNGS_LIGHTTIME,
 	LNGS_FANSTIME,
 	
-	_LNGS_LASTITEM,
-
-	_LNGS_MAXITEM = 0xFFFFFFFF
+	_LNGS_LASTITEM
 } LNG_STRING_ID;
 
 

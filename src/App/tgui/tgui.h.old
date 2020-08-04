@@ -122,13 +122,13 @@ typedef struct
 	char				*bgimagename_dis;
 	char				*bgimagename_act;	// for swithed options buttons
 
-	LNG_STRING_ID		text;
-	TG_RECT				textposition;
+	char				*text;
+	TG_RECT			textposition;
 	LCDUI_FONT_TYPE		font;
 	uint16_t			textcolor_en;
 	uint16_t			textcolor_press;
 	uint16_t			textcolor_dis;
-	uint16_t			textcolor_act;	// for swithed options buttons
+	uint16_t			textcolor_active;	// for swithed options buttons
 	uint16_t			backcolor_en;
 	uint16_t			backcolor_press;
 	uint16_t			backcolor_dis;
@@ -156,15 +156,13 @@ typedef struct
 
 typedef struct
 {
-	void				*addparameter;
-
 	char				*bgimagename;
 	
 	void				*prevscreen;
 	
-	LNG_STRING_ID		name;
-	TG_RECT				nameposition;
-	TG_TEXTOPTIONS		nameoptions;
+	char				*name;
+	TG_RECT			nameposition;
+	TG_TEXTOPTIONS	nameoptions;
 	
 	uint8_t				btns_count;
 	TG_BUTTON			*buttons;
@@ -236,7 +234,7 @@ uint8_t		TGUI_PointInRect(TOUCH_POINT *pt, TG_RECT *rc);
 
 
 void		TGUI_Init();
-//void		TGUI_ChangeLanguage(uint8_t lang);
+void		TGUI_ChangeLanguage(uint8_t lang);
 void		TGUI_DrawLogo();
 // Forced repaint current screen
 void		TGUI_ForceRepaint();

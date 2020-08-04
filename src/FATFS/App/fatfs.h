@@ -37,7 +37,8 @@ extern TCHAR		SpiflPath[4];
 extern FATFS		SpiflFS;
 
 
-void FATFS_Init(void);
+void		FATFS_Init(void);
+char*		FATFS_GetFileExtension(char *fname);
 
 #ifdef __cplusplus
 }

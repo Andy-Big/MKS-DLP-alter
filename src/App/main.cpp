@@ -391,6 +391,7 @@ int main()
 							tstrcpy(u_tfname, UsbPath);
 							tstrcat_utf(u_tfname, SDIR_IMAGES);
 							// Found update directory
+							char *ext;
 							if (f_opendir(&dir, u_tfname) == FR_OK)
 							{
 								LCDUI_DrawTextUTF((char*)"> Firmware images directory found\n");
@@ -403,13 +404,10 @@ int main()
 									if (!(finfo.fattrib & AM_DIR))
 									{
 										UnicodeToANSI_Str((char*)cfname, finfo.fname, sizeof(cfname));
+										ext = FATFS_GetFileExtension(cfname);
 										if (
-												(strcmp(cfname, FNAME_LOGO) == 0 && finfo.fsize < 320000) 
-											|| (strcmp(cfname, FNAME_BKGR_MAIN) == 0 && finfo.fsize < 320000)
-											|| (strcmp(cfname, FNAME_BKGR_LANGUAGE) == 0 && finfo.fsize < 320000)
-											|| (strcmp(cfname, FNAME_BKGR_INFO) == 0 && finfo.fsize < 320000)
-											|| (strcmp(cfname, FNAME_BKGR_SERVICE) == 0 && finfo.fsize < 320000)
-												)
+												(strcmp(ext, (char*)"cimg") == 0 && finfo.fsize < 320000) 
+											)
 										{
 											// Found update file, copying it into SPIFlash filesystem
 											

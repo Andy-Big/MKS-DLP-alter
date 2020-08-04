@@ -224,10 +224,14 @@ TOUCH_STATES	Touch_GetState()
 
 
 
-void		Touch_SetWorked()
+void		Touch_SetWorked(TOUCH_STATES state)
 {
-	touch_info.prevstate = touch_info.state;
-	touch_info.state = TS_WORKED;
+	// check current state for protect again delayed change
+	if (touch_info.state == state)
+	{
+		touch_info.prevstate = touch_info.state;
+		touch_info.state = TS_WORKED;
+	}
 }
 //==============================================================================
 

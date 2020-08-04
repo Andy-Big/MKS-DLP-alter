@@ -100,9 +100,9 @@ void		_tgui_ScreenTimePaint(void *tguiobj, void *param)
 	
 	char	msg[32];
 	sprintf(msg, "%02u:%02u %u %s", dt.hours, dt.minutes, dt.date, mshortname);
-	thisbtn->text = (LNG_STRING_ID)((DWORD)&msg);
+	thisbtn->text = msg;
 	_tgui_DefaultButtonPaint(tguiobj, NULL);
-	thisbtn->text = LNGS____;
+	thisbtn->text = NULL;
 }
 //==============================================================================
 
@@ -692,41 +692,26 @@ void		_tgui_DefaultButtonPaint(void *tguiobj, void *param)
 {
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
 	
-	uint16_t oldcolor, newcolor = thisbtn->textcolor_en;
-	uint16_t oldbackcolor, newbackcolor = thisbtn->backcolor_en;
+	uint16_t oldcolor = LCDUI_SetColor(thisbtn->backcolor_en);
+	uint16_t oldbackcolor = LCDUI_SetBackColor(thisbtn->backcolor_en);
 	LCDUI_FONT_TYPE oldfont = LCDUI_SetFont(thisbtn->font);
-
-	// colors
-	if (thisbtn->options.disabled == 1)
-	{
-		newcolor = thisbtn->textcolor_dis;
-		newbackcolor = thisbtn->backcolor_dis;
-	}
-	else
-	{
-		if (thisbtn->options.pressed == 1 && thisbtn->options.repaintonpress == 1)
-		{
-			newcolor = thisbtn->textcolor_press;
-			newbackcolor = thisbtn->backcolor_press;
-		}
-		else
-		{
-			if (thisbtn->options.active == 1)
-			{
-				newcolor = thisbtn->textcolor_act;
-				newbackcolor = thisbtn->backcolor_act;
-			}
-		}
-	}
-
-	oldcolor = LCDUI_SetColor(newcolor);
-	oldbackcolor = LCDUI_SetBackColor(newbackcolor);
 
 	if (thisbtn->options.bgpaint == BGP_FILL)
 	{
-		LCDUI_SetColor(newbackcolor);
+		if (thisbtn->options.disabled == 1)
+		{
+			LCDUI_SetBackColor(thisbtn->backcolor_dis);
+			LCDUI_SetColor(thisbtn->backcolor_dis);
+		}
+		else
+		{
+			if (thisbtn->options.pressed == 1 && thisbtn->options.repaintonpress == 1)
+			{
+				LCDUI_SetBackColor(thisbtn->backcolor_press);
+				LCDUI_SetColor(thisbtn->backcolor_press);
+			}
+		}
 		LCDUI_FillRoundRect(thisbtn->position.left, thisbtn->position.top, thisbtn->position.right - thisbtn->position.left, thisbtn->position.bottom - thisbtn->position.top, 7);
-		LCDUI_SetColor(newcolor);
 	}
 	else
 	{
@@ -735,15 +720,21 @@ void		_tgui_DefaultButtonPaint(void *tguiobj, void *param)
 		}
 	}
 	
+	LCDUI_SetColor(thisbtn->textcolor_en);
 	if (thisbtn->text != NULL)
 	{
-		char		*txt;
-		// if "text" field is a pointer to memory
-		if (thisbtn->text & 0xFF000000)
-			txt = (char*)thisbtn->text;
+		if (thisbtn->options.disabled == 1)
+		{
+			LCDUI_SetColor(thisbtn->textcolor_dis);
+		}
 		else
-			txt = LANG_GetString(thisbtn->text);
-		_tgui_DrawStringInRect(txt, &(thisbtn->textposition), &(thisbtn->textoptions));
+		{
+			if (thisbtn->options.pressed == 1 && thisbtn->options.repaintonpress == 1)
+			{
+				LCDUI_SetColor(thisbtn->textcolor_press);
+			}
+		}
+		_tgui_DrawStringInRect(thisbtn->text, &(thisbtn->textposition), &(thisbtn->textoptions));
 	}
 	
 
@@ -888,13 +879,7 @@ void		_tgui_DefaultScreenPaint(void *tguiobj, void *param)
 	{
 		LCDUI_Clear();
 	}
-	char		*txt;
-	// if "name" field is a pointer to memory
-	if (thisscr->name & 0xFF000000)
-		txt = (char*)thisscr->name;
-	else
-		txt = LANG_GetString(thisscr->name);
-	_tgui_DrawStringInRect(txt, &(thisscr->nameposition), &(thisscr->nameoptions));
+	_tgui_DrawStringInRect(thisscr->name, &(thisscr->nameposition), &(thisscr->nameoptions));
 
 	for (uint8_t i = 0; i < thisscr->btns_count; i++)
 	{

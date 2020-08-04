@@ -27,20 +27,23 @@ uint8_t		retSPIFL;
 TCHAR		SpiflPath[4];
 FATFS		SpiflFS;
 
-void FATFS_Init(void) 
+void		FATFS_Init(void) 
 {
 	//## FatFS: Link the USBH driver ###########################
 	retUSBH = FATFS_LinkDriver(&USBH_Driver, UsbPath);
 
 	retSPIFL = FATFS_LinkDriver(&SPIFL_Driver, SpiflPath);
 }
+//==============================================================================
+
+
 
 /**
   * @brief  Gets Time from RTC 
   * @param  None
   * @retval Time in DWORD
   */
-DWORD get_fattime(void)
+DWORD		get_fattime(void)
 {
 	DWORD		datetime = 0;
 	RTC_TimeTypeDef		htime;
@@ -58,6 +61,26 @@ DWORD get_fattime(void)
 	
 	return datetime;
 }
+//==============================================================================
 
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+
+char*		FATFS_GetFileExtension(char *fname)
+{
+	if (fname == NULL)
+		return NULL;
+	
+	int16_t	i = strlen(fname) - 1;
+	while (fname[i] != 0 && fname[i] != '.' && i >= 0)
+		i--;
+	if (i < 0)
+		return "";
+	
+	return (fname+i+1);
+}
+//==============================================================================
+
+
+
+

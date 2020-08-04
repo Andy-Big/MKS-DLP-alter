@@ -49,7 +49,7 @@ void		Touch_Enable();
 void		Touch_Disable();
 
 TOUCH_STATES	Touch_GetState();
-void		Touch_SetWorked();
+void		Touch_SetWorked(TOUCH_STATES state);
 void		Touch_GetCoords(TOUCH_POINT *pt);
 uint8_t		Touch_IsPressed();
 

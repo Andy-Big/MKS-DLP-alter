@@ -1,87 +1,99 @@
 #include "languages.h"
 
 
-LNG_STRINGS		lngLangEng[_LNGS_LASTITEM] = {
-		{ LNGS_JANUARY, (char*)"Jan" },
-		{ LNGS_FEBRUARY, (char*)"Feb" },
-		{ LNGS_MARCH, (char*)"Mar" },
-		{ LNGS_APRIL, (char*)"Apr" },
-		{ LNGS_MAY, (char*)"May" },
-		{ LNGS_JUNE, (char*)"Jun" },
-		{ LNGS_JULY, (char*)"Jul" },
-		{ LNGS_AUGUST, (char*)"Aug" },
-		{ LNGS_SEPTEMBER, (char*)"Sep" },
-		{ LNGS_OCTOBER, (char*)"Oct" },
-		{ LNGS_NOVEMBER, (char*)"Nov" },
-		{ LNGS_DECEMBER, (char*)"Dec" },
-	
-		{ LNGS_SHORTHOUR,(char*)"h" },
-		{ LNGS_SHORTMINUTE,(char*)"min" },
-		{ LNGS_SHORTSECOND,(char*)"sec" },
+constexpr char		*clngLangEng[_LNGS_LASTITEM] = {
+		(char*)"---",
+		(char*)"Jan",
+		(char*)"Feb",
+		(char*)"Mar",
+		(char*)"Apr",
+		(char*)"May",
+		(char*)"Jun",
+		(char*)"Jul",
+		(char*)"Aug",
+		(char*)"Sep",
+		(char*)"Oct",
+		(char*)"Nov",
+		(char*)"Dec",
 
-		// Menus and Screens names
-		{ LNGS_BACK, (char*)"Back" },
-		{ LNGS_MAINMENU, (char*)"MAIN MENU" },
-		{ LNGS_PRINT, (char*)"PRINT" },
-		{ LNGS_SERVICE, (char*)"SERVICE" },
-		{ LNGS_INFO, (char*)"INFO" },
-		{ LNGS_LANGUAGE, (char*)"LANGUAGE" },
-		{ LNGS_MOVEZ, (char*)"MOVE Z" },
-		{ LNGS_LIGHTTEST, (char*)"TEST" },
+		(char*)"h",
+		(char*)"min",
+		(char*)"sec",
+
+		(char*)"10",
+		(char*)"1",
+		(char*)"0.2",
+		(char*)"0.05",
+
+		(char*)"Back",
+		(char*)"MAIN MENU",
+		(char*)"PRINT",
+		(char*)"SERVICE",
+		(char*)"INFO",
+		(char*)"LANGUAGE",
+		(char*)"MOVE Z",
+		(char*)"TEST",
+
+		(char*)"Version",
+		(char*)"Light time",
+		(char*)"Fans time",
 		
-		// --
-		{ LNGS_VERSION,(char*)"Version" },
-		{ LNGS_LIGHTTIME,(char*)"Light time" },
-		{ LNGS_FANSTIME,(char*)"Fans time" },
+	};
+
+constexpr char		*clngLangRus[_LNGS_LASTITEM] = {
+		(char*)"---",
+		(char*)"Янв",
+		(char*)"Фев",
+		(char*)"Мар",
+		(char*)"Апр",
+		(char*)"Май",
+		(char*)"Июн",
+		(char*)"Июл",
+		(char*)"Авг",
+		(char*)"Сен",
+		(char*)"Окт",
+		(char*)"Ноя",
+		(char*)"Дек",
+
+		(char*)"ч",
+		(char*)"мин",
+		(char*)"сек",
+
+		(char*)"10",
+		(char*)"1",
+		(char*)"0.2",
+		(char*)"0.05",
+
+		(char*)"Назад",
+		(char*)"ГЛАВНОЕ МЕНЮ",
+		(char*)"ПЕЧАТЬ",
+		(char*)"СЕРВИС",
+		(char*)"ИНФО",
+		(char*)"ЯЗЫК",
+		(char*)"ОСЬ Z",
+		(char*)"ТЕСТ",
+
+
+		(char*)"Версия",
+		(char*)"Время засветки",
+		(char*)"Время вентиляторов",
 		
 	};
 
-LNG_STRINGS		lngLangRus[_LNGS_LASTITEM] = {
-		{ LNGS_JANUARY, (char*)"Янв" },
-		{ LNGS_FEBRUARY, (char*)"Фев" },
-		{ LNGS_MARCH, (char*)"Мар" },
-		{ LNGS_APRIL, (char*)"Апр" },
-		{ LNGS_MAY, (char*)"Май" },
-		{ LNGS_JUNE, (char*)"Июн" },
-		{ LNGS_JULY, (char*)"Июл" },
-		{ LNGS_AUGUST, (char*)"Авг" },
-		{ LNGS_SEPTEMBER, (char*)"Сен" },
-		{ LNGS_OCTOBER, (char*)"Окт" },
-		{ LNGS_NOVEMBER, (char*)"Ноя" },
-		{ LNGS_DECEMBER, (char*)"Дек" },
-	
-		{ LNGS_SHORTHOUR,(char*)"ч" },
-		{ LNGS_SHORTMINUTE,(char*)"мин" },
-		{ LNGS_SHORTSECOND,(char*)"сек" },
 
-		// Menus and Screens names
-		{ LNGS_BACK, (char*)"Назад" },
-		{ LNGS_MAINMENU, (char*)"ГЛАВНОЕ МЕНЮ" },
-		{ LNGS_PRINT, (char*)"ПЕЧАТЬ" },
-		{ LNGS_SERVICE, (char*)"СЕРВИС" },
-		{ LNGS_INFO, (char*)"ИНФО" },
-		{ LNGS_LANGUAGE, (char*)"ЯЗЫК" },
-		{ LNGS_MOVEZ, (char*)"ОСЬ Z" },
-		{ LNGS_LIGHTTEST, (char*)"ТЕСТ" },
 
-		// ---
-		{ LNGS_VERSION,(char*)"Версия" },
-		{ LNGS_LIGHTTIME,(char*)"Время засветки" },
-		{ LNGS_FANSTIME,(char*)"Время вентиляторов" },
-		
-	};
+
+
 
 LNG_LANGUAGE	lngLanguages[LNG_LANGS_COUNT] = {
-		{ (char*)"English", lngLangEng },
-		{ (char*)"Русский", lngLangRus }
+		{ (char*)"English", (char**)clngLangEng },
+		{ (char*)"Русский", (char**)clngLangRus }
 	};
 
-const char		*lngEmptyString = {0};
-LNG_STRINGS		*lngCurrLanguage = lngLangEng;
+char		**lngCurrent = (char**)clngLangEng;
 
 
-
-
+/*
 char*		LANG_GetString(LNG_STRING_ID id)
 {
 	for (uint16_t i = 0; i < _LNGS_LASTITEM; i++)
@@ -93,6 +105,15 @@ char*		LANG_GetString(LNG_STRING_ID id)
 	return (char*)lngEmptyString;
 }
 //==============================================================================
+*/
+
+
+
+char*		LANG_GetString(LNG_STRING_ID id)
+{
+	return lngCurrent[id];
+}
+//==============================================================================
 
 
 
@@ -102,7 +123,7 @@ char*		LANG_GetLanguageName(uint8_t lang)
 	if (lang < LNG_LANGS_COUNT)
 		return lngLanguages[lang].name;
 		
-	return (char*)lngEmptyString;
+	return (char*)"";
 }
 //==============================================================================
 
@@ -111,8 +132,7 @@ char*		LANG_GetLanguageName(uint8_t lang)
 
 void		LANG_SetLanguage(uint8_t lang)
 {
-	if (lang < LNG_LANGS_COUNT)
-		lngCurrLanguage = (lngLanguages[lang].strings);
+	lngCurrent = lngLanguages[lang].strings;
 	
 	return;
 }

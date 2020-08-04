@@ -1,0 +1,150 @@
+#include "languages.h"
+
+
+constexpr char		*clngLangEng[_LNGS_LASTITEM] = {
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"Jun",
+		"Jul",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec",
+	
+		"h",
+		"min",
+		"sec",
+
+		"10",
+		"1",
+		"0.2",
+		"0.05",
+
+		"Back",
+		"MAIN MENU",
+		"PRINT",
+		"SERVICE",
+		"INFO",
+		"LANGUAGE",
+		"MOVE Z",
+		"TEST",
+		
+		"Version",
+		"Light time",
+		"Fans time",
+		
+	};
+
+constexpr char		*clngLangRus[_LNGS_LASTITEM] = {
+		"Янв",
+		"Фев",
+		"Мар",
+		"Апр",
+		"Май",
+		"Июн",
+		"Июл",
+		"Авг",
+		"Сен",
+		"Окт",
+		"Ноя",
+		"Дек",
+	
+		"ч",
+		"мин",
+		"сек",
+
+		"10",
+		"1",
+		"0.2",
+		"0.05",
+
+		"Назад",
+		"ГЛАВНОЕ МЕНЮ",
+		"ПЕЧАТЬ",
+		"СЕРВИС",
+		"ИНФО",
+		"ЯЗЫК",
+		"ОСЬ Z",
+		"ТЕСТ",
+
+		
+		"Версия",
+		"Время засветки",
+		"Время вентиляторов",
+		
+	};
+
+
+
+
+
+
+LNG_LANGUAGE	lngLanguages[LNG_LANGS_COUNT] = {
+		{ (char*)"English", (char**)clngLangEng },
+		{ (char*)"Русский", (char**)clngLangRus }
+	};
+
+char		*lngCurrent[_LNGS_LASTITEM] = {0};
+
+
+/*
+char*		LANG_GetString(LNG_STRING_ID id)
+{
+	for (uint16_t i = 0; i < _LNGS_LASTITEM; i++)
+	{
+		if (lngCurrLanguage[i].str_id == id)
+			return lngCurrLanguage[i].str_text;
+	}
+		
+	return (char*)lngEmptyString;
+}
+//==============================================================================
+*/
+
+
+
+char*		LANG_GetString(LNG_STRING_ID id)
+{
+	if (lngCurrent[0] == NULL)
+	{
+		for (uint16_t i = 0; i < _LNGS_LASTITEM; i++)
+			lngCurrent[i] = lngLanguages[0].strings[i];
+	}
+	return (char*)lngCurrent[id];
+}
+//==============================================================================
+
+
+
+
+char*		LANG_GetLanguageName(uint8_t lang)
+{
+	if (lang < LNG_LANGS_COUNT)
+		return lngLanguages[lang].name;
+		
+	return (char*)"";
+}
+//==============================================================================
+
+
+
+
+void		LANG_SetLanguage(uint8_t lang)
+{
+	if (lang < LNG_LANGS_COUNT)
+	{
+		for (uint16_t i = 0; i < _LNGS_LASTITEM; i++)
+			lngCurrent[i] = lngLanguages[lang].strings[i];
+	}
+	
+	return;
+}
+//==============================================================================
+
+
+
+
