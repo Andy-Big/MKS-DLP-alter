@@ -27,35 +27,6 @@ void		idle()
 
 void		_zmotor_Pins_Init()
 {
-	// Pins configure
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-	__HAL_RCC_GPIOE_CLK_ENABLE();
-	__HAL_RCC_GPIOC_CLK_ENABLE();
-	__HAL_RCC_GPIOH_CLK_ENABLE();
-	__HAL_RCC_GPIOA_CLK_ENABLE();
-	__HAL_RCC_GPIOB_CLK_ENABLE();
-	__HAL_RCC_GPIOD_CLK_ENABLE();
-	HAL_GPIO_WritePin(Z_DIR_GPIO_Port, Z_DIR_Pin, GPIO_PIN_SET);
-
-	HAL_GPIO_WritePin(GPIOA, Z_STEP_Pin|Z_ENA_Pin, GPIO_PIN_SET);
-
-	GPIO_InitStruct.Pin = Z_MIN_Pin|Z_MAX_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-	GPIO_InitStruct.Pin = Z_DIR_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
-	HAL_GPIO_Init(Z_DIR_GPIO_Port, &GPIO_InitStruct);
-
-	GPIO_InitStruct.Pin = Z_STEP_Pin|Z_ENA_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
-	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
 //==============================================================================
@@ -66,8 +37,7 @@ void		_zmotor_Pins_Init()
 
 void		ZMOTOR_Init()
 {
-	_zmotor_Pins_Init();
-	
+
 //*
 	zPlanner.settings.axis_steps_per_mm = 			cfgzMotor.axis_steps_per_mm;
 	zPlanner.settings.max_feedrate_mm_s = 			cfgzMotor.max_feedrate_mm_s;

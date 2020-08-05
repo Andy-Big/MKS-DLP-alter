@@ -45,20 +45,6 @@ void		LCD_CtrlLinesConfig(void)
 	__IO uint32_t i=0;
 	volatile unsigned long delayCnt=0;
 
-	GPIO_InitTypeDef  GPIO_InitStructure;
-
-	__HAL_RCC_GPIOB_CLK_ENABLE();
-	__HAL_RCC_GPIOD_CLK_ENABLE();
-	__HAL_RCC_GPIOE_CLK_ENABLE();
-
-	GPIO_InitStructure.Pin = GPIO_PIN_13;//PD13 push-pull output, control reset
-	GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;//Normal output mode
-	GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;//100MHz
-	GPIO_InitStructure.Pull = GPIO_PULLUP;//pull up
-	HAL_GPIO_Init(GPIOD, &GPIO_InitStructure);//Initialization //PD13 push-pull output, control reset
-
-	GPIO_InitStructure.Pin = GPIO_PIN_12;//PB12 push-pull output, control backlight
-	HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);//Initialization //PB12 push-pull output, control backlight
 
 	Lcd_Light_OFF();
 	Lcd_RESET();

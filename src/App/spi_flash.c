@@ -21,6 +21,7 @@ inline void		___spifl_wait_cs()
 
 
 
+
 uint32_t		_spifl_ReadStatus()
 {
 	uint32_t	retval = 0;

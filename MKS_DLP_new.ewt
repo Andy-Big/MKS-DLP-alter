@@ -2696,7 +2696,25 @@
             <name>$PROJ_DIR$\src\System\stm32f4xx_it.c</name>
         </file>
     </group>
+    <group>
+        <name>UV_DISPLAY</name>
+        <group>
+            <name>orig</name>
+            <file>
+                <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\cpld.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Inc\cpld.h</name>
+            </file>
+        </group>
+        <file>
+            <name>$PROJ_DIR$\src\App\uvdisplay\uvdisplay.c</name>
+        </file>
+    </group>
     <file>
         <name>$PROJ_DIR$\README.md</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\src\ui_config.ccfg</name>
     </file>
 </project>

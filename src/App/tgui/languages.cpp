@@ -25,7 +25,7 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"0.2",
 		(char*)"0.05",
 
-		(char*)"Back",
+		(char*)"BACK",
 		(char*)"MAIN MENU",
 		(char*)"PRINT",
 		(char*)"SERVICE",
@@ -37,6 +37,8 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Version",
 		(char*)"Light time",
 		(char*)"Fans time",
+		(char*)"URL",
+		(char*)"UI author",
 		
 	};
 
@@ -64,7 +66,7 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"0.2",
 		(char*)"0.05",
 
-		(char*)"Назад",
+		(char*)"НАЗАД",
 		(char*)"ГЛАВНОЕ МЕНЮ",
 		(char*)"ПЕЧАТЬ",
 		(char*)"СЕРВИС",
@@ -77,6 +79,8 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Версия",
 		(char*)"Время засветки",
 		(char*)"Время вентиляторов",
+		(char*)"URL",
+		(char*)"Автор UI",
 		
 	};
 

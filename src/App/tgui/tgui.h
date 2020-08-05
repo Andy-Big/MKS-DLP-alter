@@ -95,10 +95,10 @@ typedef struct
 
 typedef struct
 {
-	uint16_t	left;
-	uint16_t	top;
-	uint16_t	right;
-	uint16_t	bottom;
+	int16_t		left;
+	int16_t		top;
+	int16_t		right;
+	int16_t		bottom;
 } TG_RECT;
 
 
@@ -218,7 +218,7 @@ extern TG_SCREEN		tguiScreenService;
 extern TG_BUTTON		tguiScrLanguageButtons[TG_BTN_CNT_SCREEN_LANGUAGE];
 extern TG_SCREEN		tguiScreenLanguage;
 
-#define		TG_BTN_CNT_SCREEN_INFO			7
+#define		TG_BTN_CNT_SCREEN_INFO			11
 extern TG_BUTTON		tguiScrInfoButtons[TG_BTN_CNT_SCREEN_INFO];
 extern TG_SCREEN		tguiScreenInfo;
 

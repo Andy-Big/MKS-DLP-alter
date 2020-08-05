@@ -66,7 +66,10 @@ void		TGUI_Init()
 	TG_SCREEN		*tgs;
 	TG_BUTTON		*tgb;
 	
+	
 	uint8_t			bi = 0;
+	int16_t			bx, by, bw, bh;
+	
 	
 	tguiActiveScreen = &tguiScreenMain;
 	
@@ -92,7 +95,6 @@ void		TGUI_Init()
 	
 	
 	_tgui_ScreenTimeInit();
-	
 	
 	
 	// -------------------- Main Screen elements -----------------------
@@ -250,7 +252,7 @@ void		TGUI_Init()
 	tgb->options.disabled = 0;
 	tgb->options.bgpaint = BGP_NONE;
 	tgb->options.repaintonpress = 1;
-	
+
 	tgb->textoptions.textalign_h = HTA_CENTER;
 	tgb->textoptions.textalign_v = VTA_CENTER;
 
@@ -333,7 +335,7 @@ void		TGUI_Init()
 		
 		tgb->button_id = bi;
 		
-		tgb->position = {25, (uint16_t)(65 + (bi * 50)), 455, (uint16_t)(110 + (bi * 50))};
+		tgb->position = {(int16_t)25, (int16_t)(65 + (bi * 50)), (int16_t)455, (int16_t)(110 + (bi * 50))};
 
 		tgb->bgimagename_en = NULL;
 		tgb->bgimagename_press = NULL;
@@ -341,7 +343,7 @@ void		TGUI_Init()
 
 		txt = LANG_GetLanguageName(bi);
 		tgb->text = (LNG_STRING_ID)((DWORD)txt);
-		tgb->textposition = {55, (uint16_t)(67 + (bi * 50)), 425, (uint16_t)(108 + (bi * 50))};
+		tgb->textposition = {(int16_t)55, (int16_t)(67 + (bi * 50)), (int16_t)425, (int16_t)(108 + (bi * 50))};
 		tgb->font = tgc->btnfont;
 
 		tgb->textcolor_en = tgc->btntextcolor_en;
@@ -467,19 +469,22 @@ void		TGUI_Init()
 	tgb->childscreen = NULL;
 
 	
-	
+	bx = 25;
+	by = 65;
+	bw = 50;
+	bh = 30;
 	// VERSION_TEXT button
 	tgb = &(tguiScrInfoButtons[bi++]);
 	memset((void*)tgb, 0, sizeof(TG_BUTTON));
 	
-	tgb->position = {25, 65, 320, 109};
+	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
 
 	tgb->bgimagename_en = NULL;
 	tgb->bgimagename_press = NULL;
 	tgb->bgimagename_dis = NULL;
 
 	tgb->text = LSTR_VERSION;
-	tgb->textposition = {35, 65, 320, 109};
+	tgb->textposition = {(int16_t)(bx+10), by, (int16_t)(bx+bw), (int16_t)(by+bh)};
 	tgb->font = LCDUI_FONT_H24;
 	tgb->textcolor_en = LCDUI_RGB(0x00272E);
 	tgb->textcolor_press = tgc->btntextcolor_press;
@@ -501,60 +506,114 @@ void		TGUI_Init()
 	tgb->parentscreen = &tguiScreenInfo;
 	tgb->childscreen = NULL;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	by += bh;
 
 	// LIGHTTIME_TEXT button
 	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[1]), sizeof(TG_BUTTON));
-	
-	tgb->position = {25, 110, 320, 154};
+	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
+
+	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
 
 	tgb->text = LSTR_LIGHTTIME;
-	tgb->textposition = {35, 110, 320, 154};
+	tgb->textposition = {(int16_t)(bx+10), by, (int16_t)(bx+bw), (int16_t)(by+bh)};
+	by += bh;
 
 	// FANSTIME_TEXT button
 	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[1]), sizeof(TG_BUTTON));
+	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {25, 155, 320, 199};
+	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
 
 	tgb->text = LSTR_FANSTIME;
-	tgb->textposition = {35, 155, 320, 199};
+	tgb->textposition = {(int16_t)(bx+10), by, (int16_t)(bx+bw), (int16_t)(by+bh)};
+	by += bh;
 
+	// URL_TEXT button
+	tgb = &(tguiScrInfoButtons[bi++]);
+	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
+
+	tgb->text = LSTR_URL;
+	tgb->textposition = {(int16_t)(bx+10), by, (int16_t)(bx+bw), (int16_t)(by+bh)};
+	by += bh;
+
+	// UIAUTHOR_TEXT button
+	tgb = &(tguiScrInfoButtons[bi++]);
+	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
+
+	tgb->text = LSTR_UIAUTHOR;
+	tgb->textposition = {(int16_t)(bx+10), by, (int16_t)(bx+bw), (int16_t)(by+bh)};
+
+	bx = 76;
+	by = 65;
+	bw = 380;
 	// VERSION_VAL button
 	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[1]), sizeof(TG_BUTTON));
+	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {320, 65, 444, 109};
+	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
 
 	tgb->text = LSTR____;
-	tgb->textposition = {320, 65, 444, 109};
+	tgb->textposition = {bx, by, (int16_t)(bx+bw-10), (int16_t)(by+bh)};
 	tgb->textoptions.textalign_h = HTA_RIGHT;
+	tgb->textcolor_en = LCDUI_RGB(0x0060A0);
 
 	tgb->funcs._call_paint = _tgui_InfoScreenVersionPaint;
+	by += bh;
 
 	// LIGHTTIME_VAL button
 	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[4]), sizeof(TG_BUTTON));
+	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {320, 110, 444, 154};
+	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
 
 	tgb->text = LSTR____;
-	tgb->textposition = {320, 110, 444, 154};
+	tgb->textposition = {bx, by, (int16_t)(bx+bw-10), (int16_t)(by+bh)};
 
 	tgb->funcs._call_paint = _tgui_InfoScreenLightTimePaint;
+	by += bh;
 
 	// FANSTIME_VAL button
 	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[4]), sizeof(TG_BUTTON));
+	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {320, 155, 444, 199};
+	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
 
 	tgb->text = LSTR____;
-	tgb->textposition = {320, 155, 444, 199};
+	tgb->textposition = {bx, by, (int16_t)(bx+bw-10), (int16_t)(by+bh)};
 
 	tgb->funcs._call_paint = _tgui_InfoScreenFansTimePaint;
+	by += bh;
 
+	// URL_VAL button
+	by += 4;
+	tgb = &(tguiScrInfoButtons[bi++]);
+	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
 	
+	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
+
+	tgb->text = LSTR____;
+	tgb->textposition = {bx, by, (int16_t)(bx+bw-10), (int16_t)(by+bh)};
+	tgb->font = LCDUI_FONT_H18;
+
+	tgb->funcs._call_paint = _tgui_InfoScreenURLPaint;
+	by += bh;
+
+	// UIAUTHOR_VAL button
+	tgb = &(tguiScrInfoButtons[bi++]);
+	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
+
+	tgb->text = LSTR____;
+	tgb->textposition = {bx, by, (int16_t)(bx+bw-10), (int16_t)(by+bh)};
+
+	tgb->funcs._call_paint = _tgui_InfoScreenUIAuthorPaint;
+
+
 	
 	// INFO SCREEN
 	tgs = &tguiScreenInfo;
@@ -724,112 +783,6 @@ void		TGUI_Init()
 
 }
 //==============================================================================
-
-
-
-/*
-void		TGUI_ChangeLanguage(uint8_t lang)
-{
-	TG_SCREEN		*tgs;
-	TG_BUTTON		*tgb;
-
-	LANG_SetLanguage(lang);
-	
-	// -------------------- Main Screen elements -----------------------
-{
-	// PRINT button
-	tgb = &(tguiScrMainButtons[0]);
-	tgb->text = LSTR_PRINT;
-
-	// INFO button
-	tgb = &(tguiScrMainButtons[1]);
-	tgb->text = LSTR_INFO;
-
-	// SERVICE button
-	tgb = &(tguiScrMainButtons[2]);
-	tgb->text = LSTR_SERVICE;
-	
-	
-	// MAIN SCREEN
-	tgs = &tguiScreenMain;
-	tgs->name = LSTR_MAINMENU;
-	
-}
-
-
-	// -------------------- Service Screen elements -----------------------
-{
-	// BACK button
-	tgb = &(tguiScrServiceButtons[0]);
-	tgb->text = LSTR_BACK;
-	
-	// LANGUAGE button
-	tgb = &(tguiScrServiceButtons[1]);
-	tgb->text = LSTR_LANGUAGE;
-	
-	
-	// SERVICE SCREEN
-	tgs = &tguiScreenService;
-	tgs->name = LSTR_SERVICE;
-	
-}
-
-
-
-	// -------------------- Language Screen elements -----------------------
-{
-	// BACK button
-	tgb = &(tguiScrLanguageButtons[TG_BTN_CNT_SCREEN_LANGUAGE-1]);
-	tgb->text = LSTR_BACK;
-
-	
-	// LANGUAGE SCREEN
-	tgs = &tguiScreenLanguage;
-	tgs->name = LSTR_LANGUAGE;
-	
-}
-
-
-
-	// -------------------- Info Screen elements -----------------------
-{
-	// BACK button
-	tgb = &(tguiScrInfoButtons[0]);
-	tgb->text = LSTR_BACK;
-
-	// VERSION_TEXT button
-	tgb = &(tguiScrInfoButtons[1]);
-	tgb->text = LSTR_VERSION;
-
-	// LIGHTTIME_TEXT button
-	tgb = &(tguiScrInfoButtons[2]);
-	tgb->text = LSTR_LIGHTTIME;
-
-	// FANSTIME_TEXT button
-	tgb = &(tguiScrInfoButtons[3]);
-	tgb->text = LSTR_FANSTIME;
-
-	// LIGHTTIME_VAL button
-	tgb = &(tguiScrInfoButtons[5]);
-	tgb->text = LSTR_SHORTHOUR;
-
-	// FANSTIME_VAL button
-	tgb = &(tguiScrInfoButtons[6]);
-	tgb->text = LSTR_SHORTHOUR;
-
-	
-	
-	// INFO SCREEN
-	tgs = &tguiScreenInfo;
-	tgs->name = LSTR_INFO;
-	
-}
-
-
-}
-//==============================================================================
-*/
-
 
 
 

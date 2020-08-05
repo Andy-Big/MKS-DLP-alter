@@ -6,13 +6,14 @@
 #endif
 
 #include "stm32f4xx_hal.h"
-
+#include "main.h"
+	 
 //Hardware-related sub-functions
-#define Lcd_Light_ON()		GPIOB->BSRR = GPIO_PIN_12
-#define Lcd_Light_OFF()		GPIOB->BSRR = (uint32_t)GPIO_PIN_12 << 16U
+#define Lcd_Light_ON()		TFT_LIGHT_GPIO_Port->BSRR = TFT_LIGHT_Pin
+#define Lcd_Light_OFF()		TFT_LIGHT_GPIO_Port->BSRR = (uint32_t)TFT_LIGHT_Pin << 16U
 
-#define Lcd_SET()			GPIOD->BSRR = GPIO_PIN_13
-#define Lcd_RESET()			GPIOD->BSRR = (uint32_t)GPIO_PIN_13 << 16U
+#define Lcd_SET()			TFT_RESET_GPIO_Port->BSRR = TFT_RESET_Pin
+#define Lcd_RESET()			TFT_RESET_GPIO_Port->BSRR = (uint32_t)TFT_RESET_Pin << 16U
 
 #define LCD_WIDTH			(uint16_t)480
 #define LCD_HEIGHT			(uint16_t)320

@@ -7,26 +7,6 @@
 
 
 
-#define Z_MIN_Pin			GPIO_PIN_0
-#define Z_MIN_GPIO_Port		GPIOC
-
-#define Z_MAX_Pin			GPIO_PIN_2
-#define Z_MAX_GPIO_Port		GPIOC
-
-#define Z_ENA_Pin			GPIO_PIN_2
-#define Z_ENA_GPIO_Port		GPIOA
-
-#define Z_DIR_Pin			GPIO_PIN_1
-#define Z_DIR_GPIO_Port		GPIOC
-
-#define Z_STEP_Pin			GPIO_PIN_1
-#define Z_STEP_GPIO_Port	GPIOA
-
-
-
-
-
-
 
 
 typedef struct

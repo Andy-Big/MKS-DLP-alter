@@ -65,20 +65,12 @@ Endstops::esbits_t Endstops::live_state = 0;
 
 void Endstops::init()
 {
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
-	
-	/*Configure GPIO pins : PCPin PCPin */
-	GPIO_InitStruct.Pin = ZE_MAX_Pin|ZE_MIN_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
 	/* EXTI interrupt init*/
-	HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
-	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+	HAL_NVIC_SetPriority(ZE_MIN_EXTI_IRQn, 0, 0);
+	HAL_NVIC_EnableIRQ(ZE_MIN_EXTI_IRQn);
 
-	HAL_NVIC_SetPriority(EXTI2_IRQn, 0, 0);
-	HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+	HAL_NVIC_SetPriority(ZE_MAX_EXTI_IRQn, 0, 0);
+	HAL_NVIC_EnableIRQ(ZE_MAX_EXTI_IRQn);
 
 } // Endstops::init
 
@@ -119,8 +111,8 @@ void Endstops::update() {
   /**
    * Check and update endstops
    */
-      __SET_BIT(live_state, Z_MIN, (HAL_GPIO_ReadPin(Z_MIN_GPIO_Port, Z_MIN_Pin) != cfgzMotor.z_min_endstop_inverting));
-      __SET_BIT(live_state, Z_MAX, (HAL_GPIO_ReadPin(Z_MAX_GPIO_Port, Z_MAX_Pin) != cfgzMotor.z_max_endstop_inverting));
+      __SET_BIT(live_state, Z_MIN, (HAL_GPIO_ReadPin(ZE_MIN_GPIO_Port, ZE_MIN_Pin) != cfgzMotor.z_min_endstop_inverting));
+      __SET_BIT(live_state, Z_MAX, (HAL_GPIO_ReadPin(ZE_MAX_GPIO_Port, ZE_MAX_Pin) != cfgzMotor.z_max_endstop_inverting));
 
   // Signal, after validation, if an endstop limit is pressed or not
 
