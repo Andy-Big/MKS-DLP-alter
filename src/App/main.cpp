@@ -34,8 +34,8 @@
 #include "tgui.h"
 #include "motor.h"
 #include "config.h"
-
 #include "z_stepper.h"
+#include "uvdisplay.h"
 
 
 #define	SDIR_IMAGES			(char*)"alterupd\\images"
@@ -105,7 +105,7 @@ int main()
 	// SPI flash interface init
 	FLASH_SPIInit();
 	FLASH_SPIEnable();
-	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_2);
+	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_8);
 	// SPI flash logic init
 	SPIFL_Init();
 	_touch_ReadCoords();
@@ -120,8 +120,16 @@ int main()
 	// SPIFlash filesystem mounting
 	if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
 	{
-		LCDUI_DrawTextUTF((char*)"> !! Internal flash filesystem error, booting stoped\n");
-		while(1);
+		LCDUI_DrawTextUTF((char*)"> !! Internal filesystem error, try to format...\n");
+		if (f_mkfs(SpiflPath, 0, fbuff, sizeof(fbuff)) != FR_OK)
+		{
+			LCDUI_DrawTextUTF((char*)"> !! Failed to formate internal filesystem\n");
+		}
+		else
+		{
+			LCDUI_DrawTextUTF((char*)"> Internal filesystem format success\n");
+		}
+//		while(1);
 	}
 	
 	LCD_BackLight(1);
@@ -172,6 +180,7 @@ int main()
 		LCDUI_SetColor(LCDUI_RGB(0x808080));
 		LCDUI_DrawText(msg, LCDUI_TEXT_TRANSBACK, 410, 290);
 	}
+	
 	// Clear CCRAM
 	uint32_t	*ccr = (uint32_t*)0x10000000;
 	for (uint32_t i = 0; i < 65536/4; i++)
@@ -225,9 +234,26 @@ int main()
 	}
 	zPlanner.synchronize();
 /**/
-	
 	ZMOTOR_MotorDisable();
 	
+	UVD_Init();
+/*	
+	UVD_ExposSetCircle();
+	UVD_Wakeup();
+	HAL_Delay(50);
+	LED_UV_On();
+	HAL_Delay(50);
+	LED_UV_Off();
+	UVD_Sleep();
+
+	UVD_ExposSetSquare();
+	UVD_Wakeup();
+	HAL_Delay(50);
+	LED_UV_On();
+	HAL_Delay(50);
+	LED_UV_Off();
+	UVD_Sleep();
+*/
 	// Disable USB power line
 	USB_HOST_VbusFS(1);
 
@@ -350,7 +376,7 @@ int main()
 	// ------------------ Service mode -------------------
 	if (!srvMode)
 	{
-		HAL_Delay(1500);
+		HAL_Delay(500);
 		TGUI_ForceRepaint();
 	}
 	

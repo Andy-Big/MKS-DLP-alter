@@ -26,6 +26,11 @@ char		UnicodeToANSI(uint16_t unichar);
 // maxlen - max lenght of cstr buffer
 uint16_t	UTF8ToANSI_Str(char *cstr, char *utfstr, uint16_t maxlen);
 
+// Convert UTF8 string to Unicode string
+// Return count of converted chars
+// maxlen - max lenght of cstr buffer
+uint16_t	UTF8ToUnicode_Str(uint16_t *unistr, char *utfstr, uint16_t maxlen);
+
 // Convert UNICODE string to UTF8 string
 // Return count of converted chars
 // maxlen - max lenght of utfstr buffer
@@ -37,6 +42,8 @@ uint16_t	UnicodeToUTF8_Str(char *utfstr, uint16_t *unistr, uint16_t maxlen);
 uint16_t	UnicodeToANSI_Str(char *cstr, uint16_t *unistr, uint16_t maxlen);
 
 uint32_t	strlen_utf(char *text);
+
+uint32_t	tstrlen(uint16_t *text);
 
 char*		strcpy_utf(char *dst, char* src);
 

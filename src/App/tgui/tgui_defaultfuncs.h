@@ -13,6 +13,7 @@ void		_tgui_ScreenTimePaint(void *tguiobj, void *param);
 void		_tgui_DrawStringInRect(char *str, TG_RECT *rect, TG_TEXTOPTIONS *opt);
 void		_tgui_DrawFileBmpBackground(char* file);
 void		_tgui_DrawFileCimgBackground(char* file);
+void		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y);
 
 void		_tgui_DefaultButtonPaint(void *tguiobj, void *param);
 void		_tgui_DefaultButtonProcess(void *tguiobj, void *param);

@@ -39,6 +39,7 @@ extern FATFS		SpiflFS;
 
 void		FATFS_Init(void);
 char*		FATFS_GetFileExtension(char *fname);
+char*		FATFS_GetPrevDir(char *fname);
 
 #ifdef __cplusplus
 }

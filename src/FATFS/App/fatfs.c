@@ -84,3 +84,21 @@ char*		FATFS_GetFileExtension(char *fname)
 
 
 
+char*		FATFS_GetPrevDir(char *fname)
+{
+	if (fname == NULL)
+		return NULL;
+	
+	int16_t	i = strlen(fname) - 1;
+	while (fname[i] != 0 && fname[i] != '/' && i >= 0)
+		i--;
+	if (i < 0)
+		return "";
+	
+	return (fname+i+1);
+}
+//==============================================================================
+
+
+
+

@@ -183,12 +183,26 @@ typedef struct
 
 
 
-#define	FNAME_LOGO				(char*)"logo.cimg"
-#define	FNAME_BKGR_MAIN			(char*)"scr_main.cimg"
-#define	FNAME_BKGR_SERVICE		(char*)"scr_service.cimg"
-#define	FNAME_BKGR_LANGUAGE		(char*)"scr_language.cimg"
-#define	FNAME_BKGR_INFO			(char*)"scr_info.cimg"
-#define	FNAME_BKGR_MOVEZ		(char*)"scr_movez.cimg"
+#define	FNAME_LOGO					(char*)"logo.cimg"
+#define	FNAME_BKGR_MAIN				(char*)"scr_main.cimg"
+#define	FNAME_BKGR_SERVICE			(char*)"scr_service.cimg"
+#define	FNAME_BKGR_LANGUAGE			(char*)"scr_language.cimg"
+#define	FNAME_BKGR_INFO				(char*)"scr_info.cimg"
+#define	FNAME_BKGR_MOVEZ			(char*)"scr_movez.cimg"
+#define	FNAME_BKGR_FILES			(char*)"scr_files.cimg"
+
+#define	FNAME_BTN_MOVEZ_UP_EN		(char*)"btn_movez_up_en.cimg"
+#define	FNAME_BTN_MOVEZ_UP_PRESS	(char*)"btn_movez_up_press.cimg"
+#define	FNAME_BTN_MOVEZ_DN_EN		(char*)"btn_movez_down_en.cimg"
+#define	FNAME_BTN_MOVEZ_DN_PRESS	(char*)"btn_movez_down_press.cimg"
+
+#define	FNAME_BTN_FILES_UP_EN		(char*)"btn_files_up_en.cimg"
+#define	FNAME_BTN_FILES_UP_PRESS	(char*)"btn_files_up_press.cimg"
+#define	FNAME_BTN_FILES_DN_EN		(char*)"btn_files_down_en.cimg"
+#define	FNAME_BTN_FILES_DN_PRESS	(char*)"btn_files_down_press.cimg"
+#define	FNAME_BTN_FILES_PREV_EN		(char*)"btn_files_prev_en.cimg"
+#define	FNAME_BTN_FILES_PREV_DIS	(char*)"btn_files_prev_dis.cimg"
+#define	FNAME_BTN_FILES_PREV_PRESS	(char*)"btn_files_prev_press.cimg"
 
 
 
@@ -225,6 +239,10 @@ extern TG_SCREEN		tguiScreenInfo;
 #define		TG_BTN_CNT_SCREEN_MOVEZ			10
 extern TG_BUTTON		tguiScrMovezButtons[TG_BTN_CNT_SCREEN_MOVEZ];
 extern TG_SCREEN		tguiScreenMovez;
+
+#define		TG_BTN_CNT_SCREEN_FILES			8
+extern TG_BUTTON		tguiScrFilesButtons[TG_BTN_CNT_SCREEN_FILES];
+extern TG_SCREEN		tguiScreenFiles;
 
 
 

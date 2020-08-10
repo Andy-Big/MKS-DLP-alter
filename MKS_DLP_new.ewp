@@ -1410,6 +1410,7 @@
                     <state>$PROJ_DIR$/src/App/tgui</state>
                     <state>$PROJ_DIR$/src/App/stepper</state>
                     <state>$PROJ_DIR$/src/App/uvdisplay</state>
+                    <state>$PROJ_DIR$/src/App/uvdisplay/orig</state>
                     <state>$PROJ_DIR$/src/FATFS/Target</state>
                     <state>$PROJ_DIR$/src/FATFS/App</state>
                     <state>$PROJ_DIR$/src/USB_HOST/App</state>
@@ -1437,7 +1438,7 @@
                 </option>
                 <option>
                     <name>CCOptLevel</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>CCOptStrategy</name>
@@ -1446,7 +1447,7 @@
                 </option>
                 <option>
                     <name>CCOptLevelSlave</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>CompilerMisraRules98</name>
@@ -2480,14 +2481,35 @@
                 <configuration>MKSDLP_Alter_debug</configuration>
             </excluded>
             <file>
-                <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\cpld.c</name>
+                <name>$PROJ_DIR$\src\App\uvdisplay\orig\_main.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Inc\cpld.h</name>
+                <name>$PROJ_DIR$\src\App\uvdisplay\orig\fastio_dlp_board.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\uvdisplay\orig\mks_dlp_main.cpp</name>
+                <excluded>
+                    <configuration>MKSDLP_Alter_debug</configuration>
+                </excluded>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\uvdisplay\orig\mks_reprint.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\uvdisplay\orig\ssd2828.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\uvdisplay\orig\ssd2828.h</name>
             </file>
         </group>
         <file>
-            <name>$PROJ_DIR$\src\App\uvdisplay\uvdisplay.c</name>
+            <name>$PROJ_DIR$\src\App\uvdisplay\cpld_utils.cpp</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\src\App\uvdisplay\ssd_utils.cpp</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\src\App\uvdisplay\uvdisplay.cpp</name>
         </file>
     </group>
     <file>

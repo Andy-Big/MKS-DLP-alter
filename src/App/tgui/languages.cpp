@@ -39,6 +39,10 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Fans time",
 		(char*)"URL",
 		(char*)"UI author",
+
+		(char*)"Home",
+		(char*)"Set Z=0",
+		(char*)"Stop!",
 		
 	};
 
@@ -81,6 +85,10 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Время вентиляторов",
 		(char*)"URL",
 		(char*)"Автор UI",
+
+		(char*)"Домой",
+		(char*)"Уст. Z=0",
+		(char*)"Стоп!",
 		
 	};
 
@@ -139,6 +147,15 @@ void		LANG_SetLanguage(uint8_t lang)
 	lngCurrent = lngLanguages[lang].strings;
 	
 	return;
+}
+//==============================================================================
+
+
+
+
+uint8_t		LANG_GetLanduadesCount()
+{
+	return LNG_LANGS_COUNT;
 }
 //==============================================================================
 

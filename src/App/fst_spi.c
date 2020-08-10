@@ -48,7 +48,7 @@ void		TOUCH_SPIInit(void)
 	hTouchSpi.Init.CLKPolarity = SPI_POLARITY_LOW;
 	hTouchSpi.Init.CLKPhase = SPI_PHASE_1EDGE;
 	hTouchSpi.Init.NSS = SPI_NSS_SOFT;
-	hTouchSpi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
+	hTouchSpi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_32;
 	hTouchSpi.Init.FirstBit = SPI_FIRSTBIT_MSB;
 	hTouchSpi.Init.TIMode = SPI_TIMODE_DISABLE;
 	hTouchSpi.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -212,10 +212,10 @@ void		FLASH_SPIInit(void)
 	hFlashSpi.Init.Mode = SPI_MODE_MASTER;
 	hFlashSpi.Init.Direction = SPI_DIRECTION_2LINES;
 	hFlashSpi.Init.DataSize = SPI_DATASIZE_8BIT;
-	hFlashSpi.Init.CLKPolarity = SPI_POLARITY_LOW;
-	hFlashSpi.Init.CLKPhase = SPI_PHASE_1EDGE;
+	hFlashSpi.Init.CLKPolarity = SPI_POLARITY_HIGH;
+	hFlashSpi.Init.CLKPhase = SPI_PHASE_2EDGE;
 	hFlashSpi.Init.NSS = SPI_NSS_SOFT;
-	hFlashSpi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
+	hFlashSpi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
 	hFlashSpi.Init.FirstBit = SPI_FIRSTBIT_MSB;
 	hFlashSpi.Init.TIMode = SPI_TIMODE_DISABLE;
 	hFlashSpi.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -340,7 +340,7 @@ void		FLASH_SPIDisable()
 
 // prescaler - SPI_BAUDRATEPRESCALER_2/4/8/16/32/64/128/256
 // APB2 clock is 84Mhz
-void		FLASH_SPISetSpeed(uint8_t prescaler)
+void		FLASH_SPISetSpeed(uint16_t prescaler)
 {
 	// Clear baudrate bits
 	hFlashSpi.Instance->CR1 &= ~(SPI_CR1_BR_2 | SPI_CR1_BR_1 | SPI_CR1_BR_0);
@@ -353,7 +353,7 @@ void		FLASH_SPISetSpeed(uint8_t prescaler)
 
 
 // return baudrate bits value - SPI_BAUDRATEPRESCALER_2/4/8/16/32/64/128/256
-uint8_t		FLASH_SPIGetSpeed()
+uint16_t		FLASH_SPIGetSpeed()
 {
 	return hFlashSpi.Instance->CR1 & (SPI_CR1_BR_2 | SPI_CR1_BR_1 | SPI_CR1_BR_0);
 }
@@ -365,10 +365,17 @@ uint8_t		FLASH_SPIGetSpeed()
 uint8_t		FLASH_SPIWriteReadByte(uint8_t txval)
 {
 	uint16_t res = 0;
+
+	while ((_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0);
+	hFlashSpi.Instance->DR = txval;
+	while ((_flash_SPIGetFlags() & SPI_FLAG_RXNE) ==  0);
+	res = hFlashSpi.Instance->DR;
+/*
 	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || !(_flash_SPIGetFlags() & SPI_FLAG_TXE));
 	hFlashSpi.Instance->DR = txval;
 	while ((_flash_SPIGetFlags() & SPI_FLAG_RXNE) ==  0);
 	res = hFlashSpi.Instance->DR;
+*/
 	return (uint8_t)res;
 }
 //==============================================================================
@@ -399,12 +406,55 @@ void		FLASH_SPIReadBuff(uint32_t dlen, uint8_t *dbuff)
 
 
 
+void		FLASH_SPIWriteBuff(uint32_t dlen, uint8_t *dbuff)
+{
+	uint32_t	rlen = 0;
+	uint8_t		*rbuff = dbuff;
+
+	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || !(_flash_SPIGetFlags() & SPI_FLAG_TXE));
+	*rbuff = hFlashSpi.Instance->DR & 0x00FF;
+	while (rlen < dlen)
+	{
+		hFlashSpi.Instance->DR = *rbuff;
+		while (!(_flash_SPIGetFlags() & SPI_FLAG_TXE));
+		rbuff++;
+		rlen++;
+	}
+	
+	return;
+}
+//==============================================================================
+
+
+
+
 void		FLASH_SPIReadBuffDMA(uint32_t dlen, uint8_t *dbuff)
 {
-	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || !(_flash_SPIGetFlags() & SPI_FLAG_TXE));
+	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || (_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0 || hFlashSpi.State != HAL_SPI_STATE_READY);
 	HAL_SPI_Receive_DMA(&hFlashSpi, dbuff, dlen);
 	while (hFlashSpi.State != HAL_SPI_STATE_READY);
 	return;
+}
+//==============================================================================
+
+
+
+
+void		FLASH_SPIWriteBuffDMA(uint32_t dlen, uint8_t *dbuff)
+{
+	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || (_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0 || hFlashSpi.State != HAL_SPI_STATE_READY);
+	HAL_SPI_Transmit_DMA(&hFlashSpi, dbuff, dlen);
+	while (hFlashSpi.State != HAL_SPI_STATE_READY);
+	return;
+}
+//==============================================================================
+
+
+
+
+uint8_t		FLASH_IsDMAReady()
+{
+	return (hFlashSpi.State == HAL_SPI_STATE_READY);
 }
 //==============================================================================
 

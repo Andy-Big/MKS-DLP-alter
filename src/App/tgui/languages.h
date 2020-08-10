@@ -46,6 +46,9 @@ typedef enum
 	LSTR_FANSTIME,
 	LSTR_URL,
 	LSTR_UIAUTHOR,
+	LSTR_MOVEHOME,
+	LSTR_SETZ0,
+	LSTR_STOPMOVE,
 	
 	_LSTR_LASTITEM,
 
@@ -65,6 +68,7 @@ typedef struct
 char*		LANG_GetString(LNG_STRING_ID id);
 char*		LANG_GetLanguageName(uint8_t lang);
 void		LANG_SetLanguage(uint8_t lang);
+uint8_t		LANG_GetLanduadesCount();
 
 
 

@@ -16,7 +16,7 @@
         <LeaveTargetRunning>_ 0</LeaveTargetRunning>
     </StLinkDriver>
     <DebugChecksum>
-        <Checksum>2010076957</Checksum>
+        <Checksum>60827690</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -70,6 +70,7 @@
         <Fmt12>RTC_TimeTypeDef-Minutes	3	0</Fmt12>
         <Fmt13>RTC_TimeTypeDef-Seconds	3	0</Fmt13>
         <Fmt14>RTC_TimeTypeDef-TimeFormat	3	0</Fmt14>
+        <Fmt15>struct CPLD_DATA_FRAME-mark2	3	0</Fmt15>
     </struct_types>
     <array_types>
         <Fmt0>TCHAR[128]	5	0</Fmt0>
@@ -98,7 +99,7 @@
         <Fmt14>{W}1:unicode_char	4	0</Fmt14>
         <Fmt15>{W}1:unistr[uinilen]	5	0</Fmt15>
         <Fmt16>{W}1:utfchar	4	0</Fmt16>
-        <Fmt17>{W}1:vavg	4	0</Fmt17>
+        <Fmt17>{W}1:vavg	3	0</Fmt17>
         <Fmt18>{W}1:vcurr	4	0</Fmt18>
     </watch_formats>
     <Trace1>

@@ -245,6 +245,7 @@ closeexit:
 
 
 
+
 // Direct display writing - 65 ms in low optimize, 48 ms in high optimize
 /*
 void		_tgui_DrawFileCimgBackground(char* file)
@@ -688,6 +689,179 @@ closeexit:
 
 
 
+void		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y)
+{
+	DWORD		freaded = 0;
+	DWORD		readed = 0;
+	uint32_t	bwidth = 0;
+	uint32_t	bheight = 0;
+	uint8_t		fliprows = 0;
+	uint32_t	imgbase;
+	uint16_t	bufinpos = UIFBUFF_SIZE;
+	uint16_t	bufoutpos = 0;
+	uint8_t		len = 0;
+	uint16_t	val = 0;
+	uint8_t		curbuffnum = 0;
+	uint16_t	*curbuff = (uint16_t*)tguiDBuff;
+	
+
+/*
+	tstrcpy(tfname, UsbPath);
+	tstrcat_utf(tfname, (char*)"alterupd\\images");
+	tstrcat_utf(tfname, (char*)"\\");
+*/
+
+	tstrcpy(tfname, SpiflPath);
+	tstrcat_utf(tfname, file);
+
+	if (f_open(&tguiFile, tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
+	{
+		return;
+	}
+
+	// Reading CIMG header
+	if (f_read(&tguiFile, tguiDBuff, 4, &readed) != FR_OK || readed < 4)
+	{
+		goto closeexit;
+	}
+	freaded += readed;
+	
+	// Image width
+	bwidth = *(uint16_t*)(tguiDBuff);
+	// Image height
+	bheight = *(uint16_t*)(tguiDBuff+2);
+	if (bheight & 0x8000)
+	{
+		// If standart row order
+		bheight &= 0x7FFF;
+	}
+	else
+	{
+		// If flip row order
+		fliprows = 1;
+		LCD_WriteCmd(0x0036);
+		LCD_WriteRAM(0x00F8);
+		y = LCD_HEIGHT - y - bheight;
+	}
+	
+	
+	// Image data offset
+	imgbase = 4;
+
+	LCD_SetWindows(x, y, bwidth, bheight);
+	LCD_WriteRAM_Prepare();
+	
+	if (f_lseek(&tguiFile, imgbase) != FR_OK)
+	{
+		goto flipcloseexit;
+	}
+	freaded = imgbase;
+
+	do
+	{
+		if (bufinpos == UIFBUFF_SIZE)
+		{
+			if (f_read(&tguiFile, tguiFBuff, UIFBUFF_SIZE, &readed) != FR_OK)
+			{
+				goto flipcloseexit;
+			}
+			bufinpos = 0;
+		}
+		
+		len = tguiFBuff[bufinpos];
+		if (len & 0x80)
+		{
+			len = (len & 0x7F) + 1;
+			if ((bufoutpos + (len + 1)) > (UIDBUFF_SIZE / 4) )
+			{
+//				LCD_WaitDMAReady();
+				LCD_WriteRAM_DMA(curbuff, bufoutpos);
+				if ((uint32_t)curbuff == (uint32_t)tguiDBuff)
+				{
+					curbuff = (uint16_t*)(tguiDBuff + (UIDBUFF_SIZE / 2));
+					curbuffnum = 1;
+				}
+				else
+				{
+					curbuff = (uint16_t*)(tguiDBuff);
+					curbuffnum = 0;
+				}
+				bufoutpos = 0;
+			}
+			if ((bufinpos + 4) > UIFBUFF_SIZE)
+			{
+				freaded += bufinpos;
+				f_lseek(&tguiFile, freaded);
+				bufinpos = UIFBUFF_SIZE;
+				continue;
+			}
+			bufinpos++;
+			val = *(uint16_t*)(tguiFBuff + bufinpos);
+			for (uint8_t i = 0; i < len; i++)
+			{
+				*(curbuff + bufoutpos) = val;
+				bufoutpos++;
+			}
+			bufinpos += 2;
+		}
+		else
+		{
+			len++;
+			if ((bufoutpos + (len + 1)) > (UIDBUFF_SIZE / 4))
+			{
+//				LCD_WaitDMAReady();
+				LCD_WriteRAM_DMA(curbuff, bufoutpos);
+				if (curbuffnum == 0)
+				{
+					curbuff = (uint16_t*)(tguiDBuff + (UIDBUFF_SIZE / 2));
+					curbuffnum = 1;
+				}
+				else
+				{
+					curbuff = (uint16_t*)(tguiDBuff);
+					curbuffnum = 0;
+				}
+				bufoutpos = 0;
+			}
+			if ((bufinpos + (len + 1) * 2) > UIFBUFF_SIZE)
+			{
+				freaded += bufinpos;
+				f_lseek(&tguiFile, freaded);
+				bufinpos = UIFBUFF_SIZE;
+				continue;
+			}
+			bufinpos++;
+			for (uint8_t i = 0; i < len; i++)
+			{
+				*(curbuff + bufoutpos) = *(uint16_t*)(tguiFBuff + bufinpos);
+				bufoutpos++;
+				bufinpos += 2;
+			}
+			
+		}
+	} while (readed == UIFBUFF_SIZE || bufinpos < readed);
+
+	if (bufoutpos > 0)
+	{
+		LCD_WaitDMAReady();
+		LCD_WriteRAM_DMA(curbuff, bufoutpos);
+	}
+	LCD_WaitDMAReady();
+
+flipcloseexit:
+	if (fliprows)
+	{
+		LCD_WriteCmd(0x0036);
+		LCD_WriteRAM(0x00B8);
+	}
+closeexit:
+	f_close(&tguiFile);
+	return;
+}
+//==============================================================================
+
+
+
 void		_tgui_DefaultButtonPaint(void *tguiobj, void *param)
 {
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
@@ -695,12 +869,14 @@ void		_tgui_DefaultButtonPaint(void *tguiobj, void *param)
 	uint16_t oldcolor, newcolor = thisbtn->textcolor_en;
 	uint16_t oldbackcolor, newbackcolor = thisbtn->backcolor_en;
 	LCDUI_FONT_TYPE oldfont = LCDUI_SetFont(thisbtn->font);
+	char *img = thisbtn->bgimagename_en;
 
 	// colors
 	if (thisbtn->options.disabled == 1)
 	{
 		newcolor = thisbtn->textcolor_dis;
 		newbackcolor = thisbtn->backcolor_dis;
+		img = thisbtn->bgimagename_dis;
 	}
 	else
 	{
@@ -708,6 +884,7 @@ void		_tgui_DefaultButtonPaint(void *tguiobj, void *param)
 		{
 			newcolor = thisbtn->textcolor_press;
 			newbackcolor = thisbtn->backcolor_press;
+			img = thisbtn->bgimagename_press;
 		}
 		else
 		{
@@ -715,6 +892,7 @@ void		_tgui_DefaultButtonPaint(void *tguiobj, void *param)
 			{
 				newcolor = thisbtn->textcolor_act;
 				newbackcolor = thisbtn->backcolor_act;
+				img = thisbtn->bgimagename_act;
 			}
 		}
 	}
@@ -732,6 +910,13 @@ void		_tgui_DefaultButtonPaint(void *tguiobj, void *param)
 	{
 		if (thisbtn->options.bgpaint == BGP_SCREEN)
 		{
+		}
+		else
+		{
+			if (thisbtn->options.bgpaint == BGP_IMAGE && img != NULL)
+			{
+				_tgui_DrawFileCimg(img, thisbtn->position.left, thisbtn->position.top);
+			}
 		}
 	}
 	

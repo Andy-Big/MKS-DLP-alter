@@ -2701,14 +2701,32 @@
         <group>
             <name>orig</name>
             <file>
-                <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\cpld.c</name>
+                <name>$PROJ_DIR$\src\App\uvdisplay\orig\_main.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Inc\cpld.h</name>
+                <name>$PROJ_DIR$\src\App\uvdisplay\orig\fastio_dlp_board.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\uvdisplay\orig\mks_dlp_main.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\uvdisplay\orig\mks_reprint.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\uvdisplay\orig\ssd2828.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\uvdisplay\orig\ssd2828.h</name>
             </file>
         </group>
         <file>
-            <name>$PROJ_DIR$\src\App\uvdisplay\uvdisplay.c</name>
+            <name>$PROJ_DIR$\src\App\uvdisplay\cpld_utils.cpp</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\src\App\uvdisplay\ssd_utils.cpp</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\src\App\uvdisplay\uvdisplay.cpp</name>
         </file>
     </group>
     <file>

@@ -63,8 +63,10 @@ DRESULT SPIFL_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
 	if (_spifl_info.sector_size == 0)
 		return RES_NOTRDY;
 
+	uint16_t	spd = FLASH_SPIGetSpeed();
+	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_2);
 	SPIFL_ReadBuff(sector * (_spifl_info.sector_size / _SPIFL_SECT_DIVIDER), count * (_spifl_info.sector_size / _SPIFL_SECT_DIVIDER), (uint8_t*)buff);
-
+	FLASH_SPISetSpeed(spd);
 	res = RES_OK;
 
 	return res;
@@ -81,7 +83,10 @@ DRESULT SPIFL_write(BYTE lun, const BYTE *buff, DWORD sector, UINT count)
 	if (_spifl_info.sector_size == 0)
 		return RES_NOTRDY;
 
+	uint16_t	spd = FLASH_SPIGetSpeed();
+	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_2);
 	SPIFL_WriteBuff(sector * (_spifl_info.sector_size / _SPIFL_SECT_DIVIDER), count * (_spifl_info.sector_size / _SPIFL_SECT_DIVIDER), (uint8_t*)buff);
+	FLASH_SPISetSpeed(spd);
 
 	res = RES_OK;
 

@@ -150,6 +150,39 @@ uint16_t	UTF8ToANSI_Str(char *cstr, char *utfstr, uint16_t maxlen)
 
 
 
+// Convert UTF8 string to Unicode string
+// Return count of converted chars
+// maxlen - max lenght of cstr buffer
+uint16_t	UTF8ToUnicode_Str(uint16_t *unistr, char *utfstr, uint16_t maxlen)
+{
+	if (unistr == NULL || utfstr == NULL || maxlen < 1)
+		return 0;
+	
+	uint16_t unilen = 0;
+	while (utfstr && unilen < maxlen-1)
+	{
+		unistr[unilen] = UTF8toUnicode(utfstr);
+		if (*utfstr < 0x80)
+		{
+			utfstr++;
+		}
+		else
+		{
+			utfstr += 2;
+		}
+		unilen++;
+	}
+	unistr[unilen] = 0;
+	
+	
+	
+	return unilen;
+}
+//==============================================================================
+
+
+
+
 // Convert UNICODE string to UTF8 string
 // Return count of converted chars
 // maxlen - max lenght of utfstr buffer
@@ -225,6 +258,25 @@ uint32_t	strlen_utf(char *text)
 		}
 		len++;
 		curr_char = (uint8_t)(*text);
+	}
+	
+	return len;
+}
+//==============================================================================
+
+
+
+
+uint32_t	tstrlen(uint16_t *text)
+{
+	uint32_t	len = 0;
+	uint16_t	curr_char = (uint16_t)(*text);
+	
+	while (curr_char != 0)
+	{
+		len++;
+		text++;
+		curr_char = (uint16_t)(*text);
 	}
 	
 	return len;
