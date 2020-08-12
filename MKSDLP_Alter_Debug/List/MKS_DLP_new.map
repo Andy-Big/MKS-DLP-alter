@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.1.169/W32 for ARM                  10/Aug/2020  14:22:09
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  11/Aug/2020  18:49:10
 # Copyright 2007-2018 IAR Systems AB.
 #
 #    Output file  =  
@@ -8,7 +8,7 @@
 #    Map file     =  
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\List\MKS_DLP_new.map
 #    Command line =  
-#        -f C:\Temp\EW984F.tmp
+#        -f C:\Temp\EW53E8.tmp
 #        (D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\config.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\cpld_utils.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\datetime.o
@@ -19,6 +19,7 @@
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\ffsystem.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\ffunicode.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\fnt12.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\fnt12bold.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\fnt18.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\fnt18bold.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\fnt24.o
@@ -64,6 +65,7 @@
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\system_stm32f4xx.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\tgui.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\tgui_defaultfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\tgui_filesscreenfuncs.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\tgui_infoscreenfuncs.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\tgui_langscreenfuncs.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj\tgui_mainscreenfuncs.o
@@ -140,7 +142,7 @@ initialize by copy { rw };
   .intvec                ro code   0x801'0000    0x188  startup_stm32f407xx.o [1]
                                  - 0x801'0188    0x188
 
-"P1":                                          0x1af60
+"P1":                                          0x1c39a
   .text                  ro code   0x801'0188   0x2e88  ff.o [1]
   .text                  ro code   0x801'3010     0xf0  diskio.o [1]
   .text                  ro code   0x801'3100    0x168  ffunicode.o [1]
@@ -150,302 +152,323 @@ initialize by copy { rw };
   .text                  ro code   0x801'37e4     0x36  strlen.o [5]
   .text                  ro code   0x801'381a     0x7a  lz77_init_single.o [5]
   .text                  ro code   0x801'3894      0xc  stm32f4xx_hal.o [1]
-  .rodata                const     0x801'38a0   0x2094  fnt24bold.o [1]
-  .text                  ro code   0x801'5934   0x1cf0  tgui.o [1]
-  .text                  ro code   0x801'7624     0x66  ABImemset.o [5]
-  .text                  ro code   0x801'768a     0x3a  zero_init3.o [5]
-  .text                  ro code   0x801'76c4    0xcf4  tgui_defaultfuncs.o [1]
-  .text                  ro code   0x801'83b8     0xa6  ABImemcpy.o [5]
-  .text                  ro code   0x801'845e     0x1e  xencoding_8859_1.o [2]
-  .text                  ro code   0x801'847c     0x44  languages.o [1]
-  .text                  ro code   0x801'84c0    0x128  sys_timer.o [1]
-  .text                  ro code   0x801'85e8     0x98  datetime.o [1]
-  .text                  ro code   0x801'8680     0x40  sprintf.o [2]
-  .text                  ro code   0x801'86c0    0xb60  lcd_ui.o [1]
-  .text                  ro code   0x801'9220    0x1ee  unicode_utils.o [1]
-  .text                  ro code   0x801'940e      0xa  xsprout.o [2]
-  .text                  ro code   0x801'9418    0x524  lcd_low.o [1]
-  .text                  ro code   0x801'993c    0x278  touch.o [1]
-  .text                  ro code   0x801'9bb4    0xf46  xprintffull.o [2]
-  .rodata                const     0x801'aafa      0x2  languages.o [1]
-  .text                  ro code   0x801'aafc     0x28  stm32f4xx_hal.o [1]
-  .text                  ro code   0x801'ab24    0x114  fsmc.o [1]
-  .text                  ro code   0x801'ac38    0x484  stm32f4xx_hal_dma.o [1]
-  .text                  ro code   0x801'b0bc    0x158  stm32f4xx_hal_cortex.o [1]
-  .text                  ro code   0x801'b214    0x568  fst_spi.o [1]
-  .text                  ro code   0x801'b77c     0x78  xlocale_c.o [2]
-  .text                  ro code   0x801'b7f4     0x16  strchr.o [5]
-  .rodata                const     0x801'b80a      0x2  languages.o [1]
-  .text                  ro code   0x801'b80c     0x40  xfail_s.o [2]
-  .text                  ro code   0x801'b84c     0x58  memchr.o [5]
-  .text                  ro code   0x801'b8a4      0xa  xmbcurmax.o [2]
-  .rodata                const     0x801'b8ae      0x1  unwind_debug.o [6]
-  .text                  ro code   0x801'b8b0    0x230  I64DivMod.o [5]
-  .text                  ro code   0x801'bae0    0x1a2  DblMul.o [4]
-  .text                  ro code   0x801'bc84     0x70  frexp.o [4]
-  .text                  ro code   0x801'bcf4     0x2e  DblCmpLe.o [4]
-  .text                  ro code   0x801'bd24     0x2e  DblCmpGe.o [4]
-  .text                  ro code   0x801'bd54    0x13a  ldexp.o [4]
-  .text                  ro code   0x801'be90     0x3a  DblToS32.o [4]
-  .text                  ro code   0x801'becc     0x22  S32ToDbl.o [4]
-  .text                  ro code   0x801'bef0     0xe2  DblSub.o [4]
-  .text                  ro code   0x801'bfd4    0x246  DblDiv.o [4]
-  .text                  ro code   0x801'c21c     0x28  DblToU32.o [4]
-  .text                  ro code   0x801'c244     0x1a  U32ToDbl.o [4]
-  .text                  ro code   0x801'c260      0x6  ABImemclr4.o [5]
-  .text                  ro code   0x801'c268     0x5c  stm32f4xx_hal_sram.o [1]
-  .text                  ro code   0x801'c2c4    0x6c2  main.o [1]
-  .text                  ro code   0x801'c988    0x2a2  stm32f4xx_hal_gpio.o [1]
-  .text                  ro code   0x801'cc2c    0x63e  stm32f4xx_hal_spi.o [1]
-  .text                  ro code   0x801'd26a      0x6  abort.o [2]
-  .text                  ro code   0x801'd270      0x2  stm32f4xx_hal_spi.o [1]
-  .text                  ro code   0x801'd274    0x16a  DblAdd.o [4]
-  .text                  ro code   0x801'd3e0     0x32  ABImemset48.o [5]
-  .text                  ro code   0x801'd414     0xec  stm32f4xx_ll_fsmc.o [1]
-  .text                  ro code   0x801'd500     0x34  stm32f4xx_hal.o [1]
-  .text                  ro code   0x801'd534    0x28c  gpio.o [1]
-  .text                  ro code   0x801'd7c0    0x328  spi_flash.o [1]
-  .text                  ro code   0x801'dae8     0xc8  rtc.o [1]
-  .text                  ro code   0x801'dbb0     0xb0  config.o [1]
-  .text                  ro code   0x801'dc60     0xe8  motor.o [1]
-  .text                  ro code   0x801'dd48      0xc  uvdisplay.o [1]
-  .text                  ro code   0x801'dd54     0x28  usbh_platform.o [1]
-  .text                  ro code   0x801'dd7c     0x8c  usb_host.o [1]
-  .text                  ro code   0x801'de08     0x12  strcmp.o [5]
-  .text                  ro code   0x801'de1c    0x3dc  stm32f4xx_hal_rcc.o [1]
-  .text                  ro code   0x801'e1f8    0x1f4  stm32f4xx_hal_rcc.o [1]
-  .text                  ro code   0x801'e3ec    0x160  stm32f4xx_hal_rcc_ex.o [1]
-  .text                  ro code   0x801'e54c     0x14  exit.o [6]
-  .text                  ro code   0x801'e560     0x4c  stm32f4xx_hal.o [1]
-  .text                  ro code   0x801'e5ac     0x40  stm32f4xx_hal_msp.o [1]
-  .text                  ro code   0x801'e5ec     0x20  spi_flash.o [1]
-  .text                  ro code   0x801'e60c     0xd0  z_endstops.o [1]
-  .text                  ro code   0x801'e6dc    0x240  z_planner.o [1]
-  .text                  ro code   0x801'e91c    0x5b8  z_stepper.o [1]
-  .text                  ro code   0x801'eed4    0x1e8  tim.o [1]
-  .text                  ro code   0x801'f0bc    0x7a2  stm32f4xx_hal_tim.o [1]
-  .text                  ro code   0x801'f860     0x48  FltToDbl.o [4]
-  .text                  ro code   0x801'f8a8     0xb6  cpld_utils.o [1]
-  .text                  ro code   0x801'f960    0x5b4  ssd_utils.o [1]
-  .text                  ro code   0x801'ff14    0x7f4  usbh_core.o [1]
-  .text                  ro code   0x802'0708     0x18  z_endstops.o [1]
-  .text                  ro code   0x802'0720     0x18  z_stepper.o [1]
-  .text                  ro code   0x802'0738      0xc  z_endstops.o [1]
-  .text                  ro code   0x802'0744     0x24  z_planner.o [1]
-  .text                  ro code   0x802'0768     0x18  z_planner.o [1]
-  .text                  ro code   0x802'0780      0x8  z_stepper.o [1]
-  .text                  ro code   0x802'0788     0x20  z_stepper.o [1]
-  .text                  ro code   0x802'07a8     0x38  z_planner.o [1]
-  .text                  ro code   0x802'07e0     0x10  z_stepper.o [1]
-  .text                  ro code   0x802'07f0     0x2e  lroundf.o [4]
-  .text                  ro code   0x802'0820     0x1c  z_stepper.o [1]
-  .text                  ro code   0x802'083c     0x30  z_stepper.o [1]
-  .text                  ro code   0x802'086c     0x20  z_stepper.o [1]
-  .text                  ro code   0x802'088c      0xc  z_stepper.o [1]
-  .text                  ro code   0x802'0898     0xac  stm32f4xx_hal_tim_ex.o [1]
-  .text                  ro code   0x802'0944    0x3a0  usbh_conf.o [1]
-  .text                  ro code   0x802'0ce4     0xe0  usbh_pipes.o [1]
-  .text                  ro code   0x802'0dc4    0x642  usbh_ctlreq.o [1]
-  .text                  ro code   0x802'1406      0xe  z_planner.o [1]
-  .text                  ro code   0x802'1414     0x1c  z_stepper.o [1]
-  .text                  ro code   0x802'1430     0x10  z_stepper.o [1]
-  .text                  ro code   0x802'1440   0x10d2  stm32f4xx_hal_hcd.o [1]
-  .text                  ro code   0x802'2512    0x10e  usbh_ioreq.o [1]
-  .text                  ro code   0x802'2620    0xa8c  stm32f4xx_ll_usb.o [1]
-  .rodata                const     0x802'30ac   0x195c  fnt24.o [1]
-  .text                  ro code   0x802'4a08   0x14e0  dlmalloc.o [2]
-  .text                  ro code   0x802'5ee8     0x2c  xgetmemchunk.o [2]
-  .rodata                const     0x802'5f14   0x10c8  fnt18bold.o [1]
-  .rodata                const     0x802'6fdc    0xea4  fnt18.o [1]
-  .text                  ro code   0x802'7e80    0x9ae  usbh_msc.o [1]
-  .text                  ro code   0x802'8830    0x43c  usbh_msc_bot.o [1]
-  .text                  ro code   0x802'8c6c      0x4  heaptramp0.o [2]
-  .text                  ro code   0x802'8c70    0x490  usbh_msc_scsi.o [1]
-  .rodata                const     0x802'9100    0x6b4  fnt12.o [1]
-  .rodata                const     0x802'97b4    0x1f4  ffunicode.o [1]
-  .text                  ro code   0x802'99a8    0x170  usbh_diskio.o [1]
-  .text                  ro code   0x802'9b18    0x150  spifl_diskio.o [1]
-  .rodata                const     0x802'9c68    0x140  fnt12.o [1]
-  .rodata                const     0x802'9da8    0x140  fnt18.o [1]
-  .rodata                const     0x802'9ee8    0x140  fnt18bold.o [1]
-  .rodata                const     0x802'a028    0x140  fnt24.o [1]
-  .rodata                const     0x802'a168    0x140  fnt24bold.o [1]
-  .rodata                const     0x802'a2a8    0x100  ffunicode.o [1]
-  .text                  ro code   0x802'a3a8     0xdc  tgui_infoscreenfuncs.o [1]
-  .text                  ro code   0x802'a484     0x1e  strcat.o [2]
-  .rodata                const     0x802'a4a4     0xbc  ffunicode.o [1]
-  .text                  ro code   0x802'a560     0x9c  stm32f4xx_it.o [1]
-  .rodata                const     0x802'a5fc     0x90  languages.o [1]
-  .rodata                const     0x802'a68c     0x90  languages.o [1]
-  .rodata                const     0x802'a71c     0x80  ff.o [1]
-  .rodata                const     0x802'a79c     0x34  main.o [1]
-  .rodata                const     0x802'a7d0     0x34  main.o [1]
-  .rodata                const     0x802'a804     0x30  main.o [1]
-  .rodata                const     0x802'a834     0x30  main.o [1]
-  .rodata                const     0x802'a864     0x2c  main.o [1]
-  .rodata                const     0x802'a890     0x2c  main.o [1]
-  .rodata                const     0x802'a8bc     0x28  main.o [1]
-  .text                  ro code   0x802'a8e4     0x28  data_init.o [5]
-  .rodata                const     0x802'a90c     0x24  languages.o [1]
-  .rodata                const     0x802'a930     0x24  main.o [1]
-  .rodata                const     0x802'a954     0x24  tgui_infoscreenfuncs.o [1]
-  .text                  ro code   0x802'a978     0x22  fpinit_M.o [4]
-  .iar.init_table        const     0x802'a99c     0x24  - Linker created -
-  .rodata                const     0x802'a9c0     0x20  main.o [1]
-  .text                  ro code   0x802'a9e0     0x20  system_stm32f4xx.o [1]
-  .text                  ro code   0x802'aa00     0x20  cmain_call_ctors.o [5]
-  .text                  ro code   0x802'aa20     0x18  cppinit.o [2]
-  .text                  ro code   0x802'aa38     0x1e  cmain.o [5]
-  .text                  ro code   0x802'aa56      0x4  low_level_init.o [2]
-  .text                  ro code   0x802'aa5a      0x4  exit.o [2]
-  .text                  ro code   0x802'aa60      0xa  cexit.o [5]
-  .rodata                const     0x802'aa6c     0x1c  languages.o [1]
-  .rodata                const     0x802'aa88     0x1c  tgui.o [1]
-  .rodata                const     0x802'aaa4     0x18  languages.o [1]
-  .rodata                const     0x802'aabc     0x18  main.o [1]
-  .rodata                const     0x802'aad4     0x18  main.o [1]
-  .rodata                const     0x802'aaec     0x18  main.o [1]
-  .rodata                const     0x802'ab04     0x18  tgui.o [1]
-  .rodata                const     0x802'ab1c     0x18  tgui.o [1]
-  .rodata                const     0x802'ab34     0x18  tgui.o [1]
-  .rodata                const     0x802'ab4c     0x14  ff.o [1]
-  .rodata                const     0x802'ab60     0x14  ff.o [1]
-  .rodata                const     0x802'ab74     0x14  spifl_diskio.o [1]
-  .rodata                const     0x802'ab88     0x14  tgui.o [1]
-  .rodata                const     0x802'ab9c     0x14  tgui.o [1]
-  .rodata                const     0x802'abb0     0x14  usbh_diskio.o [1]
-  .text                  ro code   0x802'abc4     0x14  tgui_langscreenfuncs.o [1]
-  .rodata                const     0x802'abd8     0x10  ff.o [1]
-  .rodata                const     0x802'abe8     0x10  ff.o [1]
-  .rodata                const     0x802'abf8     0x10  ff.o [1]
-  .rodata                const     0x802'ac08     0x10  ff.o [1]
-  .rodata                const     0x802'ac18     0x10  languages.o [1]
-  .rodata                const     0x802'ac28     0x10  languages.o [1]
-  .rodata                const     0x802'ac38     0x10  languages.o [1]
-  .rodata                const     0x802'ac48     0x10  languages.o [1]
-  .rodata                const     0x802'ac58     0x10  languages.o [1]
-  .rodata                const     0x802'ac68     0x10  main.o [1]
-  .rodata                const     0x802'ac78     0x10  main.o [1]
-  .rodata                const     0x802'ac88     0x10  system_stm32f4xx.o [1]
-  .rodata                const     0x802'ac98     0x10  tgui.o [1]
-  .rodata                const     0x802'aca8     0x10  tgui.o [1]
-  .rodata                const     0x802'acb8     0x10  tgui.o [1]
-  .rodata                const     0x802'acc8     0x10  tgui.o [1]
-  .rodata                const     0x802'acd8     0x10  tgui_defaultfuncs.o [1]
-  .text                  ro code   0x802'ace8     0x10  startup_stm32f407xx.o [1]
-  .rodata                const     0x802'acf8      0xc  ff.o [1]
-  .rodata                const     0x802'ad04      0xc  ff.o [1]
-  .rodata                const     0x802'ad10      0xc  languages.o [1]
-  .rodata                const     0x802'ad1c      0xc  languages.o [1]
-  .rodata                const     0x802'ad28      0xc  languages.o [1]
-  .rodata                const     0x802'ad34      0xc  languages.o [1]
-  .rodata                const     0x802'ad40      0xc  languages.o [1]
-  .rodata                const     0x802'ad4c      0xc  languages.o [1]
-  .rodata                const     0x802'ad58      0xc  languages.o [1]
-  .rodata                const     0x802'ad64      0xc  languages.o [1]
-  .rodata                const     0x802'ad70      0xc  languages.o [1]
-  .rodata                const     0x802'ad7c      0xc  languages.o [1]
-  .rodata                const     0x802'ad88      0xc  languages.o [1]
-  .rodata                const     0x802'ad94      0xc  languages.o [1]
-  .rodata                const     0x802'ada0      0xc  languages.o [1]
-  .rodata                const     0x802'adac      0xc  main.o [1]
-  .rodata                const     0x802'adb8      0xc  main.o [1]
-  .rodata                const     0x802'adc4      0xc  tgui.o [1]
-  .rodata                const     0x802'add0      0xc  tgui_infoscreenfuncs.o [1]
-  .text                  ro code   0x802'addc      0xc  cstartup_M.o [5]
-  .rodata                const     0x802'ade8      0x8  ff.o [1]
-  .rodata                const     0x802'adf0      0x8  ff.o [1]
-  .rodata                const     0x802'adf8      0x8  languages.o [1]
-  .rodata                const     0x802'ae00      0x8  languages.o [1]
-  .rodata                const     0x802'ae08      0x8  languages.o [1]
-  .rodata                const     0x802'ae10      0x8  languages.o [1]
-  .rodata                const     0x802'ae18      0x8  languages.o [1]
-  .rodata                const     0x802'ae20      0x8  languages.o [1]
-  .rodata                const     0x802'ae28      0x8  languages.o [1]
-  .rodata                const     0x802'ae30      0x8  languages.o [1]
-  .rodata                const     0x802'ae38      0x8  languages.o [1]
-  .rodata                const     0x802'ae40      0x8  languages.o [1]
-  .rodata                const     0x802'ae48      0x8  languages.o [1]
-  .rodata                const     0x802'ae50      0x8  languages.o [1]
-  .rodata                const     0x802'ae58      0x8  languages.o [1]
-  .rodata                const     0x802'ae60      0x8  languages.o [1]
-  .rodata                const     0x802'ae68      0x8  languages.o [1]
-  .rodata                const     0x802'ae70      0x8  languages.o [1]
-  .rodata                const     0x802'ae78      0x8  languages.o [1]
-  .rodata                const     0x802'ae80      0x8  languages.o [1]
-  .rodata                const     0x802'ae88      0x8  languages.o [1]
-  .rodata                const     0x802'ae90      0x8  languages.o [1]
-  .rodata                const     0x802'ae98      0x8  languages.o [1]
-  .rodata                const     0x802'aea0      0x8  languages.o [1]
-  .rodata                const     0x802'aea8      0x8  languages.o [1]
-  .rodata                const     0x802'aeb0      0x8  languages.o [1]
-  .rodata                const     0x802'aeb8      0x8  languages.o [1]
-  .rodata                const     0x802'aec0      0x8  languages.o [1]
-  .rodata                const     0x802'aec8      0x8  main.o [1]
-  .rodata                const     0x802'aed0      0x8  stm32f4xx_hal_dma.o [1]
-  .rodata                const     0x802'aed8      0x8  tgui.o [1]
-  .rodata                const     0x802'aee0      0x8  tgui.o [1]
-  .rodata                const     0x802'aee8      0x8  tgui.o [1]
-  .rodata                const     0x802'aef0      0x8  tgui.o [1]
-  .rodata                const     0x802'aef8      0x8  tgui.o [1]
-  .rodata                const     0x802'af00      0x8  tgui.o [1]
-  .rodata                const     0x802'af08      0x8  tgui.o [1]
-  .rodata                const     0x802'af10      0x8  tgui.o [1]
-  .rodata                const     0x802'af18      0x8  tgui.o [1]
-  .rodata                const     0x802'af20      0x8  tgui.o [1]
-  .rodata                const     0x802'af28      0x8  tgui.o [1]
-  .rodata                const     0x802'af30      0x8  tgui.o [1]
-  .rodata                const     0x802'af38      0x8  tgui.o [1]
-  .rodata                const     0x802'af40      0x8  tgui.o [1]
-  .rodata                const     0x802'af48      0x8  tgui.o [1]
-  .rodata                const     0x802'af50      0x8  tgui.o [1]
-  .rodata                const     0x802'af58      0x8  tgui.o [1]
-  .rodata                const     0x802'af60      0x8  tgui.o [1]
-  .rodata                const     0x802'af68      0x8  tgui.o [1]
-  .rodata                const     0x802'af70      0x8  tgui.o [1]
-  .rodata                const     0x802'af78      0x8  tgui.o [1]
-  .rodata                const     0x802'af80      0x8  tgui.o [1]
-  .rodata                const     0x802'af88      0x8  tgui.o [1]
-  .rodata                const     0x802'af90      0x8  tgui.o [1]
-  .rodata                const     0x802'af98      0x8  tgui.o [1]
-  .rodata                const     0x802'afa0      0x8  tgui.o [1]
-  .rodata                const     0x802'afa8      0x8  tgui.o [1]
-  .rodata                const     0x802'afb0      0x8  tgui.o [1]
-  .rodata                const     0x802'afb8      0x8  tgui.o [1]
-  .rodata                const     0x802'afc0      0x8  tgui.o [1]
-  .rodata                const     0x802'afc8      0x8  tgui_infoscreenfuncs.o [1]
-  .rodata                const     0x802'afd0      0x8  tim.o [1]
-  .rodata                const     0x802'afd8      0x6  xlocale_c.o [2]
-  .rodata                const     0x802'afe0      0x4  languages.o [1]
-  .rodata                const     0x802'afe4      0x4  languages.o [1]
-  .rodata                const     0x802'afe8      0x4  languages.o [1]
-  .rodata                const     0x802'afec      0x4  languages.o [1]
-  .rodata                const     0x802'aff0      0x4  languages.o [1]
-  .rodata                const     0x802'aff4      0x4  languages.o [1]
-  .rodata                const     0x802'aff8      0x4  languages.o [1]
-  .rodata                const     0x802'affc      0x4  languages.o [1]
-  .rodata                const     0x802'b000      0x4  languages.o [1]
-  .rodata                const     0x802'b004      0x4  languages.o [1]
-  .rodata                const     0x802'b008      0x4  languages.o [1]
-  .rodata                const     0x802'b00c      0x4  languages.o [1]
-  .rodata                const     0x802'b010      0x4  languages.o [1]
-  .rodata                const     0x802'b014      0x4  languages.o [1]
-  .rodata                const     0x802'b018      0x4  languages.o [1]
-  .rodata                const     0x802'b01c      0x4  languages.o [1]
-  .rodata                const     0x802'b020      0x4  languages.o [1]
-  .rodata                const     0x802'b024      0x4  languages.o [1]
-  .rodata                const     0x802'b028      0x4  languages.o [1]
-  .rodata                const     0x802'b02c      0x4  rtc.o [1]
-  .rodata                const     0x802'b030      0x4  usbh_msc.o [1]
-  .text                  ro code   0x802'b034      0x4  startup_stm32f407xx.o [1]
-  SHT$$PREINIT_ARRAY               0x802'b038      0x0  <Block>
-  SHT$$INIT_ARRAY                  0x802'b038      0x4  <Block>
-    .init_array          const     0x802'b038      0x4  z_planner.o [1]
-  __iar_tls$$INIT_ARRAY            0x802'b03c      0x0  <Block>
-  .rodata                const     0x802'b03c      0x0  zero_init3.o [5]
-  .rodata                const     0x802'b03c      0x0  lz77_init_single.o [5]
-  Initializer bytes      const     0x802'b03c     0xac  <for P2-1>
-                                 - 0x802'b0e8  0x1af60
+  .text                  ro code   0x801'38a0   0x225c  tgui.o [1]
+  .text                  ro code   0x801'5afc     0x66  ABImemset.o [5]
+  .text                  ro code   0x801'5b62     0x3a  zero_init3.o [5]
+  .text                  ro code   0x801'5b9c    0xcf4  tgui_defaultfuncs.o [1]
+  .text                  ro code   0x801'6890     0xa6  ABImemcpy.o [5]
+  .text                  ro code   0x801'6936     0x1e  xencoding_8859_1.o [2]
+  .text                  ro code   0x801'6954     0x44  languages.o [1]
+  .text                  ro code   0x801'6998    0x128  sys_timer.o [1]
+  .text                  ro code   0x801'6ac0     0x98  datetime.o [1]
+  .text                  ro code   0x801'6b58     0x40  sprintf.o [2]
+  .text                  ro code   0x801'6b98    0xb74  lcd_ui.o [1]
+  .text                  ro code   0x801'770c    0x230  unicode_utils.o [1]
+  .text                  ro code   0x801'793c    0x524  lcd_low.o [1]
+  .text                  ro code   0x801'7e60    0x278  touch.o [1]
+  .text                  ro code   0x801'80d8    0xf46  xprintffull.o [2]
+  .text                  ro code   0x801'901e      0xa  xsprout.o [2]
+  .text                  ro code   0x801'9028     0x28  stm32f4xx_hal.o [1]
+  .text                  ro code   0x801'9050    0x114  fsmc.o [1]
+  .text                  ro code   0x801'9164    0x484  stm32f4xx_hal_dma.o [1]
+  .text                  ro code   0x801'95e8    0x158  stm32f4xx_hal_cortex.o [1]
+  .text                  ro code   0x801'9740    0x568  fst_spi.o [1]
+  .text                  ro code   0x801'9ca8     0x78  xlocale_c.o [2]
+  .text                  ro code   0x801'9d20     0x16  strchr.o [5]
+  .rodata                const     0x801'9d36      0x2  languages.o [1]
+  .text                  ro code   0x801'9d38     0x40  xfail_s.o [2]
+  .text                  ro code   0x801'9d78     0x58  memchr.o [5]
+  .text                  ro code   0x801'9dd0      0xa  xmbcurmax.o [2]
+  .rodata                const     0x801'9dda      0x2  languages.o [1]
+  .text                  ro code   0x801'9ddc    0x230  I64DivMod.o [5]
+  .text                  ro code   0x801'a00c    0x1a2  DblMul.o [4]
+  .rodata                const     0x801'a1ae      0x1  unwind_debug.o [6]
+  .text                  ro code   0x801'a1b0     0x70  frexp.o [4]
+  .text                  ro code   0x801'a220     0x2e  DblCmpLe.o [4]
+  .text                  ro code   0x801'a250     0x2e  DblCmpGe.o [4]
+  .text                  ro code   0x801'a280    0x13a  ldexp.o [4]
+  .text                  ro code   0x801'a3bc     0x3a  DblToS32.o [4]
+  .text                  ro code   0x801'a3f8     0x22  S32ToDbl.o [4]
+  .text                  ro code   0x801'a41c     0xe2  DblSub.o [4]
+  .text                  ro code   0x801'a500    0x246  DblDiv.o [4]
+  .text                  ro code   0x801'a748     0x28  DblToU32.o [4]
+  .text                  ro code   0x801'a770     0x1a  U32ToDbl.o [4]
+  .text                  ro code   0x801'a78c      0x6  ABImemclr4.o [5]
+  .text                  ro code   0x801'a794     0x5c  stm32f4xx_hal_sram.o [1]
+  .text                  ro code   0x801'a7f0    0x6ca  main.o [1]
+  .text                  ro code   0x801'aebc    0x2a2  stm32f4xx_hal_gpio.o [1]
+  .text                  ro code   0x801'b160    0x63e  stm32f4xx_hal_spi.o [1]
+  .text                  ro code   0x801'b79e      0x6  abort.o [2]
+  .text                  ro code   0x801'b7a4      0x2  stm32f4xx_hal_spi.o [1]
+  .text                  ro code   0x801'b7a8    0x16a  DblAdd.o [4]
+  .text                  ro code   0x801'b914     0x32  ABImemset48.o [5]
+  .text                  ro code   0x801'b948     0xec  stm32f4xx_ll_fsmc.o [1]
+  .text                  ro code   0x801'ba34     0x34  stm32f4xx_hal.o [1]
+  .text                  ro code   0x801'ba68    0x28c  gpio.o [1]
+  .text                  ro code   0x801'bcf4    0x328  spi_flash.o [1]
+  .text                  ro code   0x801'c01c     0xc8  rtc.o [1]
+  .text                  ro code   0x801'c0e4     0xb0  config.o [1]
+  .text                  ro code   0x801'c194     0xe8  motor.o [1]
+  .text                  ro code   0x801'c27c      0xc  uvdisplay.o [1]
+  .text                  ro code   0x801'c288     0x28  usbh_platform.o [1]
+  .text                  ro code   0x801'c2b0     0x8c  usb_host.o [1]
+  .text                  ro code   0x801'c33c     0x12  strcmp.o [5]
+  .text                  ro code   0x801'c350    0x3dc  stm32f4xx_hal_rcc.o [1]
+  .text                  ro code   0x801'c72c    0x1f4  stm32f4xx_hal_rcc.o [1]
+  .text                  ro code   0x801'c920    0x160  stm32f4xx_hal_rcc_ex.o [1]
+  .text                  ro code   0x801'ca80     0x14  exit.o [6]
+  .text                  ro code   0x801'ca94     0x4c  stm32f4xx_hal.o [1]
+  .text                  ro code   0x801'cae0     0x40  stm32f4xx_hal_msp.o [1]
+  .text                  ro code   0x801'cb20     0x20  spi_flash.o [1]
+  .text                  ro code   0x801'cb40     0xd0  z_endstops.o [1]
+  .text                  ro code   0x801'cc10    0x240  z_planner.o [1]
+  .text                  ro code   0x801'ce50    0x5b8  z_stepper.o [1]
+  .text                  ro code   0x801'd408    0x1e8  tim.o [1]
+  .text                  ro code   0x801'd5f0    0x7a2  stm32f4xx_hal_tim.o [1]
+  .text                  ro code   0x801'dd94     0x48  FltToDbl.o [4]
+  .text                  ro code   0x801'dddc     0xb6  cpld_utils.o [1]
+  .text                  ro code   0x801'de94    0x5b4  ssd_utils.o [1]
+  .text                  ro code   0x801'e448    0x7f4  usbh_core.o [1]
+  .text                  ro code   0x801'ec3c     0x18  z_endstops.o [1]
+  .text                  ro code   0x801'ec54     0x18  z_stepper.o [1]
+  .text                  ro code   0x801'ec6c      0xc  z_endstops.o [1]
+  .text                  ro code   0x801'ec78     0x24  z_planner.o [1]
+  .text                  ro code   0x801'ec9c     0x18  z_planner.o [1]
+  .text                  ro code   0x801'ecb4      0x8  z_stepper.o [1]
+  .text                  ro code   0x801'ecbc     0x20  z_stepper.o [1]
+  .text                  ro code   0x801'ecdc     0x38  z_planner.o [1]
+  .text                  ro code   0x801'ed14     0x10  z_stepper.o [1]
+  .text                  ro code   0x801'ed24     0x2e  lroundf.o [4]
+  .text                  ro code   0x801'ed54     0x1c  z_stepper.o [1]
+  .text                  ro code   0x801'ed70     0x30  z_stepper.o [1]
+  .text                  ro code   0x801'eda0     0x20  z_stepper.o [1]
+  .text                  ro code   0x801'edc0      0xc  z_stepper.o [1]
+  .text                  ro code   0x801'edcc     0xac  stm32f4xx_hal_tim_ex.o [1]
+  .text                  ro code   0x801'ee78    0x3a0  usbh_conf.o [1]
+  .text                  ro code   0x801'f218     0xe0  usbh_pipes.o [1]
+  .text                  ro code   0x801'f2f8    0x642  usbh_ctlreq.o [1]
+  .text                  ro code   0x801'f93a      0xe  z_planner.o [1]
+  .text                  ro code   0x801'f948     0x1c  z_stepper.o [1]
+  .text                  ro code   0x801'f964     0x10  z_stepper.o [1]
+  .text                  ro code   0x801'f974   0x10d2  stm32f4xx_hal_hcd.o [1]
+  .text                  ro code   0x802'0a46    0x10e  usbh_ioreq.o [1]
+  .text                  ro code   0x802'0b54    0xa8c  stm32f4xx_ll_usb.o [1]
+  .rodata                const     0x802'15e0   0x2094  fnt24bold.o [1]
+  .rodata                const     0x802'3674   0x195c  fnt24.o [1]
+  .text                  ro code   0x802'4fd0   0x14e0  dlmalloc.o [2]
+  .text                  ro code   0x802'64b0     0x2c  xgetmemchunk.o [2]
+  .rodata                const     0x802'64dc   0x10c8  fnt18bold.o [1]
+  .rodata                const     0x802'75a4    0xea4  fnt18.o [1]
+  .text                  ro code   0x802'8448    0x9ae  usbh_msc.o [1]
+  .text                  ro code   0x802'8df8    0x43c  usbh_msc_bot.o [1]
+  .text                  ro code   0x802'9234      0x4  heaptramp0.o [2]
+  .text                  ro code   0x802'9238    0x490  usbh_msc_scsi.o [1]
+  .rodata                const     0x802'96c8    0x788  fnt12bold.o [1]
+  .rodata                const     0x802'9e50    0x6b4  fnt12.o [1]
+  .text                  ro code   0x802'a504    0x43c  tgui_filesscreenfuncs.o [1]
+  .text                  ro code   0x802'a940     0x18  strcpy.o [5]
+  .rodata                const     0x802'a958    0x1f4  ffunicode.o [1]
+  .text                  ro code   0x802'ab4c    0x170  usbh_diskio.o [1]
+  .text                  ro code   0x802'acbc    0x150  spifl_diskio.o [1]
+  .rodata                const     0x802'ae0c    0x140  fnt12.o [1]
+  .rodata                const     0x802'af4c    0x140  fnt12bold.o [1]
+  .rodata                const     0x802'b08c    0x140  fnt18.o [1]
+  .rodata                const     0x802'b1cc    0x140  fnt18bold.o [1]
+  .rodata                const     0x802'b30c    0x140  fnt24.o [1]
+  .rodata                const     0x802'b44c    0x140  fnt24bold.o [1]
+  .rodata                const     0x802'b58c    0x100  ffunicode.o [1]
+  .text                  ro code   0x802'b68c     0xdc  tgui_infoscreenfuncs.o [1]
+  .text                  ro code   0x802'b768     0x1e  strcat.o [2]
+  .rodata                const     0x802'b788     0xbc  ffunicode.o [1]
+  .text                  ro code   0x802'b844     0x9c  stm32f4xx_it.o [1]
+  .rodata                const     0x802'b8e0     0x94  languages.o [1]
+  .rodata                const     0x802'b974     0x94  languages.o [1]
+  .rodata                const     0x802'ba08     0x80  ff.o [1]
+  .rodata                const     0x802'ba88     0x34  main.o [1]
+  .rodata                const     0x802'babc     0x34  main.o [1]
+  .rodata                const     0x802'baf0     0x30  languages.o [1]
+  .rodata                const     0x802'bb20     0x30  main.o [1]
+  .rodata                const     0x802'bb50     0x30  main.o [1]
+  .rodata                const     0x802'bb80     0x2c  main.o [1]
+  .rodata                const     0x802'bbac     0x2c  main.o [1]
+  .rodata                const     0x802'bbd8     0x28  main.o [1]
+  .text                  ro code   0x802'bc00     0x28  data_init.o [5]
+  .rodata                const     0x802'bc28     0x24  languages.o [1]
+  .rodata                const     0x802'bc4c     0x24  main.o [1]
+  .rodata                const     0x802'bc70     0x24  tgui_infoscreenfuncs.o [1]
+  .text                  ro code   0x802'bc94     0x22  fpinit_M.o [4]
+  .iar.init_table        const     0x802'bcb8     0x24  - Linker created -
+  .rodata                const     0x802'bcdc     0x20  main.o [1]
+  .text                  ro code   0x802'bcfc     0x20  system_stm32f4xx.o [1]
+  .text                  ro code   0x802'bd1c     0x20  cmain_call_ctors.o [5]
+  .text                  ro code   0x802'bd3c     0x18  cppinit.o [2]
+  .text                  ro code   0x802'bd54     0x1e  cmain.o [5]
+  .text                  ro code   0x802'bd72      0x4  low_level_init.o [2]
+  .text                  ro code   0x802'bd76      0x4  exit.o [2]
+  .text                  ro code   0x802'bd7c      0xa  cexit.o [5]
+  .rodata                const     0x802'bd88     0x1c  languages.o [1]
+  .rodata                const     0x802'bda4     0x1c  tgui.o [1]
+  .rodata                const     0x802'bdc0     0x1c  tgui.o [1]
+  .rodata                const     0x802'bddc     0x1c  tgui.o [1]
+  .rodata                const     0x802'bdf8     0x18  languages.o [1]
+  .rodata                const     0x802'be10     0x18  languages.o [1]
+  .rodata                const     0x802'be28     0x18  main.o [1]
+  .rodata                const     0x802'be40     0x18  main.o [1]
+  .rodata                const     0x802'be58     0x18  main.o [1]
+  .rodata                const     0x802'be70     0x18  tgui.o [1]
+  .rodata                const     0x802'be88     0x18  tgui.o [1]
+  .rodata                const     0x802'bea0     0x18  tgui.o [1]
+  .rodata                const     0x802'beb8     0x18  tgui.o [1]
+  .rodata                const     0x802'bed0     0x18  tgui.o [1]
+  .rodata                const     0x802'bee8     0x18  tgui.o [1]
+  .rodata                const     0x802'bf00     0x18  tgui.o [1]
+  .rodata                const     0x802'bf18     0x18  tgui.o [1]
+  .rodata                const     0x802'bf30     0x14  ff.o [1]
+  .rodata                const     0x802'bf44     0x14  ff.o [1]
+  .rodata                const     0x802'bf58     0x14  spifl_diskio.o [1]
+  .rodata                const     0x802'bf6c     0x14  tgui.o [1]
+  .rodata                const     0x802'bf80     0x14  tgui.o [1]
+  .rodata                const     0x802'bf94     0x14  tgui_filesscreenfuncs.o [1]
+  .rodata                const     0x802'bfa8     0x14  usbh_diskio.o [1]
+  .text                  ro code   0x802'bfbc     0x14  tgui_langscreenfuncs.o [1]
+  .rodata                const     0x802'bfd0     0x10  ff.o [1]
+  .rodata                const     0x802'bfe0     0x10  ff.o [1]
+  .rodata                const     0x802'bff0     0x10  ff.o [1]
+  .rodata                const     0x802'c000     0x10  ff.o [1]
+  .rodata                const     0x802'c010     0x10  languages.o [1]
+  .rodata                const     0x802'c020     0x10  languages.o [1]
+  .rodata                const     0x802'c030     0x10  languages.o [1]
+  .rodata                const     0x802'c040     0x10  languages.o [1]
+  .rodata                const     0x802'c050     0x10  languages.o [1]
+  .rodata                const     0x802'c060     0x10  main.o [1]
+  .rodata                const     0x802'c070     0x10  main.o [1]
+  .rodata                const     0x802'c080     0x10  system_stm32f4xx.o [1]
+  .rodata                const     0x802'c090     0x10  tgui.o [1]
+  .rodata                const     0x802'c0a0     0x10  tgui.o [1]
+  .rodata                const     0x802'c0b0     0x10  tgui.o [1]
+  .rodata                const     0x802'c0c0     0x10  tgui.o [1]
+  .rodata                const     0x802'c0d0     0x10  tgui_defaultfuncs.o [1]
+  .text                  ro code   0x802'c0e0     0x10  startup_stm32f407xx.o [1]
+  .rodata                const     0x802'c0f0      0xc  ff.o [1]
+  .rodata                const     0x802'c0fc      0xc  ff.o [1]
+  .rodata                const     0x802'c108      0xc  languages.o [1]
+  .rodata                const     0x802'c114      0xc  languages.o [1]
+  .rodata                const     0x802'c120      0xc  languages.o [1]
+  .rodata                const     0x802'c12c      0xc  languages.o [1]
+  .rodata                const     0x802'c138      0xc  languages.o [1]
+  .rodata                const     0x802'c144      0xc  languages.o [1]
+  .rodata                const     0x802'c150      0xc  languages.o [1]
+  .rodata                const     0x802'c15c      0xc  languages.o [1]
+  .rodata                const     0x802'c168      0xc  languages.o [1]
+  .rodata                const     0x802'c174      0xc  languages.o [1]
+  .rodata                const     0x802'c180      0xc  languages.o [1]
+  .rodata                const     0x802'c18c      0xc  languages.o [1]
+  .rodata                const     0x802'c198      0xc  languages.o [1]
+  .rodata                const     0x802'c1a4      0xc  main.o [1]
+  .rodata                const     0x802'c1b0      0xc  main.o [1]
+  .rodata                const     0x802'c1bc      0xc  tgui.o [1]
+  .rodata                const     0x802'c1c8      0xc  tgui_infoscreenfuncs.o [1]
+  .text                  ro code   0x802'c1d4      0xc  cstartup_M.o [5]
+  .rodata                const     0x802'c1e0      0x8  ff.o [1]
+  .rodata                const     0x802'c1e8      0x8  ff.o [1]
+  .rodata                const     0x802'c1f0      0x8  languages.o [1]
+  .rodata                const     0x802'c1f8      0x8  languages.o [1]
+  .rodata                const     0x802'c200      0x8  languages.o [1]
+  .rodata                const     0x802'c208      0x8  languages.o [1]
+  .rodata                const     0x802'c210      0x8  languages.o [1]
+  .rodata                const     0x802'c218      0x8  languages.o [1]
+  .rodata                const     0x802'c220      0x8  languages.o [1]
+  .rodata                const     0x802'c228      0x8  languages.o [1]
+  .rodata                const     0x802'c230      0x8  languages.o [1]
+  .rodata                const     0x802'c238      0x8  languages.o [1]
+  .rodata                const     0x802'c240      0x8  languages.o [1]
+  .rodata                const     0x802'c248      0x8  languages.o [1]
+  .rodata                const     0x802'c250      0x8  languages.o [1]
+  .rodata                const     0x802'c258      0x8  languages.o [1]
+  .rodata                const     0x802'c260      0x8  languages.o [1]
+  .rodata                const     0x802'c268      0x8  languages.o [1]
+  .rodata                const     0x802'c270      0x8  languages.o [1]
+  .rodata                const     0x802'c278      0x8  languages.o [1]
+  .rodata                const     0x802'c280      0x8  languages.o [1]
+  .rodata                const     0x802'c288      0x8  languages.o [1]
+  .rodata                const     0x802'c290      0x8  languages.o [1]
+  .rodata                const     0x802'c298      0x8  languages.o [1]
+  .rodata                const     0x802'c2a0      0x8  languages.o [1]
+  .rodata                const     0x802'c2a8      0x8  languages.o [1]
+  .rodata                const     0x802'c2b0      0x8  languages.o [1]
+  .rodata                const     0x802'c2b8      0x8  languages.o [1]
+  .rodata                const     0x802'c2c0      0x8  main.o [1]
+  .rodata                const     0x802'c2c8      0x8  stm32f4xx_hal_dma.o [1]
+  .rodata                const     0x802'c2d0      0x8  tgui.o [1]
+  .rodata                const     0x802'c2d8      0x8  tgui.o [1]
+  .rodata                const     0x802'c2e0      0x8  tgui.o [1]
+  .rodata                const     0x802'c2e8      0x8  tgui.o [1]
+  .rodata                const     0x802'c2f0      0x8  tgui.o [1]
+  .rodata                const     0x802'c2f8      0x8  tgui.o [1]
+  .rodata                const     0x802'c300      0x8  tgui.o [1]
+  .rodata                const     0x802'c308      0x8  tgui.o [1]
+  .rodata                const     0x802'c310      0x8  tgui.o [1]
+  .rodata                const     0x802'c318      0x8  tgui.o [1]
+  .rodata                const     0x802'c320      0x8  tgui.o [1]
+  .rodata                const     0x802'c328      0x8  tgui.o [1]
+  .rodata                const     0x802'c330      0x8  tgui.o [1]
+  .rodata                const     0x802'c338      0x8  tgui.o [1]
+  .rodata                const     0x802'c340      0x8  tgui.o [1]
+  .rodata                const     0x802'c348      0x8  tgui.o [1]
+  .rodata                const     0x802'c350      0x8  tgui.o [1]
+  .rodata                const     0x802'c358      0x8  tgui.o [1]
+  .rodata                const     0x802'c360      0x8  tgui.o [1]
+  .rodata                const     0x802'c368      0x8  tgui.o [1]
+  .rodata                const     0x802'c370      0x8  tgui.o [1]
+  .rodata                const     0x802'c378      0x8  tgui.o [1]
+  .rodata                const     0x802'c380      0x8  tgui.o [1]
+  .rodata                const     0x802'c388      0x8  tgui.o [1]
+  .rodata                const     0x802'c390      0x8  tgui.o [1]
+  .rodata                const     0x802'c398      0x8  tgui.o [1]
+  .rodata                const     0x802'c3a0      0x8  tgui.o [1]
+  .rodata                const     0x802'c3a8      0x8  tgui.o [1]
+  .rodata                const     0x802'c3b0      0x8  tgui.o [1]
+  .rodata                const     0x802'c3b8      0x8  tgui.o [1]
+  .rodata                const     0x802'c3c0      0x8  tgui.o [1]
+  .rodata                const     0x802'c3c8      0x8  tgui.o [1]
+  .rodata                const     0x802'c3d0      0x8  tgui.o [1]
+  .rodata                const     0x802'c3d8      0x8  tgui.o [1]
+  .rodata                const     0x802'c3e0      0x8  tgui.o [1]
+  .rodata                const     0x802'c3e8      0x8  tgui.o [1]
+  .rodata                const     0x802'c3f0      0x8  tgui.o [1]
+  .rodata                const     0x802'c3f8      0x8  tgui_infoscreenfuncs.o [1]
+  .rodata                const     0x802'c400      0x8  tim.o [1]
+  .rodata                const     0x802'c408      0x6  xlocale_c.o [2]
+  .rodata                const     0x802'c410      0x4  languages.o [1]
+  .rodata                const     0x802'c414      0x4  languages.o [1]
+  .rodata                const     0x802'c418      0x4  languages.o [1]
+  .rodata                const     0x802'c41c      0x4  languages.o [1]
+  .rodata                const     0x802'c420      0x4  languages.o [1]
+  .rodata                const     0x802'c424      0x4  languages.o [1]
+  .rodata                const     0x802'c428      0x4  languages.o [1]
+  .rodata                const     0x802'c42c      0x4  languages.o [1]
+  .rodata                const     0x802'c430      0x4  languages.o [1]
+  .rodata                const     0x802'c434      0x4  languages.o [1]
+  .rodata                const     0x802'c438      0x4  languages.o [1]
+  .rodata                const     0x802'c43c      0x4  languages.o [1]
+  .rodata                const     0x802'c440      0x4  languages.o [1]
+  .rodata                const     0x802'c444      0x4  languages.o [1]
+  .rodata                const     0x802'c448      0x4  languages.o [1]
+  .rodata                const     0x802'c44c      0x4  languages.o [1]
+  .rodata                const     0x802'c450      0x4  languages.o [1]
+  .rodata                const     0x802'c454      0x4  languages.o [1]
+  .rodata                const     0x802'c458      0x4  languages.o [1]
+  .rodata                const     0x802'c45c      0x4  rtc.o [1]
+  .rodata                const     0x802'c460      0x4  usbh_msc.o [1]
+  .text                  ro code   0x802'c464      0x4  startup_stm32f407xx.o [1]
+  SHT$$PREINIT_ARRAY               0x802'c468      0x0  <Block>
+  SHT$$INIT_ARRAY                  0x802'c468      0x4  <Block>
+    .init_array          const     0x802'c468      0x4  z_planner.o [1]
+  __iar_tls$$INIT_ARRAY            0x802'c46c      0x0  <Block>
+  .rodata                const     0x802'c46c      0x0  zero_init3.o [5]
+  .rodata                const     0x802'c46c      0x0  lz77_init_single.o [5]
+  Initializer bytes      const     0x802'c46c     0xb6  <for P2-1>
+                                 - 0x802'c522  0x1c39a
 
 "P3":                                           0x5478
   CCMRAM                 uninit   0x1000'0000   0x2000  main.o [1]
@@ -455,157 +478,162 @@ initialize by copy { rw };
   CCMRAM                 uninit   0x1000'5078    0x400  tgui.o [1]
                                 - 0x1000'5478   0x5478
 
-"P2", part 1 of 3:                               0x109
-  P2-1                            0x2000'0000    0x109  <Init block>
+"P2", part 1 of 3:                               0x316
+  P2-1                            0x2000'0000    0x316  <Init block>
     .data                inited   0x2000'0000      0xc  fnt12.o [1]
-    .data                inited   0x2000'000c      0xc  fnt18.o [1]
-    .data                inited   0x2000'0018      0xc  fnt18bold.o [1]
-    .data                inited   0x2000'0024      0xc  fnt24.o [1]
-    .data                inited   0x2000'0030      0xc  fnt24bold.o [1]
-    .data                inited   0x2000'003c     0x10  languages.o [1]
-    .data                inited   0x2000'004c      0x4  languages.o [1]
-    .data                inited   0x2000'0050      0x4  lcd_ui.o [1]
-    .data                inited   0x2000'0054      0x4  stm32f4xx_hal.o [1]
-    .data                inited   0x2000'0058      0x4  system_stm32f4xx.o [1]
-    .data                inited   0x2000'005c     0x20  usbh_msc.o [1]
-    .data                inited   0x2000'007c      0x4  z_stepper.o [1]
-    .data                inited   0x2000'0080     0x38  xlocale_c.o [2]
-    .data                inited   0x2000'00b8     0x48  xlocale_c.o [2]
-    .data                inited   0x2000'0100      0x2  lcd_ui.o [1]
-    .data                inited   0x2000'0102      0x2  lcd_ui.o [1]
-    .data                inited   0x2000'0104      0x2  lcd_ui.o [1]
-    .data                inited   0x2000'0106      0x1  lcd_ui.o [1]
-    .data                inited   0x2000'0107      0x1  stm32f4xx_hal.o [1]
-    .data                inited   0x2000'0108      0x1  tgui_defaultfuncs.o [1]
-                                - 0x2000'0109    0x109
+    .data                inited   0x2000'000c      0xc  fnt12bold.o [1]
+    .data                inited   0x2000'0018      0xc  fnt18.o [1]
+    .data                inited   0x2000'0024      0xc  fnt18bold.o [1]
+    .data                inited   0x2000'0030      0xc  fnt24.o [1]
+    .data                inited   0x2000'003c      0xc  fnt24bold.o [1]
+    .data                inited   0x2000'0048     0x10  languages.o [1]
+    .data                inited   0x2000'0058      0x4  languages.o [1]
+    .data                inited   0x2000'005c      0x4  lcd_ui.o [1]
+    .data                inited   0x2000'0060      0x4  stm32f4xx_hal.o [1]
+    .data                inited   0x2000'0064      0x4  system_stm32f4xx.o [1]
+    .data                inited   0x2000'0068    0x200  tgui_filesscreenfuncs.o [1]
+    .data                inited   0x2000'0268     0x20  usbh_msc.o [1]
+    .data                inited   0x2000'0288      0x4  z_stepper.o [1]
+    .data                inited   0x2000'028c     0x38  xlocale_c.o [2]
+    .data                inited   0x2000'02c4     0x48  xlocale_c.o [2]
+    .data                inited   0x2000'030c      0x2  lcd_ui.o [1]
+    .data                inited   0x2000'030e      0x2  lcd_ui.o [1]
+    .data                inited   0x2000'0310      0x2  lcd_ui.o [1]
+    .data                inited   0x2000'0312      0x1  lcd_ui.o [1]
+    .data                inited   0x2000'0313      0x1  stm32f4xx_hal.o [1]
+    .data                inited   0x2000'0314      0x1  tgui_defaultfuncs.o [1]
+    .data                inited   0x2000'0315      0x1  tgui_filesscreenfuncs.o [1]
+                                - 0x2000'0316    0x316
 
-"P2", part 2 of 3:                              0x51e8
-  .bss                   zero     0x2000'010c   0x1038  fatfs.o [1]
-  .bss                   zero     0x2000'1144   0x1038  fatfs.o [1]
-  .bss                   zero     0x2000'217c    0x400  main.o [1]
-  .bss                   zero     0x2000'257c    0x400  main.o [1]
-  .bss                   zero     0x2000'297c    0x400  main.o [1]
-  .bss                   zero     0x2000'2d7c    0x3d8  usb_host.o [1]
-  .bss                   zero     0x2000'3154    0x39c  tgui.o [1]
-  .bss                   zero     0x2000'34f0    0x348  tgui.o [1]
-  .bss                   zero     0x2000'3838    0x2c4  usbh_conf.o [1]
-  .bss                   zero     0x2000'3afc    0x2a0  tgui.o [1]
-  .bss                   zero     0x2000'3d9c    0x224  main.o [1]
-  .bss                   zero     0x2000'3fc0    0x200  ff.o [1]
-  .bss                   zero     0x2000'41c0    0x200  main.o [1]
-  .bss                   zero     0x2000'43c0    0x200  z_planner.o [1]
-  .bss                   zero     0x2000'45c0    0x1d8  dlmalloc.o [2]
-  .bss                   zero     0x2000'4798    0x150  tgui.o [1]
-  .bss                   zero     0x2000'48e8    0x100  sys_timer.o [1]
-  .bss                   zero     0x2000'49e8     0xfc  tgui.o [1]
-  .bss                   zero     0x2000'4ae4     0xfc  tgui.o [1]
-  .bss                   zero     0x2000'4be0     0x80  fst_spi.o [1]
-  .bss                   zero     0x2000'4c60     0x80  fst_spi.o [1]
-  .bss                   zero     0x2000'4ce0     0x60  fst_spi.o [1]
-  .bss                   zero     0x2000'4d40     0x60  fst_spi.o [1]
-  .bss                   zero     0x2000'4da0     0x60  fst_spi.o [1]
-  .bss                   zero     0x2000'4e00     0x60  fst_spi.o [1]
-  .bss                   zero     0x2000'4e60     0x60  fst_spi.o [1]
-  .bss                   zero     0x2000'4ec0     0x60  lcd_low.o [1]
-  .bss                   zero     0x2000'4f20     0x50  fsmc.o [1]
-  .bss                   zero     0x2000'4f70     0x40  config.o [1]
-  .bss                   zero     0x2000'4fb0     0x40  tim.o [1]
-  .bss                   zero     0x2000'4ff0     0x40  tim.o [1]
-  .bss                   zero     0x2000'5030     0x34  main.o [1]
-  .bss                   zero     0x2000'5064     0x30  tgui.o [1]
-  .bss                   zero     0x2000'5094     0x30  tgui.o [1]
-  .bss                   zero     0x2000'50c4     0x30  tgui.o [1]
-  .bss                   zero     0x2000'50f4     0x30  tgui.o [1]
-  .bss                   zero     0x2000'5124     0x30  tgui.o [1]
-  .bss                   zero     0x2000'5154     0x30  tgui.o [1]
-  .bss                   zero     0x2000'5184     0x28  z_planner.o [1]
-  .bss                   zero     0x2000'51ac     0x20  rtc.o [1]
-  .bss                   zero     0x2000'51cc     0x20  tgui.o [1]
-  .bss                   zero     0x2000'51ec     0x18  dlmalloc.o [2]
-  .bss                   zero     0x2000'5204     0x10  ff_gen_drv.o [1]
-  .bss                   zero     0x2000'5214     0x10  touch.o [1]
-  .bss                   zero     0x2000'5224      0xc  config.o [1]
-  .bss                   zero     0x2000'5230      0xc  spi_flash.o [1]
-  .bss                   zero     0x2000'523c      0x8  fatfs.o [1]
-  .bss                   zero     0x2000'5244      0x8  fatfs.o [1]
-  .bss                   zero     0x2000'524c      0x8  ff.o [1]
-  .bss                   zero     0x2000'5254      0x4  cpld_utils.o [1]
-  .bss                   zero     0x2000'5258      0x4  fsmc.o [1]
-  .bss                   zero     0x2000'525c      0x4  motor.o [1]
-  .bss                   zero     0x2000'5260      0x4  spi_flash.o [1]
-  .bss                   zero     0x2000'5264      0x4  spi_flash.o [1]
-  .bss                   zero     0x2000'5268      0x4  stm32f4xx_hal.o [1]
-  .bss                   zero     0x2000'526c      0x4  stm32f4xx_ll_usb.o [1]
-  .bss                   zero     0x2000'5270      0x4  tgui.o [1]
-  .bss                   zero     0x2000'5274      0x4  touch.o [1]
-  .bss                   zero     0x2000'5278      0x4  z_planner.o [1]
-  .bss                   zero     0x2000'527c      0x4  z_planner.o [1]
-  .bss                   zero     0x2000'5280      0x4  z_planner.o [1]
-  .bss                   zero     0x2000'5284      0x4  z_planner.o [1]
-  .bss                   zero     0x2000'5288      0x4  z_planner.o [1]
-  .bss                   zero     0x2000'528c      0x4  z_planner.o [1]
-  .bss                   zero     0x2000'5290      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'5294      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'5298      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'529c      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'52a0      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'52a4      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'52a8      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'52ac      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'52b0      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'52b4      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'52b8      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'52bc      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'52c0      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'52c4      0x4  z_stepper.o [1]
-  .bss                   zero     0x2000'52c8      0x4  xfail_s.o [2]
-  .bss                   zero     0x2000'52cc      0x4  xgetmemchunk.o [2]
-  .bss                   zero     0x2000'52d0      0x2  ff.o [1]
-  .bss                   zero     0x2000'52d2      0x2  lcd_low.o [1]
-  .bss                   zero     0x2000'52d4      0x2  lcd_ui.o [1]
-  .bss                   zero     0x2000'52d6      0x2  lcd_ui.o [1]
-  .bss                   zero     0x2000'52d8      0x2  lcd_ui.o [1]
-  .bss                   zero     0x2000'52da      0x2  z_planner.o [1]
-  .bss                   zero     0x2000'52dc      0x1  fatfs.o [1]
-  .bss                   zero     0x2000'52dd      0x1  fatfs.o [1]
-  .bss                   zero     0x2000'52de      0x1  main.o [1]
-  .bss                   zero     0x2000'52df      0x1  main.o [1]
-  .bss                   zero     0x2000'52e0      0x1  main.o [1]
-  .bss                   zero     0x2000'52e1      0x1  main.o [1]
-  .bss                   zero     0x2000'52e2      0x1  tgui_defaultfuncs.o [1]
-  .bss                   zero     0x2000'52e3      0x1  usb_host.o [1]
-  .bss                   zero     0x2000'52e4      0x1  z_endstops.o [1]
-  .bss                   zero     0x2000'52e5      0x1  z_endstops.o [1]
-  .bss                   zero     0x2000'52e6      0x1  z_planner.o [1]
-  .bss                   zero     0x2000'52e7      0x1  z_planner.o [1]
-  .bss                   zero     0x2000'52e8      0x1  z_planner.o [1]
-  .bss                   zero     0x2000'52e9      0x1  z_planner.o [1]
-  .bss                   zero     0x2000'52ea      0x1  z_planner.o [1]
-  .bss                   zero     0x2000'52eb      0x1  z_planner.o [1]
-  .bss                   zero     0x2000'52ec      0x1  z_stepper.o [1]
-  .bss                   zero     0x2000'52ed      0x1  z_stepper.o [1]
-  .bss                   zero     0x2000'52ee      0x1  z_stepper.o [1]
-  .bss                   zero     0x2000'52ef      0x1  z_stepper.o [1]
-  .bss                   zero     0x2000'52f0      0x1  z_stepper.o [1]
-                                - 0x2000'52f1   0x51e5
+"P2", part 2 of 3:                              0x5640
+  .bss                   zero     0x2000'0318   0x1038  fatfs.o [1]
+  .bss                   zero     0x2000'1350   0x1038  fatfs.o [1]
+  .bss                   zero     0x2000'2388    0x404  tgui_filesscreenfuncs.o [1]
+  .bss                   zero     0x2000'278c    0x400  main.o [1]
+  .bss                   zero     0x2000'2b8c    0x400  main.o [1]
+  .bss                   zero     0x2000'2f8c    0x400  main.o [1]
+  .bss                   zero     0x2000'338c    0x3d8  usb_host.o [1]
+  .bss                   zero     0x2000'3764    0x39c  tgui.o [1]
+  .bss                   zero     0x2000'3b00    0x348  tgui.o [1]
+  .bss                   zero     0x2000'3e48    0x2f4  tgui.o [1]
+  .bss                   zero     0x2000'413c    0x2c4  usbh_conf.o [1]
+  .bss                   zero     0x2000'4400    0x224  main.o [1]
+  .bss                   zero     0x2000'4624    0x200  ff.o [1]
+  .bss                   zero     0x2000'4824    0x200  main.o [1]
+  .bss                   zero     0x2000'4a24    0x200  z_planner.o [1]
+  .bss                   zero     0x2000'4c24    0x1d8  dlmalloc.o [2]
+  .bss                   zero     0x2000'4dfc    0x150  tgui.o [1]
+  .bss                   zero     0x2000'4f4c    0x100  sys_timer.o [1]
+  .bss                   zero     0x2000'504c     0xfc  tgui.o [1]
+  .bss                   zero     0x2000'5148     0xfc  tgui.o [1]
+  .bss                   zero     0x2000'5244     0x80  fst_spi.o [1]
+  .bss                   zero     0x2000'52c4     0x80  fst_spi.o [1]
+  .bss                   zero     0x2000'5344     0x60  fst_spi.o [1]
+  .bss                   zero     0x2000'53a4     0x60  fst_spi.o [1]
+  .bss                   zero     0x2000'5404     0x60  fst_spi.o [1]
+  .bss                   zero     0x2000'5464     0x60  fst_spi.o [1]
+  .bss                   zero     0x2000'54c4     0x60  fst_spi.o [1]
+  .bss                   zero     0x2000'5524     0x60  lcd_low.o [1]
+  .bss                   zero     0x2000'5584     0x50  fsmc.o [1]
+  .bss                   zero     0x2000'55d4     0x40  config.o [1]
+  .bss                   zero     0x2000'5614     0x40  tim.o [1]
+  .bss                   zero     0x2000'5654     0x40  tim.o [1]
+  .bss                   zero     0x2000'5694     0x34  main.o [1]
+  .bss                   zero     0x2000'56c8     0x30  tgui.o [1]
+  .bss                   zero     0x2000'56f8     0x30  tgui.o [1]
+  .bss                   zero     0x2000'5728     0x30  tgui.o [1]
+  .bss                   zero     0x2000'5758     0x30  tgui.o [1]
+  .bss                   zero     0x2000'5788     0x30  tgui.o [1]
+  .bss                   zero     0x2000'57b8     0x30  tgui.o [1]
+  .bss                   zero     0x2000'57e8     0x28  z_planner.o [1]
+  .bss                   zero     0x2000'5810     0x20  rtc.o [1]
+  .bss                   zero     0x2000'5830     0x20  tgui.o [1]
+  .bss                   zero     0x2000'5850     0x18  dlmalloc.o [2]
+  .bss                   zero     0x2000'5868     0x10  ff_gen_drv.o [1]
+  .bss                   zero     0x2000'5878     0x10  touch.o [1]
+  .bss                   zero     0x2000'5888      0xc  config.o [1]
+  .bss                   zero     0x2000'5894      0xc  spi_flash.o [1]
+  .bss                   zero     0x2000'58a0      0x8  fatfs.o [1]
+  .bss                   zero     0x2000'58a8      0x8  fatfs.o [1]
+  .bss                   zero     0x2000'58b0      0x8  ff.o [1]
+  .bss                   zero     0x2000'58b8      0x4  cpld_utils.o [1]
+  .bss                   zero     0x2000'58bc      0x4  fsmc.o [1]
+  .bss                   zero     0x2000'58c0      0x4  motor.o [1]
+  .bss                   zero     0x2000'58c4      0x4  spi_flash.o [1]
+  .bss                   zero     0x2000'58c8      0x4  spi_flash.o [1]
+  .bss                   zero     0x2000'58cc      0x4  stm32f4xx_hal.o [1]
+  .bss                   zero     0x2000'58d0      0x4  stm32f4xx_ll_usb.o [1]
+  .bss                   zero     0x2000'58d4      0x4  tgui.o [1]
+  .bss                   zero     0x2000'58d8      0x4  touch.o [1]
+  .bss                   zero     0x2000'58dc      0x4  z_planner.o [1]
+  .bss                   zero     0x2000'58e0      0x4  z_planner.o [1]
+  .bss                   zero     0x2000'58e4      0x4  z_planner.o [1]
+  .bss                   zero     0x2000'58e8      0x4  z_planner.o [1]
+  .bss                   zero     0x2000'58ec      0x4  z_planner.o [1]
+  .bss                   zero     0x2000'58f0      0x4  z_planner.o [1]
+  .bss                   zero     0x2000'58f4      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'58f8      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'58fc      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'5900      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'5904      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'5908      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'590c      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'5910      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'5914      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'5918      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'591c      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'5920      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'5924      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'5928      0x4  z_stepper.o [1]
+  .bss                   zero     0x2000'592c      0x4  xfail_s.o [2]
+  .bss                   zero     0x2000'5930      0x4  xgetmemchunk.o [2]
+  .bss                   zero     0x2000'5934      0x2  ff.o [1]
+  .bss                   zero     0x2000'5936      0x2  lcd_low.o [1]
+  .bss                   zero     0x2000'5938      0x2  lcd_ui.o [1]
+  .bss                   zero     0x2000'593a      0x2  lcd_ui.o [1]
+  .bss                   zero     0x2000'593c      0x2  lcd_ui.o [1]
+  .bss                   zero     0x2000'593e      0x2  z_planner.o [1]
+  .bss                   zero     0x2000'5940      0x1  fatfs.o [1]
+  .bss                   zero     0x2000'5941      0x1  fatfs.o [1]
+  .bss                   zero     0x2000'5942      0x1  main.o [1]
+  .bss                   zero     0x2000'5943      0x1  main.o [1]
+  .bss                   zero     0x2000'5944      0x1  main.o [1]
+  .bss                   zero     0x2000'5945      0x1  main.o [1]
+  .bss                   zero     0x2000'5946      0x1  tgui_defaultfuncs.o [1]
+  .bss                   zero     0x2000'5947      0x1  tgui_filesscreenfuncs.o [1]
+  .bss                   zero     0x2000'5948      0x1  usb_host.o [1]
+  .bss                   zero     0x2000'5949      0x1  z_endstops.o [1]
+  .bss                   zero     0x2000'594a      0x1  z_endstops.o [1]
+  .bss                   zero     0x2000'594b      0x1  z_planner.o [1]
+  .bss                   zero     0x2000'594c      0x1  z_planner.o [1]
+  .bss                   zero     0x2000'594d      0x1  z_planner.o [1]
+  .bss                   zero     0x2000'594e      0x1  z_planner.o [1]
+  .bss                   zero     0x2000'594f      0x1  z_planner.o [1]
+  .bss                   zero     0x2000'5950      0x1  z_planner.o [1]
+  .bss                   zero     0x2000'5951      0x1  z_stepper.o [1]
+  .bss                   zero     0x2000'5952      0x1  z_stepper.o [1]
+  .bss                   zero     0x2000'5953      0x1  z_stepper.o [1]
+  .bss                   zero     0x2000'5954      0x1  z_stepper.o [1]
+  .bss                   zero     0x2000'5955      0x1  z_stepper.o [1]
+                                - 0x2000'5956   0x563e
 
-"P2", part 3 of 3:                              0x7204
-  .noinit                uninit   0x2000'52f4   0x1000  tgui.o [1]
-  .noinit                uninit   0x2000'62f4    0x200  tgui.o [1]
-  CSTACK                          0x2000'64f8   0x4000  <Block>
-    CSTACK               uninit   0x2000'64f8   0x4000  <Block tail>
-  HEAP                            0x2000'a4f8   0x2000  <Block>
-    HEAP                 uninit   0x2000'a4f8   0x2000  <Block tail>
-                                - 0x2000'c4f8   0x7204
+"P2", part 3 of 3:                              0x7200
+  .noinit                uninit   0x2000'5958   0x1000  tgui.o [1]
+  .noinit                uninit   0x2000'6958    0x200  tgui.o [1]
+  CSTACK                          0x2000'6b58   0x4000  <Block>
+    CSTACK               uninit   0x2000'6b58   0x4000  <Block tail>
+  HEAP                            0x2000'ab58   0x2000  <Block>
+    HEAP                 uninit   0x2000'ab58   0x2000  <Block tail>
+                                - 0x2000'cb58   0x7200
 
 Unused ranges:
 
          From           To      Size
          ----           --      ----
-   0x802'b0e8   0x807'ffff  0x5'4f18
+   0x802'c522   0x807'ffff  0x5'3ade
   0x1000'5478  0x1000'ffff    0xab88
-  0x2000'0109  0x2000'010b       0x3
-  0x2000'c4f8  0x2001'ffff  0x1'3b08
+  0x2000'0316  0x2000'0317       0x2
+  0x2000'cb58  0x2001'ffff  0x1'34a8
 
 
 *******************************************************************************
@@ -615,14 +643,14 @@ Unused ranges:
           Address      Size
           -------      ----
 Zero (__iar_zero_init3)
-    1 destination range, total size 0x51e5:
-          0x2000'010c  0x51e5
+    1 destination range, total size 0x563e:
+          0x2000'0318  0x563e
 
 Copy/lz77 (__iar_lz77_init_single3)
-    1 source range, total size 0xac (64% of destination):
-           0x802'b03c    0xac
-    1 destination range, total size 0x109:
-          0x2000'0000   0x109
+    1 source range, total size 0xb6 (23% of destination):
+           0x802'c46c    0xb6
+    1 destination range, total size 0x316:
+          0x2000'0000   0x316
 
 Extra (__iar_cstart_call_ctors)
 
@@ -632,154 +660,157 @@ Extra (__iar_cstart_call_ctors)
 *** MODULE SUMMARY
 ***
 
-    Module                  ro code  ro data  rw data
-    ------                  -------  -------  -------
+    Module                   ro code  ro data  rw data
+    ------                   -------  -------  -------
 command line/config:
-    -------------------------------------------------
+    --------------------------------------------------
     Total:
 
 D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj: [1]
-    config.o                    176                76
-    cpld_utils.o                182                 4
-    datetime.o                  152
-    diskio.o                    240
-    fatfs.o                     216             8 322
-    ff.o                     11 912      272      522
-    ff_gen_drv.o                 96                16
-    ffunicode.o                 360      944
-    fnt12.o                            2 043       12
-    fnt18.o                            4 076       12
-    fnt18bold.o                        4 624       12
-    fnt24.o                            6 820       12
-    fnt24bold.o                        8 667       12
-    fsmc.o                      276                84
-    fst_spi.o                 1 384               736
-    gpio.o                      652
-    languages.o                  68      913       20
-    lcd_low.o                 1 316                98
-    lcd_ui.o                  2 912        7       17
-    main.o                    1 730      532   20 652
-    motor.o                     232                 4
-    rtc.o                       200        4       32
-    spi_flash.o                 840                20
-    spifl_diskio.o              336       20
-    ssd_utils.o               1 460
-    startup_stm32f407xx.o       412
-    stm32f4xx_hal.o             180        4        9
-    stm32f4xx_hal_cortex.o      344
-    stm32f4xx_hal_dma.o       1 156        8
-    stm32f4xx_hal_gpio.o        674
-    stm32f4xx_hal_hcd.o       4 306
-    stm32f4xx_hal_msp.o          64
-    stm32f4xx_hal_rcc.o       1 488
-    stm32f4xx_hal_rcc_ex.o      352
-    stm32f4xx_hal_rtc.o       1 092
-    stm32f4xx_hal_spi.o       1 600
-    stm32f4xx_hal_sram.o         92
-    stm32f4xx_hal_tim.o       1 954
-    stm32f4xx_hal_tim_ex.o      172
-    stm32f4xx_it.o              156
-    stm32f4xx_ll_fsmc.o         236
-    stm32f4xx_ll_usb.o        2 700                 4
-    sys_timer.o                 296               256
-    system_stm32f4xx.o           32       18        4
-    tgui.o                    7 408      456   13 368
-    tgui_defaultfuncs.o       3 316       17        2
-    tgui_infoscreenfuncs.o      220       56
-    tgui_langscreenfuncs.o       20
-    tim.o                       488        8      128
-    touch.o                     632                20
-    unicode_utils.o             494
-    usb_host.o                  140               985
-    usbh_conf.o                 928               708
-    usbh_core.o               2 036
-    usbh_ctlreq.o             1 602
-    usbh_diskio.o               368       20
-    usbh_ioreq.o                270
-    usbh_msc.o                2 478       25       32
-    usbh_msc_bot.o            1 084
-    usbh_msc_scsi.o           1 168
-    usbh_pipes.o                224
-    usbh_platform.o              40
-    uvdisplay.o                  12
-    z_endstops.o                244                 2
-    z_planner.o                 706        4      584
-    z_stepper.o               1 708        3       65
-    -------------------------------------------------
-    Total:                   67 632   29 541   46 830
+    config.o                     176                76
+    cpld_utils.o                 182                 4
+    datetime.o                   152
+    diskio.o                     240
+    fatfs.o                      216             8 322
+    ff.o                      11 912      272      522
+    ff_gen_drv.o                  96                16
+    ffunicode.o                  360      944
+    fnt12.o                             2 038       12
+    fnt12bold.o                         2 251       12
+    fnt18.o                             4 071       12
+    fnt18bold.o                         4 619       12
+    fnt24.o                             6 814       12
+    fnt24bold.o                         8 663       12
+    fsmc.o                       276                84
+    fst_spi.o                  1 384               736
+    gpio.o                       652
+    languages.o                   68      985       20
+    lcd_low.o                  1 316                98
+    lcd_ui.o                   2 932        3       17
+    main.o                     1 738      532   20 652
+    motor.o                      232                 4
+    rtc.o                        200        4       32
+    spi_flash.o                  840                20
+    spifl_diskio.o               336       20
+    ssd_utils.o                1 460
+    startup_stm32f407xx.o        412
+    stm32f4xx_hal.o              180        1        9
+    stm32f4xx_hal_cortex.o       344
+    stm32f4xx_hal_dma.o        1 156        8
+    stm32f4xx_hal_gpio.o         674
+    stm32f4xx_hal_hcd.o        4 306
+    stm32f4xx_hal_msp.o           64
+    stm32f4xx_hal_rcc.o        1 488
+    stm32f4xx_hal_rcc_ex.o       352
+    stm32f4xx_hal_rtc.o        1 092
+    stm32f4xx_hal_spi.o        1 600
+    stm32f4xx_hal_sram.o          92
+    stm32f4xx_hal_tim.o        1 954
+    stm32f4xx_hal_tim_ex.o       172
+    stm32f4xx_it.o               156
+    stm32f4xx_ll_fsmc.o          236
+    stm32f4xx_ll_usb.o         2 700                 4
+    sys_timer.o                  296               256
+    system_stm32f4xx.o            32       16        4
+    tgui.o                     8 796      688   13 452
+    tgui_defaultfuncs.o        3 316       16        2
+    tgui_filesscreenfuncs.o    1 084      139    1 542
+    tgui_infoscreenfuncs.o       220       56
+    tgui_langscreenfuncs.o        20
+    tim.o                        488        8      128
+    touch.o                      632                20
+    unicode_utils.o              560
+    usb_host.o                   140               985
+    usbh_conf.o                  928               708
+    usbh_core.o                2 036
+    usbh_ctlreq.o              1 602
+    usbh_diskio.o                368       20
+    usbh_ioreq.o                 270
+    usbh_msc.o                 2 478       12       32
+    usbh_msc_bot.o             1 084
+    usbh_msc_scsi.o            1 168
+    usbh_pipes.o                 224
+    usbh_platform.o               40
+    uvdisplay.o                   12
+    z_endstops.o                 244                 2
+    z_planner.o                  706        4      584
+    z_stepper.o                1 708        1       65
+    --------------------------------------------------
+    Total:                    70 198   32 185   48 468
 
 dl7M_tlf.a: [2]
-    abort.o                       6
-    cppinit.o                    24
-    dlmalloc.o                5 344               496
-    exit.o                        4
-    heaptramp0.o                  4
-    low_level_init.o              4
-    sprintf.o                    64
-    strcat.o                     30
-    xencoding_8859_1.o           30
-    xfail_s.o                    64                 4
-    xgetmemchunk.o               44                 4
-    xlocale_c.o                 120       89      128
-    xmbcurmax.o                  10
-    xprintffull.o             3 910
-    xsprout.o                    10
-    -------------------------------------------------
-    Total:                    9 668       89      632
+    abort.o                        6
+    cppinit.o                     24
+    dlmalloc.o                 5 344               496
+    exit.o                         4
+    heaptramp0.o                   4
+    low_level_init.o               4
+    sprintf.o                     64
+    strcat.o                      30
+    xencoding_8859_1.o            30
+    xfail_s.o                     64                 4
+    xgetmemchunk.o                44                 4
+    xlocale_c.o                  120       35      128
+    xmbcurmax.o                   10
+    xprintffull.o              3 910
+    xsprout.o                     10
+    --------------------------------------------------
+    Total:                     9 668       35      632
 
 dlpp7M_tl_fc.a: [3]
-    -------------------------------------------------
+    --------------------------------------------------
     Total:
 
 m7M_tls.a: [4]
-    DblAdd.o                    362
-    DblCmpGe.o                   46
-    DblCmpLe.o                   46
-    DblDiv.o                    582
-    DblMul.o                    418
-    DblSub.o                    226
-    DblToS32.o                   58
-    DblToU32.o                   40
-    FltToDbl.o                   72
-    S32ToDbl.o                   34
-    U32ToDbl.o                   26
-    fpinit_M.o                   34
-    frexp.o                     112
-    ldexp.o                     314
-    lroundf.o                    46
-    -------------------------------------------------
-    Total:                    2 416
+    DblAdd.o                     362
+    DblCmpGe.o                    46
+    DblCmpLe.o                    46
+    DblDiv.o                     582
+    DblMul.o                     418
+    DblSub.o                     226
+    DblToS32.o                    58
+    DblToU32.o                    40
+    FltToDbl.o                    72
+    S32ToDbl.o                    34
+    U32ToDbl.o                    26
+    fpinit_M.o                    34
+    frexp.o                      112
+    ldexp.o                      314
+    lroundf.o                     46
+    --------------------------------------------------
+    Total:                     2 416
 
 rt7M_tl.a: [5]
-    ABImemclr4.o                  6
-    ABImemcpy.o                 166
-    ABImemset.o                 102
-    ABImemset48.o                50
-    I64DivMod.o                 560
-    cexit.o                      10
-    cmain.o                      30
-    cmain_call_ctors.o           32
-    cstartup_M.o                 12
-    data_init.o                  40
-    lz77_init_single.o          122
-    memchr.o                     88
-    strchr.o                     22
-    strcmp.o                     18
-    strlen.o                     54
-    zero_init3.o                 58
-    -------------------------------------------------
-    Total:                    1 370
+    ABImemclr4.o                   6
+    ABImemcpy.o                  166
+    ABImemset.o                  102
+    ABImemset48.o                 50
+    I64DivMod.o                  560
+    cexit.o                       10
+    cmain.o                       30
+    cmain_call_ctors.o            32
+    cstartup_M.o                  12
+    data_init.o                   40
+    lz77_init_single.o           122
+    memchr.o                      88
+    strchr.o                      22
+    strcmp.o                      18
+    strcpy.o                      24
+    strlen.o                      54
+    zero_init3.o                  58
+    --------------------------------------------------
+    Total:                     1 394
 
 shb_l.a: [6]
-    exit.o                       20
-    unwind_debug.o                         1
-    -------------------------------------------------
-    Total:                       20        1
+    exit.o                        20
+    unwind_debug.o                          1
+    --------------------------------------------------
+    Total:                        20        1
 
-    Gaps                         43        8
-    Linker created                        36   24 576
------------------------------------------------------
-    Grand Total:             81 149   29 675   72 038
+    Gaps                          41        8
+    Linker created                         36   24 576
+------------------------------------------------------
+    Grand Total:              83 737   32 265   73 676
 
 
 *******************************************************************************
@@ -788,736 +819,751 @@ shb_l.a: [6]
 
 Entry                       Address    Size  Type      Object
 -----                       -------    ----  ----      ------
-.iar.init_table$$Base    0x802'a99c           --   Gb  - Linker created -
-.iar.init_table$$Limit   0x802'a9c0           --   Gb  - Linker created -
-?main                    0x802'aa39          Code  Gb  cmain.o [5]
-AHBPrescTable            0x802'ac88    0x10  Data  Gb  system_stm32f4xx.o [1]
-Appli_state             0x2000'52e3     0x1  Data  Gb  usb_host.o [1]
-Appli_state_old         0x2000'52de     0x1  Data  Gb  main.o [1]
-BusFault_Handler         0x802'a567     0x2  Code  Gb  stm32f4xx_it.o [1]
-CFG_Init()               0x801'dbb1    0xb0  Code  Gb  config.o [1]
-CPLD_Init()              0x801'f95d     0x2  Code  Gb  cpld_utils.o [1]
-CSTACK$$Base            0x2000'64f8           --   Gb  - Linker created -
-CSTACK$$Limit           0x2000'a4f8           --   Gb  - Linker created -
-CacheMore                0x801'b781    0x24  Code  Lc  xlocale_c.o [2]
+.iar.init_table$$Base    0x802'bcb8           --   Gb  - Linker created -
+.iar.init_table$$Limit   0x802'bcdc           --   Gb  - Linker created -
+?main                    0x802'bd55          Code  Gb  cmain.o [5]
+AHBPrescTable            0x802'c080    0x10  Data  Gb  system_stm32f4xx.o [1]
+Appli_state             0x2000'5948     0x1  Data  Gb  usb_host.o [1]
+Appli_state_old         0x2000'5942     0x1  Data  Gb  main.o [1]
+BusFault_Handler         0x802'b84b     0x2  Code  Gb  stm32f4xx_it.o [1]
+CFG_Init()               0x801'c0e5    0xb0  Code  Gb  config.o [1]
+CPLD_Init()              0x801'de91     0x2  Code  Gb  cpld_utils.o [1]
+CSTACK$$Base            0x2000'6b58           --   Gb  - Linker created -
+CSTACK$$Limit           0x2000'ab58           --   Gb  - Linker created -
+CacheMore                0x801'9cad    0x24  Code  Lc  xlocale_c.o [2]
 DMA1_Stream3_IRQHandler
-                         0x802'a579     0xa  Code  Gb  stm32f4xx_it.o [1]
+                         0x802'b85d     0xa  Code  Gb  stm32f4xx_it.o [1]
 DMA1_Stream4_IRQHandler
-                         0x802'a583     0xa  Code  Gb  stm32f4xx_it.o [1]
+                         0x802'b867     0xa  Code  Gb  stm32f4xx_it.o [1]
 DMA2_Stream2_IRQHandler
-                         0x802'a5a1     0xa  Code  Gb  stm32f4xx_it.o [1]
+                         0x802'b885     0xa  Code  Gb  stm32f4xx_it.o [1]
 DMA2_Stream5_IRQHandler
-                         0x802'a5ab     0xa  Code  Gb  stm32f4xx_it.o [1]
+                         0x802'b88f     0xa  Code  Gb  stm32f4xx_it.o [1]
 DMA2_Stream7_IRQHandler
-                         0x802'a597     0xa  Code  Gb  stm32f4xx_it.o [1]
+                         0x802'b87b     0xa  Code  Gb  stm32f4xx_it.o [1]
 DMA_CalcBaseAndBitshift
-                         0x801'afe3    0x30  Code  Lc  stm32f4xx_hal_dma.o [1]
+                         0x801'950f    0x30  Code  Lc  stm32f4xx_hal_dma.o [1]
 DMA_CalcBaseAndBitshift::flagBitshiftOffset
-                         0x802'aed0     0x8  Data  Lc  stm32f4xx_hal_dma.o [1]
-DMA_CheckFifoParam       0x801'b021    0x9c  Code  Lc  stm32f4xx_hal_dma.o [1]
-DMA_SetConfig            0x801'afb5    0x2e  Code  Lc  stm32f4xx_hal_dma.o [1]
+                         0x802'c2c8     0x8  Data  Lc  stm32f4xx_hal_dma.o [1]
+DMA_CheckFifoParam       0x801'954d    0x9c  Code  Lc  stm32f4xx_hal_dma.o [1]
+DMA_SetConfig            0x801'94e1    0x2e  Code  Lc  stm32f4xx_hal_dma.o [1]
 DTIME_GetDateTime(DATETIME_STRUCT *)
-                         0x801'8601    0x78  Code  Gb  datetime.o [1]
-DTIME_GetMinutes()       0x801'85e9    0x18  Code  Gb  datetime.o [1]
-DeInitStateMachine       0x801'ff67    0x68  Code  Lc  usbh_core.o [1]
-DebugMon_Handler         0x802'a56d     0x2  Code  Gb  stm32f4xx_it.o [1]
-DeviceCode              0x2000'52d2     0x2  Data  Gb  lcd_low.o [1]
-EXTI0_IRQHandler         0x802'a5e1     0xe  Code  Gb  stm32f4xx_it.o [1]
-EXTI2_IRQHandler         0x802'a5ef     0xe  Code  Gb  stm32f4xx_it.o [1]
-Endstops::hit_state     0x2000'52e4     0x1  Data  Gb  z_endstops.o [1]
-Endstops::init()         0x801'e615    0x24  Code  Gb  z_endstops.o [1]
-Endstops::live_state    0x2000'52e5     0x1  Data  Gb  z_endstops.o [1]
-Endstops::state()        0x802'0739     0xc  Code  Gb  z_endstops.o [1]
-Endstops::update()       0x801'e639    0x94  Code  Gb  z_endstops.o [1]
-EndstopsInterrupt        0x801'e60d     0x8  Code  Gb  z_endstops.o [1]
-Error_Handler            0x801'c985     0x2  Code  Gb  main.o [1]
-ExCvt                    0x802'a71c    0x80  Data  Lc  ff.o [1]
+                         0x801'6ad9    0x78  Code  Gb  datetime.o [1]
+DTIME_GetMinutes()       0x801'6ac1    0x18  Code  Gb  datetime.o [1]
+DeInitStateMachine       0x801'e49b    0x68  Code  Lc  usbh_core.o [1]
+DebugMon_Handler         0x802'b851     0x2  Code  Gb  stm32f4xx_it.o [1]
+DeviceCode              0x2000'5936     0x2  Data  Gb  lcd_low.o [1]
+EXTI0_IRQHandler         0x802'b8c5     0xe  Code  Gb  stm32f4xx_it.o [1]
+EXTI2_IRQHandler         0x802'b8d3     0xe  Code  Gb  stm32f4xx_it.o [1]
+Endstops::hit_state     0x2000'5949     0x1  Data  Gb  z_endstops.o [1]
+Endstops::init()         0x801'cb49    0x24  Code  Gb  z_endstops.o [1]
+Endstops::live_state    0x2000'594a     0x1  Data  Gb  z_endstops.o [1]
+Endstops::state()        0x801'ec6d     0xc  Code  Gb  z_endstops.o [1]
+Endstops::update()       0x801'cb6d    0x94  Code  Gb  z_endstops.o [1]
+EndstopsInterrupt        0x801'cb41     0x8  Code  Gb  z_endstops.o [1]
+Error_Handler            0x801'aeb9     0x2  Code  Gb  main.o [1]
+ExCvt                    0x802'ba08    0x80  Data  Lc  ff.o [1]
 FATFS_GetFileExtension   0x801'32d5    0x4a  Code  Gb  fatfs.o [1]
 FATFS_Init               0x801'3269    0x1c  Code  Gb  fatfs.o [1]
 FATFS_LinkDriver         0x801'338b    0x12  Code  Gb  ff_gen_drv.o [1]
 FATFS_LinkDriverEx       0x801'3341    0x4a  Code  Gb  ff_gen_drv.o [1]
-FLASH_SPIEnable          0x801'b4cd   0x188  Code  Gb  fst_spi.o [1]
-FLASH_SPIGetSpeed        0x801'b673     0xc  Code  Gb  fst_spi.o [1]
-FLASH_SPIInit            0x801'b469    0x64  Code  Gb  fst_spi.o [1]
-FLASH_SPIReadBuff        0x801'b6a7    0x4e  Code  Gb  fst_spi.o [1]
-FLASH_SPIReadBuffDMA     0x801'b6f5    0x36  Code  Gb  fst_spi.o [1]
-FLASH_SPISetSpeed        0x801'b655    0x1e  Code  Gb  fst_spi.o [1]
-FLASH_SPIWriteReadByte   0x801'b67f    0x28  Code  Gb  fst_spi.o [1]
-FSMC_Initialized        0x2000'5258     0x4  Data  Lc  fsmc.o [1]
+FLASH_SPIEnable          0x801'99f9   0x188  Code  Gb  fst_spi.o [1]
+FLASH_SPIGetSpeed        0x801'9b9f     0xc  Code  Gb  fst_spi.o [1]
+FLASH_SPIInit            0x801'9995    0x64  Code  Gb  fst_spi.o [1]
+FLASH_SPIReadBuff        0x801'9bd3    0x4e  Code  Gb  fst_spi.o [1]
+FLASH_SPIReadBuffDMA     0x801'9c21    0x36  Code  Gb  fst_spi.o [1]
+FLASH_SPISetSpeed        0x801'9b81    0x1e  Code  Gb  fst_spi.o [1]
+FLASH_SPIWriteReadByte   0x801'9bab    0x28  Code  Gb  fst_spi.o [1]
+FSMC_Initialized        0x2000'58bc     0x4  Data  Lc  fsmc.o [1]
 FSMC_NORSRAM_Extended_Timing_Init
-                         0x801'd4b5    0x44  Code  Gb  stm32f4xx_ll_fsmc.o [1]
-FSMC_NORSRAM_Init        0x801'd415    0x5a  Code  Gb  stm32f4xx_ll_fsmc.o [1]
+                         0x801'b9e9    0x44  Code  Gb  stm32f4xx_ll_fsmc.o [1]
+FSMC_NORSRAM_Init        0x801'b949    0x5a  Code  Gb  stm32f4xx_ll_fsmc.o [1]
 FSMC_NORSRAM_Timing_Init
-                         0x801'd46f    0x46  Code  Gb  stm32f4xx_ll_fsmc.o [1]
-FatFs                   0x2000'524c     0x8  Data  Lc  ff.o [1]
-Fsid                    0x2000'52d0     0x2  Data  Lc  ff.o [1]
-GPIO_Init                0x801'd535   0x28c  Code  Gb  gpio.o [1]
-HAL_DMA_GetState         0x801'afaf     0x6  Code  Gb  stm32f4xx_hal_dma.o [1]
-HAL_DMA_IRQHandler       0x801'ada7   0x208  Code  Gb  stm32f4xx_hal_dma.o [1]
-HAL_DMA_Init             0x801'ac39    0xe2  Code  Gb  stm32f4xx_hal_dma.o [1]
-HAL_DMA_Start_IT         0x801'ad1b    0x8c  Code  Gb  stm32f4xx_hal_dma.o [1]
-HAL_Delay                0x801'aafd    0x28  Code  Wk  stm32f4xx_hal.o [1]
-HAL_FSMC_MspInit         0x801'aba7    0x70  Code  Gb  fsmc.o [1]
+                         0x801'b9a3    0x46  Code  Gb  stm32f4xx_ll_fsmc.o [1]
+FatFs                   0x2000'58b0     0x8  Data  Lc  ff.o [1]
+Fsid                    0x2000'5934     0x2  Data  Lc  ff.o [1]
+GPIO_Init                0x801'ba69   0x28c  Code  Gb  gpio.o [1]
+HAL_DMA_GetState         0x801'94db     0x6  Code  Gb  stm32f4xx_hal_dma.o [1]
+HAL_DMA_IRQHandler       0x801'92d3   0x208  Code  Gb  stm32f4xx_hal_dma.o [1]
+HAL_DMA_Init             0x801'9165    0xe2  Code  Gb  stm32f4xx_hal_dma.o [1]
+HAL_DMA_Start_IT         0x801'9247    0x8c  Code  Gb  stm32f4xx_hal_dma.o [1]
+HAL_Delay                0x801'9029    0x28  Code  Wk  stm32f4xx_hal.o [1]
+HAL_FSMC_MspInit         0x801'90d3    0x70  Code  Gb  fsmc.o [1]
 HAL_GPIO_EXTI_IRQHandler
-                         0x801'cbcb    0x20  Code  Gb  stm32f4xx_hal_gpio.o [1]
-HAL_GPIO_Init            0x801'c989   0x212  Code  Gb  stm32f4xx_hal_gpio.o [1]
-HAL_GPIO_ReadPin         0x801'cb9b    0x16  Code  Gb  stm32f4xx_hal_gpio.o [1]
-HAL_GPIO_WritePin        0x801'cbb1    0x1a  Code  Gb  stm32f4xx_hal_gpio.o [1]
+                         0x801'b0ff    0x20  Code  Gb  stm32f4xx_hal_gpio.o [1]
+HAL_GPIO_Init            0x801'aebd   0x212  Code  Gb  stm32f4xx_hal_gpio.o [1]
+HAL_GPIO_ReadPin         0x801'b0cf    0x16  Code  Gb  stm32f4xx_hal_gpio.o [1]
+HAL_GPIO_WritePin        0x801'b0e5    0x1a  Code  Gb  stm32f4xx_hal_gpio.o [1]
 HAL_GetTick              0x801'3895     0xc  Code  Wk  stm32f4xx_hal.o [1]
 HAL_HCD_Connect_Callback
-                         0x802'09d5     0xe  Code  Gb  usbh_conf.o [1]
+                         0x801'ef09     0xe  Code  Gb  usbh_conf.o [1]
 HAL_HCD_Disconnect_Callback
-                         0x802'09e3     0xe  Code  Gb  usbh_conf.o [1]
+                         0x801'ef17     0xe  Code  Gb  usbh_conf.o [1]
 HAL_HCD_GetCurrentFrame
-                         0x802'1991     0xc  Code  Gb  stm32f4xx_hal_hcd.o [1]
+                         0x801'fec5     0xc  Code  Gb  stm32f4xx_hal_hcd.o [1]
 HAL_HCD_GetCurrentSpeed
-                         0x802'199d     0xc  Code  Gb  stm32f4xx_hal_hcd.o [1]
-HAL_HCD_HC_GetURBState   0x802'1977     0xe  Code  Gb  stm32f4xx_hal_hcd.o [1]
+                         0x801'fed1     0xc  Code  Gb  stm32f4xx_hal_hcd.o [1]
+HAL_HCD_HC_GetURBState   0x801'feab     0xe  Code  Gb  stm32f4xx_hal_hcd.o [1]
 HAL_HCD_HC_GetXferCount
-                         0x802'1985     0xc  Code  Gb  stm32f4xx_hal_hcd.o [1]
-HAL_HCD_HC_Halt          0x802'1591    0x30  Code  Gb  stm32f4xx_hal_hcd.o [1]
-HAL_HCD_HC_Init          0x802'14b7    0xda  Code  Gb  stm32f4xx_hal_hcd.o [1]
+                         0x801'feb9     0xc  Code  Gb  stm32f4xx_hal_hcd.o [1]
+HAL_HCD_HC_Halt          0x801'fac5    0x30  Code  Gb  stm32f4xx_hal_hcd.o [1]
+HAL_HCD_HC_Init          0x801'f9eb    0xda  Code  Gb  stm32f4xx_hal_hcd.o [1]
 HAL_HCD_HC_NotifyURBChange_Callback
-                         0x802'09f1     0x2  Code  Gb  usbh_conf.o [1]
+                         0x801'ef25     0x2  Code  Gb  usbh_conf.o [1]
 HAL_HCD_HC_SubmitRequest
-                         0x802'15c1   0x21a  Code  Gb  stm32f4xx_hal_hcd.o [1]
-HAL_HCD_IRQHandler       0x802'17db   0x13c  Code  Gb  stm32f4xx_hal_hcd.o [1]
-HAL_HCD_Init             0x802'1441    0x76  Code  Gb  stm32f4xx_hal_hcd.o [1]
-HAL_HCD_MspInit          0x802'0945    0x82  Code  Gb  usbh_conf.o [1]
+                         0x801'faf5   0x21a  Code  Gb  stm32f4xx_hal_hcd.o [1]
+HAL_HCD_IRQHandler       0x801'fd0f   0x13c  Code  Gb  stm32f4xx_hal_hcd.o [1]
+HAL_HCD_Init             0x801'f975    0x76  Code  Gb  stm32f4xx_hal_hcd.o [1]
+HAL_HCD_MspInit          0x801'ee79    0x82  Code  Gb  usbh_conf.o [1]
 HAL_HCD_PortDisabled_Callback
-                         0x802'0a01     0xe  Code  Gb  usbh_conf.o [1]
+                         0x801'ef35     0xe  Code  Gb  usbh_conf.o [1]
 HAL_HCD_PortEnabled_Callback
-                         0x802'09f3     0xe  Code  Gb  usbh_conf.o [1]
-HAL_HCD_ResetPort        0x802'196b     0xc  Code  Gb  stm32f4xx_hal_hcd.o [1]
-HAL_HCD_SOF_Callback     0x802'09c7     0xe  Code  Gb  usbh_conf.o [1]
-HAL_HCD_Start            0x802'1917    0x2e  Code  Gb  stm32f4xx_hal_hcd.o [1]
-HAL_HCD_Stop             0x802'1945    0x26  Code  Gb  stm32f4xx_hal_hcd.o [1]
-HAL_IncTick              0x801'84c1    0x58  Code  Gb  sys_timer.o [1]
-HAL_Init                 0x801'd501    0x30  Code  Gb  stm32f4xx_hal.o [1]
-HAL_InitTick             0x801'e561    0x4c  Code  Wk  stm32f4xx_hal.o [1]
-HAL_MspInit              0x801'e5ad    0x40  Code  Gb  stm32f4xx_hal_msp.o [1]
-HAL_NVIC_EnableIRQ       0x801'b1db     0xe  Code  Gb  stm32f4xx_hal_cortex.o [1]
-HAL_NVIC_SetPriority     0x801'b1b1    0x2a  Code  Gb  stm32f4xx_hal_cortex.o [1]
+                         0x801'ef27     0xe  Code  Gb  usbh_conf.o [1]
+HAL_HCD_ResetPort        0x801'fe9f     0xc  Code  Gb  stm32f4xx_hal_hcd.o [1]
+HAL_HCD_SOF_Callback     0x801'eefb     0xe  Code  Gb  usbh_conf.o [1]
+HAL_HCD_Start            0x801'fe4b    0x2e  Code  Gb  stm32f4xx_hal_hcd.o [1]
+HAL_HCD_Stop             0x801'fe79    0x26  Code  Gb  stm32f4xx_hal_hcd.o [1]
+HAL_IncTick              0x801'6999    0x58  Code  Gb  sys_timer.o [1]
+HAL_Init                 0x801'ba35    0x30  Code  Gb  stm32f4xx_hal.o [1]
+HAL_InitTick             0x801'ca95    0x4c  Code  Wk  stm32f4xx_hal.o [1]
+HAL_MspInit              0x801'cae1    0x40  Code  Gb  stm32f4xx_hal_msp.o [1]
+HAL_NVIC_EnableIRQ       0x801'9707     0xe  Code  Gb  stm32f4xx_hal_cortex.o [1]
+HAL_NVIC_SetPriority     0x801'96dd    0x2a  Code  Gb  stm32f4xx_hal_cortex.o [1]
 HAL_NVIC_SetPriorityGrouping
-                         0x801'b1a5     0xc  Code  Gb  stm32f4xx_hal_cortex.o [1]
+                         0x801'96d1     0xc  Code  Gb  stm32f4xx_hal_cortex.o [1]
 HAL_RCCEx_PeriphCLKConfig
-                         0x801'e3ed   0x13a  Code  Gb  stm32f4xx_hal_rcc_ex.o [1]
-HAL_RCC_ClockConfig      0x801'e1f9   0x140  Code  Gb  stm32f4xx_hal_rcc.o [1]
+                         0x801'c921   0x13a  Code  Gb  stm32f4xx_hal_rcc_ex.o [1]
+HAL_RCC_ClockConfig      0x801'c72d   0x140  Code  Gb  stm32f4xx_hal_rcc.o [1]
 HAL_RCC_GetSysClockFreq
-                         0x801'e351    0x9c  Code  Wk  stm32f4xx_hal_rcc.o [1]
-HAL_RCC_OscConfig        0x801'de1d   0x3dc  Code  Wk  stm32f4xx_hal_rcc.o [1]
+                         0x801'c885    0x9c  Code  Wk  stm32f4xx_hal_rcc.o [1]
+HAL_RCC_OscConfig        0x801'c351   0x3dc  Code  Wk  stm32f4xx_hal_rcc.o [1]
 HAL_RTC_GetDate          0x801'36e1    0x54  Code  Gb  stm32f4xx_hal_rtc.o [1]
 HAL_RTC_GetTime          0x801'357d    0x68  Code  Gb  stm32f4xx_hal_rtc.o [1]
 HAL_RTC_Init             0x801'33a1    0xcc  Code  Gb  stm32f4xx_hal_rtc.o [1]
 HAL_RTC_SetDate          0x801'35e5    0xfc  Code  Gb  stm32f4xx_hal_rtc.o [1]
 HAL_RTC_SetTime          0x801'346d   0x110  Code  Gb  stm32f4xx_hal_rtc.o [1]
 HAL_RTC_WaitForSynchro   0x801'3741    0x36  Code  Gb  stm32f4xx_hal_rtc.o [1]
-HAL_SPI_Init             0x801'cc2d    0xca  Code  Gb  stm32f4xx_hal_spi.o [1]
-HAL_SPI_Receive_DMA      0x801'cd1d   0x112  Code  Gb  stm32f4xx_hal_spi.o [1]
+HAL_SPI_Init             0x801'b161    0xca  Code  Gb  stm32f4xx_hal_spi.o [1]
+HAL_SPI_Receive_DMA      0x801'b251   0x112  Code  Gb  stm32f4xx_hal_spi.o [1]
 HAL_SPI_TransmitReceive_DMA
-                         0x801'ce2f   0x16e  Code  Gb  stm32f4xx_hal_spi.o [1]
+                         0x801'b363   0x16e  Code  Gb  stm32f4xx_hal_spi.o [1]
 HAL_SPI_TxRxCpltCallback
-                         0x801'b215    0x20  Code  Gb  fst_spi.o [1]
-HAL_SRAM_Init            0x801'c269    0x5c  Code  Gb  stm32f4xx_hal_sram.o [1]
-HAL_SRAM_MspInit         0x801'ac17     0xa  Code  Gb  fsmc.o [1]
-HAL_SYSTICK_Config       0x801'b1e9     0xc  Code  Gb  stm32f4xx_hal_cortex.o [1]
+                         0x801'9741    0x20  Code  Gb  fst_spi.o [1]
+HAL_SRAM_Init            0x801'a795    0x5c  Code  Gb  stm32f4xx_hal_sram.o [1]
+HAL_SRAM_MspInit         0x801'9143     0xa  Code  Gb  fsmc.o [1]
+HAL_SYSTICK_Config       0x801'9715     0xc  Code  Gb  stm32f4xx_hal_cortex.o [1]
 HAL_TIMEx_MasterConfigSynchronization
-                         0x802'0899    0x8e  Code  Gb  stm32f4xx_hal_tim_ex.o [1]
-HAL_TIM_Base_Init        0x801'f0bd    0x38  Code  Gb  stm32f4xx_hal_tim.o [1]
-HAL_TIM_Base_MspInit     0x801'eff9    0x56  Code  Gb  tim.o [1]
-HAL_TIM_Base_Start_IT    0x801'f0f5    0x2a  Code  Gb  stm32f4xx_hal_tim.o [1]
-HAL_TIM_Base_Stop_IT     0x801'f11f    0x36  Code  Gb  stm32f4xx_hal_tim.o [1]
+                         0x801'edcd    0x8e  Code  Gb  stm32f4xx_hal_tim_ex.o [1]
+HAL_TIM_Base_Init        0x801'd5f1    0x38  Code  Gb  stm32f4xx_hal_tim.o [1]
+HAL_TIM_Base_MspInit     0x801'd52d    0x56  Code  Gb  tim.o [1]
+HAL_TIM_Base_Start_IT    0x801'd629    0x2a  Code  Gb  stm32f4xx_hal_tim.o [1]
+HAL_TIM_Base_Stop_IT     0x801'd653    0x36  Code  Gb  stm32f4xx_hal_tim.o [1]
 HAL_TIM_ConfigClockSource
-                         0x801'f463    0xec  Code  Gb  stm32f4xx_hal_tim.o [1]
-HAL_TIM_IRQHandler       0x801'f1ed   0x176  Code  Gb  stm32f4xx_hal_tim.o [1]
-HAL_TIM_MspPostInit      0x801'f04f    0x4e  Code  Gb  tim.o [1]
+                         0x801'd997    0xec  Code  Gb  stm32f4xx_hal_tim.o [1]
+HAL_TIM_IRQHandler       0x801'd721   0x176  Code  Gb  stm32f4xx_hal_tim.o [1]
+HAL_TIM_MspPostInit      0x801'd583    0x4e  Code  Gb  tim.o [1]
 HAL_TIM_PWM_ConfigChannel
-                         0x801'f363   0x100  Code  Gb  stm32f4xx_hal_tim.o [1]
-HAL_TIM_PWM_Init         0x801'f155    0x38  Code  Gb  stm32f4xx_hal_tim.o [1]
-HAL_TIM_PWM_Start        0x801'f18d    0x58  Code  Gb  stm32f4xx_hal_tim.o [1]
-HCD_HC_IN_IRQHandler     0x802'19a9   0x570  Code  Lc  stm32f4xx_hal_hcd.o [1]
-HCD_HC_OUT_IRQHandler    0x802'1f19   0x488  Code  Lc  stm32f4xx_hal_hcd.o [1]
-HCD_Port_IRQHandler      0x802'2469    0xaa  Code  Lc  stm32f4xx_hal_hcd.o [1]
-HCD_RXQLVL_IRQHandler    0x802'23a1    0xc4  Code  Lc  stm32f4xx_hal_hcd.o [1]
-HEAP$$Base              0x2000'a4f8           --   Gb  - Linker created -
-HEAP$$Limit             0x2000'c4f8           --   Gb  - Linker created -
-HardFault_Handler        0x802'a563     0x2  Code  Gb  stm32f4xx_it.o [1]
-IsrStepperHandler        0x801'e9df    0x1c  Code  Gb  z_stepper.o [1]
+                         0x801'd897   0x100  Code  Gb  stm32f4xx_hal_tim.o [1]
+HAL_TIM_PWM_Init         0x801'd689    0x38  Code  Gb  stm32f4xx_hal_tim.o [1]
+HAL_TIM_PWM_Start        0x801'd6c1    0x58  Code  Gb  stm32f4xx_hal_tim.o [1]
+HCD_HC_IN_IRQHandler     0x801'fedd   0x570  Code  Lc  stm32f4xx_hal_hcd.o [1]
+HCD_HC_OUT_IRQHandler    0x802'044d   0x488  Code  Lc  stm32f4xx_hal_hcd.o [1]
+HCD_Port_IRQHandler      0x802'099d    0xaa  Code  Lc  stm32f4xx_hal_hcd.o [1]
+HCD_RXQLVL_IRQHandler    0x802'08d5    0xc4  Code  Lc  stm32f4xx_hal_hcd.o [1]
+HEAP$$Base              0x2000'ab58           --   Gb  - Linker created -
+HEAP$$Limit             0x2000'cb58           --   Gb  - Linker created -
+HardFault_Handler        0x802'b847     0x2  Code  Gb  stm32f4xx_it.o [1]
+IsrStepperHandler        0x801'cf13    0x1c  Code  Gb  z_stepper.o [1]
 LANG_GetLanduadesCount()
-                         0x801'84bd     0x4  Code  Gb  languages.o [1]
+                         0x801'6995     0x4  Code  Gb  languages.o [1]
 LANG_GetLanguageName(unsigned char)
-                         0x801'8487    0x18  Code  Gb  languages.o [1]
+                         0x801'695f    0x18  Code  Gb  languages.o [1]
 LANG_GetString(LNG_STRING_ID)
-                         0x801'847d     0xa  Code  Gb  languages.o [1]
+                         0x801'6955     0xa  Code  Gb  languages.o [1]
 LANG_SetLanguage(unsigned char)
-                         0x801'849f    0x12  Code  Gb  languages.o [1]
-LCDUI_Clear()            0x801'8817     0xe  Code  Gb  lcd_ui.o [1]
+                         0x801'6977    0x12  Code  Gb  languages.o [1]
+LCDUI_Clear()            0x801'6cef     0xe  Code  Gb  lcd_ui.o [1]
 LCDUI_DrawChar(char, unsigned short, short, short)
-                         0x801'8b53   0x19e  Code  Gb  lcd_ui.o [1]
+                         0x801'703b   0x19e  Code  Gb  lcd_ui.o [1]
 LCDUI_DrawFastVLine(short, short, short)
-                         0x801'8825    0x6e  Code  Gb  lcd_ui.o [1]
+                         0x801'6cfd    0x6e  Code  Gb  lcd_ui.o [1]
 LCDUI_DrawText(char *, unsigned short, short, short, short, short)
-                         0x801'8cf1   0x254  Code  Gb  lcd_ui.o [1]
+                         0x801'71d9   0x254  Code  Gb  lcd_ui.o [1]
 LCDUI_DrawTextUTF(char *, unsigned short, short, short, short, short)
-                         0x801'8f65   0x28c  Code  Gb  lcd_ui.o [1]
+                         0x801'744d   0x28c  Code  Gb  lcd_ui.o [1]
 LCDUI_FillRect(short, short, short, short)
-                         0x801'8893    0x96  Code  Gb  lcd_ui.o [1]
+                         0x801'6d6b    0x96  Code  Gb  lcd_ui.o [1]
 LCDUI_FillRoundRect(short, short, short, short, short)
-                         0x801'8929    0x84  Code  Gb  lcd_ui.o [1]
+                         0x801'6e01    0x84  Code  Gb  lcd_ui.o [1]
 LCDUI_GetCurrentFontHeight()
-                         0x801'8b49     0xa  Code  Gb  lcd_ui.o [1]
+                         0x801'7031     0xa  Code  Gb  lcd_ui.o [1]
 LCDUI_GetTextWidthUTF(char *)
-                         0x801'8b09    0x40  Code  Gb  lcd_ui.o [1]
-LCDUI_Init()             0x801'86c1    0x42  Code  Gb  lcd_ui.o [1]
+                         0x801'6ff1    0x40  Code  Gb  lcd_ui.o [1]
+LCDUI_Init()             0x801'6b99    0x42  Code  Gb  lcd_ui.o [1]
 LCDUI_SetBackColor(unsigned short)
-                         0x801'87eb     0xe  Code  Gb  lcd_ui.o [1]
+                         0x801'6cc3     0xe  Code  Gb  lcd_ui.o [1]
 LCDUI_SetColor(unsigned short)
-                         0x801'87dd     0xe  Code  Gb  lcd_ui.o [1]
+                         0x801'6cb5     0xe  Code  Gb  lcd_ui.o [1]
 LCDUI_SetCursorCoord(short, short)
-                         0x801'87f9    0x1e  Code  Gb  lcd_ui.o [1]
+                         0x801'6cd1    0x1e  Code  Gb  lcd_ui.o [1]
 LCDUI_SetFont(LCDUI_FONT_TYPE)
-                         0x801'8aa1    0x68  Code  Gb  lcd_ui.o [1]
-LCD_BackLight            0x801'98fd    0x1c  Code  Gb  lcd_low.o [1]
-LCD_Clear                0x801'98c9    0x34  Code  Gb  lcd_low.o [1]
-LCD_CtrlLinesConfig      0x801'9419    0x9a  Code  Gb  lcd_low.o [1]
-LCD_FSMCConfig           0x801'94b3     0x8  Code  Gb  lcd_low.o [1]
-LCD_Initializtion        0x801'955b   0x256  Code  Gb  lcd_low.o [1]
-LCD_ReadRAM              0x801'9531     0xa  Code  Gb  lcd_low.o [1]
-LCD_ReadReg              0x801'94d5     0xc  Code  Gb  lcd_low.o [1]
-LCD_Read_ID              0x801'953b    0x20  Code  Gb  lcd_low.o [1]
-LCD_SetCursor            0x801'97b1    0x5c  Code  Gb  lcd_low.o [1]
-LCD_SetWindows           0x801'980d    0xbc  Code  Gb  lcd_low.o [1]
-LCD_WaitDMAReady         0x801'9521    0x10  Code  Gb  lcd_low.o [1]
-LCD_WriteCmd             0x801'94e1     0x8  Code  Gb  lcd_low.o [1]
-LCD_WriteRAM             0x801'94f3     0x8  Code  Gb  lcd_low.o [1]
-LCD_WriteRAM_DMA         0x801'94fb    0x26  Code  Gb  lcd_low.o [1]
-LCD_WriteRAM_Prepare     0x801'94e9     0xa  Code  Gb  lcd_low.o [1]
-LCD_WriteReg             0x801'94c7     0xe  Code  Gb  lcd_low.o [1]
-LCD_X_Init               0x801'94bb     0xc  Code  Gb  lcd_low.o [1]
-LfnBuf                  0x2000'3fc0   0x200  Data  Lc  ff.o [1]
-LfnOfs                   0x802'abd8    0x10  Data  Lc  ff.o [1]
-LoadInt                  0x801'9d77    0x7a  Code  Lc  xprintffull.o [2]
-MIPI_Off()               0x801'feaf    0x2c  Code  Gb  ssd_utils.o [1]
-MIPI_On()                0x801'fedb    0x2c  Code  Gb  ssd_utils.o [1]
-MX_FSMC_Init             0x801'ab25    0x82  Code  Gb  fsmc.o [1]
-MemManage_Handler        0x802'a565     0x2  Code  Gb  stm32f4xx_it.o [1]
-NMI_Handler              0x802'a561     0x2  Code  Gb  stm32f4xx_it.o [1]
-NVIC_EncodePriority      0x801'b135    0x40  Code  Lc  stm32f4xx_hal_cortex.o [1]
-OTG_FS_IRQHandler        0x802'a58d     0xa  Code  Gb  stm32f4xx_it.o [1]
-PendSV_Handler           0x802'a56f     0x2  Code  Gb  stm32f4xx_it.o [1]
-Planner::Planner()       0x801'e6e9     0xe  Code  Gb  z_planner.o [1]
-Planner::block_buffer   0x2000'43c0   0x200  Data  Gb  z_planner.o [1]
+                         0x801'6f79    0x78  Code  Gb  lcd_ui.o [1]
+LCD_BackLight            0x801'7e21    0x1c  Code  Gb  lcd_low.o [1]
+LCD_Clear                0x801'7ded    0x34  Code  Gb  lcd_low.o [1]
+LCD_CtrlLinesConfig      0x801'793d    0x9a  Code  Gb  lcd_low.o [1]
+LCD_FSMCConfig           0x801'79d7     0x8  Code  Gb  lcd_low.o [1]
+LCD_Initializtion        0x801'7a7f   0x256  Code  Gb  lcd_low.o [1]
+LCD_ReadRAM              0x801'7a55     0xa  Code  Gb  lcd_low.o [1]
+LCD_ReadReg              0x801'79f9     0xc  Code  Gb  lcd_low.o [1]
+LCD_Read_ID              0x801'7a5f    0x20  Code  Gb  lcd_low.o [1]
+LCD_SetCursor            0x801'7cd5    0x5c  Code  Gb  lcd_low.o [1]
+LCD_SetWindows           0x801'7d31    0xbc  Code  Gb  lcd_low.o [1]
+LCD_WaitDMAReady         0x801'7a45    0x10  Code  Gb  lcd_low.o [1]
+LCD_WriteCmd             0x801'7a05     0x8  Code  Gb  lcd_low.o [1]
+LCD_WriteRAM             0x801'7a17     0x8  Code  Gb  lcd_low.o [1]
+LCD_WriteRAM_DMA         0x801'7a1f    0x26  Code  Gb  lcd_low.o [1]
+LCD_WriteRAM_Prepare     0x801'7a0d     0xa  Code  Gb  lcd_low.o [1]
+LCD_WriteReg             0x801'79eb     0xe  Code  Gb  lcd_low.o [1]
+LCD_X_Init               0x801'79df     0xc  Code  Gb  lcd_low.o [1]
+LfnBuf                  0x2000'4624   0x200  Data  Lc  ff.o [1]
+LfnOfs                   0x802'bfd0    0x10  Data  Lc  ff.o [1]
+LoadInt                  0x801'829b    0x7a  Code  Lc  xprintffull.o [2]
+MIPI_Off()               0x801'e3e3    0x2c  Code  Gb  ssd_utils.o [1]
+MIPI_On()                0x801'e40f    0x2c  Code  Gb  ssd_utils.o [1]
+MX_FSMC_Init             0x801'9051    0x82  Code  Gb  fsmc.o [1]
+MemManage_Handler        0x802'b849     0x2  Code  Gb  stm32f4xx_it.o [1]
+NMI_Handler              0x802'b845     0x2  Code  Gb  stm32f4xx_it.o [1]
+NVIC_EncodePriority      0x801'9661    0x40  Code  Lc  stm32f4xx_hal_cortex.o [1]
+OTG_FS_IRQHandler        0x802'b871     0xa  Code  Gb  stm32f4xx_it.o [1]
+PendSV_Handler           0x802'b853     0x2  Code  Gb  stm32f4xx_it.o [1]
+Planner::Planner()       0x801'cc1d     0xe  Code  Gb  z_planner.o [1]
+Planner::block_buffer   0x2000'4a24   0x200  Data  Gb  z_planner.o [1]
 Planner::block_buffer_head
-                        0x2000'52e7     0x1  Data  Gb  z_planner.o [1]
+                        0x2000'594c     0x1  Data  Gb  z_planner.o [1]
 Planner::block_buffer_nonbusy
-                        0x2000'52e8     0x1  Data  Gb  z_planner.o [1]
+                        0x2000'594d     0x1  Data  Gb  z_planner.o [1]
 Planner::block_buffer_planned
-                        0x2000'52e9     0x1  Data  Gb  z_planner.o [1]
+                        0x2000'594e     0x1  Data  Gb  z_planner.o [1]
 Planner::block_buffer_tail
-                        0x2000'52ea     0x1  Data  Gb  z_planner.o [1]
+                        0x2000'594f     0x1  Data  Gb  z_planner.o [1]
 Planner::buffer_sync_block()
-                         0x801'e7ed    0x48  Code  Gb  z_planner.o [1]
+                         0x801'cd21    0x48  Code  Gb  z_planner.o [1]
 Planner::cleaning_buffer_counter
-                        0x2000'52da     0x2  Data  Gb  z_planner.o [1]
+                        0x2000'593e     0x2  Data  Gb  z_planner.o [1]
 Planner::clear_block_buffer()
-                         0x802'0745    0x24  Code  Gb  z_planner.o [1]
-Planner::cutoff_long    0x2000'5284     0x4  Data  Gb  z_planner.o [1]
+                         0x801'ec79    0x24  Code  Gb  z_planner.o [1]
+Planner::cutoff_long    0x2000'58e8     0x4  Data  Gb  z_planner.o [1]
 Planner::delay_before_delivering
-                        0x2000'52eb     0x1  Data  Gb  z_planner.o [1]
+                        0x2000'5950     0x1  Data  Gb  z_planner.o [1]
 Planner::endstop_triggered()
-                         0x801'e79f     0x8  Code  Gb  z_planner.o [1]
+                         0x801'ccd3     0x8  Code  Gb  z_planner.o [1]
 Planner::get_current_block()
-                         0x801'e721    0x7e  Code  Gb  z_planner.o [1]
+                         0x801'cc55    0x7e  Code  Gb  z_planner.o [1]
 Planner::get_next_free_block(unsigned char &, unsigned char)
-                         0x802'07a9    0x38  Code  Gb  z_planner.o [1]
+                         0x801'ecdd    0x38  Code  Gb  z_planner.o [1]
 Planner::has_blocks_queued()
-                         0x802'0789    0x20  Code  Gb  z_stepper.o [1]
-Planner::init()          0x801'e6f7    0x2a  Code  Gb  z_planner.o [1]
+                         0x801'ecbd    0x20  Code  Gb  z_stepper.o [1]
+Planner::init()          0x801'cc2b    0x2a  Code  Gb  z_planner.o [1]
 Planner::max_acceleration_steps_per_s2
-                        0x2000'5278     0x4  Data  Gb  z_planner.o [1]
-Planner::moves_free()    0x802'1407     0xe  Code  Gb  z_planner.o [1]
+                        0x2000'58dc     0x4  Data  Gb  z_planner.o [1]
+Planner::moves_free()    0x801'f93b     0xe  Code  Gb  z_planner.o [1]
 Planner::movesplanned()
-                         0x802'0769    0x18  Code  Gb  z_planner.o [1]
+                         0x801'ec9d    0x18  Code  Gb  z_planner.o [1]
 Planner::next_block_index(unsigned char)
-                         0x802'0781     0x8  Code  Gb  z_stepper.o [1]
-Planner::position       0x2000'5280     0x4  Data  Gb  z_planner.o [1]
+                         0x801'ecb5     0x8  Code  Gb  z_stepper.o [1]
+Planner::position       0x2000'58e4     0x4  Data  Gb  z_planner.o [1]
 Planner::previous_nominal_speed_sqr
-                        0x2000'528c     0x4  Data  Gb  z_planner.o [1]
+                        0x2000'58f0     0x4  Data  Gb  z_planner.o [1]
 Planner::previous_speed
-                        0x2000'5288     0x4  Data  Gb  z_planner.o [1]
+                        0x2000'58ec     0x4  Data  Gb  z_planner.o [1]
 Planner::refresh_positioning()
-                         0x801'e8c3    0x32  Code  Gb  z_planner.o [1]
+                         0x801'cdf7    0x32  Code  Gb  z_planner.o [1]
 Planner::release_current_block()
-                         0x802'1415    0x1c  Code  Gb  z_stepper.o [1]
+                         0x801'f949    0x1c  Code  Gb  z_stepper.o [1]
 Planner::reset_acceleration_rates()
-                         0x801'e88d    0x36  Code  Gb  z_planner.o [1]
+                         0x801'cdc1    0x36  Code  Gb  z_planner.o [1]
 Planner::set_machine_position_mm(float)
-                         0x801'e835    0x3a  Code  Gb  z_planner.o [1]
+                         0x801'cd69    0x3a  Code  Gb  z_planner.o [1]
 Planner::set_position_mm(float)
-                         0x801'e871    0x1c  Code  Gb  z_planner.o [1]
-Planner::settings       0x2000'5184    0x28  Data  Gb  z_planner.o [1]
-Planner::steps_to_mm    0x2000'527c     0x4  Data  Gb  z_planner.o [1]
-Planner::synchronize()   0x801'e7a7    0x1c  Code  Gb  z_planner.o [1]
+                         0x801'cda5    0x1c  Code  Gb  z_planner.o [1]
+Planner::settings       0x2000'57e8    0x28  Data  Gb  z_planner.o [1]
+Planner::steps_to_mm    0x2000'58e0     0x4  Data  Gb  z_planner.o [1]
+Planner::synchronize()   0x801'ccdb    0x1c  Code  Gb  z_planner.o [1]
 RTC_Bcd2ToByte           0x801'37c9    0x1a  Code  Gb  stm32f4xx_hal_rtc.o [1]
 RTC_ByteToBcd2           0x801'37b1    0x18  Code  Gb  stm32f4xx_hal_rtc.o [1]
-RTC_Enable               0x801'db8b    0x10  Code  Gb  rtc.o [1]
+RTC_Enable               0x801'c0bf    0x10  Code  Gb  rtc.o [1]
 RTC_EnterInitMode        0x801'3777    0x3a  Code  Gb  stm32f4xx_hal_rtc.o [1]
-RTC_Init                 0x801'dae9    0xa2  Code  Gb  rtc.o [1]
-Region$$Table$$Base      0x802'a99c           --   Gb  - Linker created -
-Region$$Table$$Limit     0x802'a9c0           --   Gb  - Linker created -
-SHT$$INIT_ARRAY$$Base    0x802'b038           --   Gb  - Linker created -
-SHT$$INIT_ARRAY$$Limit   0x802'b03c           --   Gb  - Linker created -
+RTC_Init                 0x801'c01d    0xa2  Code  Gb  rtc.o [1]
+Region$$Table$$Base      0x802'bcb8           --   Gb  - Linker created -
+Region$$Table$$Limit     0x802'bcdc           --   Gb  - Linker created -
+SHT$$INIT_ARRAY$$Base    0x802'c468           --   Gb  - Linker created -
+SHT$$INIT_ARRAY$$Limit   0x802'c46c           --   Gb  - Linker created -
 SHT$$PREINIT_ARRAY$$Base
-                         0x802'b038           --   Gb  - Linker created -
+                         0x802'c468           --   Gb  - Linker created -
 SHT$$PREINIT_ARRAY$$Limit
-                         0x802'b038           --   Gb  - Linker created -
-SPIFL_Driver             0x802'ab74    0x14  Data  Gb  spifl_diskio.o [1]
-SPIFL_EraseSector        0x801'd95f    0x52  Code  Gb  spi_flash.o [1]
-SPIFL_Init               0x801'd83f    0x46  Code  Gb  spi_flash.o [1]
-SPIFL_ReadBuff           0x801'd8e7    0x78  Code  Gb  spi_flash.o [1]
-SPIFL_ReadID             0x801'd885    0x62  Code  Gb  spi_flash.o [1]
-SPIFL_WriteBuff          0x801'd9b1   0x124  Code  Gb  spi_flash.o [1]
-SPIFL_initialize         0x802'9b19    0x1e  Code  Gb  spifl_diskio.o [1]
-SPIFL_ioctl              0x802'9c05    0x60  Code  Gb  spifl_diskio.o [1]
-SPIFL_read               0x802'9b49    0x5e  Code  Gb  spifl_diskio.o [1]
-SPIFL_status             0x802'9b37    0x12  Code  Gb  spifl_diskio.o [1]
-SPIFL_write              0x802'9ba7    0x5e  Code  Gb  spifl_diskio.o [1]
-SPI_DMAError             0x801'd0a1    0x28  Code  Lc  stm32f4xx_hal_spi.o [1]
-SPI_DMAHalfReceiveCplt   0x801'd081     0xe  Code  Lc  stm32f4xx_hal_spi.o [1]
+                         0x802'c468           --   Gb  - Linker created -
+SPIFL_Driver             0x802'bf58    0x14  Data  Gb  spifl_diskio.o [1]
+SPIFL_EraseSector        0x801'be93    0x52  Code  Gb  spi_flash.o [1]
+SPIFL_Init               0x801'bd73    0x46  Code  Gb  spi_flash.o [1]
+SPIFL_ReadBuff           0x801'be1b    0x78  Code  Gb  spi_flash.o [1]
+SPIFL_ReadID             0x801'bdb9    0x62  Code  Gb  spi_flash.o [1]
+SPIFL_WriteBuff          0x801'bee5   0x124  Code  Gb  spi_flash.o [1]
+SPIFL_initialize         0x802'acbd    0x1e  Code  Gb  spifl_diskio.o [1]
+SPIFL_ioctl              0x802'ada9    0x60  Code  Gb  spifl_diskio.o [1]
+SPIFL_read               0x802'aced    0x5e  Code  Gb  spifl_diskio.o [1]
+SPIFL_status             0x802'acdb    0x12  Code  Gb  spifl_diskio.o [1]
+SPIFL_write              0x802'ad4b    0x5e  Code  Gb  spifl_diskio.o [1]
+SPI_DMAError             0x801'b5d5    0x28  Code  Lc  stm32f4xx_hal_spi.o [1]
+SPI_DMAHalfReceiveCplt   0x801'b5b5     0xe  Code  Lc  stm32f4xx_hal_spi.o [1]
 SPI_DMAHalfTransmitReceiveCplt
-                         0x801'd091     0xe  Code  Lc  stm32f4xx_hal_spi.o [1]
-SPI_DMAReceiveCplt       0x801'cf9d    0x7a  Code  Lc  stm32f4xx_hal_spi.o [1]
+                         0x801'b5c5     0xe  Code  Lc  stm32f4xx_hal_spi.o [1]
+SPI_DMAReceiveCplt       0x801'b4d1    0x7a  Code  Lc  stm32f4xx_hal_spi.o [1]
 SPI_DMATransmitReceiveCplt
-                         0x801'd019    0x66  Code  Lc  stm32f4xx_hal_spi.o [1]
-SPI_EndRxTransaction     0x801'd169    0x9a  Code  Lc  stm32f4xx_hal_spi.o [1]
-SPI_EndRxTxTransaction   0x801'd203    0x5e  Code  Lc  stm32f4xx_hal_spi.o [1]
+                         0x801'b54d    0x66  Code  Lc  stm32f4xx_hal_spi.o [1]
+SPI_EndRxTransaction     0x801'b69d    0x9a  Code  Lc  stm32f4xx_hal_spi.o [1]
+SPI_EndRxTxTransaction   0x801'b737    0x5e  Code  Lc  stm32f4xx_hal_spi.o [1]
 SPI_WaitFlagStateUntilTimeout
-                         0x801'd0c9    0xa0  Code  Lc  stm32f4xx_hal_spi.o [1]
-SSD_Init()               0x801'fdc5    0x94  Code  Gb  ssd_utils.o [1]
-SSD_SleepIn()            0x801'fe59    0x56  Code  Gb  ssd_utils.o [1]
-SVC_Handler              0x802'a56b     0x2  Code  Gb  stm32f4xx_it.o [1]
-SYSTIMER_GetCountDown    0x801'8591    0x26  Code  Gb  sys_timer.o [1]
-SYSTIMER_Init            0x801'8519    0x2a  Code  Gb  sys_timer.o [1]
-SYSTIMER_NewCountDown    0x801'8543    0x4e  Code  Gb  sys_timer.o [1]
-SYSTIMER_SetCountDown    0x801'85b7    0x22  Code  Gb  sys_timer.o [1]
-SpiflFS                 0x2000'1144  0x1038  Data  Gb  fatfs.o [1]
-SpiflPath               0x2000'5244     0x8  Data  Gb  fatfs.o [1]
+                         0x801'b5fd    0xa0  Code  Lc  stm32f4xx_hal_spi.o [1]
+SSD_Init()               0x801'e2f9    0x94  Code  Gb  ssd_utils.o [1]
+SSD_SleepIn()            0x801'e38d    0x56  Code  Gb  ssd_utils.o [1]
+SVC_Handler              0x802'b84f     0x2  Code  Gb  stm32f4xx_it.o [1]
+SYSTIMER_GetCountDown    0x801'6a69    0x26  Code  Gb  sys_timer.o [1]
+SYSTIMER_Init            0x801'69f1    0x2a  Code  Gb  sys_timer.o [1]
+SYSTIMER_NewCountDown    0x801'6a1b    0x4e  Code  Gb  sys_timer.o [1]
+SYSTIMER_SetCountDown    0x801'6a8f    0x22  Code  Gb  sys_timer.o [1]
+SpiflFS                 0x2000'1350  0x1038  Data  Gb  fatfs.o [1]
+SpiflPath               0x2000'58a8     0x8  Data  Gb  fatfs.o [1]
 Stepper::_set_position(int)
-                         0x801'ee1d     0x6  Code  Gb  z_stepper.o [1]
+                         0x801'd351     0x6  Code  Gb  z_stepper.o [1]
 Stepper::abort_current_block
-                        0x2000'52ee     0x1  Data  Gb  z_stepper.o [1]
-Stepper::acc_step_rate  0x2000'52b8     0x4  Data  Gb  z_stepper.o [1]
+                        0x2000'5953     0x1  Data  Gb  z_stepper.o [1]
+Stepper::acc_step_rate  0x2000'591c     0x4  Data  Gb  z_stepper.o [1]
 Stepper::accelerate_until
-                        0x2000'52ac     0x4  Data  Gb  z_stepper.o [1]
+                        0x2000'5910     0x4  Data  Gb  z_stepper.o [1]
 Stepper::acceleration_time
-                        0x2000'5294     0x4  Data  Gb  z_stepper.o [1]
+                        0x2000'58f8     0x4  Data  Gb  z_stepper.o [1]
 Stepper::advance_dividend
-                        0x2000'52a0     0x4  Data  Gb  z_stepper.o [1]
+                        0x2000'5904     0x4  Data  Gb  z_stepper.o [1]
 Stepper::advance_divisor
-                        0x2000'52a4     0x4  Data  Gb  z_stepper.o [1]
-Stepper::axis_did_move  0x2000'52ed     0x1  Data  Gb  z_stepper.o [1]
+                        0x2000'5908     0x4  Data  Gb  z_stepper.o [1]
+Stepper::axis_did_move  0x2000'5952     0x1  Data  Gb  z_stepper.o [1]
 Stepper::axis_is_moving()
-                         0x802'0709    0x18  Code  Gb  z_endstops.o [1]
+                         0x801'ec3d    0x18  Code  Gb  z_endstops.o [1]
 Stepper::block_phase_isr()
-                         0x801'ec4b   0x19a  Code  Gb  z_stepper.o [1]
+                         0x801'd17f   0x19a  Code  Gb  z_stepper.o [1]
 Stepper::calc_timer_interval(unsigned int, unsigned char *)
-                         0x802'083d    0x30  Code  Gb  z_stepper.o [1]
+                         0x801'ed71    0x30  Code  Gb  z_stepper.o [1]
 Stepper::count_direction
-                        0x2000'52f0     0x1  Data  Gb  z_stepper.o [1]
+                        0x2000'5955     0x1  Data  Gb  z_stepper.o [1]
 Stepper::count_position
-                        0x2000'52c0     0x4  Data  Gb  z_stepper.o [1]
-Stepper::current_block  0x2000'5290     0x4  Data  Gb  z_stepper.o [1]
+                        0x2000'5924     0x4  Data  Gb  z_stepper.o [1]
+Stepper::current_block  0x2000'58f4     0x4  Data  Gb  z_stepper.o [1]
 Stepper::decelerate_after
-                        0x2000'52b0     0x4  Data  Gb  z_stepper.o [1]
+                        0x2000'5914     0x4  Data  Gb  z_stepper.o [1]
 Stepper::deceleration_time
-                        0x2000'5298     0x4  Data  Gb  z_stepper.o [1]
-Stepper::delta_error    0x2000'529c     0x4  Data  Gb  z_stepper.o [1]
+                        0x2000'58fc     0x4  Data  Gb  z_stepper.o [1]
+Stepper::delta_error    0x2000'5900     0x4  Data  Gb  z_stepper.o [1]
 Stepper::discard_current_block()
-                         0x802'0821    0x1c  Code  Gb  z_stepper.o [1]
+                         0x801'ed55    0x1c  Code  Gb  z_stepper.o [1]
 Stepper::endstop_triggered()
-                         0x801'ee45    0x22  Code  Gb  z_stepper.o [1]
+                         0x801'd379    0x22  Code  Gb  z_stepper.o [1]
 Stepper::endstops_trigsteps
-                        0x2000'52bc     0x4  Data  Gb  z_stepper.o [1]
-Stepper::init()          0x801'ede5    0x38  Code  Gb  z_stepper.o [1]
-Stepper::is_awake()      0x802'1431    0x10  Code  Gb  z_stepper.o [1]
-Stepper::isr()           0x801'e9fb    0xbe  Code  Gb  z_stepper.o [1]
+                        0x2000'5920     0x4  Data  Gb  z_stepper.o [1]
+Stepper::init()          0x801'd319    0x38  Code  Gb  z_stepper.o [1]
+Stepper::is_awake()      0x801'f965    0x10  Code  Gb  z_stepper.o [1]
+Stepper::isr()           0x801'cf2f    0xbe  Code  Gb  z_stepper.o [1]
 Stepper::isr()::nextMainISR
-                        0x2000'52c4     0x4  Data  Lc  z_stepper.o [1]
+                        0x2000'5928     0x4  Data  Lc  z_stepper.o [1]
 Stepper::last_direction_bits
-                        0x2000'52ec     0x1  Data  Gb  z_stepper.o [1]
+                        0x2000'5951     0x1  Data  Gb  z_stepper.o [1]
 Stepper::motor_direction()
-                         0x802'0721    0x18  Code  Gb  z_stepper.o [1]
+                         0x801'ec55    0x18  Code  Gb  z_stepper.o [1]
 Stepper::pulse_phase_isr()
-                         0x801'eab9   0x192  Code  Gb  z_stepper.o [1]
-Stepper::quick_stop()    0x802'088d     0xc  Code  Gb  z_stepper.o [1]
+                         0x801'cfed   0x192  Code  Gb  z_stepper.o [1]
+Stepper::quick_stop()    0x801'edc1     0xc  Code  Gb  z_stepper.o [1]
 Stepper::set_directions()
-                         0x801'e987    0x58  Code  Gb  z_stepper.o [1]
+                         0x801'cebb    0x58  Code  Gb  z_stepper.o [1]
 Stepper::set_position(int)
-                         0x801'ee23    0x22  Code  Gb  z_stepper.o [1]
+                         0x801'd357    0x22  Code  Gb  z_stepper.o [1]
 Stepper::step_event_count
-                        0x2000'52b4     0x4  Data  Gb  z_stepper.o [1]
+                        0x2000'5918     0x4  Data  Gb  z_stepper.o [1]
 Stepper::step_events_completed
-                        0x2000'52a8     0x4  Data  Gb  z_stepper.o [1]
-Stepper::steps_per_isr  0x2000'52ef     0x1  Data  Gb  z_stepper.o [1]
-Stepper::suspend()       0x802'086d    0x20  Code  Gb  z_stepper.o [1]
-Stepper::ticks_nominal  0x2000'007c     0x4  Data  Gb  z_stepper.o [1]
-Stepper::wake_up()       0x802'07e1    0x10  Code  Gb  z_stepper.o [1]
-SysTick_Config           0x801'b175    0x30  Code  Lc  stm32f4xx_hal_cortex.o [1]
-SysTick_Handler          0x802'a571     0x8  Code  Gb  stm32f4xx_it.o [1]
-SystemClock_Config()     0x801'c815    0xc6  Code  Gb  main.o [1]
-SystemCoreClock         0x2000'0058     0x4  Data  Gb  system_stm32f4xx.o [1]
-SystemInit               0x802'a9e1    0x12  Code  Gb  system_stm32f4xx.o [1]
-TGUI_DrawLogo()          0x801'751d     0xa  Code  Gb  tgui.o [1]
-TGUI_ForceRepaint()      0x801'7527    0x18  Code  Gb  tgui.o [1]
-TGUI_Init()              0x801'5969  0x1bb4  Code  Gb  tgui.o [1]
+                        0x2000'590c     0x4  Data  Gb  z_stepper.o [1]
+Stepper::steps_per_isr  0x2000'5954     0x1  Data  Gb  z_stepper.o [1]
+Stepper::suspend()       0x801'eda1    0x20  Code  Gb  z_stepper.o [1]
+Stepper::ticks_nominal  0x2000'0288     0x4  Data  Gb  z_stepper.o [1]
+Stepper::wake_up()       0x801'ed15    0x10  Code  Gb  z_stepper.o [1]
+SysTick_Config           0x801'96a1    0x30  Code  Lc  stm32f4xx_hal_cortex.o [1]
+SysTick_Handler          0x802'b855     0x8  Code  Gb  stm32f4xx_it.o [1]
+SystemClock_Config()     0x801'ad49    0xc6  Code  Gb  main.o [1]
+SystemCoreClock         0x2000'0064     0x4  Data  Gb  system_stm32f4xx.o [1]
+SystemInit               0x802'bcfd    0x12  Code  Gb  system_stm32f4xx.o [1]
+TGUI_DrawLogo()          0x801'5991     0xa  Code  Gb  tgui.o [1]
+TGUI_ForceRepaint()      0x801'599b    0x18  Code  Gb  tgui.o [1]
+TGUI_Init()              0x801'38d5  0x20b6  Code  Gb  tgui.o [1]
 TGUI_PointInRect(TOUCH_POINT *, TG_RECT *)
-                         0x801'5935    0x32  Code  Gb  tgui.o [1]
-TGUI_Process()           0x801'753f    0x18  Code  Gb  tgui.o [1]
-TIM2_IRQHandler          0x802'a5b5     0xe  Code  Gb  stm32f4xx_it.o [1]
-TIM_Base_SetConfig       0x801'f54f    0xc0  Code  Gb  stm32f4xx_hal_tim.o [1]
-TIM_CCxChannelCmd        0x801'f83b    0x24  Code  Gb  stm32f4xx_hal_tim.o [1]
-TIM_ETR_SetConfig        0x801'f823    0x18  Code  Gb  stm32f4xx_hal_tim.o [1]
-TIM_ITRx_SetConfig       0x801'f813    0x10  Code  Lc  stm32f4xx_hal_tim.o [1]
-TIM_OC1_SetConfig        0x801'f60f    0x64  Code  Lc  stm32f4xx_hal_tim.o [1]
-TIM_OC2_SetConfig        0x801'f673    0x6e  Code  Gb  stm32f4xx_hal_tim.o [1]
-TIM_OC3_SetConfig        0x801'f6e1    0x6c  Code  Lc  stm32f4xx_hal_tim.o [1]
-TIM_OC4_SetConfig        0x801'f74d    0x4c  Code  Lc  stm32f4xx_hal_tim.o [1]
+                         0x801'38a1    0x32  Code  Gb  tgui.o [1]
+TGUI_Process()           0x801'59c1    0x18  Code  Gb  tgui.o [1]
+TGUI_USBStateChanged()   0x801'59ed    0x1a  Code  Gb  tgui.o [1]
+TIM2_IRQHandler          0x802'b899     0xe  Code  Gb  stm32f4xx_it.o [1]
+TIM_Base_SetConfig       0x801'da83    0xc0  Code  Gb  stm32f4xx_hal_tim.o [1]
+TIM_CCxChannelCmd        0x801'dd6f    0x24  Code  Gb  stm32f4xx_hal_tim.o [1]
+TIM_ETR_SetConfig        0x801'dd57    0x18  Code  Gb  stm32f4xx_hal_tim.o [1]
+TIM_ITRx_SetConfig       0x801'dd47    0x10  Code  Lc  stm32f4xx_hal_tim.o [1]
+TIM_OC1_SetConfig        0x801'db43    0x64  Code  Lc  stm32f4xx_hal_tim.o [1]
+TIM_OC2_SetConfig        0x801'dba7    0x6e  Code  Gb  stm32f4xx_hal_tim.o [1]
+TIM_OC3_SetConfig        0x801'dc15    0x6c  Code  Lc  stm32f4xx_hal_tim.o [1]
+TIM_OC4_SetConfig        0x801'dc81    0x4c  Code  Lc  stm32f4xx_hal_tim.o [1]
 TIM_TI1_ConfigInputStage
-                         0x801'f7c9    0x24  Code  Lc  stm32f4xx_hal_tim.o [1]
+                         0x801'dcfd    0x24  Code  Lc  stm32f4xx_hal_tim.o [1]
 TIM_TI2_ConfigInputStage
-                         0x801'f7ed    0x26  Code  Lc  stm32f4xx_hal_tim.o [1]
-TIM_ZRef_Init            0x801'ef49    0xb0  Code  Gb  tim.o [1]
-TIM_ZStepper_Init        0x801'eed5    0x74  Code  Gb  tim.o [1]
-TOUCH_SPIEnable          0x801'b299   0x15a  Code  Gb  fst_spi.o [1]
-TOUCH_SPIGetState        0x801'b453     0xa  Code  Gb  fst_spi.o [1]
-TOUCH_SPIInit            0x801'b235    0x64  Code  Gb  fst_spi.o [1]
-TOUCH_SPIStartRead       0x801'b3f3    0x60  Code  Gb  fst_spi.o [1]
-Timers                  0x2000'48e8   0x100  Data  Gb  sys_timer.o [1]
-Touch_Enable             0x801'9b5f     0x8  Code  Gb  touch.o [1]
-Touch_GetCoords          0x801'9b83     0xc  Code  Gb  touch.o [1]
-Touch_GetState           0x801'9b67     0x6  Code  Gb  touch.o [1]
-Touch_Init               0x801'9b2b    0x34  Code  Gb  touch.o [1]
-Touch_IsPressed          0x801'9b8f    0x18  Code  Gb  touch.o [1]
-Touch_SetWorked          0x801'9b6d    0x16  Code  Gb  touch.o [1]
-USBH_AllocPipe           0x802'0d37    0x34  Code  Gb  usbh_pipes.o [1]
-USBH_BulkReceiveData     0x802'25f1    0x30  Code  Gb  usbh_ioreq.o [1]
-USBH_BulkSendData        0x802'25af    0x42  Code  Gb  usbh_ioreq.o [1]
-USBH_ClosePipe           0x802'0d23    0x14  Code  Gb  usbh_pipes.o [1]
-USBH_ClrFeature          0x802'0f57    0x2e  Code  Gb  usbh_ctlreq.o [1]
-USBH_CtlReceiveData      0x802'257f    0x30  Code  Gb  usbh_ioreq.o [1]
-USBH_CtlReq              0x802'1165    0x5e  Code  Gb  usbh_ctlreq.o [1]
-USBH_CtlSendData         0x802'253d    0x42  Code  Gb  usbh_ioreq.o [1]
-USBH_CtlSendSetup        0x802'2513    0x2a  Code  Gb  usbh_ioreq.o [1]
-USBH_Delay               0x802'0cab     0xc  Code  Gb  usbh_conf.o [1]
-USBH_Driver              0x802'abb0    0x14  Data  Gb  usbh_diskio.o [1]
-USBH_FindInterface       0x802'0025    0x74  Code  Gb  usbh_core.o [1]
-USBH_FreePipe            0x802'0d6b    0x2a  Code  Gb  usbh_pipes.o [1]
-USBH_GetDescriptor       0x802'0e83    0x4e  Code  Gb  usbh_ctlreq.o [1]
-USBH_GetFreePipe         0x802'0d95    0x30  Code  Lc  usbh_pipes.o [1]
-USBH_GetNextDesc         0x802'1153    0x12  Code  Gb  usbh_ctlreq.o [1]
-USBH_Get_CfgDesc         0x802'0e03    0x3a  Code  Gb  usbh_ctlreq.o [1]
-USBH_Get_DevDesc         0x802'0dc5    0x3e  Code  Gb  usbh_ctlreq.o [1]
-USBH_Get_StringDesc      0x802'0e3d    0x46  Code  Gb  usbh_ctlreq.o [1]
-USBH_Get_USB_Status      0x802'0cb7    0x2e  Code  Gb  usbh_conf.o [1]
-USBH_HandleControl       0x802'11c3   0x244  Code  Lc  usbh_ctlreq.o [1]
-USBH_HandleEnum          0x802'038f   0x2e8  Code  Lc  usbh_core.o [1]
-USBH_HandleSof           0x802'0693    0x1e  Code  Lc  usbh_core.o [1]
-USBH_Init                0x801'ff15    0x52  Code  Gb  usbh_core.o [1]
-USBH_LL_ClosePipe        0x802'0b67    0x2a  Code  Gb  usbh_conf.o [1]
-USBH_LL_Connect          0x802'06c1    0x18  Code  Gb  usbh_core.o [1]
-USBH_LL_Disconnect       0x802'06d9    0x30  Code  Gb  usbh_core.o [1]
-USBH_LL_DriverVBUS       0x802'0c05    0x20  Code  Gb  usbh_conf.o [1]
+                         0x801'dd21    0x26  Code  Lc  stm32f4xx_hal_tim.o [1]
+TIM_ZRef_Init            0x801'd47d    0xb0  Code  Gb  tim.o [1]
+TIM_ZStepper_Init        0x801'd409    0x74  Code  Gb  tim.o [1]
+TOUCH_SPIEnable          0x801'97c5   0x15a  Code  Gb  fst_spi.o [1]
+TOUCH_SPIGetState        0x801'997f     0xa  Code  Gb  fst_spi.o [1]
+TOUCH_SPIInit            0x801'9761    0x64  Code  Gb  fst_spi.o [1]
+TOUCH_SPIStartRead       0x801'991f    0x60  Code  Gb  fst_spi.o [1]
+Timers                  0x2000'4f4c   0x100  Data  Gb  sys_timer.o [1]
+Touch_Enable             0x801'8083     0x8  Code  Gb  touch.o [1]
+Touch_GetCoords          0x801'80a7     0xc  Code  Gb  touch.o [1]
+Touch_GetState           0x801'808b     0x6  Code  Gb  touch.o [1]
+Touch_Init               0x801'804f    0x34  Code  Gb  touch.o [1]
+Touch_IsPressed          0x801'80b3    0x18  Code  Gb  touch.o [1]
+Touch_SetWorked          0x801'8091    0x16  Code  Gb  touch.o [1]
+USBH_AllocPipe           0x801'f26b    0x34  Code  Gb  usbh_pipes.o [1]
+USBH_BulkReceiveData     0x802'0b25    0x30  Code  Gb  usbh_ioreq.o [1]
+USBH_BulkSendData        0x802'0ae3    0x42  Code  Gb  usbh_ioreq.o [1]
+USBH_ClosePipe           0x801'f257    0x14  Code  Gb  usbh_pipes.o [1]
+USBH_ClrFeature          0x801'f48b    0x2e  Code  Gb  usbh_ctlreq.o [1]
+USBH_CtlReceiveData      0x802'0ab3    0x30  Code  Gb  usbh_ioreq.o [1]
+USBH_CtlReq              0x801'f699    0x5e  Code  Gb  usbh_ctlreq.o [1]
+USBH_CtlSendData         0x802'0a71    0x42  Code  Gb  usbh_ioreq.o [1]
+USBH_CtlSendSetup        0x802'0a47    0x2a  Code  Gb  usbh_ioreq.o [1]
+USBH_Delay               0x801'f1df     0xc  Code  Gb  usbh_conf.o [1]
+USBH_Driver              0x802'bfa8    0x14  Data  Gb  usbh_diskio.o [1]
+USBH_FindInterface       0x801'e559    0x74  Code  Gb  usbh_core.o [1]
+USBH_FreePipe            0x801'f29f    0x2a  Code  Gb  usbh_pipes.o [1]
+USBH_GetDescriptor       0x801'f3b7    0x4e  Code  Gb  usbh_ctlreq.o [1]
+USBH_GetFreePipe         0x801'f2c9    0x30  Code  Lc  usbh_pipes.o [1]
+USBH_GetNextDesc         0x801'f687    0x12  Code  Gb  usbh_ctlreq.o [1]
+USBH_Get_CfgDesc         0x801'f337    0x3a  Code  Gb  usbh_ctlreq.o [1]
+USBH_Get_DevDesc         0x801'f2f9    0x3e  Code  Gb  usbh_ctlreq.o [1]
+USBH_Get_StringDesc      0x801'f371    0x46  Code  Gb  usbh_ctlreq.o [1]
+USBH_Get_USB_Status      0x801'f1eb    0x2e  Code  Gb  usbh_conf.o [1]
+USBH_HandleControl       0x801'f6f7   0x244  Code  Lc  usbh_ctlreq.o [1]
+USBH_HandleEnum          0x801'e8c3   0x2e8  Code  Lc  usbh_core.o [1]
+USBH_HandleSof           0x801'ebc7    0x1e  Code  Lc  usbh_core.o [1]
+USBH_Init                0x801'e449    0x52  Code  Gb  usbh_core.o [1]
+USBH_LL_ClosePipe        0x801'f09b    0x2a  Code  Gb  usbh_conf.o [1]
+USBH_LL_Connect          0x801'ebf5    0x18  Code  Gb  usbh_core.o [1]
+USBH_LL_Disconnect       0x801'ec0d    0x30  Code  Gb  usbh_core.o [1]
+USBH_LL_DriverVBUS       0x801'f139    0x20  Code  Gb  usbh_conf.o [1]
 USBH_LL_GetLastXferSize
-                         0x802'0afb    0x14  Code  Gb  usbh_conf.o [1]
-USBH_LL_GetSpeed         0x802'0ab1    0x2c  Code  Gb  usbh_conf.o [1]
-USBH_LL_GetToggle        0x802'0c67    0x44  Code  Gb  usbh_conf.o [1]
-USBH_LL_GetURBState      0x802'0bf1    0x14  Code  Gb  usbh_conf.o [1]
-USBH_LL_IncTimer         0x802'067d    0x16  Code  Gb  usbh_core.o [1]
-USBH_LL_Init             0x802'0a0f    0x50  Code  Gb  usbh_conf.o [1]
-USBH_LL_OpenPipe         0x802'0b0f    0x58  Code  Gb  usbh_conf.o [1]
-USBH_LL_PortDisabled     0x802'06b9     0x8  Code  Gb  usbh_core.o [1]
-USBH_LL_PortEnabled      0x802'06b1     0x8  Code  Gb  usbh_core.o [1]
-USBH_LL_ResetPort        0x802'0add    0x1e  Code  Gb  usbh_conf.o [1]
-USBH_LL_SetTimer         0x802'0677     0x6  Code  Gb  usbh_core.o [1]
-USBH_LL_SetToggle        0x802'0c25    0x42  Code  Gb  usbh_conf.o [1]
-USBH_LL_Start            0x802'0a75    0x1e  Code  Gb  usbh_conf.o [1]
-USBH_LL_Stop             0x802'0a93    0x1e  Code  Gb  usbh_conf.o [1]
-USBH_LL_SubmitURB        0x802'0b91    0x60  Code  Gb  usbh_conf.o [1]
-USBH_MSC_BOT_Abort       0x802'8bb9    0x46  Code  Lc  usbh_msc_bot.o [1]
-USBH_MSC_BOT_Init        0x802'887b    0x24  Code  Gb  usbh_msc_bot.o [1]
-USBH_MSC_BOT_Process     0x802'889f   0x31a  Code  Gb  usbh_msc_bot.o [1]
+                         0x801'f02f    0x14  Code  Gb  usbh_conf.o [1]
+USBH_LL_GetSpeed         0x801'efe5    0x2c  Code  Gb  usbh_conf.o [1]
+USBH_LL_GetToggle        0x801'f19b    0x44  Code  Gb  usbh_conf.o [1]
+USBH_LL_GetURBState      0x801'f125    0x14  Code  Gb  usbh_conf.o [1]
+USBH_LL_IncTimer         0x801'ebb1    0x16  Code  Gb  usbh_core.o [1]
+USBH_LL_Init             0x801'ef43    0x50  Code  Gb  usbh_conf.o [1]
+USBH_LL_OpenPipe         0x801'f043    0x58  Code  Gb  usbh_conf.o [1]
+USBH_LL_PortDisabled     0x801'ebed     0x8  Code  Gb  usbh_core.o [1]
+USBH_LL_PortEnabled      0x801'ebe5     0x8  Code  Gb  usbh_core.o [1]
+USBH_LL_ResetPort        0x801'f011    0x1e  Code  Gb  usbh_conf.o [1]
+USBH_LL_SetTimer         0x801'ebab     0x6  Code  Gb  usbh_core.o [1]
+USBH_LL_SetToggle        0x801'f159    0x42  Code  Gb  usbh_conf.o [1]
+USBH_LL_Start            0x801'efa9    0x1e  Code  Gb  usbh_conf.o [1]
+USBH_LL_Stop             0x801'efc7    0x1e  Code  Gb  usbh_conf.o [1]
+USBH_LL_SubmitURB        0x801'f0c5    0x60  Code  Gb  usbh_conf.o [1]
+USBH_MSC_BOT_Abort       0x802'9181    0x46  Code  Lc  usbh_msc_bot.o [1]
+USBH_MSC_BOT_Init        0x802'8e43    0x24  Code  Gb  usbh_msc_bot.o [1]
+USBH_MSC_BOT_Process     0x802'8e67   0x31a  Code  Gb  usbh_msc_bot.o [1]
 USBH_MSC_BOT_REQ_GetMaxLUN
-                         0x802'8855    0x26  Code  Gb  usbh_msc_bot.o [1]
-USBH_MSC_BOT_REQ_Reset   0x802'8831    0x24  Code  Gb  usbh_msc_bot.o [1]
-USBH_MSC_ClassRequest    0x802'8067    0x9a  Code  Lc  usbh_msc.o [1]
-USBH_MSC_DecodeCSW       0x802'8bff    0x62  Code  Lc  usbh_msc_bot.o [1]
-USBH_MSC_GetLUNInfo      0x802'868f    0x40  Code  Gb  usbh_msc.o [1]
+                         0x802'8e1d    0x26  Code  Gb  usbh_msc_bot.o [1]
+USBH_MSC_BOT_REQ_Reset   0x802'8df9    0x24  Code  Gb  usbh_msc_bot.o [1]
+USBH_MSC_ClassRequest    0x802'862f    0x9a  Code  Lc  usbh_msc.o [1]
+USBH_MSC_DecodeCSW       0x802'91c7    0x62  Code  Lc  usbh_msc_bot.o [1]
+USBH_MSC_GetLUNInfo      0x802'8c57    0x40  Code  Gb  usbh_msc.o [1]
 USBH_MSC_InterfaceDeInit
-                         0x802'8009    0x5e  Code  Lc  usbh_msc.o [1]
-USBH_MSC_InterfaceInit   0x802'7e81   0x188  Code  Lc  usbh_msc.o [1]
-USBH_MSC_Process         0x802'8101   0x3cc  Code  Lc  usbh_msc.o [1]
-USBH_MSC_RdWrProcess     0x802'84d3   0x18c  Code  Lc  usbh_msc.o [1]
-USBH_MSC_Read            0x802'86cf    0xb0  Code  Gb  usbh_msc.o [1]
-USBH_MSC_SCSI_Inquiry    0x802'8da3   0x138  Code  Gb  usbh_msc_scsi.o [1]
-USBH_MSC_SCSI_Read       0x802'904f    0xb2  Code  Gb  usbh_msc_scsi.o [1]
+                         0x802'85d1    0x5e  Code  Lc  usbh_msc.o [1]
+USBH_MSC_InterfaceInit   0x802'8449   0x188  Code  Lc  usbh_msc.o [1]
+USBH_MSC_Process         0x802'86c9   0x3cc  Code  Lc  usbh_msc.o [1]
+USBH_MSC_RdWrProcess     0x802'8a9b   0x18c  Code  Lc  usbh_msc.o [1]
+USBH_MSC_Read            0x802'8c97    0xb0  Code  Gb  usbh_msc.o [1]
+USBH_MSC_SCSI_Inquiry    0x802'936b   0x138  Code  Gb  usbh_msc_scsi.o [1]
+USBH_MSC_SCSI_Read       0x802'9617    0xb2  Code  Gb  usbh_msc_scsi.o [1]
 USBH_MSC_SCSI_ReadCapacity
-                         0x802'8ce3    0xc0  Code  Gb  usbh_msc_scsi.o [1]
+                         0x802'92ab    0xc0  Code  Gb  usbh_msc_scsi.o [1]
 USBH_MSC_SCSI_RequestSense
-                         0x802'8edb    0xc2  Code  Gb  usbh_msc_scsi.o [1]
+                         0x802'94a3    0xc2  Code  Gb  usbh_msc_scsi.o [1]
 USBH_MSC_SCSI_TestUnitReady
-                         0x802'8c71    0x72  Code  Gb  usbh_msc_scsi.o [1]
-USBH_MSC_SCSI_Write      0x802'8f9d    0xb2  Code  Gb  usbh_msc_scsi.o [1]
-USBH_MSC_SOFProcess      0x802'84cd     0x6  Code  Lc  usbh_msc.o [1]
-USBH_MSC_UnitIsReady     0x802'865f    0x30  Code  Gb  usbh_msc.o [1]
-USBH_MSC_Write           0x802'877f    0xb0  Code  Gb  usbh_msc.o [1]
-USBH_OpenPipe            0x802'0ce5    0x3e  Code  Gb  usbh_pipes.o [1]
-USBH_ParseCfgDesc        0x802'0fe3    0xe6  Code  Lc  usbh_ctlreq.o [1]
-USBH_ParseDevDesc        0x802'0f85    0x5e  Code  Lc  usbh_ctlreq.o [1]
-USBH_ParseEPDesc         0x802'10ef    0x20  Code  Lc  usbh_ctlreq.o [1]
+                         0x802'9239    0x72  Code  Gb  usbh_msc_scsi.o [1]
+USBH_MSC_SCSI_Write      0x802'9565    0xb2  Code  Gb  usbh_msc_scsi.o [1]
+USBH_MSC_SOFProcess      0x802'8a95     0x6  Code  Lc  usbh_msc.o [1]
+USBH_MSC_UnitIsReady     0x802'8c27    0x30  Code  Gb  usbh_msc.o [1]
+USBH_MSC_Write           0x802'8d47    0xb0  Code  Gb  usbh_msc.o [1]
+USBH_OpenPipe            0x801'f219    0x3e  Code  Gb  usbh_pipes.o [1]
+USBH_ParseCfgDesc        0x801'f517    0xe6  Code  Lc  usbh_ctlreq.o [1]
+USBH_ParseDevDesc        0x801'f4b9    0x5e  Code  Lc  usbh_ctlreq.o [1]
+USBH_ParseEPDesc         0x801'f623    0x20  Code  Lc  usbh_ctlreq.o [1]
 USBH_ParseInterfaceDesc
-                         0x802'10c9    0x26  Code  Lc  usbh_ctlreq.o [1]
-USBH_ParseStringDesc     0x802'110f    0x44  Code  Lc  usbh_ctlreq.o [1]
-USBH_Process             0x802'00af   0x2e0  Code  Gb  usbh_core.o [1]
-USBH_RegisterClass       0x801'ffcf    0x34  Code  Gb  usbh_core.o [1]
-USBH_SelectInterface     0x802'0003    0x22  Code  Gb  usbh_core.o [1]
-USBH_SetAddress          0x802'0ed1    0x2e  Code  Gb  usbh_ctlreq.o [1]
-USBH_SetCfg              0x802'0eff    0x2a  Code  Gb  usbh_ctlreq.o [1]
-USBH_SetFeature          0x802'0f29    0x2e  Code  Gb  usbh_ctlreq.o [1]
-USBH_Start               0x802'0099    0x16  Code  Gb  usbh_core.o [1]
-USBH_UserProcess         0x801'ddc1    0x3c  Code  Lc  usb_host.o [1]
-USBH_initialize          0x802'99a9     0x6  Code  Gb  usbh_diskio.o [1]
-USBH_ioctl               0x802'9a87    0x8c  Code  Gb  usbh_diskio.o [1]
-USBH_msc                0x2000'005c    0x20  Data  Gb  usbh_msc.o [1]
-USBH_read                0x802'99cd    0x58  Code  Gb  usbh_diskio.o [1]
-USBH_status              0x802'99af    0x1e  Code  Gb  usbh_diskio.o [1]
-USBH_write               0x802'9a25    0x62  Code  Gb  usbh_diskio.o [1]
-USB_CoreInit             0x802'2621    0x80  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_CoreReset            0x802'27d3    0x38  Code  Lc  stm32f4xx_ll_usb.o [1]
-USB_DisableGlobalInt     0x802'26af     0xe  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_DoPing               0x802'2fa1    0x42  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_DriveVbus            0x802'29af    0x54  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_EnableGlobalInt      0x802'26a1     0xe  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_FlushRxFifo          0x802'2721    0x20  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_FlushTxFifo          0x802'26fd    0x24  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_GetCurrentFrame      0x802'2a1f     0xe  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_GetHostSpeed         0x802'2a03    0x1c  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_GetMode              0x802'27cb     0x8  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_HC_Halt              0x802'2e3f   0x162  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_HC_Init              0x802'2a2d   0x222  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_HC_ReadInterrupt     0x802'2e31     0xe  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_HC_StartXfer         0x802'2c4f   0x1e2  Code  Gb  stm32f4xx_ll_usb.o [1]
+                         0x801'f5fd    0x26  Code  Lc  usbh_ctlreq.o [1]
+USBH_ParseStringDesc     0x801'f643    0x44  Code  Lc  usbh_ctlreq.o [1]
+USBH_Process             0x801'e5e3   0x2e0  Code  Gb  usbh_core.o [1]
+USBH_RegisterClass       0x801'e503    0x34  Code  Gb  usbh_core.o [1]
+USBH_SelectInterface     0x801'e537    0x22  Code  Gb  usbh_core.o [1]
+USBH_SetAddress          0x801'f405    0x2e  Code  Gb  usbh_ctlreq.o [1]
+USBH_SetCfg              0x801'f433    0x2a  Code  Gb  usbh_ctlreq.o [1]
+USBH_SetFeature          0x801'f45d    0x2e  Code  Gb  usbh_ctlreq.o [1]
+USBH_Start               0x801'e5cd    0x16  Code  Gb  usbh_core.o [1]
+USBH_UserProcess         0x801'c2f5    0x3c  Code  Lc  usb_host.o [1]
+USBH_initialize          0x802'ab4d     0x6  Code  Gb  usbh_diskio.o [1]
+USBH_ioctl               0x802'ac2b    0x8c  Code  Gb  usbh_diskio.o [1]
+USBH_msc                0x2000'0268    0x20  Data  Gb  usbh_msc.o [1]
+USBH_read                0x802'ab71    0x58  Code  Gb  usbh_diskio.o [1]
+USBH_status              0x802'ab53    0x1e  Code  Gb  usbh_diskio.o [1]
+USBH_write               0x802'abc9    0x62  Code  Gb  usbh_diskio.o [1]
+USB_CoreInit             0x802'0b55    0x80  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_CoreReset            0x802'0d07    0x38  Code  Lc  stm32f4xx_ll_usb.o [1]
+USB_DisableGlobalInt     0x802'0be3     0xe  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_DoPing               0x802'14d5    0x42  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_DriveVbus            0x802'0ee3    0x54  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_EnableGlobalInt      0x802'0bd5     0xe  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_FlushRxFifo          0x802'0c55    0x20  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_FlushTxFifo          0x802'0c31    0x24  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_GetCurrentFrame      0x802'0f53     0xe  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_GetHostSpeed         0x802'0f37    0x1c  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_GetMode              0x802'0cff     0x8  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_HC_Halt              0x802'1373   0x162  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_HC_Init              0x802'0f61   0x222  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_HC_ReadInterrupt     0x802'1365     0xe  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_HC_StartXfer         0x802'1183   0x1e2  Code  Gb  stm32f4xx_ll_usb.o [1]
 USB_HC_StartXfer::tmpreg
-                        0x2000'526c     0x4  Data  Lc  stm32f4xx_ll_usb.o [1]
-USB_HOST_Init            0x801'dd7d    0x38  Code  Gb  usb_host.o [1]
-USB_HOST_Process         0x801'ddb5     0xa  Code  Gb  usb_host.o [1]
-USB_HOST_VbusFS          0x801'dd55    0x28  Code  Gb  usbh_platform.o [1]
-USB_HostInit             0x802'2811   0x102  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_InitFSLSPClkSel      0x802'2915    0x58  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_ReadInterrupts       0x802'27c1     0xa  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_ReadPacket           0x802'2795    0x2c  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_ResetPort            0x802'296d    0x42  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_SetCurrentMode       0x802'26bd    0x40  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_StopHost             0x802'3001    0xac  Code  Gb  stm32f4xx_ll_usb.o [1]
-USB_WritePacket          0x802'2745    0x50  Code  Gb  stm32f4xx_ll_usb.o [1]
-UTF8toANSI(char *)       0x801'9221    0x4c  Code  Gb  unicode_utils.o [1]
-UTF8toUnicode(char *)    0x801'9275    0x5e  Code  Gb  unicode_utils.o [1]
-UVD_Init()               0x801'dd49     0xc  Code  Gb  uvdisplay.o [1]
+                        0x2000'58d0     0x4  Data  Lc  stm32f4xx_ll_usb.o [1]
+USB_HOST_Init            0x801'c2b1    0x38  Code  Gb  usb_host.o [1]
+USB_HOST_Process         0x801'c2e9     0xa  Code  Gb  usb_host.o [1]
+USB_HOST_VbusFS          0x801'c289    0x28  Code  Gb  usbh_platform.o [1]
+USB_HostInit             0x802'0d45   0x102  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_InitFSLSPClkSel      0x802'0e49    0x58  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_ReadInterrupts       0x802'0cf5     0xa  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_ReadPacket           0x802'0cc9    0x2c  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_ResetPort            0x802'0ea1    0x42  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_SetCurrentMode       0x802'0bf1    0x40  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_StopHost             0x802'1535    0xac  Code  Gb  stm32f4xx_ll_usb.o [1]
+USB_WritePacket          0x802'0c79    0x50  Code  Gb  stm32f4xx_ll_usb.o [1]
+UTF8toANSI(char *)       0x801'770d    0x4c  Code  Gb  unicode_utils.o [1]
+UTF8toUnicode(char *)    0x801'7761    0x5e  Code  Gb  unicode_utils.o [1]
+UVD_Init()               0x801'c27d     0xc  Code  Gb  uvdisplay.o [1]
 UnicodeToANSI(unsigned short)
-                         0x801'92d3    0x40  Code  Gb  unicode_utils.o [1]
+                         0x801'77bf    0x40  Code  Gb  unicode_utils.o [1]
 UnicodeToANSI_Str(char *, unsigned short *, unsigned short)
-                         0x801'9313    0x5c  Code  Gb  unicode_utils.o [1]
-UsageFault_Handler       0x802'a569     0x2  Code  Gb  stm32f4xx_it.o [1]
-UsbFS                   0x2000'010c  0x1038  Data  Gb  fatfs.o [1]
-UsbMounted              0x2000'52df     0x1  Data  Gb  main.o [1]
-UsbPath                 0x2000'523c     0x8  Data  Gb  fatfs.o [1]
-ZMOTOR_Init()            0x801'dc6d    0x98  Code  Gb  motor.o [1]
-ZMOTOR_MotorDisable()    0x801'dd05    0x14  Code  Gb  motor.o [1]
+                         0x801'77ff    0x5c  Code  Gb  unicode_utils.o [1]
+UsageFault_Handler       0x802'b84d     0x2  Code  Gb  stm32f4xx_it.o [1]
+UsbFS                   0x2000'0318  0x1038  Data  Gb  fatfs.o [1]
+UsbMounted              0x2000'5943     0x1  Data  Gb  main.o [1]
+UsbPath                 0x2000'58a0     0x8  Data  Gb  fatfs.o [1]
+ZMOTOR_Init()            0x801'c1a1    0x98  Code  Gb  motor.o [1]
+ZMOTOR_MotorDisable()    0x801'c239    0x14  Code  Gb  motor.o [1]
 [local to z_stepper_cpp]::DELAY_CYCLES(unsigned int)
-                         0x801'e925    0x4c  Code  Lc  z_stepper.o [1]
+                         0x801'ce59    0x4c  Code  Lc  z_stepper.o [1]
 [local to z_stepper_cpp]::MultiU32X24toH32(unsigned int, unsigned int)
-                         0x801'e971    0x16  Code  Lc  z_stepper.o [1]
+                         0x801'cea5    0x16  Code  Lc  z_stepper.o [1]
 [local to z_stepper_cpp]::__delay_4cycles(unsigned int)
-                         0x801'e91d     0x8  Code  Lc  z_stepper.o [1]
+                         0x801'ce51     0x8  Code  Lc  z_stepper.o [1]
 _Encoding_8859_1_Mbrlen
-                         0x801'8471     0x2  Code  Gb  xencoding_8859_1.o [2]
+                         0x801'6949     0x2  Code  Gb  xencoding_8859_1.o [2]
 _Encoding_8859_1_Wctomb
-                         0x801'845f    0x12  Code  Gb  xencoding_8859_1.o [2]
-_GenldFull               0x801'a7d5   0x274  Code  Lc  xprintffull.o [2]
-_LdtobFull               0x801'a3d1   0x3d6  Code  Lc  xprintffull.o [2]
-_LitobFull               0x801'a281   0x10a  Code  Lc  xprintffull.o [2]
-_Locale_lconv           0x2000'0080    0x38  Data  Lc  xlocale_c.o [2]
-_PrintfFull              0x801'9bb5   0x1aa  Code  Gb  xprintffull.o [2]
-_PutcharsFull            0x801'aa49    0x2e  Code  Lc  xprintffull.o [2]
-_PutfldFull              0x801'9df1   0x2d4  Code  Lc  xprintffull.o [2]
-_PutstrFull              0x801'a1bb    0xc6  Code  Lc  xprintffull.o [2]
-_PuttxtFull              0x801'a0c5    0xf6  Code  Lc  xprintffull.o [2]
-_SProut                  0x801'940f     0xa  Code  Gb  xsprout.o [2]
-__NVIC_EnableIRQ         0x801'b0eb    0x1e  Code  Lc  stm32f4xx_hal_cortex.o [1]
+                         0x801'6937    0x12  Code  Gb  xencoding_8859_1.o [2]
+_GenldFull               0x801'8cf9   0x274  Code  Lc  xprintffull.o [2]
+_LdtobFull               0x801'88f5   0x3d6  Code  Lc  xprintffull.o [2]
+_LitobFull               0x801'87a5   0x10a  Code  Lc  xprintffull.o [2]
+_Locale_lconv           0x2000'028c    0x38  Data  Lc  xlocale_c.o [2]
+_PrintfFull              0x801'80d9   0x1aa  Code  Gb  xprintffull.o [2]
+_PutcharsFull            0x801'8f6d    0x2e  Code  Lc  xprintffull.o [2]
+_PutfldFull              0x801'8315   0x2d4  Code  Lc  xprintffull.o [2]
+_PutstrFull              0x801'86df    0xc6  Code  Lc  xprintffull.o [2]
+_PuttxtFull              0x801'85e9    0xf6  Code  Lc  xprintffull.o [2]
+_SProut                  0x801'901f     0xa  Code  Gb  xsprout.o [2]
+__NVIC_EnableIRQ         0x801'9617    0x1e  Code  Lc  stm32f4xx_hal_cortex.o [1]
 __NVIC_GetPriorityGrouping
-                         0x801'b0df     0xc  Code  Lc  stm32f4xx_hal_cortex.o [1]
-__NVIC_SetPriority       0x801'b109    0x2c  Code  Lc  stm32f4xx_hal_cortex.o [1]
+                         0x801'960b     0xc  Code  Lc  stm32f4xx_hal_cortex.o [1]
+__NVIC_SetPriority       0x801'9635    0x2c  Code  Lc  stm32f4xx_hal_cortex.o [1]
 __NVIC_SetPriorityGrouping
-                         0x801'b0bd    0x22  Code  Lc  stm32f4xx_hal_cortex.o [1]
-___spifl_wait_cs         0x801'e5ed    0x20  Code  Gb  spi_flash.o [1]
-__aeabi_cdcmple          0x801'bcf5          Code  Gb  DblCmpLe.o [4]
-__aeabi_cdrcmple         0x801'bd25          Code  Gb  DblCmpGe.o [4]
-__aeabi_d2iz             0x801'be91          Code  Gb  DblToS32.o [4]
-__aeabi_d2uiz            0x801'c21d          Code  Gb  DblToU32.o [4]
-__aeabi_ddiv             0x801'bfd5          Code  Gb  DblDiv.o [4]
-__aeabi_dmul             0x801'bae1          Code  Gb  DblMul.o [4]
-__aeabi_dsub             0x801'bef1          Code  Gb  DblSub.o [4]
-__aeabi_f2d              0x801'f861          Code  Gb  FltToDbl.o [4]
-__aeabi_i2d              0x801'becd          Code  Gb  S32ToDbl.o [4]
-__aeabi_memclr4          0x801'c261          Code  Gb  ABImemclr4.o [5]
-__aeabi_memcpy           0x801'83b9          Code  Gb  ABImemcpy.o [5]
-__aeabi_memcpy4          0x801'83d9          Code  Gb  ABImemcpy.o [5]
-__aeabi_memcpy8          0x801'83d9          Code  Gb  ABImemcpy.o [5]
-__aeabi_memset           0x801'7625          Code  Gb  ABImemset.o [5]
-__aeabi_ui2d             0x801'c245          Code  Gb  U32ToDbl.o [4]
-__aeabi_uldivmod         0x801'b8b1          Code  Gb  I64DivMod.o [5]
-__call_ctors             0x802'aa21    0x18  Code  Gb  cppinit.o [2]
-__cmain                  0x802'aa39          Code  Gb  cmain.o [5]
-__data_GetMemChunk       0x802'5ee9    0x2c  Code  Gb  xgetmemchunk.o [2]
+                         0x801'95e9    0x22  Code  Lc  stm32f4xx_hal_cortex.o [1]
+___spifl_wait_cs         0x801'cb21    0x20  Code  Gb  spi_flash.o [1]
+__aeabi_cdcmple          0x801'a221          Code  Gb  DblCmpLe.o [4]
+__aeabi_cdrcmple         0x801'a251          Code  Gb  DblCmpGe.o [4]
+__aeabi_d2iz             0x801'a3bd          Code  Gb  DblToS32.o [4]
+__aeabi_d2uiz            0x801'a749          Code  Gb  DblToU32.o [4]
+__aeabi_ddiv             0x801'a501          Code  Gb  DblDiv.o [4]
+__aeabi_dmul             0x801'a00d          Code  Gb  DblMul.o [4]
+__aeabi_dsub             0x801'a41d          Code  Gb  DblSub.o [4]
+__aeabi_f2d              0x801'dd95          Code  Gb  FltToDbl.o [4]
+__aeabi_i2d              0x801'a3f9          Code  Gb  S32ToDbl.o [4]
+__aeabi_memclr4          0x801'a78d          Code  Gb  ABImemclr4.o [5]
+__aeabi_memcpy           0x801'6891          Code  Gb  ABImemcpy.o [5]
+__aeabi_memcpy4          0x801'68b1          Code  Gb  ABImemcpy.o [5]
+__aeabi_memcpy8          0x801'68b1          Code  Gb  ABImemcpy.o [5]
+__aeabi_memset           0x801'5afd          Code  Gb  ABImemset.o [5]
+__aeabi_ui2d             0x801'a771          Code  Gb  U32ToDbl.o [4]
+__aeabi_uldivmod         0x801'9ddd          Code  Gb  I64DivMod.o [5]
+__call_ctors             0x802'bd3d    0x18  Code  Gb  cppinit.o [2]
+__cmain                  0x802'bd55          Code  Gb  cmain.o [5]
+__data_GetMemChunk       0x802'64b1    0x2c  Code  Gb  xgetmemchunk.o [2]
 __data_GetMemChunk::start
-                        0x2000'52cc     0x4  Data  Lc  xgetmemchunk.o [2]
-__exit                   0x801'e54d    0x14  Code  Gb  exit.o [6]
-__iar_Fail_s             0x801'b80d    0x1c  Code  Gb  xfail_s.o [2]
-__iar_Mbcurmax           0x801'b8a5     0xa  Code  Gb  xmbcurmax.o [2]
-__iar_Memchr             0x801'b84d          Code  Gb  memchr.o [5]
-__iar_Memset             0x801'7625          Code  Gb  ABImemset.o [5]
-__iar_Memset4_word       0x801'd3e1          Code  Gb  ABImemset48.o [5]
-__iar_Memset8_word       0x801'd3e1          Code  Gb  ABImemset48.o [5]
-__iar_Memset_word        0x801'762d          Code  Gb  ABImemset.o [5]
-__iar_Strchr             0x801'b7f5          Code  Gb  strchr.o [5]
+                        0x2000'5930     0x4  Data  Lc  xgetmemchunk.o [2]
+__exit                   0x801'ca81    0x14  Code  Gb  exit.o [6]
+__iar_Fail_s             0x801'9d39    0x1c  Code  Gb  xfail_s.o [2]
+__iar_Mbcurmax           0x801'9dd1     0xa  Code  Gb  xmbcurmax.o [2]
+__iar_Memchr             0x801'9d79          Code  Gb  memchr.o [5]
+__iar_Memset             0x801'5afd          Code  Gb  ABImemset.o [5]
+__iar_Memset4_word       0x801'b915          Code  Gb  ABImemset48.o [5]
+__iar_Memset8_word       0x801'b915          Code  Gb  ABImemset48.o [5]
+__iar_Memset_word        0x801'5b05          Code  Gb  ABImemset.o [5]
+__iar_Strchr             0x801'9d21          Code  Gb  strchr.o [5]
 __iar_cstart_call_ctors
-                         0x802'aa01    0x20  Code  Gb  cmain_call_ctors.o [5]
-__iar_dadd               0x801'bf01          Code  Gb  DblSub.o [4]
-__iar_data_init3         0x802'a8e5    0x28  Code  Gb  data_init.o [5]
-__iar_debug_exceptions   0x801'b8ae     0x1  Data  Gb  unwind_debug.o [6]
-__iar_dlfree             0x802'59e7   0x4f6  Code  Gb  dlmalloc.o [2]
-__iar_dlmalloc           0x802'5731   0x2b6  Code  Gb  dlmalloc.o [2]
-__iar_dsub               0x801'd275          Code  Gb  DblAdd.o [4]
-__iar_dsubStart          0x801'd287          Code  Gb  DblAdd.o [4]
-__iar_frexp              0x801'bc91          Code  Gb  frexp.o [4]
-__iar_frexpl             0x801'bc91          Code  Gb  frexp.o [4]
-__iar_globLocale        0x2000'00b8    0x48  Data  Lc  xlocale_c.o [2]
-__iar_global_Locale      0x801'b77d     0x4  Code  Gb  xlocale_c.o [2]
-__iar_init_vfp           0x802'a979          Code  Gb  fpinit_M.o [4]
-__iar_ldexp64            0x801'bd55          Code  Gb  ldexp.o [4]
-__iar_lround32           0x802'07f5          Code  Gb  lroundf.o [4]
+                         0x802'bd1d    0x20  Code  Gb  cmain_call_ctors.o [5]
+__iar_dadd               0x801'a42d          Code  Gb  DblSub.o [4]
+__iar_data_init3         0x802'bc01    0x28  Code  Gb  data_init.o [5]
+__iar_debug_exceptions   0x801'a1ae     0x1  Data  Gb  unwind_debug.o [6]
+__iar_dlfree             0x802'5faf   0x4f6  Code  Gb  dlmalloc.o [2]
+__iar_dlmalloc           0x802'5cf9   0x2b6  Code  Gb  dlmalloc.o [2]
+__iar_dsub               0x801'b7a9          Code  Gb  DblAdd.o [4]
+__iar_dsubStart          0x801'b7bb          Code  Gb  DblAdd.o [4]
+__iar_frexp              0x801'a1bd          Code  Gb  frexp.o [4]
+__iar_frexpl             0x801'a1bd          Code  Gb  frexp.o [4]
+__iar_globLocale        0x2000'02c4    0x48  Data  Lc  xlocale_c.o [2]
+__iar_global_Locale      0x801'9ca9     0x4  Code  Gb  xlocale_c.o [2]
+__iar_init_vfp           0x802'bc95          Code  Gb  fpinit_M.o [4]
+__iar_ldexp64            0x801'a281          Code  Gb  ldexp.o [4]
+__iar_lround32           0x801'ed29          Code  Gb  lroundf.o [4]
 __iar_lz77_init_single3
                          0x801'381b    0x7a  Code  Gb  lz77_init_single.o [5]
-__iar_program_start      0x802'addd          Code  Gb  cstartup_M.o [5]
-__iar_scalbln64          0x801'bd55          Code  Gb  ldexp.o [4]
-__iar_scalbn64           0x801'bd55          Code  Gb  ldexp.o [4]
+__iar_program_start      0x802'c1d5          Code  Gb  cstartup_M.o [5]
+__iar_scalbln64          0x801'a281          Code  Gb  ldexp.o [4]
+__iar_scalbn64           0x801'a281          Code  Gb  ldexp.o [4]
 __iar_softfp___iar_frexp64
-                         0x801'bc85          Code  Gb  frexp.o [4]
-__iar_softfp_frexp       0x801'bc85          Code  Gb  frexp.o [4]
-__iar_softfp_frexpl      0x801'bc85          Code  Gb  frexp.o [4]
+                         0x801'a1b1          Code  Gb  frexp.o [4]
+__iar_softfp_frexp       0x801'a1b1          Code  Gb  frexp.o [4]
+__iar_softfp_frexpl      0x801'a1b1          Code  Gb  frexp.o [4]
 __iar_tls$$INIT_ARRAY$$Base
-                         0x802'b03c           --   Gb  - Linker created -
+                         0x802'c46c           --   Gb  - Linker created -
 __iar_tls$$INIT_ARRAY$$Limit
-                         0x802'b03c           --   Gb  - Linker created -
+                         0x802'c46c           --   Gb  - Linker created -
 __iar_vfp___iar_lround32
-                         0x802'07f1          Code  Gb  lroundf.o [4]
-__iar_vfp_lroundf        0x802'07f1          Code  Gb  lroundf.o [4]
-__iar_zero_init3         0x801'768b    0x3a  Code  Gb  zero_init3.o [5]
-__low_level_init         0x802'aa57     0x4  Code  Gb  low_level_init.o [2]
-__sti__routine           0x801'e6dd     0xc  Code  Lc  z_planner.o [1]
+                         0x801'ed25          Code  Gb  lroundf.o [4]
+__iar_vfp_lroundf        0x801'ed25          Code  Gb  lroundf.o [4]
+__iar_zero_init3         0x801'5b63    0x3a  Code  Gb  zero_init3.o [5]
+__low_level_init         0x802'bd73     0x4  Code  Gb  low_level_init.o [2]
+__sti__routine           0x801'cc11     0xc  Code  Lc  z_planner.o [1]
 __vector_table           0x801'0000          Data  Gb  startup_stm32f407xx.o [1]
-_call_main               0x802'aa45          Code  Gb  cmain.o [5]
+_call_main               0x802'bd61          Code  Gb  cmain.o [5]
 _cpld_bank2disp_enable(unsigned char, unsigned char, unsigned char)
-                         0x801'f8a9    0x70  Code  Gb  cpld_utils.o [1]
-_cpld_bank2disp_read()   0x801'f919    0x3a  Code  Gb  cpld_utils.o [1]
-_exit                    0x802'aa61          Code  Gb  cexit.o [5]
-_flash_SPIGetFlags       0x801'b45d     0xc  Code  Gb  fst_spi.o [1]
-_gLocale_mblen           0x801'b7e1     0x4  Code  Gb  xlocale_c.o [2]
-_gLocale_mblenInt        0x801'b7a5    0x2c  Code  Gb  xlocale_c.o [2]
-_gLocale_wctomb          0x801'b7e5     0x4  Code  Gb  xlocale_c.o [2]
-_gLocale_wctombInt       0x801'b7dd     0x4  Code  Gb  xlocale_c.o [2]
-_gm_                    0x2000'45c0   0x1d8  Data  Lc  dlmalloc.o [2]
+                         0x801'dddd    0x70  Code  Gb  cpld_utils.o [1]
+_cpld_bank2disp_read()   0x801'de4d    0x3a  Code  Gb  cpld_utils.o [1]
+_exit                    0x802'bd7d          Code  Gb  cexit.o [5]
+_flash_SPIGetFlags       0x801'9989     0xc  Code  Gb  fst_spi.o [1]
+_gLocale_mblen           0x801'9d0d     0x4  Code  Gb  xlocale_c.o [2]
+_gLocale_mblenInt        0x801'9cd1    0x2c  Code  Gb  xlocale_c.o [2]
+_gLocale_wctomb          0x801'9d11     0x4  Code  Gb  xlocale_c.o [2]
+_gLocale_wctombInt       0x801'9d09     0x4  Code  Gb  xlocale_c.o [2]
+_gm_                    0x2000'4c24   0x1d8  Data  Lc  dlmalloc.o [2]
 _lcdui_FillCircle_helper(short, short, short, unsigned char, short)
-                         0x801'8703    0xda  Code  Gb  lcd_ui.o [1]
+                         0x801'6bdb    0xda  Code  Gb  lcd_ui.o [1]
 _lcdui_GetCharData(char)
-                         0x801'8a01    0xa0  Code  Gb  lcd_ui.o [1]
+                         0x801'6ed9    0xa0  Code  Gb  lcd_ui.o [1]
 _lcdui_GetCharWidth(char)
-                         0x801'89ad    0x54  Code  Gb  lcd_ui.o [1]
-_main                    0x802'aa53          Code  Gb  cmain.o [5]
-_spifl_WaitBusy          0x801'd7c1    0x52  Code  Gb  spi_flash.o [1]
-_spifl_WriteEnable       0x801'd813    0x2c  Code  Gb  spi_flash.o [1]
-_spifl_bust_counts      0x2000'5260     0x4  Data  Gb  spi_flash.o [1]
-_spifl_info             0x2000'5230     0xc  Data  Gb  spi_flash.o [1]
+                         0x801'6e85    0x54  Code  Gb  lcd_ui.o [1]
+_main                    0x802'bd6f          Code  Gb  cmain.o [5]
+_spifl_WaitBusy          0x801'bcf5    0x52  Code  Gb  spi_flash.o [1]
+_spifl_WriteEnable       0x801'bd47    0x2c  Code  Gb  spi_flash.o [1]
+_spifl_bust_counts      0x2000'58c4     0x4  Data  Gb  spi_flash.o [1]
+_spifl_info             0x2000'5894     0xc  Data  Gb  spi_flash.o [1]
 _ssd_cfg(unsigned char)
-                         0x801'fb03   0x100  Code  Gb  ssd_utils.o [1]
+                         0x801'e037   0x100  Code  Gb  ssd_utils.o [1]
 _ssd_ls055r1sx04_cfg(unsigned char)
-                         0x801'fc03    0xc0  Code  Gb  ssd_utils.o [1]
+                         0x801'e137    0xc0  Code  Gb  ssd_utils.o [1]
 _ssd_read_data(unsigned char, unsigned char)
-                         0x801'f961    0x9c  Code  Gb  ssd_utils.o [1]
+                         0x801'de95    0x9c  Code  Gb  ssd_utils.o [1]
 _ssd_read_id(unsigned char)
-                         0x801'faf3    0x10  Code  Gb  ssd_utils.o [1]
+                         0x801'e027    0x10  Code  Gb  ssd_utils.o [1]
 _ssd_write_DCS(unsigned char, unsigned char, unsigned char, unsigned char)
-                         0x801'fd5f    0x66  Code  Gb  ssd_utils.o [1]
+                         0x801'e293    0x66  Code  Gb  ssd_utils.o [1]
 _ssd_write_DCS_sleep(unsigned char, unsigned char)
-                         0x801'fcc3    0x54  Code  Gb  ssd_utils.o [1]
+                         0x801'e1f7    0x54  Code  Gb  ssd_utils.o [1]
 _ssd_write_Generic(unsigned char, unsigned char, unsigned char)
-                         0x801'fd17    0x48  Code  Gb  ssd_utils.o [1]
+                         0x801'e24b    0x48  Code  Gb  ssd_utils.o [1]
 _ssd_write_byte(unsigned char, unsigned char, unsigned char)
-                         0x801'fa87    0x6c  Code  Gb  ssd_utils.o [1]
+                         0x801'dfbb    0x6c  Code  Gb  ssd_utils.o [1]
 _ssd_write_data(unsigned char, unsigned char, unsigned short)
-                         0x801'f9fd    0x8a  Code  Gb  ssd_utils.o [1]
+                         0x801'df31    0x8a  Code  Gb  ssd_utils.o [1]
 _tgui_DefaultButtonPaint(void *, void *)
-                         0x801'7e1d   0x134  Code  Gb  tgui_defaultfuncs.o [1]
+                         0x801'62f5   0x134  Code  Gb  tgui_defaultfuncs.o [1]
 _tgui_DefaultButtonProcess(void *, void *)
-                         0x801'7f51   0x276  Code  Gb  tgui_defaultfuncs.o [1]
+                         0x801'6429   0x276  Code  Gb  tgui_defaultfuncs.o [1]
 _tgui_DefaultScreenPaint(void *, void *)
-                         0x801'81d1    0xe0  Code  Gb  tgui_defaultfuncs.o [1]
+                         0x801'66a9    0xe0  Code  Gb  tgui_defaultfuncs.o [1]
 _tgui_DefaultScreenProcess(void *, void *)
-                         0x801'82b1    0xea  Code  Gb  tgui_defaultfuncs.o [1]
+                         0x801'6789    0xea  Code  Gb  tgui_defaultfuncs.o [1]
 _tgui_DrawFileCimg(char *, short, short)
-                         0x801'7b77   0x2a6  Code  Gb  tgui_defaultfuncs.o [1]
+                         0x801'604f   0x2a6  Code  Gb  tgui_defaultfuncs.o [1]
 _tgui_DrawFileCimgBackground(char *)
-                         0x801'78eb   0x28c  Code  Gb  tgui_defaultfuncs.o [1]
+                         0x801'5dc3   0x28c  Code  Gb  tgui_defaultfuncs.o [1]
 _tgui_DrawStringInRect(char *, TG_RECT *, TG_TEXTOPTIONS *)
-                         0x801'7809    0xe2  Code  Gb  tgui_defaultfuncs.o [1]
+                         0x801'5ce1    0xe2  Code  Gb  tgui_defaultfuncs.o [1]
+_tgui_FilesDirNamePaint(void *, void *)
+                         0x802'a7ed    0x84  Code  Gb  tgui_filesscreenfuncs.o [1]
+_tgui_FilesDownPress(void *, void *)
+                         0x802'a875    0xa4  Code  Gb  tgui_filesscreenfuncs.o [1]
+_tgui_FilesFileButtonPaint(void *, void *)
+                         0x802'a6ef    0xfe  Code  Gb  tgui_filesscreenfuncs.o [1]
+_tgui_FilesReadDir(char *)
+                         0x802'a505    0xe8  Code  Gb  tgui_filesscreenfuncs.o [1]
+_tgui_FilesScreenPaint(void *, void *)
+                         0x802'a6dd    0x12  Code  Gb  tgui_filesscreenfuncs.o [1]
+_tgui_FilesScreenProcess(void *, void *)
+                         0x802'a5ed    0xf0  Code  Gb  tgui_filesscreenfuncs.o [1]
 _tgui_InfoScreenFansTimePaint(void *, void *)
-                         0x802'a409    0x36  Code  Gb  tgui_infoscreenfuncs.o [1]
+                         0x802'b6ed    0x36  Code  Gb  tgui_infoscreenfuncs.o [1]
 _tgui_InfoScreenLightTimePaint(void *, void *)
-                         0x802'a3d3    0x36  Code  Gb  tgui_infoscreenfuncs.o [1]
+                         0x802'b6b7    0x36  Code  Gb  tgui_infoscreenfuncs.o [1]
 _tgui_InfoScreenUIAuthorPaint(void *, void *)
-                         0x802'a459    0x1a  Code  Gb  tgui_infoscreenfuncs.o [1]
+                         0x802'b73d    0x1a  Code  Gb  tgui_infoscreenfuncs.o [1]
 _tgui_InfoScreenURLPaint(void *, void *)
-                         0x802'a43f    0x1a  Code  Gb  tgui_infoscreenfuncs.o [1]
+                         0x802'b723    0x1a  Code  Gb  tgui_infoscreenfuncs.o [1]
 _tgui_InfoScreenVersionPaint(void *, void *)
-                         0x802'a3a9    0x2a  Code  Gb  tgui_infoscreenfuncs.o [1]
+                         0x802'b68d    0x2a  Code  Gb  tgui_infoscreenfuncs.o [1]
 _tgui_LanguageButtonPress(void *, void *)
-                         0x802'abc5    0x14  Code  Gb  tgui_langscreenfuncs.o [1]
-_tgui_ScreenTimeInit()   0x801'76c5    0x24  Code  Gb  tgui_defaultfuncs.o [1]
+                         0x802'bfbd    0x14  Code  Gb  tgui_langscreenfuncs.o [1]
+_tgui_ScreenTimeInit()   0x801'5b9d    0x24  Code  Gb  tgui_defaultfuncs.o [1]
 _tgui_ScreenTimePaint(void *, void *)
-                         0x801'772b    0xde  Code  Gb  tgui_defaultfuncs.o [1]
+                         0x801'5c03    0xde  Code  Gb  tgui_defaultfuncs.o [1]
 _tgui_ScreenTimeProcess(void *, void *)
-                         0x801'76e9    0x42  Code  Gb  tgui_defaultfuncs.o [1]
+                         0x801'5bc1    0x42  Code  Gb  tgui_defaultfuncs.o [1]
 _tgui_ScreenTimeProcess(void *, void *)::minutes
-                        0x2000'52e2     0x1  Data  Lc  tgui_defaultfuncs.o [1]
-_touch_ReadCoords        0x801'993d    0xc8  Code  Gb  touch.o [1]
-_touch_RefreshState      0x801'9a05   0x126  Code  Gb  touch.o [1]
-abort                    0x801'd26b     0x6  Code  Gb  abort.o [2]
-add_segment              0x802'4dd1   0x1f2  Code  Lc  dlmalloc.o [2]
-cfgzMotor               0x2000'4f70    0x40  Data  Gb  config.o [1]
-cfname                  0x2000'297c   0x400  Data  Gb  main.o [1]
+                        0x2000'5946     0x1  Data  Lc  tgui_defaultfuncs.o [1]
+_touch_ReadCoords        0x801'7e61    0xc8  Code  Gb  touch.o [1]
+_touch_RefreshState      0x801'7f29   0x126  Code  Gb  touch.o [1]
+abort                    0x801'b79f     0x6  Code  Gb  abort.o [2]
+add_segment              0x802'5399   0x1f2  Code  Lc  dlmalloc.o [2]
+beginfilenum            0x2000'0315     0x1  Data  Gb  tgui_filesscreenfuncs.o [1]
+cfgzMotor               0x2000'55d4    0x40  Data  Gb  config.o [1]
+cfname                  0x2000'2f8c   0x400  Data  Gb  main.o [1]
 check_fs                 0x801'17e7    0x7a  Code  Lc  ff.o [1]
 chk_chr                  0x801'0223    0x14  Code  Lc  ff.o [1]
-clngLangEng              0x802'a5fc    0x90  Data  Lc  languages.o [1]
-clngLangRus              0x802'a68c    0x90  Data  Lc  languages.o [1]
+clngLangEng              0x802'b8e0    0x94  Data  Lc  languages.o [1]
+clngLangRus              0x802'b974    0x94  Data  Lc  languages.o [1]
 clst2sect                0x801'044b    0x1c  Code  Lc  ff.o [1]
-cmd                     0x2000'5254     0x4  Data  Gb  cpld_utils.o [1]
+cmd                     0x2000'58b8     0x4  Data  Gb  cpld_utils.o [1]
 cmp_lfn                  0x801'0bab    0xaa  Code  Lc  ff.o [1]
 create_chain             0x801'078f   0x154  Code  Lc  ff.o [1]
 create_name              0x801'1443   0x29e  Code  Lc  ff.o [1]
 create_partition         0x801'26dd   0x1c8  Code  Lc  ff.o [1]
-d                       0x2000'5264     0x4  Data  Gb  spi_flash.o [1]
+currdir                 0x2000'0068   0x200  Data  Gb  tgui_filesscreenfuncs.o [1]
+d                       0x2000'58c8     0x4  Data  Gb  spi_flash.o [1]
 dbc_1st                  0x801'0237    0x12  Code  Lc  ff.o [1]
 dbc_2nd                  0x801'0249    0x12  Code  Lc  ff.o [1]
-dir                     0x2000'5030    0x34  Data  Gb  main.o [1]
+dir                     0x2000'5694    0x34  Data  Gb  main.o [1]
 dir_alloc                0x801'0ae5    0x74  Code  Lc  ff.o [1]
 dir_clear                0x801'08e3    0x68  Code  Lc  ff.o [1]
 dir_find                 0x801'0f95   0x12a  Code  Lc  ff.o [1]
@@ -1525,20 +1571,20 @@ dir_next                 0x801'09fd    0xe8  Code  Lc  ff.o [1]
 dir_read                 0x801'0e87   0x10e  Code  Lc  ff.o [1]
 dir_register             0x801'10bf   0x16a  Code  Lc  ff.o [1]
 dir_sdi                  0x801'094b    0xb2  Code  Lc  ff.o [1]
-disk                    0x2000'5204    0x10  Data  Gb  ff_gen_drv.o [1]
+disk                    0x2000'5868    0x10  Data  Gb  ff_gen_drv.o [1]
 disk_initialize          0x801'3031    0x38  Code  Gb  diskio.o [1]
 disk_ioctl               0x801'30d1    0x2a  Code  Gb  diskio.o [1]
 disk_read                0x801'3069    0x34  Code  Gb  diskio.o [1]
 disk_status              0x801'3011    0x20  Code  Gb  diskio.o [1]
 disk_write               0x801'309d    0x34  Code  Gb  diskio.o [1]
-exit                     0x802'aa5b     0x4  Code  Gb  exit.o [2]
+exit                     0x802'bd77     0x4  Code  Gb  exit.o [2]
 f_close                  0x801'23d7    0x30  Code  Gb  ff.o [1]
 f_closedir               0x801'2657    0x1c  Code  Gb  ff.o [1]
 f_lseek                  0x801'2407   0x1c4  Code  Gb  ff.o [1]
 f_mkfs                   0x801'28a5   0x73a  Code  Gb  ff.o [1]
-f_mkfs::cst              0x802'abe8    0x10  Data  Lc  ff.o [1]
-f_mkfs::cst32            0x802'abf8    0x10  Data  Lc  ff.o [1]
-f_mkfs::defopt           0x802'ac08    0x10  Data  Lc  ff.o [1]
+f_mkfs::cst              0x802'bfe0    0x10  Data  Lc  ff.o [1]
+f_mkfs::cst32            0x802'bff0    0x10  Data  Lc  ff.o [1]
+f_mkfs::defopt           0x802'c000    0x10  Data  Lc  ff.o [1]
 f_mount                  0x801'1c3d    0x56  Code  Gb  ff.o [1]
 f_open                   0x801'1cbd   0x23e  Code  Gb  ff.o [1]
 f_opendir                0x801'25cb    0x8c  Code  Gb  ff.o [1]
@@ -1550,148 +1596,156 @@ fbuff                   0x1000'0000  0x2000  Data  Gb  main.o [1]
 ff_oem2uni               0x801'314d    0x40  Code  Gb  ffunicode.o [1]
 ff_uni2oem               0x801'3101    0x4c  Code  Gb  ffunicode.o [1]
 ff_wtoupper              0x801'318d    0xce  Code  Gb  ffunicode.o [1]
-ff_wtoupper::cvt1        0x802'97b4   0x1f4  Data  Lc  ffunicode.o [1]
-ff_wtoupper::cvt2        0x802'a4a4    0xbc  Data  Lc  ffunicode.o [1]
+ff_wtoupper::cvt1        0x802'a958   0x1f4  Data  Lc  ffunicode.o [1]
+ff_wtoupper::cvt2        0x802'b788    0xbc  Data  Lc  ffunicode.o [1]
+files                   0x2000'2388   0x404  Data  Gb  tgui_filesscreenfuncs.o [1]
 find_volume              0x801'1865    0x76  Code  Lc  ff.o [1]
-finfo                   0x2000'3d9c   0x224  Data  Gb  main.o [1]
-fnt12_data               0x802'9100   0x6b4  Data  Gb  fnt12.o [1]
-fnt12_width              0x802'9c68   0x140  Data  Gb  fnt12.o [1]
-fnt18_data               0x802'6fdc   0xea4  Data  Gb  fnt18.o [1]
-fnt18_width              0x802'9da8   0x140  Data  Gb  fnt18.o [1]
-fnt18bold_data           0x802'5f14  0x10c8  Data  Gb  fnt18bold.o [1]
-fnt18bold_width          0x802'9ee8   0x140  Data  Gb  fnt18bold.o [1]
-fnt24_data               0x802'30ac  0x195c  Data  Gb  fnt24.o [1]
-fnt24_width              0x802'a028   0x140  Data  Gb  fnt24.o [1]
-fnt24bold_data           0x801'38a0  0x2094  Data  Gb  fnt24bold.o [1]
-fnt24bold_width          0x802'a168   0x140  Data  Gb  fnt24bold.o [1]
+finfo                   0x2000'4400   0x224  Data  Gb  main.o [1]
+fnt12_data               0x802'9e50   0x6b4  Data  Gb  fnt12.o [1]
+fnt12_width              0x802'ae0c   0x140  Data  Gb  fnt12.o [1]
+fnt12bold_data           0x802'96c8   0x788  Data  Gb  fnt12bold.o [1]
+fnt12bold_width          0x802'af4c   0x140  Data  Gb  fnt12bold.o [1]
+fnt18_data               0x802'75a4   0xea4  Data  Gb  fnt18.o [1]
+fnt18_width              0x802'b08c   0x140  Data  Gb  fnt18.o [1]
+fnt18bold_data           0x802'64dc  0x10c8  Data  Gb  fnt18bold.o [1]
+fnt18bold_width          0x802'b1cc   0x140  Data  Gb  fnt18bold.o [1]
+fnt24_data               0x802'3674  0x195c  Data  Gb  fnt24.o [1]
+fnt24_width              0x802'b30c   0x140  Data  Gb  fnt24.o [1]
+fnt24bold_data           0x802'15e0  0x2094  Data  Gb  fnt24bold.o [1]
+fnt24bold_width          0x802'b44c   0x140  Data  Gb  fnt24bold.o [1]
 follow_path              0x801'16e1    0xa8  Code  Lc  ff.o [1]
 font_fnt12              0x2000'0000     0xc  Data  Gb  fnt12.o [1]
-font_fnt18              0x2000'000c     0xc  Data  Gb  fnt18.o [1]
-font_fnt18bold          0x2000'0018     0xc  Data  Gb  fnt18bold.o [1]
-font_fnt24              0x2000'0024     0xc  Data  Gb  fnt24.o [1]
-font_fnt24bold          0x2000'0030     0xc  Data  Gb  fnt24bold.o [1]
-free                     0x802'8c6d     0x4  Code  Gb  heaptramp0.o [2]
+font_fnt12bold          0x2000'000c     0xc  Data  Gb  fnt12bold.o [1]
+font_fnt18              0x2000'0018     0xc  Data  Gb  fnt18.o [1]
+font_fnt18bold          0x2000'0024     0xc  Data  Gb  fnt18bold.o [1]
+font_fnt24              0x2000'0030     0xc  Data  Gb  fnt24.o [1]
+font_fnt24bold          0x2000'003c     0xc  Data  Gb  fnt24bold.o [1]
+free                     0x802'9235     0x4  Code  Gb  heaptramp0.o [2]
 gen_numname              0x801'0d89    0xde  Code  Lc  ff.o [1]
 get_fat                  0x801'0467   0x112  Code  Lc  ff.o [1]
 get_fattime              0x801'3285    0x50  Code  Gb  fatfs.o [1]
 get_fileinfo             0x801'1229   0x21a  Code  Lc  ff.o [1]
 get_ldnumber             0x801'1789    0x5e  Code  Lc  ff.o [1]
-hFlashSpi               0x2000'4c60    0x80  Data  Gb  fst_spi.o [1]
-hFlashSpiDmaRx          0x2000'4e00    0x60  Data  Gb  fst_spi.o [1]
-hFlashSpiDmaTx          0x2000'4e60    0x60  Data  Gb  fst_spi.o [1]
-hLcdDma                 0x2000'4ec0    0x60  Data  Gb  lcd_low.o [1]
-hRTC                    0x2000'51ac    0x20  Data  Gb  rtc.o [1]
-hStepperTim             0x2000'4fb0    0x40  Data  Gb  tim.o [1]
-hTouchSpi               0x2000'4be0    0x80  Data  Gb  fst_spi.o [1]
-hTouchSpiDmaRx          0x2000'4ce0    0x60  Data  Gb  fst_spi.o [1]
-hTouchSpiDmaTx          0x2000'4d40    0x60  Data  Gb  fst_spi.o [1]
-hUsbHost                0x2000'2d7c   0x3d8  Data  Gb  usb_host.o [1]
-hZRefTim                0x2000'4ff0    0x40  Data  Gb  tim.o [1]
-hhcd_USB_OTG_FS         0x2000'3838   0x2c4  Data  Gb  usbh_conf.o [1]
-hsram1                  0x2000'4f20    0x50  Data  Gb  fsmc.o [1]
-idle()                   0x801'dc61     0xa  Code  Gb  motor.o [1]
-idle()::idlecount       0x2000'525c     0x4  Data  Lc  motor.o [1]
-init_mparams             0x802'4a23    0x32  Code  Lc  dlmalloc.o [2]
-init_top                 0x802'4a55    0x36  Code  Lc  dlmalloc.o [2]
-lcdui_bgcolor           0x2000'52d8     0x2  Data  Gb  lcd_ui.o [1]
-lcdui_color             0x2000'0104     0x2  Data  Gb  lcd_ui.o [1]
-lcdui_current_font      0x2000'0050     0x4  Data  Gb  lcd_ui.o [1]
+hFlashSpi               0x2000'52c4    0x80  Data  Gb  fst_spi.o [1]
+hFlashSpiDmaRx          0x2000'5464    0x60  Data  Gb  fst_spi.o [1]
+hFlashSpiDmaTx          0x2000'54c4    0x60  Data  Gb  fst_spi.o [1]
+hLcdDma                 0x2000'5524    0x60  Data  Gb  lcd_low.o [1]
+hRTC                    0x2000'5810    0x20  Data  Gb  rtc.o [1]
+hStepperTim             0x2000'5614    0x40  Data  Gb  tim.o [1]
+hTouchSpi               0x2000'5244    0x80  Data  Gb  fst_spi.o [1]
+hTouchSpiDmaRx          0x2000'5344    0x60  Data  Gb  fst_spi.o [1]
+hTouchSpiDmaTx          0x2000'53a4    0x60  Data  Gb  fst_spi.o [1]
+hUsbHost                0x2000'338c   0x3d8  Data  Gb  usb_host.o [1]
+hZRefTim                0x2000'5654    0x40  Data  Gb  tim.o [1]
+hhcd_USB_OTG_FS         0x2000'413c   0x2c4  Data  Gb  usbh_conf.o [1]
+hsram1                  0x2000'5584    0x50  Data  Gb  fsmc.o [1]
+idle()                   0x801'c195     0xa  Code  Gb  motor.o [1]
+idle()::idlecount       0x2000'58c0     0x4  Data  Lc  motor.o [1]
+init_mparams             0x802'4feb    0x32  Code  Lc  dlmalloc.o [2]
+init_top                 0x802'501d    0x36  Code  Lc  dlmalloc.o [2]
+lcdui_bgcolor           0x2000'593c     0x2  Data  Gb  lcd_ui.o [1]
+lcdui_color             0x2000'0310     0x2  Data  Gb  lcd_ui.o [1]
+lcdui_current_font      0x2000'005c     0x4  Data  Gb  lcd_ui.o [1]
 lcdui_current_font_type
-                        0x2000'0106     0x1  Data  Gb  lcd_ui.o [1]
-lcdui_cursor_x          0x2000'52d4     0x2  Data  Gb  lcd_ui.o [1]
-lcdui_cursor_y          0x2000'52d6     0x2  Data  Gb  lcd_ui.o [1]
-lcdui_height            0x2000'0102     0x2  Data  Gb  lcd_ui.o [1]
-lcdui_width             0x2000'0100     0x2  Data  Gb  lcd_ui.o [1]
+                        0x2000'0312     0x1  Data  Gb  lcd_ui.o [1]
+lcdui_cursor_x          0x2000'5938     0x2  Data  Gb  lcd_ui.o [1]
+lcdui_cursor_y          0x2000'593a     0x2  Data  Gb  lcd_ui.o [1]
+lcdui_height            0x2000'030e     0x2  Data  Gb  lcd_ui.o [1]
+lcdui_width             0x2000'030c     0x2  Data  Gb  lcd_ui.o [1]
 ld_clust                 0x801'0b59    0x28  Code  Lc  ff.o [1]
 ld_dword                 0x801'0197    0x18  Code  Lc  ff.o [1]
 ld_word                  0x801'0189     0xe  Code  Lc  ff.o [1]
-ldexp                    0x801'bd55          Code  Gb  ldexp.o [4]
-ldexpl                   0x801'bd55          Code  Gb  ldexp.o [4]
-lngCurrent              0x2000'004c     0x4  Data  Gb  languages.o [1]
-lngLanguages            0x2000'003c    0x10  Data  Gb  languages.o [1]
-localeconv               0x801'b7e9     0x4  Code  Gb  xlocale_c.o [2]
-lroundf                  0x802'07f5          Code  Gb  lroundf.o [4]
-main                     0x801'c2c5   0x54a  Code  Gb  main.o [1]
+ldexp                    0x801'a281          Code  Gb  ldexp.o [4]
+ldexpl                   0x801'a281          Code  Gb  ldexp.o [4]
+lngCurrent              0x2000'0058     0x4  Data  Gb  languages.o [1]
+lngLanguages            0x2000'0048    0x10  Data  Gb  languages.o [1]
+localeconv               0x801'9d15     0x4  Code  Gb  xlocale_c.o [2]
+lroundf                  0x801'ed29          Code  Gb  lroundf.o [4]
+main                     0x801'a7f1   0x552  Code  Gb  main.o [1]
 mem_cmp                  0x801'01ff    0x24  Code  Lc  ff.o [1]
 mem_cpy                  0x801'01d5    0x1c  Code  Lc  ff.o [1]
 mem_set                  0x801'01f1     0xe  Code  Lc  ff.o [1]
-memchr                   0x801'b84d          Code  Gb  memchr.o [5]
+memchr                   0x801'9d79          Code  Gb  memchr.o [5]
 mount_volume             0x801'18db   0x318  Code  Lc  ff.o [1]
 move_window              0x801'0373    0x42  Code  Lc  ff.o [1]
-mparams                 0x2000'51ec    0x18  Data  Lc  dlmalloc.o [2]
-msg                     0x2000'41c0   0x200  Data  Gb  main.o [1]
+mparams                 0x2000'5850    0x18  Data  Lc  dlmalloc.o [2]
+msg                     0x2000'4824   0x200  Data  Gb  main.o [1]
+oldUsbMounted           0x2000'5947     0x1  Data  Gb  tgui_filesscreenfuncs.o [1]
 pick_lfn                 0x801'0c55    0x96  Code  Lc  ff.o [1]
-prepend_alloc            0x802'4a8b   0x346  Code  Lc  dlmalloc.o [2]
+prepend_alloc            0x802'5053   0x346  Code  Lc  dlmalloc.o [2]
 put_fat                  0x801'0579   0x166  Code  Lc  ff.o [1]
 put_lfn                  0x801'0ceb    0x90  Code  Lc  ff.o [1]
 put_utf                  0x801'02af    0x72  Code  Lc  ff.o [1]
 remove_chain             0x801'06df    0xb0  Code  Lc  ff.o [1]
-retSPIFL                0x2000'52dd     0x1  Data  Gb  fatfs.o [1]
-retUSBH                 0x2000'52dc     0x1  Data  Gb  fatfs.o [1]
-s_tfname                0x2000'257c   0x400  Data  Gb  main.o [1]
-scalbln                  0x801'bd55          Code  Gb  ldexp.o [4]
-scalblnl                 0x801'bd55          Code  Gb  ldexp.o [4]
-scalbn                   0x801'bd55          Code  Gb  ldexp.o [4]
-scalbnl                  0x801'bd55          Code  Gb  ldexp.o [4]
-scale                    0x801'a38b    0x46  Code  Lc  xprintffull.o [2]
-scrTimeTimer            0x2000'0108     0x1  Data  Gb  tgui_defaultfuncs.o [1]
-sec_hand                0x2000'52c8     0x4  Data  Lc  xfail_s.o [2]
-segment_holding          0x802'4a09    0x1a  Code  Lc  dlmalloc.o [2]
+retSPIFL                0x2000'5941     0x1  Data  Gb  fatfs.o [1]
+retUSBH                 0x2000'5940     0x1  Data  Gb  fatfs.o [1]
+s_tfname                0x2000'2b8c   0x400  Data  Gb  main.o [1]
+scalbln                  0x801'a281          Code  Gb  ldexp.o [4]
+scalblnl                 0x801'a281          Code  Gb  ldexp.o [4]
+scalbn                   0x801'a281          Code  Gb  ldexp.o [4]
+scalbnl                  0x801'a281          Code  Gb  ldexp.o [4]
+scale                    0x801'88af    0x46  Code  Lc  xprintffull.o [2]
+scrTimeTimer            0x2000'0314     0x1  Data  Gb  tgui_defaultfuncs.o [1]
+sec_hand                0x2000'592c     0x4  Data  Lc  xfail_s.o [2]
+segment_holding          0x802'4fd1    0x1a  Code  Lc  dlmalloc.o [2]
 sfile                   0x1000'3028  0x1028  Data  Gb  main.o [1]
-sprintf                  0x801'8681    0x40  Code  Gb  sprintf.o [2]
-srvMode                 0x2000'52e1     0x1  Data  Gb  main.o [1]
+sprintf                  0x801'6b59    0x40  Code  Gb  sprintf.o [2]
+srvMode                 0x2000'5945     0x1  Data  Gb  main.o [1]
 st_clust                 0x801'0b81    0x2a  Code  Lc  ff.o [1]
 st_dword                 0x801'01bd    0x18  Code  Lc  ff.o [1]
 st_word                  0x801'01af     0xe  Code  Lc  ff.o [1]
-strcat                   0x802'a485    0x1e  Code  Gb  strcat.o [2]
-strchr                   0x801'b7f5          Code  Gb  strchr.o [5]
-strcmp                   0x801'de09          Code  Gb  strcmp.o [5]
+strcat                   0x802'b769    0x1e  Code  Gb  strcat.o [2]
+strchr                   0x801'9d21          Code  Gb  strchr.o [5]
+strcmp                   0x801'c33d          Code  Gb  strcmp.o [5]
+strcpy                   0x802'a941          Code  Gb  strcpy.o [5]
 strlen                   0x801'37e5          Code  Gb  strlen.o [5]
 sum_sfn                  0x801'0e67    0x20  Code  Lc  ff.o [1]
 sync_fs                  0x801'03b5    0x96  Code  Lc  ff.o [1]
 sync_window              0x801'0321    0x52  Code  Lc  ff.o [1]
-sys_alloc                0x802'4fc9   0x164  Code  Lc  dlmalloc.o [2]
-sys_trim                 0x802'512d    0x64  Code  Lc  dlmalloc.o [2]
-systemState             0x2000'5224     0xc  Data  Gb  config.o [1]
+sys_alloc                0x802'5591   0x164  Code  Lc  dlmalloc.o [2]
+sys_trim                 0x802'56f5    0x64  Code  Lc  dlmalloc.o [2]
+systemState             0x2000'5888     0xc  Data  Gb  config.o [1]
 tchar2uni                0x801'025b    0x54  Code  Lc  ff.o [1]
 tfname                  0x1000'5078   0x400  Data  Gb  tgui.o [1]
-tguiActiveScreen        0x2000'5270     0x4  Data  Gb  tgui.o [1]
-tguiDBuff               0x2000'52f4  0x1000  Data  Gb  tgui.o [1]
-tguiDefaultConfig       0x2000'51cc    0x20  Data  Gb  tgui.o [1]
-tguiFBuff               0x2000'62f4   0x200  Data  Gb  tgui.o [1]
+tguiActiveScreen        0x2000'58d4     0x4  Data  Gb  tgui.o [1]
+tguiDBuff               0x2000'5958  0x1000  Data  Gb  tgui.o [1]
+tguiDefaultConfig       0x2000'5830    0x20  Data  Gb  tgui.o [1]
+tguiFBuff               0x2000'6958   0x200  Data  Gb  tgui.o [1]
 tguiFile                0x1000'4050  0x1028  Data  Gb  tgui.o [1]
-tguiScrFilesButtons     0x2000'3afc   0x2a0  Data  Gb  tgui.o [1]
-tguiScrInfoButtons      0x2000'3154   0x39c  Data  Gb  tgui.o [1]
-tguiScrLanguageButtons  0x2000'4ae4    0xfc  Data  Gb  tgui.o [1]
-tguiScrMainButtons      0x2000'4798   0x150  Data  Gb  tgui.o [1]
-tguiScrMovezButtons     0x2000'34f0   0x348  Data  Gb  tgui.o [1]
-tguiScrServiceButtons   0x2000'49e8    0xfc  Data  Gb  tgui.o [1]
-tguiScreenFiles         0x2000'5154    0x30  Data  Gb  tgui.o [1]
-tguiScreenInfo          0x2000'50f4    0x30  Data  Gb  tgui.o [1]
-tguiScreenLanguage      0x2000'50c4    0x30  Data  Gb  tgui.o [1]
-tguiScreenMain          0x2000'5064    0x30  Data  Gb  tgui.o [1]
-tguiScreenMovez         0x2000'5124    0x30  Data  Gb  tgui.o [1]
-tguiScreenService       0x2000'5094    0x30  Data  Gb  tgui.o [1]
-tguiTimer               0x2000'52e0     0x1  Data  Gb  main.o [1]
-tmalloc_large            0x802'519d   0x386  Code  Lc  dlmalloc.o [2]
-tmalloc_small            0x802'5523   0x200  Code  Lc  dlmalloc.o [2]
-touch_buff              0x2000'4da0    0x60  Data  Gb  fst_spi.o [1]
-touch_info              0x2000'5214    0x10  Data  Gb  touch.o [1]
-touch_point             0x2000'5274     0x4  Data  Gb  touch.o [1]
+tguiScrFilesButtons     0x2000'3e48   0x2f4  Data  Gb  tgui.o [1]
+tguiScrInfoButtons      0x2000'3764   0x39c  Data  Gb  tgui.o [1]
+tguiScrLanguageButtons  0x2000'5148    0xfc  Data  Gb  tgui.o [1]
+tguiScrMainButtons      0x2000'4dfc   0x150  Data  Gb  tgui.o [1]
+tguiScrMovezButtons     0x2000'3b00   0x348  Data  Gb  tgui.o [1]
+tguiScrServiceButtons   0x2000'504c    0xfc  Data  Gb  tgui.o [1]
+tguiScreenFiles         0x2000'57b8    0x30  Data  Gb  tgui.o [1]
+tguiScreenInfo          0x2000'5758    0x30  Data  Gb  tgui.o [1]
+tguiScreenLanguage      0x2000'5728    0x30  Data  Gb  tgui.o [1]
+tguiScreenMain          0x2000'56c8    0x30  Data  Gb  tgui.o [1]
+tguiScreenMovez         0x2000'5788    0x30  Data  Gb  tgui.o [1]
+tguiScreenService       0x2000'56f8    0x30  Data  Gb  tgui.o [1]
+tguiTimer               0x2000'5944     0x1  Data  Gb  main.o [1]
+tmalloc_large            0x802'5765   0x386  Code  Lc  dlmalloc.o [2]
+tmalloc_small            0x802'5aeb   0x200  Code  Lc  dlmalloc.o [2]
+touch_buff              0x2000'5404    0x60  Data  Gb  fst_spi.o [1]
+touch_info              0x2000'5878    0x10  Data  Gb  touch.o [1]
+touch_point             0x2000'58d8     0x4  Data  Gb  touch.o [1]
 tstrcat(unsigned short *, unsigned short *)
-                         0x801'9397    0x32  Code  Gb  unicode_utils.o [1]
+                         0x801'78c5    0x32  Code  Gb  unicode_utils.o [1]
 tstrcat_utf(unsigned short *, char *)
-                         0x801'93c9    0x46  Code  Gb  unicode_utils.o [1]
+                         0x801'78f7    0x46  Code  Gb  unicode_utils.o [1]
 tstrcpy(unsigned short *, unsigned short *)
-                         0x801'936f    0x28  Code  Gb  unicode_utils.o [1]
-u_tfname                0x2000'217c   0x400  Data  Gb  main.o [1]
-uc866                    0x802'a2a8   0x100  Data  Lc  ffunicode.o [1]
+                         0x801'785b    0x28  Code  Gb  unicode_utils.o [1]
+tstrcpy_utf(unsigned short *, char *)
+                         0x801'7883    0x42  Code  Gb  unicode_utils.o [1]
+u_tfname                0x2000'278c   0x400  Data  Gb  main.o [1]
+uc866                    0x802'b58c   0x100  Data  Lc  ffunicode.o [1]
 ufile                   0x1000'2000  0x1028  Data  Gb  main.o [1]
-uwTick                  0x2000'5268     0x4  Data  Gb  stm32f4xx_hal.o [1]
-uwTickFreq              0x2000'0107     0x1  Data  Gb  stm32f4xx_hal.o [1]
-uwTickPrio              0x2000'0054     0x4  Data  Gb  stm32f4xx_hal.o [1]
+uwTick                  0x2000'58cc     0x4  Data  Gb  stm32f4xx_hal.o [1]
+uwTickFreq              0x2000'0313     0x1  Data  Gb  stm32f4xx_hal.o [1]
+uwTickPrio              0x2000'0060     0x4  Data  Gb  stm32f4xx_hal.o [1]
 validate                 0x801'1bf3    0x4a  Code  Lc  ff.o [1]
-zPlanner                0x2000'52e6     0x1  Data  Gb  z_planner.o [1]
+zPlanner                0x2000'594b     0x1  Data  Gb  z_planner.o [1]
 
 
 [1] = D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_Debug\Obj
@@ -1701,9 +1755,9 @@ zPlanner                0x2000'52e6     0x1  Data  Gb  z_planner.o [1]
 [5] = rt7M_tl.a
 [6] = shb_l.a
 
-  81 149 bytes of readonly  code memory
-  29 675 bytes of readonly  data memory
-  72 038 bytes of readwrite data memory
+  83 737 bytes of readonly  code memory
+  32 265 bytes of readonly  data memory
+  73 676 bytes of readwrite data memory
 
 Errors: none
 Warnings: none

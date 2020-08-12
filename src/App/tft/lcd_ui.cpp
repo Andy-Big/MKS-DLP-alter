@@ -5,6 +5,7 @@
 
 
 extern LCDUI_FONT		font_fnt12;
+extern LCDUI_FONT		font_fnt12bold;
 extern LCDUI_FONT		font_fnt18;
 extern LCDUI_FONT		font_fnt18bold;
 extern LCDUI_FONT		font_fnt24;
@@ -585,6 +586,10 @@ LCDUI_FONT_TYPE		LCDUI_SetFont(LCDUI_FONT_TYPE newfont)
 	{
 		case LCDUI_FONT_H12:
 			lcdui_current_font = &font_fnt12;
+			break;
+
+		case LCDUI_FONT_H12BOLD:
+			lcdui_current_font = &font_fnt12bold;
 			break;
 
 		case LCDUI_FONT_H18:

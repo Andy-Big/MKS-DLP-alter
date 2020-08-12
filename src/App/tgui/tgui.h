@@ -203,6 +203,7 @@ typedef struct
 #define	FNAME_BTN_FILES_PREV_EN		(char*)"btn_files_prev_en.cimg"
 #define	FNAME_BTN_FILES_PREV_DIS	(char*)"btn_files_prev_dis.cimg"
 #define	FNAME_BTN_FILES_PREV_PRESS	(char*)"btn_files_prev_press.cimg"
+#define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn_files_dir.cimg"
 
 
 
@@ -240,7 +241,7 @@ extern TG_SCREEN		tguiScreenInfo;
 extern TG_BUTTON		tguiScrMovezButtons[TG_BTN_CNT_SCREEN_MOVEZ];
 extern TG_SCREEN		tguiScreenMovez;
 
-#define		TG_BTN_CNT_SCREEN_FILES			8
+#define		TG_BTN_CNT_SCREEN_FILES			9
 extern TG_BUTTON		tguiScrFilesButtons[TG_BTN_CNT_SCREEN_FILES];
 extern TG_SCREEN		tguiScreenFiles;
 
@@ -261,6 +262,7 @@ void		TGUI_ForceRepaint();
 // Current screen periodical process handling (check for changes, touch pressed, etc)
 void		TGUI_Process();
 
+void		TGUI_USBStateChanged();
 
 
 

@@ -339,24 +339,24 @@ TCHAR*	tstrcpy_utf(TCHAR *dst, char *src)
 	if (dst == NULL || src == NULL)
 		return dst;
 	
-	TCHAR *cdst = dst;
+	TCHAR *tdst = dst;
 	char *csrc = src;
 	while (*csrc)
 	{
-		if (*src < 0x80)
+		if (*csrc < 0x80)
 		{
-			*cdst = *src;
-			cdst++;
-			src++;
+			*tdst = *csrc;
+			tdst++;
+			csrc++;
 		}
 		else
 		{
-			*cdst = UTF8toUnicode((char*)src);
-			cdst += 2;
-			src += 2;
+			*tdst = UTF8toUnicode((char*)csrc);
+			tdst++;
+			csrc += 2;
 		}
 	}
-	*cdst = 0;
+	*tdst = 0;
 	
 	return dst;
 }

@@ -2424,6 +2424,9 @@
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt12.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt12bold.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt18.c</name>
                 </file>
                 <file>
@@ -2513,6 +2516,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_defaultfuncs.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_filesscreenfuncs.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_infoscreenfuncs.cpp</name>

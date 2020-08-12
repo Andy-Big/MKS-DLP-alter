@@ -3,6 +3,8 @@
 
 constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"---",
+		(char*)"String for test purpose",
+
 		(char*)"Jan",
 		(char*)"Feb",
 		(char*)"Mar",
@@ -48,6 +50,8 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 
 constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"---",
+		(char*)"Строка для тестовых целей",
+	
 		(char*)"Янв",
 		(char*)"Фев",
 		(char*)"Мар",

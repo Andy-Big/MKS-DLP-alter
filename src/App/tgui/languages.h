@@ -11,6 +11,8 @@
 typedef enum 
 {
 	LSTR____ = (uint32_t)0,
+	LSTR_TESTSTRING,
+
 	LSTR_JANUARY,
 	LSTR_FEBRUARY,
 	LSTR_MARCH,

@@ -504,6 +504,7 @@ int main()
 							}
 						}
 					}
+					TGUI_USBStateChanged();
 					break;
 
 				case APPLICATION_DISCONNECT:
@@ -514,6 +515,7 @@ int main()
 					{
 						LCDUI_DrawTextUTF((char*)"> -USB storage removed\n");
 					}
+					TGUI_USBStateChanged();
 					break;
 
 			}
