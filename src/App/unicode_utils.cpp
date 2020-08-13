@@ -76,8 +76,8 @@ uint16_t	UnicodeToUTF8(uint16_t unichar)
 	{
 		// Cyrillic UNICODE
 		case 0x0400:
-			t1 = ((unichar & 0x3F) | 0x80);
-			t2 = (((unichar << 2) & 0x1F00) | 0xC000);
+			t1 = ((unichar & 0x3F) | 0x80) << 8;
+			t2 = (((unichar << 2) & 0x1F00) | 0xC000) >> 8;
 			t1 = t1 | t2;
 			return t1;
 			

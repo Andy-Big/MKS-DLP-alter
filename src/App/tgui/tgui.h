@@ -196,8 +196,10 @@ typedef struct
 #define	FNAME_BTN_MOVEZ_DN_EN		(char*)"btn_movez_down_en.cimg"
 #define	FNAME_BTN_MOVEZ_DN_PRESS	(char*)"btn_movez_down_press.cimg"
 
+#define	FNAME_BTN_FILES_UP_DIS		(char*)"btn_files_up_dis.cimg"
 #define	FNAME_BTN_FILES_UP_EN		(char*)"btn_files_up_en.cimg"
 #define	FNAME_BTN_FILES_UP_PRESS	(char*)"btn_files_up_press.cimg"
+#define	FNAME_BTN_FILES_DN_DIS		(char*)"btn_files_down_dis.cimg"
 #define	FNAME_BTN_FILES_DN_EN		(char*)"btn_files_down_en.cimg"
 #define	FNAME_BTN_FILES_DN_PRESS	(char*)"btn_files_down_press.cimg"
 #define	FNAME_BTN_FILES_PREV_EN		(char*)"btn_files_prev_en.cimg"
@@ -242,6 +244,10 @@ extern TG_BUTTON		tguiScrMovezButtons[TG_BTN_CNT_SCREEN_MOVEZ];
 extern TG_SCREEN		tguiScreenMovez;
 
 #define		TG_BTN_CNT_SCREEN_FILES			9
+#define		TG_SCR_FILES_DIR_ID				20
+#define		TG_SCR_FILES_PREV_ID			21
+#define		TG_SCR_FILES_UP_ID				22
+#define		TG_SCR_FILES_DOWN_ID			23
 extern TG_BUTTON		tguiScrFilesButtons[TG_BTN_CNT_SCREEN_FILES];
 extern TG_SCREEN		tguiScreenFiles;
 

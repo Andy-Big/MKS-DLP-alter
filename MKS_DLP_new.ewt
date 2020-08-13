@@ -2453,6 +2453,15 @@
             </file>
         </group>
         <group>
+            <name>PRT_FILES</name>
+            <file>
+                <name>$PROJ_DIR$\src\App\prtfiles\files_pws.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\prtfiles\prtfiles.cpp</name>
+            </file>
+        </group>
+        <group>
             <name>SPI FLASH</name>
             <file>
                 <name>$PROJ_DIR$\src\App\spi_flash.c</name>

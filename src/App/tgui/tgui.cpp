@@ -888,7 +888,7 @@ void		TGUI_Init()
 	tgb->textoptions.textalign_v = VTA_CENTER;
 
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = (pressfunc)BTNA_GOPREVSCR;
+	tgb->funcs._call_press = _tgui_FilesBackButtonPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 
 	tgb->parentscreen = &tguiScreenFiles;
@@ -898,7 +898,7 @@ void		TGUI_Init()
 	tgb = &(tguiScrFilesButtons[bi++]);
 	memset((void*)tgb, 0, sizeof(TG_BUTTON));
 	
-	tgb->button_id = 10;
+	tgb->button_id = TG_SCR_FILES_DIR_ID;
 
 	tgb->position = {8, 53, 368, 68};
 
@@ -907,7 +907,7 @@ void		TGUI_Init()
 	tgb->bgimagename_dis = NULL;
 
 	tgb->text = LSTR_TESTSTRING;
-	tgb->textposition = {9, 53, 367, 68};
+	tgb->textposition = {9, 54, 367, 67};
 	tgb->font = LCDUI_FONT_H12BOLD;
 	tgb->textcolor_en = LCDUI_RGB(0x0000);
 	tgb->backcolor_en = LCDUI_RGB(0xC7C7C7);
@@ -950,7 +950,7 @@ void		TGUI_Init()
 	tgb->backcolor_press = LCDUI_RGB(0xD7E9F2);
 	tgb->backcolor_dis = LCDUI_RGB(0xA0A0A0);
 	
-	tgb->options.disabled = 1;
+	tgb->options.disabled = 0;
 	tgb->options.bgpaint = BGP_NONE;
 	tgb->options.repaintonpress = 0;
 	
@@ -958,7 +958,7 @@ void		TGUI_Init()
 	tgb->textoptions.textalign_v = VTA_CENTER;
 
 	tgb->funcs._call_paint = _tgui_FilesFileButtonPaint;
-	tgb->funcs._call_press = NULL;		// must not be zero or a predefined value
+	tgb->funcs._call_press = _tgui_FilesFileButtonPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 
 	tgb->parentscreen = &tguiScreenFiles;
@@ -974,7 +974,7 @@ void		TGUI_Init()
 
 	tgb->textposition = {(int16_t)(tgb->position.left + 1), (int16_t)(tgb->position.bottom - 25), (int16_t)(tgb->position.right - 1), (int16_t)(tgb->position.bottom - 1)};
 
-	tgb->funcs._call_press = NULL;		// must not be zero or a predefined value
+	tgb->funcs._call_press = _tgui_FilesFileButtonPress;		// must not be zero or a predefined value
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 
 	// FILE-3 buttons
@@ -987,7 +987,7 @@ void		TGUI_Init()
 
 	tgb->textposition = {(int16_t)(tgb->position.left + 1), (int16_t)(tgb->position.bottom - 25), (int16_t)(tgb->position.right - 1), (int16_t)(tgb->position.bottom - 1)};
 
-	tgb->funcs._call_press = NULL;		// must not be zero or a predefined value
+	tgb->funcs._call_press = _tgui_FilesFileButtonPress;		// must not be zero or a predefined value
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 
 	// FILE-4 buttons
@@ -1002,7 +1002,7 @@ void		TGUI_Init()
 
 	tgb->options.disabled = 1;
 
-	tgb->funcs._call_press = NULL;		// must not be zero or a predefined value
+	tgb->funcs._call_press = _tgui_FilesFileButtonPress;		// must not be zero or a predefined value
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 
 	
@@ -1010,7 +1010,7 @@ void		TGUI_Init()
 	tgb = &(tguiScrFilesButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrFilesButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->button_id = 20;
+	tgb->button_id = TG_SCR_FILES_PREV_ID;
 	tgb->position = {393, 57, 472, 136};
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
@@ -1027,13 +1027,14 @@ void		TGUI_Init()
 	tgb->bgimagename_dis = FNAME_BTN_FILES_PREV_DIS;
 	
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_FilesPrevButtonPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 	
 		// UP button
 	tgb = &(tguiScrFilesButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrFilesButtons[bi-2]), sizeof(TG_BUTTON));
 	
+	tgb->button_id = TG_SCR_FILES_UP_ID;
 	tgb->position = {393, 145, 472, 224};
 
 	tgb->textposition = {393, 145, 472, 224};
@@ -1042,26 +1043,28 @@ void		TGUI_Init()
 
 	tgb->bgimagename_en = FNAME_BTN_FILES_UP_EN;
 	tgb->bgimagename_press = FNAME_BTN_FILES_UP_PRESS;
-	tgb->bgimagename_dis = NULL;
+	tgb->bgimagename_dis = FNAME_BTN_FILES_UP_DIS;
 	
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_FilesUpButtonPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 	
 		// DOWN button
 	tgb = &(tguiScrFilesButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrFilesButtons[bi-2]), sizeof(TG_BUTTON));
 	
+	tgb->button_id = TG_SCR_FILES_DOWN_ID;
 	tgb->position = {393, 232, 472, 311};
 
 	tgb->textposition = {393, 232, 472, 311};
 	
 	tgb->bgimagename_en = FNAME_BTN_FILES_DN_EN;
 	tgb->bgimagename_press = FNAME_BTN_FILES_DN_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_FILES_DN_DIS;
 	
 
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = _tgui_FilesDownPress;
+	tgb->funcs._call_press = _tgui_FilesDownButtonPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 	
 	

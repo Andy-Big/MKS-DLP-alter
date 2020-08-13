@@ -120,14 +120,14 @@ int main()
 	// SPIFlash filesystem mounting
 	if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
 	{
-		LCDUI_DrawTextUTF((char*)"> !! Internal filesystem error, try to format...\n");
+		LCDUI_DrawText((char*)"> !! Internal filesystem error, try to format...\n");
 		if (f_mkfs(SpiflPath, 0, fbuff, sizeof(fbuff)) != FR_OK)
 		{
-			LCDUI_DrawTextUTF((char*)"> !! Failed to formate internal filesystem\n");
+			LCDUI_DrawText((char*)"> !! Failed to formate internal filesystem\n");
 		}
 		else
 		{
-			LCDUI_DrawTextUTF((char*)"> Internal filesystem format success\n");
+			LCDUI_DrawText((char*)"> Internal filesystem format success\n");
 		}
 //		while(1);
 	}
@@ -150,25 +150,25 @@ int main()
 	if (srvMode)
 	{
 		LCDUI_SetColor(COLOR_GREEN);
-		LCDUI_DrawTextUTF((char*)"> Service mode\n");
+		LCDUI_DrawText((char*)"> Service mode\n");
 /*
-		LCDUI_DrawTextUTF((char*)"> Formating internal filesystem...\n");
+		LCDUI_DrawText((char*)"> Formating internal filesystem...\n");
 		f_mount(NULL,  SpiflPath, 1);
 		if (f_mkfs(SpiflPath, 0, fbuff, sizeof(fbuff)) != FR_OK)
 		{
-			LCDUI_DrawTextUTF((char*)"> !! Failed to formate internal filesystem\n");
+			LCDUI_DrawText((char*)"> !! Failed to formate internal filesystem\n");
 		}
 		else
 		{
-			LCDUI_DrawTextUTF((char*)"> Internal filesystem formated succes\n");
+			LCDUI_DrawText((char*)"> Internal filesystem formated succes\n");
 		}
 		if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
 		{
-			LCDUI_DrawTextUTF((char*)"> !! Failed to mount internal filesystem\n");
+			LCDUI_DrawText((char*)"> !! Failed to mount internal filesystem\n");
 		}
 		else
 		{
-			LCDUI_DrawTextUTF((char*)"> Internal filesystem mounted succes\n");
+			LCDUI_DrawText((char*)"> Internal filesystem mounted succes\n");
 		}
 */
 	}
@@ -412,7 +412,7 @@ int main()
 						// ------------------ Service mode -------------------
 						if (srvMode)
 						{
-							LCDUI_DrawTextUTF((char*)"> +USB storage mounted\n");
+							LCDUI_DrawText((char*)"> +USB storage mounted\n");
 							// Check for images update on USB disk
 							tstrcpy(u_tfname, UsbPath);
 							tstrcat_utf(u_tfname, SDIR_IMAGES);
@@ -420,7 +420,7 @@ int main()
 							char *ext;
 							if (f_opendir(&dir, u_tfname) == FR_OK)
 							{
-								LCDUI_DrawTextUTF((char*)"> Firmware images directory found\n");
+								LCDUI_DrawText((char*)"> Firmware images directory found\n");
 								while(1)
 								{
 									if (f_readdir(&dir, &finfo) != FR_OK)
@@ -444,7 +444,7 @@ int main()
 											tstrcat(u_tfname, finfo.fname);
 											if (f_open(&ufile, u_tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
 											{
-												LCDUI_DrawTextUTF((char*)"> !! Error opening file in USB filesystem\n");
+												LCDUI_DrawText((char*)"> !! Error opening file in USB filesystem\n");
 												break;
 											}
 													
@@ -453,34 +453,34 @@ int main()
 											tstrcat(s_tfname, finfo.fname);
 											if (f_open(&sfile, s_tfname, FA_CREATE_ALWAYS | FA_WRITE) != FR_OK)
 											{
-												LCDUI_DrawTextUTF((char*)"> !! Error creating file in internal filesystem\n");
+												LCDUI_DrawText((char*)"> !! Error creating file in internal filesystem\n");
 												break;
 											}
 											
 											// Copying
 											sprintf(msg, "> Copying file \"%s\" ", cfname);
-											LCDUI_DrawTextUTF(msg);
+											LCDUI_DrawText(msg);
 											DWORD 		readed = 0, writed = 0;
 											uint8_t		iter = 0;
 											do
 											{
 												if (f_read(&ufile, fbuff, sizeof(fbuff), &readed) != FR_OK)
 												{
-													LCDUI_DrawTextUTF((char*)"> !! Error reading file from USB filesystem\n");
+													LCDUI_DrawText((char*)"> !! Error reading file from USB filesystem\n");
 													break;
 												}
 												if (f_write(&sfile, fbuff, readed, &writed) != FR_OK)
 												{
-													LCDUI_DrawTextUTF((char*)"> !! Error writing file to internal filesystem\n");
+													LCDUI_DrawText((char*)"> !! Error writing file to internal filesystem\n");
 													break;
 												}
 												iter++;
 //												if ((iter % 2) == 0)
-													LCDUI_DrawTextUTF((char*)".");
+													LCDUI_DrawText((char*)".");
 											} while (readed == sizeof(fbuff));
 											f_close(&ufile);
 											f_close(&sfile);
-											LCDUI_DrawTextUTF((char*)" success\n");
+											LCDUI_DrawText((char*)" success\n");
 											LCDUI_SetCursorCoord(0, -1);
 										}
 									}
@@ -500,7 +500,7 @@ int main()
 							}
 							else
 							{
-								LCDUI_DrawTextUTF((char*)"> Update directory not found\n", LCDUI_TEXT_TRANSBACK);
+								LCDUI_DrawText((char*)"> Update directory not found\n", LCDUI_TEXT_TRANSBACK);
 							}
 						}
 					}
@@ -513,7 +513,7 @@ int main()
 					UsbMounted = 0;
 					if (srvMode)
 					{
-						LCDUI_DrawTextUTF((char*)"> -USB storage removed\n");
+						LCDUI_DrawText((char*)"> -USB storage removed\n");
 					}
 					TGUI_USBStateChanged();
 					break;

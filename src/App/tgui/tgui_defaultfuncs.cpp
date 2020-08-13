@@ -143,7 +143,7 @@ void		_tgui_DrawStringInRect(char *str, TG_RECT *rect, TG_TEXTOPTIONS *opt)
 			ty = (rect->bottom - th) + th / 8;
 		}
 	}
-	LCDUI_DrawTextUTF(str, LCDUI_TEXT_TRANSBACK, tx, ty);
+	LCDUI_DrawText(str, LCDUI_TEXT_TRANSBACK, tx, ty);
 }
 //==============================================================================
 
@@ -243,6 +243,130 @@ closeexit:
 }
 //==============================================================================
 
+
+
+
+void		_tgui_DrawFileRawImg(FIL *file, int16_t x, int16_t y, uint16_t bwidth, uint16_t bheight, uint32_t imgbase, uint8_t fliprows)
+{
+	DWORD		freaded = imgbase;
+	DWORD		readed = 0;
+	uint16_t	bufinpos = UIFBUFF_SIZE;
+	uint16_t	bufoutpos = 0;
+	uint8_t		len = 0;
+	uint16_t	val = 0;
+	uint8_t		curbuffnum = 0;
+	uint16_t	*curbuff = (uint16_t*)tguiDBuff;
+	
+	if (fliprows)
+	{
+		LCD_WriteCmd(0x0036);
+		LCD_WriteRAM(0x00F8);
+		y = LCD_HEIGHT - y - bheight;
+	}
+
+	LCD_SetWindows(x, y, bwidth, bheight);
+	LCD_WriteRAM_Prepare();
+	
+
+	do
+	{
+		if (bufinpos == UIFBUFF_SIZE)
+		{
+			if (f_read(file, tguiFBuff, UIFBUFF_SIZE, &readed) != FR_OK)
+			{
+				break;
+			}
+			bufinpos = 0;
+		}
+		
+		len = tguiFBuff[bufinpos];
+		if (len & 0x80)
+		{
+			len = (len & 0x7F) + 1;
+			if ((bufoutpos + (len + 1)) > (UIDBUFF_SIZE / 4) )
+			{
+//				LCD_WaitDMAReady();
+				LCD_WriteRAM_DMA(curbuff, bufoutpos);
+				if ((uint32_t)curbuff == (uint32_t)tguiDBuff)
+				{
+					curbuff = (uint16_t*)(tguiDBuff + (UIDBUFF_SIZE / 2));
+					curbuffnum = 1;
+				}
+				else
+				{
+					curbuff = (uint16_t*)(tguiDBuff);
+					curbuffnum = 0;
+				}
+				bufoutpos = 0;
+			}
+			if ((bufinpos + 4) > UIFBUFF_SIZE)
+			{
+				freaded += bufinpos;
+				f_lseek(file, freaded);
+				bufinpos = UIFBUFF_SIZE;
+				continue;
+			}
+			bufinpos++;
+			val = *(uint16_t*)(tguiFBuff + bufinpos);
+			for (uint8_t i = 0; i < len; i++)
+			{
+				*(curbuff + bufoutpos) = val;
+				bufoutpos++;
+			}
+			bufinpos += 2;
+		}
+		else
+		{
+			len++;
+			if ((bufoutpos + (len + 1)) > (UIDBUFF_SIZE / 4))
+			{
+//				LCD_WaitDMAReady();
+				LCD_WriteRAM_DMA(curbuff, bufoutpos);
+				if (curbuffnum == 0)
+				{
+					curbuff = (uint16_t*)(tguiDBuff + (UIDBUFF_SIZE / 2));
+					curbuffnum = 1;
+				}
+				else
+				{
+					curbuff = (uint16_t*)(tguiDBuff);
+					curbuffnum = 0;
+				}
+				bufoutpos = 0;
+			}
+			if ((bufinpos + (len + 1) * 2) > UIFBUFF_SIZE)
+			{
+				freaded += bufinpos;
+				f_lseek(file, freaded);
+				bufinpos = UIFBUFF_SIZE;
+				continue;
+			}
+			bufinpos++;
+			for (uint8_t i = 0; i < len; i++)
+			{
+				*(curbuff + bufoutpos) = *(uint16_t*)(tguiFBuff + bufinpos);
+				bufoutpos++;
+				bufinpos += 2;
+			}
+			
+		}
+	} while (readed == UIFBUFF_SIZE || bufinpos < readed);
+
+	if (bufoutpos > 0)
+	{
+		LCD_WaitDMAReady();
+		LCD_WriteRAM_DMA(curbuff, bufoutpos);
+	}
+	LCD_WaitDMAReady();
+
+	if (fliprows)
+	{
+		LCD_WriteCmd(0x0036);
+		LCD_WriteRAM(0x00B8);
+	}
+	return;
+}
+//==============================================================================
 
 
 
@@ -518,25 +642,12 @@ closeexit:
 
 void		_tgui_DrawFileCimgBackground(char* file)
 {
-	DWORD		freaded = 0;
-	DWORD		readed = 0;
+	uint32_t	readed = 0;
 	uint32_t	bwidth = 0;
 	uint32_t	bheight = 0;
 	uint8_t		fliprows = 0;
 	uint32_t	imgbase;
-	uint16_t	bufinpos = UIFBUFF_SIZE;
-	uint16_t	bufoutpos = 0;
-	uint8_t		len = 0;
-	uint16_t	val = 0;
-	uint8_t		curbuffnum = 0;
-	uint16_t	*curbuff = (uint16_t*)tguiDBuff;
 	
-
-/*
-	tstrcpy(tfname, UsbPath);
-	tstrcat_utf(tfname, (char*)"alterupd\\images");
-	tstrcat_utf(tfname, (char*)"\\");
-*/
 
 	tstrcpy(tfname, SpiflPath);
 	tstrcat_utf(tfname, file);
@@ -551,7 +662,6 @@ void		_tgui_DrawFileCimgBackground(char* file)
 	{
 		goto closeexit;
 	}
-	freaded += readed;
 	
 	// Image width
 	bwidth = *(uint16_t*)(tguiDBuff);
@@ -566,120 +676,19 @@ void		_tgui_DrawFileCimgBackground(char* file)
 	{
 		// If flip row order
 		fliprows = 1;
-		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00F8);
 	}
 	
 	
 	// Image data offset
 	imgbase = 4;
 
-	LCD_SetWindows(0, 0, bwidth, bheight);
-	LCD_WriteRAM_Prepare();
-	
 	if (f_lseek(&tguiFile, imgbase) != FR_OK)
 	{
-		goto flipcloseexit;
+		goto closeexit;
 	}
-	freaded = imgbase;
 
-	do
-	{
-		if (bufinpos == UIFBUFF_SIZE)
-		{
-			if (f_read(&tguiFile, tguiFBuff, UIFBUFF_SIZE, &readed) != FR_OK)
-			{
-				goto flipcloseexit;
-			}
-			bufinpos = 0;
-		}
-		
-		len = tguiFBuff[bufinpos];
-		if (len & 0x80)
-		{
-			len = (len & 0x7F) + 1;
-			if ((bufoutpos + (len + 1)) > (UIDBUFF_SIZE / 4) )
-			{
-//				LCD_WaitDMAReady();
-				LCD_WriteRAM_DMA(curbuff, bufoutpos);
-				if ((uint32_t)curbuff == (uint32_t)tguiDBuff)
-				{
-					curbuff = (uint16_t*)(tguiDBuff + (UIDBUFF_SIZE / 2));
-					curbuffnum = 1;
-				}
-				else
-				{
-					curbuff = (uint16_t*)(tguiDBuff);
-					curbuffnum = 0;
-				}
-				bufoutpos = 0;
-			}
-			if ((bufinpos + 4) > UIFBUFF_SIZE)
-			{
-				freaded += bufinpos;
-				f_lseek(&tguiFile, freaded);
-				bufinpos = UIFBUFF_SIZE;
-				continue;
-			}
-			bufinpos++;
-			val = *(uint16_t*)(tguiFBuff + bufinpos);
-			for (uint8_t i = 0; i < len; i++)
-			{
-				*(curbuff + bufoutpos) = val;
-				bufoutpos++;
-			}
-			bufinpos += 2;
-		}
-		else
-		{
-			len++;
-			if ((bufoutpos + (len + 1)) > (UIDBUFF_SIZE / 4))
-			{
-//				LCD_WaitDMAReady();
-				LCD_WriteRAM_DMA(curbuff, bufoutpos);
-				if (curbuffnum == 0)
-				{
-					curbuff = (uint16_t*)(tguiDBuff + (UIDBUFF_SIZE / 2));
-					curbuffnum = 1;
-				}
-				else
-				{
-					curbuff = (uint16_t*)(tguiDBuff);
-					curbuffnum = 0;
-				}
-				bufoutpos = 0;
-			}
-			if ((bufinpos + (len + 1) * 2) > UIFBUFF_SIZE)
-			{
-				freaded += bufinpos;
-				f_lseek(&tguiFile, freaded);
-				bufinpos = UIFBUFF_SIZE;
-				continue;
-			}
-			bufinpos++;
-			for (uint8_t i = 0; i < len; i++)
-			{
-				*(curbuff + bufoutpos) = *(uint16_t*)(tguiFBuff + bufinpos);
-				bufoutpos++;
-				bufinpos += 2;
-			}
-			
-		}
-	} while (readed == UIFBUFF_SIZE || bufinpos < readed);
+	_tgui_DrawFileRawImg(&tguiFile, 0, 0, bwidth, bheight, imgbase, fliprows);
 
-	if (bufoutpos > 0)
-	{
-		LCD_WaitDMAReady();
-		LCD_WriteRAM_DMA(curbuff, bufoutpos);
-	}
-	LCD_WaitDMAReady();
-
-flipcloseexit:
-	if (fliprows)
-	{
-		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00B8);
-	}
 closeexit:
 	f_close(&tguiFile);
 	return;
@@ -691,25 +700,12 @@ closeexit:
 
 void		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y)
 {
-	DWORD		freaded = 0;
-	DWORD		readed = 0;
+	uint32_t	readed = 0;
 	uint32_t	bwidth = 0;
 	uint32_t	bheight = 0;
 	uint8_t		fliprows = 0;
 	uint32_t	imgbase;
-	uint16_t	bufinpos = UIFBUFF_SIZE;
-	uint16_t	bufoutpos = 0;
-	uint8_t		len = 0;
-	uint16_t	val = 0;
-	uint8_t		curbuffnum = 0;
-	uint16_t	*curbuff = (uint16_t*)tguiDBuff;
 	
-
-/*
-	tstrcpy(tfname, UsbPath);
-	tstrcat_utf(tfname, (char*)"alterupd\\images");
-	tstrcat_utf(tfname, (char*)"\\");
-*/
 
 	tstrcpy(tfname, SpiflPath);
 	tstrcat_utf(tfname, file);
@@ -724,7 +720,6 @@ void		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y)
 	{
 		goto closeexit;
 	}
-	freaded += readed;
 	
 	// Image width
 	bwidth = *(uint16_t*)(tguiDBuff);
@@ -739,121 +734,19 @@ void		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y)
 	{
 		// If flip row order
 		fliprows = 1;
-		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00F8);
-		y = LCD_HEIGHT - y - bheight;
 	}
 	
 	
 	// Image data offset
 	imgbase = 4;
 
-	LCD_SetWindows(x, y, bwidth, bheight);
-	LCD_WriteRAM_Prepare();
-	
 	if (f_lseek(&tguiFile, imgbase) != FR_OK)
 	{
-		goto flipcloseexit;
+		goto closeexit;
 	}
-	freaded = imgbase;
 
-	do
-	{
-		if (bufinpos == UIFBUFF_SIZE)
-		{
-			if (f_read(&tguiFile, tguiFBuff, UIFBUFF_SIZE, &readed) != FR_OK)
-			{
-				goto flipcloseexit;
-			}
-			bufinpos = 0;
-		}
-		
-		len = tguiFBuff[bufinpos];
-		if (len & 0x80)
-		{
-			len = (len & 0x7F) + 1;
-			if ((bufoutpos + (len + 1)) > (UIDBUFF_SIZE / 4) )
-			{
-//				LCD_WaitDMAReady();
-				LCD_WriteRAM_DMA(curbuff, bufoutpos);
-				if ((uint32_t)curbuff == (uint32_t)tguiDBuff)
-				{
-					curbuff = (uint16_t*)(tguiDBuff + (UIDBUFF_SIZE / 2));
-					curbuffnum = 1;
-				}
-				else
-				{
-					curbuff = (uint16_t*)(tguiDBuff);
-					curbuffnum = 0;
-				}
-				bufoutpos = 0;
-			}
-			if ((bufinpos + 4) > UIFBUFF_SIZE)
-			{
-				freaded += bufinpos;
-				f_lseek(&tguiFile, freaded);
-				bufinpos = UIFBUFF_SIZE;
-				continue;
-			}
-			bufinpos++;
-			val = *(uint16_t*)(tguiFBuff + bufinpos);
-			for (uint8_t i = 0; i < len; i++)
-			{
-				*(curbuff + bufoutpos) = val;
-				bufoutpos++;
-			}
-			bufinpos += 2;
-		}
-		else
-		{
-			len++;
-			if ((bufoutpos + (len + 1)) > (UIDBUFF_SIZE / 4))
-			{
-//				LCD_WaitDMAReady();
-				LCD_WriteRAM_DMA(curbuff, bufoutpos);
-				if (curbuffnum == 0)
-				{
-					curbuff = (uint16_t*)(tguiDBuff + (UIDBUFF_SIZE / 2));
-					curbuffnum = 1;
-				}
-				else
-				{
-					curbuff = (uint16_t*)(tguiDBuff);
-					curbuffnum = 0;
-				}
-				bufoutpos = 0;
-			}
-			if ((bufinpos + (len + 1) * 2) > UIFBUFF_SIZE)
-			{
-				freaded += bufinpos;
-				f_lseek(&tguiFile, freaded);
-				bufinpos = UIFBUFF_SIZE;
-				continue;
-			}
-			bufinpos++;
-			for (uint8_t i = 0; i < len; i++)
-			{
-				*(curbuff + bufoutpos) = *(uint16_t*)(tguiFBuff + bufinpos);
-				bufoutpos++;
-				bufinpos += 2;
-			}
-			
-		}
-	} while (readed == UIFBUFF_SIZE || bufinpos < readed);
+	_tgui_DrawFileRawImg(&tguiFile, x, y, bwidth, bheight, imgbase, fliprows);
 
-	if (bufoutpos > 0)
-	{
-		LCD_WaitDMAReady();
-		LCD_WriteRAM_DMA(curbuff, bufoutpos);
-	}
-	LCD_WaitDMAReady();
-
-flipcloseexit:
-	if (fliprows)
-	{
-		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00B8);
-	}
 closeexit:
 	f_close(&tguiFile);
 	return;

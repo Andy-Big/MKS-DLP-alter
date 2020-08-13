@@ -807,7 +807,7 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 
 	while(1)
 	{
-		c = cp[i];
+		c = UTF8toANSI(cp+i);
 		if (c == 0 || c == ' ')
 		{
 			sp = i;
@@ -826,17 +826,26 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 				lcdui_cursor_x = x2 - cw;
 			if (opt & LCDUI_TEXT_ALIGN_CENTER)
 				lcdui_cursor_x = x1 + (x2 - x1 - cw) / 2;
-			for (uint16_t j = 0; j < sp; j++)
+			for (uint16_t j = 0; j < sp; )
 			{
-				LCDUI_DrawChar(cp[j], copt);
+				LCDUI_DrawChar(UTF8toANSI(cp+j), copt);
+				if (*(cp+j) < 0x80)
+					j++;
+				else
+					j += 2;
 			}
 			cw = 0;
 			sw = 0;
 			cp += sp;
 			i = 0;
 			sp = 0;
-			while(cp[0] == ' ')
-				cp++;
+			while(UTF8toANSI(cp) == ' ')
+			{
+				if (*cp < 0x80)
+					cp++;
+				else
+					cp += 2;
+			}
 			if (c != 0)
 			{
 				lcdui_cursor_y += lcdui_current_font->height;
@@ -848,8 +857,11 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 				i++;;
 			continue;
 		}
-		i++;
-		if (c == '.' || c == ',' || c == ':' || c == ';' || c == '!' || c == '?')
+		if (*((uint8_t*)cp+i) < 0x80)
+			i++;
+		else
+			i += 2;
+		if (c == '.' || c == ',' || c == ':' || c == ';' || c == '!' || c == '?' || c == '_' || c == '-' || c == '(' || c == ')')
 		{
 //			cw += _lcdui_GetCharWidth(c);
 			sp = i;
@@ -877,7 +889,7 @@ void	LCDUI_DrawCharUTF(char *c,  uint16_t opt, int16_t x, int16_t y)
 
 
 
-
+/*
 void	LCDUI_DrawTextUTF(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2, int16_t y2)
 {
 	uint16_t i = 0, oldcolor = lcdui_color, oldbgcolor = lcdui_bgcolor, copt = opt;
@@ -956,7 +968,7 @@ void	LCDUI_DrawTextUTF(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t 
 			i++;
 		else
 			i += 2;
-		if (c == '.' || c == ',' || c == ':' || c == ';' || c == '!' || c == '?')
+		if (c == '.' || c == ',' || c == ':' || c == ';' || c == '!' || c == '?' || c == '_' || c == '-' || c == '(' || c == ')')
 		{
 //			cw += _lcdui_GetCharWidth(c);
 			sp = i;
@@ -969,7 +981,7 @@ void	LCDUI_DrawTextUTF(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t 
 	lcdui_color = oldcolor;
 }
 //==============================================================================
-
+*/
 
 
 
