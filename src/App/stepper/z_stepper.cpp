@@ -656,7 +656,7 @@ void Stepper::pulse_phase_isr()
 		if (step_needed)
 		{
 			count_position += count_direction;
-			systemState.current_position_steps += count_direction;
+			systemInfo.current_position_steps += count_direction;
 			delta_error -= advance_divisor;
 		}
 		
@@ -919,6 +919,7 @@ void Stepper::init()
 void Stepper::_set_position(const int32_t c)
 {
 	count_position = c;
+	systemInfo.current_position_steps = c;
 }
 
 /**

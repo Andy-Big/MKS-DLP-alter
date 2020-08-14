@@ -33,9 +33,11 @@
 #include "spi_flash.h"
 #include "tgui.h"
 #include "motor.h"
+#include "z_endstops.h"
 #include "config.h"
 #include "z_stepper.h"
 #include "uvdisplay.h"
+#include "tgui_movezscreenfuncs.h"
 
 
 #define	SDIR_IMAGES			(char*)"alterupd\\images"
@@ -58,12 +60,13 @@ TOUCH_POINT						touchCoord;
 TOUCH_STATES					touchState;
 
 uint8_t							tguiTimer;
+uint8_t							zHoldTimer;
 
 uint8_t							srvMode;
 	
 
 
-__no_init uint8_t 				fbuff[8192] @ "CCMRAM";
+__no_init uint8_t 				fbuff[16384] @ "CCMRAM";
 		
 		
 __no_init FIL					ufile @ "CCMRAM";
@@ -97,6 +100,8 @@ int main()
 	SYSTIMER_Init();
 
 	tguiTimer = SYSTIMER_NewCountDown(0);
+	zHoldTimer = SYSTIMER_NewCountDown(0);
+	
 	LANG_SetLanguage(0);
 	
 	// LCD init
@@ -192,49 +197,13 @@ int main()
 	RTC_Init();
 	RTC_Enable(&hRTC);
 
-	// ZMotor
 	CFG_Init();
+
+	// ZMotor
 	ZMOTOR_Init();
-/*
-	ZMOTOR_MotorEnable();
-	systemState.is_printing = 1;
-	HAL_Delay(500);
-	for (uint16_t i = 0; i < 100; i++)
-	{
-		systemState.is_printing = 1;
-		ZMOTOR_MoveAbsolute(2, 1);
-		systemState.is_printing = 0;
-		ZMOTOR_MoveAbsolute(5, 20);
-		zPlanner.synchronize();
-		ZMOTOR_MoveAbsolute(1, 20);
-		systemState.is_printing = 1;
-		ZMOTOR_MoveAbsolute(0, 2);
-		zPlanner.synchronize();
-		HAL_Delay(2000);
-		systemState.is_printing = 1;
-		ZMOTOR_MoveAbsolute(2, 1);
-		systemState.is_printing = 0;
-		ZMOTOR_MoveAbsolute(5, 20);
-		zPlanner.synchronize();
-		ZMOTOR_MoveAbsolute(1, 20);
-		systemState.is_printing = 1;
-		ZMOTOR_MoveAbsolute(0, 2);
-		zPlanner.synchronize();
-		HAL_Delay(2000);
-		systemState.is_printing = 1;
-		ZMOTOR_MoveAbsolute(2, 1);
-		systemState.is_printing = 0;
-		ZMOTOR_MoveAbsolute(100, 40);
-		zPlanner.synchronize();
-		ZMOTOR_MoveAbsolute(1, 20);
-		systemState.is_printing = 1;
-		ZMOTOR_MoveAbsolute(0, 2);
-		zPlanner.synchronize();
-		HAL_Delay(2000);
-	}
-	zPlanner.synchronize();
-/**/
 	ZMOTOR_MotorDisable();
+	SYSTIMER_SetCountDown(zHoldTimer, 0);
+	
 	
 	UVD_Init();
 /*	
@@ -261,114 +230,6 @@ int main()
 	Appli_state_old = Appli_state;
 
 	
-/*	
-	if (tguiActiveScreen->buttons[0].funcs._call_paint != NULL)
-		tguiActiveScreen->buttons[0].funcs._call_paint((void*)&(tguiActiveScreen->buttons[0]), NULL);
-	
-	LCDUI_SetCursorCoord(5, 0);
-	LCDUI_DrawTextUTF((char*)"> Проверка\n");
-	LCDUI_DrawTextUTF((char*)"> Starting...\n");
-
-
-	if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
-	{
-		LCDUI_DrawTextUTF((char*)"> !! Internal flash filesystem error, creating new one...\n");
-		if (f_mkfs(SpiflPath, 0, uibuff, sizeof(uibuff)) != FR_OK)
-		{
-			LCDUI_DrawTextUTF((char*)"> !! Failed to create filesystem\n");
-		}
-		else
-		{
-			LCDUI_DrawTextUTF((char*)"> Filesystem created success\n");
-			if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
-				LCDUI_DrawTextUTF((char*)"> !! Failed to mount new filesystem\n");
-		}
-	}
-
-	else
-	{
-		LCDUI_DrawTextUTF((char*)"> Internal flash filesystem is ready\n");
-			// Test for file write/read speed
-
-			uint32_t	wr = 0;
-			char		fname[] = "test файл.txt";
-
-			tstrcpy(path, SpiflPath);
-			tstrcat_utf(path, fname);
-			if (f_open(&file, path, FA_CREATE_ALWAYS | FA_WRITE) == FR_OK)
-			{
-				uint32_t tc = HAL_GetTick();
-				for (uint32_t i = 0; i < 40; i++)
-				{
-					if (f_write(&file, uibuff, 8192, &wr) != FR_OK || wr != 8192)
-					{
-						LCDUI_DrawTextUTF((char*)"> !! Error writing test file\n");
-						break;
-					}
-				}
-				f_close(&file);
-				tc = HAL_GetTick() - tc;
-				sprintf(msg, "> Test file writed: %u KB for %u msec\n", (8192*40)/1000, tc);
-				LCDUI_DrawTextUTF(msg);
-
-				if (f_open(&file, path, FA_OPEN_EXISTING | FA_READ) == FR_OK)
-				{
-					uint32_t tc = HAL_GetTick();
-					for (uint32_t i = 0; i < 40; i++)
-					{
-						if (f_read(&file, uibuff, 8192, &wr) != FR_OK || wr != 8192)
-						{
-							LCDUI_DrawTextUTF((char*)"> !! Error writing test file\n");
-							break;
-						}
-					}
-					f_close(&file);
-					tc = HAL_GetTick() - tc;
-					sprintf(msg, "> Test file readed: %u KB for %u msec\n", (8192*40)/1000, tc);
-					LCDUI_DrawTextUTF(msg);
-				}
-				else
-				{
-					LCDUI_DrawTextUTF((char*)"> !! Error opening test file\n");
-				}
-			}
-			else
-			{
-				LCDUI_DrawTextUTF((char*)"> !! Error creating test file\n");
-			}
-
-						tstrcpy(path, SpiflPath);
-						fres = f_opendir(&dir, path);
-						while(1)
-						{
-							if ((fres = f_readdir(&dir, &finfo)) != FR_OK)
-							{
-								LCDUI_DrawTextUTF((char*)"> ! Error reading root directory\n");
-								break;
-							}
-							if (finfo.fname[0] == 0)
-								break;
-							if (finfo.fattrib & AM_DIR)
-							{
-								cpath[0] = 0;
-								UnicodeToUTF8_Str((char*)cpath, finfo.fname, sizeof(cpath));
-								sprintf(msg, "  %s    DIR\n", cpath);
-								LCDUI_DrawTextUTF(msg);
-							}
-							else
-							{
-								cpath[0] = 0;
-								UnicodeToANSI_Str((char*)cpath, finfo.fname, sizeof(cpath));
-								sprintf(msg, "  %s    %u\n", cpath, finfo.fsize);
-								LCDUI_DrawText(msg);
-							}
-							tstrcpy(path, SpiflPath);
-							tstrcat(path, finfo.fname);
-//							f_unlink(path);
-						}
-	}
-*/	
-//	LCDUI_DrawBitmap(0, 0, (uint8_t*)&TEST_BMP);
 	
 	// Enable USB power line
 	USB_HOST_VbusFS(0);
@@ -384,34 +245,24 @@ int main()
 
 	while(1)
 	{
-		// ------------------ Service mode -------------------
-		if (!srvMode)
+		if (srvMode)
 		{
-			if (SYSTIMER_GetCountDown(tguiTimer) == 0)
+			USB_HOST_Process();
+			if (Appli_state_old != Appli_state)
 			{
-				SYSTIMER_SetCountDown(tguiTimer, 60);
-				TGUI_Process();
-			}
-		}
-		USB_HOST_Process();
-		if (Appli_state_old != Appli_state)
-		{
-			Appli_state_old = Appli_state;
-			switch (Appli_state)
-			{
-				case APPLICATION_IDLE:
-					break;
+				Appli_state_old = Appli_state;
+				switch (Appli_state)
+				{
+					case APPLICATION_IDLE:
+						break;
 
-				case APPLICATION_START:
-					break;
+					case APPLICATION_START:
+						break;
 
-				case APPLICATION_READY:
-					if (f_mount(&UsbFS, UsbPath, 1) == FR_OK)
-					{
-						UsbMounted = 1;
-						// ------------------ Service mode -------------------
-						if (srvMode)
+					case APPLICATION_READY:
+						if (f_mount(&UsbFS, UsbPath, 1) == FR_OK)
 						{
+							UsbMounted = 1;
 							LCDUI_DrawText((char*)"> +USB storage mounted\n");
 							// Check for images update on USB disk
 							tstrcpy(u_tfname, UsbPath);
@@ -475,7 +326,7 @@ int main()
 													break;
 												}
 												iter++;
-//												if ((iter % 2) == 0)
+	//												if ((iter % 2) == 0)
 													LCDUI_DrawText((char*)".");
 											} while (readed == sizeof(fbuff));
 											f_close(&ufile);
@@ -489,20 +340,161 @@ int main()
 								f_close(&ufile);
 								f_close(&sfile);
 								f_closedir(&dir);
-/*								
-								// Rename directory
-								tstrcpy(u_tfname, UsbPath);
-								tstrcat_utf(u_tfname, (char*)"alterupd");
-								tstrcpy(s_tfname, UsbPath);
-								tstrcat_utf(s_tfname, (char*)"alterupd.old");
-								f_rename(u_tfname, s_tfname);
-*/
 							}
 							else
 							{
 								LCDUI_DrawText((char*)"> Update directory not found\n", LCDUI_TEXT_TRANSBACK);
 							}
 						}
+						break;
+
+					case APPLICATION_DISCONNECT:
+						f_mount(NULL, UsbPath, 1);
+						memset(&UsbFS, 0, sizeof(FATFS));
+						UsbMounted = 0;
+						if (srvMode)
+						{
+							LCDUI_DrawText((char*)"> -USB storage removed\n");
+						}
+						break;
+
+				}
+			}
+			continue;
+		}
+		
+		
+		if (SYSTIMER_GetCountDown(tguiTimer) == 0)
+		{
+			SYSTIMER_SetCountDown(tguiTimer, 60);
+			TGUI_Process();
+		}
+		if (SYSTIMER_GetCountDown(zHoldTimer) > 0 && SYSTIMER_GetCountDown(zHoldTimer) < 10)
+		{
+			if (ZMOTOR_IsMotorEnabled())
+			{
+				ZMOTOR_SetHoldCurrent();
+				SYSTIMER_SetCountDown(zHoldTimer, 0);
+			}
+			TGUI_Process();
+		}
+
+		switch (systemInfo.printer_state)
+		{
+			case PST_HOMING_PREUP:
+				if (ZMOTOR_IsMoving() == 0)
+				{
+					systemInfo.target_position = cfgzMotor.z_max_pos * (-1.0);
+					ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+					systemInfo.printer_state = PST_HOMING_FAST;
+				}
+				break;
+
+			case PST_HOMING_FAST:
+				if (ZMOTOR_IsMoving() == 0)
+				{
+					// moved to min endstop
+					if (ZMOTOR_GetEndstopState() & (1 << Z_MIN))
+					{
+						ZMOTOR_SetPosition(0);
+						systemInfo.target_position = 3;
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+						systemInfo.printer_state = PST_HOMING_UP;
+					}
+					// endstop not reached, error
+					else
+					{
+						systemInfo.printer_state = PST_IDLE;
+						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+					}
+					ZMOTOR_SetPosition(0);
+					systemInfo.target_position = 0;
+				}
+				break;
+
+			case PST_HOMING_UP:
+				if (ZMOTOR_IsMoving() == 0)
+				{
+					systemInfo.target_position = -3;
+					ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_z);
+					systemInfo.printer_state = PST_HOMING_SLOW;
+				}
+				break;
+
+			case PST_HOMING_SLOW:
+				if (ZMOTOR_IsMoving() == 0)
+				{
+					// moved to min endstop
+					if (ZMOTOR_GetEndstopState() & (1 << Z_MIN))
+					{
+						systemInfo.position_known = 1;
+						_tgui_MovezUpdateHomed();
+					}
+					// endstop not reached, error
+					else
+					{
+					}
+					ZMOTOR_SetPosition(0);
+					systemInfo.target_position = 0;
+					systemInfo.printer_state = PST_IDLE;
+					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+				}
+				break;
+
+			case PST_FREEMOVING_UP:
+				if (ZMOTOR_IsMoving() == 0)
+				{
+					// max endstop
+					if (ZMOTOR_GetEndstopState() & (1 << Z_MAX))
+					{
+						systemInfo.target_position = ZMOTOR_GetCurrentPosition();
+						ZMOTOR_SetPosition(systemInfo.target_position);
+					}
+					systemInfo.printer_state = PST_IDLE;
+					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+				}
+				break;
+
+			case PST_FREEMOVING_DOWN:
+				if (ZMOTOR_IsMoving() == 0)
+				{
+					if (cfgzMotor.move_below_endstop)
+					{
+						ZMOTOR_EnableEndstops();
+					}
+					else
+					{
+						// min endstop
+						if (ZMOTOR_GetEndstopState() & (1 << Z_MIN))
+						{
+							systemInfo.target_position = ZMOTOR_GetCurrentPosition();
+							ZMOTOR_SetPosition(systemInfo.target_position);
+						}
+					}
+					systemInfo.printer_state = PST_IDLE;
+					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+				}
+				break;
+
+		}
+
+		USB_HOST_Process();
+		if (Appli_state_old != Appli_state)
+		{
+			Appli_state_old = Appli_state;
+			// ------------------ Service mode -------------------
+			switch (Appli_state)
+			{
+				case APPLICATION_IDLE:
+					break;
+
+				case APPLICATION_START:
+					break;
+
+				case APPLICATION_READY:
+					if (f_mount(&UsbFS, UsbPath, 1) == FR_OK)
+					{
+						UsbMounted = 1;
 					}
 					TGUI_USBStateChanged();
 					break;
@@ -511,10 +503,6 @@ int main()
 					f_mount(NULL, UsbPath, 1);
 					memset(&UsbFS, 0, sizeof(FATFS));
 					UsbMounted = 0;
-					if (srvMode)
-					{
-						LCDUI_DrawText((char*)"> -USB storage removed\n");
-					}
 					TGUI_USBStateChanged();
 					break;
 

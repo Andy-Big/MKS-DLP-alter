@@ -29,7 +29,7 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 
 		(char*)"BACK",
 		(char*)"MAIN MENU",
-		(char*)"PRINT",
+		(char*)"FILES",
 		(char*)"SERVICE",
 		(char*)"INFO",
 		(char*)"LANGUAGE",
@@ -76,7 +76,7 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 
 		(char*)"НАЗАД",
 		(char*)"ГЛАВНОЕ МЕНЮ",
-		(char*)"ПЕЧАТЬ",
+		(char*)"ФАЙЛЫ",
 		(char*)"СЕРВИС",
 		(char*)"ИНФО",
 		(char*)"ЯЗЫК",

@@ -5,7 +5,7 @@
 	BackImage = "scr_main.cimg"
 	
 	# Print button
-	<ITEM ItemPrint>
+	<ITEM ItemFiles>
 		Coordinates = 120, 65, 340, 100
 		Text = LSTR_PRINT
 		TextCoordinates = 160, 67, 338, 98

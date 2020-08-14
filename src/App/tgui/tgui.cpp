@@ -10,6 +10,7 @@
 #include "tgui_infoscreenfuncs.h"
 #include "tgui_mainscreenfuncs.h"
 #include "tgui_filesscreenfuncs.h"
+#include "tgui_movezscreenfuncs.h"
 
 
 __no_init uint8_t 		tguiDBuff[UIDBUFF_SIZE];
@@ -36,6 +37,8 @@ TG_SCREEN		tguiScreenMovez;
 
 TG_BUTTON		tguiScrFilesButtons[TG_BTN_CNT_SCREEN_FILES];
 TG_SCREEN		tguiScreenFiles;
+TG_BUTTON		tguiScrFilesListButtons[TG_BTN_CNT_SCREEN_FILESICONS];
+TG_SCREEN		tguiScreenFilesList;
 
 
 
@@ -99,6 +102,12 @@ void		TGUI_Init()
 	tgc->btnbackcolor_act = LCDUI_RGB(0xA6BFCB);
 	tgc->btnfont = LCDUI_FONT_H24BOLD;
 	
+	tgc->text_font = LCDUI_FONT_H18;
+	tgc->capt_font = LCDUI_FONT_H18BOLD;
+	tgc->text_color = LCDUI_RGB(0x000000);
+	tgc->box_backcolor;
+	tgc->capt_textcolor;
+	tgc->capt_backcolor;
 	
 	_tgui_ScreenTimeInit();
 	
@@ -106,7 +115,7 @@ void		TGUI_Init()
 	// -------------------- Main Screen elements -----------------------
 {
 	bi = 0;
-	// PRINT button
+	// FILES button
 	tgb = &(tguiScrMainButtons[bi++]);
 	memset((void*)tgb, 0, sizeof(TG_BUTTON));
 	
@@ -680,7 +689,7 @@ void		TGUI_Init()
 	tgb->textoptions.textalign_v = VTA_CENTER;
 
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = (pressfunc)BTNA_GOPREVSCR;
+	tgb->funcs._call_press = _tgui_MovezBackButtonPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 
 	tgb->parentscreen = &tguiScreenMovez;
@@ -690,8 +699,8 @@ void		TGUI_Init()
 	tgb = &(tguiScrMovezButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrMovezButtons[0]), sizeof(TG_BUTTON));
 	
-	tgb->group_id = 1;
-	tgb->button_id = 0;
+	tgb->group_id = TG_SCR_MOVEZ_STEP_GROUP_ID;
+	tgb->button_id = TG_SCR_MOVEZ_10_ID;
 	
 	tgb->position = {16, 65, 115, 114};
 
@@ -701,7 +710,7 @@ void		TGUI_Init()
 	tgb->text = LSTR_10MM;
 	tgb->textposition = {16, 65, 115, 114};
 
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_MovezStepSelectButtonPress;
 
 	tgb->childscreen = NULL;
 
@@ -709,7 +718,7 @@ void		TGUI_Init()
 	tgb = &(tguiScrMovezButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrMovezButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->button_id = 1;
+	tgb->button_id = TG_SCR_MOVEZ_1_ID;
 
 	tgb->position = {132, 65, 231, 114};
 
@@ -718,7 +727,7 @@ void		TGUI_Init()
 	tgb->text = LSTR_1MM;
 	tgb->textposition = {132, 65, 231, 114};
 
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_MovezStepSelectButtonPress;
 
 	tgb->childscreen = NULL;
 
@@ -726,7 +735,7 @@ void		TGUI_Init()
 	tgb = &(tguiScrMovezButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrMovezButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->button_id = 2;
+	tgb->button_id = TG_SCR_MOVEZ_02_ID;
 	tgb->options.active = 1;
 
 	tgb->position = {248, 65, 347, 114};
@@ -736,7 +745,7 @@ void		TGUI_Init()
 	tgb->text = LSTR_02MM;
 	tgb->textposition = {248, 65, 347, 114};
 
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_MovezStepSelectButtonPress;
 
 	tgb->childscreen = NULL;
 
@@ -744,7 +753,7 @@ void		TGUI_Init()
 	tgb = &(tguiScrMovezButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrMovezButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->button_id = 3;
+	tgb->button_id = TG_SCR_MOVEZ_005_ID;
 	tgb->options.active = 0;
 
 	tgb->position = {364, 65, 463, 114};
@@ -754,7 +763,7 @@ void		TGUI_Init()
 	tgb->text = LSTR_005MM;
 	tgb->textposition = {364, 65, 463, 114};
 
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_MovezStepSelectButtonPress;
 
 	tgb->childscreen = NULL;
 
@@ -775,7 +784,7 @@ void		TGUI_Init()
 	tgb->bgimagename_press = FNAME_BTN_MOVEZ_UP_PRESS;
 
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_MovezUpButtonPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 	
 	// DOWN button
@@ -789,22 +798,28 @@ void		TGUI_Init()
 	tgb->bgimagename_en = FNAME_BTN_MOVEZ_DN_EN;
 	tgb->bgimagename_press = FNAME_BTN_MOVEZ_DN_PRESS;
 
+	tgb->funcs._call_press = _tgui_MovezDownButtonPress;
+
 	// HOME button
 	tgb = &(tguiScrMovezButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrMovezButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->position = {16, 125, 335, 169};
 
+	tgb->button_id = TG_SCR_MOVEZ_HOME_ID;
+
 	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
 	tgb->textposition = {75, 125, 335, 169};
 	tgb->text = LSTR_MOVEHOME;
 
-	tgb->options.bgpaint = BGP_NONE;
-	tgb->bgimagename_en = NULL;
-	tgb->bgimagename_press = NULL;
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_MOVEZ_HOMENRDY_EN;
+	tgb->bgimagename_press = FNAME_BTN_MOVEZ_HOMENRDY_EN;
+	tgb->bgimagename_act = FNAME_BTN_MOVEZ_HOMERDY_EN;
 
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_MovezHomeButtonPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 	
 	// SET Z=0 button
@@ -812,10 +827,20 @@ void		TGUI_Init()
 	memcpy((void*)tgb, (void*)(&tguiScrMovezButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->position = {16, 177, 335, 221};
+	
+	tgb->options.disabled = 1;
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_dis = tgc->btntextcolor_dis;
 	tgb->textposition = {75, 177, 335, 221};
 	tgb->text = LSTR_SETZ0;
+
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_act = NULL;
+
+	tgb->funcs._call_press = NULL;
 
 	// STOP button
 	tgb = &(tguiScrMovezButtons[bi++]);
@@ -823,10 +848,18 @@ void		TGUI_Init()
 	
 	tgb->position = {16, 230, 335, 309};
 
+	tgb->options.disabled = 0;
+
 	tgb->textcolor_en = tgc->btntextcolor_en;
 	tgb->textposition = {75, 230, 335, 309};
 	tgb->text = LSTR_STOPMOVE;
 
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_act = NULL;
+
+	tgb->funcs._call_press = _tgui_MovezStopButtonPress;
 	
 	
 	// MOVEZ SCREEN
@@ -851,7 +884,7 @@ void		TGUI_Init()
 	tgs->backcolor = tgc->scrbackcolor;
 
 	tgs->funcs._callpaint = _tgui_DefaultScreenPaint;
-	tgs->funcs._process = _tgui_DefaultScreenProcess;
+	tgs->funcs._process = _tgui_MovezScreenProcess;
 	
 }
 
@@ -900,14 +933,14 @@ void		TGUI_Init()
 	
 	tgb->button_id = TG_SCR_FILES_DIR_ID;
 
-	tgb->position = {8, 53, 368, 68};
+	tgb->position = {8, 53, 385, 68};
 
 	tgb->bgimagename_en = NULL;
 	tgb->bgimagename_press = NULL;
 	tgb->bgimagename_dis = NULL;
 
 	tgb->text = LSTR_TESTSTRING;
-	tgb->textposition = {9, 54, 367, 67};
+	tgb->textposition = {9, 54, 384, 67};
 	tgb->font = LCDUI_FONT_H12BOLD;
 	tgb->textcolor_en = LCDUI_RGB(0x0000);
 	tgb->backcolor_en = LCDUI_RGB(0xC7C7C7);
@@ -1006,17 +1039,41 @@ void		TGUI_Init()
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 
 	
+		// LIST button
+	tgb = &(tguiScrFilesButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrFilesButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_FILES_LIST_ID;
+	tgb->position = {393, 43, 472, 107};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LSTR____;
+	tgb->textposition = {393, 43, 472, 107};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->options.repaintonpress = 1;
+	tgb->options.disabled = 0;
+
+	tgb->bgimagename_en = FNAME_BTN_FILES_LIST_EN;
+	tgb->bgimagename_press = FNAME_BTN_FILES_LIST_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_FILES_LIST_DIS;
+	
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = _tgui_FilesListButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
 		// PREV button
 	tgb = &(tguiScrFilesButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrFilesButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->button_id = TG_SCR_FILES_PREV_ID;
-	tgb->position = {393, 57, 472, 136};
+	tgb->position = {393, 111, 472, 175};
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
 	tgb->text = LSTR____;
-	tgb->textposition = {393, 57, 472, 136};
+	tgb->textposition = {393, 111, 472, 175};
 	
 	tgb->options.bgpaint = BGP_IMAGE;
 	tgb->options.repaintonpress = 1;
@@ -1035,9 +1092,9 @@ void		TGUI_Init()
 	memcpy((void*)tgb, (void*)(&tguiScrFilesButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->button_id = TG_SCR_FILES_UP_ID;
-	tgb->position = {393, 145, 472, 224};
+	tgb->position = {393, 179, 472, 243};
 
-	tgb->textposition = {393, 145, 472, 224};
+	tgb->textposition = {393, 179, 472, 243};
 	
 	tgb->options.disabled = 0;
 
@@ -1054,9 +1111,9 @@ void		TGUI_Init()
 	memcpy((void*)tgb, (void*)(&tguiScrFilesButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->button_id = TG_SCR_FILES_DOWN_ID;
-	tgb->position = {393, 232, 472, 311};
+	tgb->position = {393, 247, 472, 311};
 
-	tgb->textposition = {393, 232, 472, 311};
+	tgb->textposition = {393, 247, 472, 311};
 	
 	tgb->bgimagename_en = FNAME_BTN_FILES_DN_EN;
 	tgb->bgimagename_press = FNAME_BTN_FILES_DN_PRESS;
@@ -1073,7 +1130,7 @@ void		TGUI_Init()
 	memset((void*)tgs, 0, sizeof(TG_SCREEN));
 	
 	tgs->bgimagename = FNAME_BKGR_FILES;
-	tgs->prevscreen = &tguiScreenService;
+	tgs->prevscreen = &tguiScreenMain;
 
 	tgs->name = LSTR_PRINT;
 	tgs->nameposition = {205, 3, 475, 30};
@@ -1082,6 +1139,231 @@ void		TGUI_Init()
 
 	tgs->btns_count = TG_BTN_CNT_SCREEN_FILES;
 	tgs->buttons = tguiScrFilesButtons;
+
+	tgs->font = LCDUI_FONT_H12;
+	tgs->namefont = tgc->scrnamefont;
+	tgs->textcolor = tgc->scrtextcolor;
+	tgs->nametextcolor = tgc->scrnametextcolor;
+	tgs->backcolor = tgc->scrbackcolor;
+
+	tgs->funcs._callpaint = _tgui_FilesScreenPaint;
+	tgs->funcs._process = _tgui_FilesScreenProcess;
+	
+}
+
+
+
+	// -------------------- FilesList Screen elements -----------------------
+{
+	bi = 0;
+	// BACK button
+	tgb = &(tguiScrFilesListButtons[bi++]);
+	memset((void*)tgb, 0, sizeof(TG_BUTTON));
+	
+	tgb->position = {4, 4, 167, 49};
+
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->text = LSTR_BACK;
+	tgb->textposition = {54, 6, 165, 47};
+	tgb->font = tgc->btnfont;
+	tgb->textcolor_en = LCDUI_RGB(0x074B19);
+	tgb->textcolor_press = tgc->btntextcolor_press;
+	tgb->textcolor_dis = tgc->btntextcolor_dis;
+	tgb->backcolor_en = tgc->btnbackcolor_en;
+	tgb->backcolor_press = tgc->btnbackcolor_press;
+	tgb->backcolor_dis = tgc->btnbackcolor_dis;
+	
+	tgb->options.disabled = 0;
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.repaintonpress = 1;
+	
+	tgb->textoptions.textalign_h = HTA_CENTER;
+	tgb->textoptions.textalign_v = VTA_CENTER;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = _tgui_FilesBackButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+	tgb->parentscreen = &tguiScreenFilesList;
+	tgb->childscreen = NULL;
+
+	// DIRECTORY text-button
+	tgb = &(tguiScrFilesListButtons[bi++]);
+	memset((void*)tgb, 0, sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_FILES_DIR_ID;
+
+	tgb->position = {8, 53, 385, 68};
+
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->text = LSTR_TESTSTRING;
+	tgb->textposition = {9, 54, 384, 67};
+	tgb->font = LCDUI_FONT_H12BOLD;
+	tgb->textcolor_en = LCDUI_RGB(0x0000);
+	tgb->backcolor_en = LCDUI_RGB(0xC7C7C7);
+	
+	tgb->options.disabled = 0;
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.repaintonpress = 0;
+	
+	tgb->textoptions.textalign_h = HTA_LEFT;
+	tgb->textoptions.textalign_v = VTA_CENTER;
+
+	tgb->funcs._call_paint = _tgui_FilesDirNamePaint;
+	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+	tgb->parentscreen = &tguiScreenFilesList;
+	tgb->childscreen = NULL;
+
+	id = 1;
+	// FILES buttons
+	for (uint8_t i = 0; i < 8; i++)
+	{
+		tgb = &(tguiScrFilesListButtons[bi++]);
+		memset((void*)tgb, 0, sizeof(TG_BUTTON));
+		
+		tgb->button_id = id++;
+		
+		tgb->position = {8, (int16_t)(71 + i * 30), 385, (int16_t)(101 + i * 30)};
+
+		tgb->bgimagename_en = NULL;
+		tgb->bgimagename_press = NULL;
+		tgb->bgimagename_dis = NULL;
+
+		tgb->text = LSTR_TESTSTRING;
+		tgb->textposition = {8, (int16_t)(71 + i * 30), 385, (int16_t)(101 + i * 30)};
+		tgb->font = LCDUI_FONT_H18;
+
+		tgb->textcolor_en = LCDUI_RGB(0x000000);
+		tgb->textcolor_press = LCDUI_RGB(0xFFFFFF);
+		tgb->textcolor_dis = LCDUI_RGB(0x000000);
+		tgb->backcolor_en = LCDUI_RGB(0xE0E0E0);
+		tgb->backcolor_press = LCDUI_RGB(0x006BA7);
+		tgb->backcolor_dis = LCDUI_RGB(0xE0E0E0);
+		
+		tgb->options.disabled = 0;
+		tgb->options.bgpaint = BGP_FILL;
+		tgb->options.repaintonpress = 1;
+		
+		tgb->textoptions.textalign_h = HTA_CENTER;
+		tgb->textoptions.textalign_v = VTA_CENTER;
+
+		tgb->funcs._call_paint = _tgui_FilesListFileButtonPaint;
+		tgb->funcs._call_press = _tgui_FilesFileButtonPress;
+		tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+		tgb->parentscreen = &tguiScreenFilesList;
+		tgb->childscreen = NULL;
+	}
+	
+	
+		// LIST button
+	tgb = &(tguiScrFilesListButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrFilesListButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_FILES_LIST_ID;
+	tgb->position = {393, 43, 472, 107};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LSTR____;
+	tgb->textposition = {393, 43, 472, 107};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->options.repaintonpress = 1;
+	tgb->options.disabled = 0;
+
+	tgb->bgimagename_en = FNAME_BTN_FILES_ICONS_EN;
+	tgb->bgimagename_press = FNAME_BTN_FILES_ICONS_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_FILES_ICONS_DIS;
+	
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = _tgui_FilesListButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+		// PREV button
+	tgb = &(tguiScrFilesListButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrFilesListButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_FILES_PREV_ID;
+	tgb->position = {393, 111, 472, 175};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LSTR____;
+	tgb->textposition = {393, 111, 472, 175};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->options.repaintonpress = 1;
+	tgb->options.disabled = 1;
+
+	tgb->bgimagename_en = FNAME_BTN_FILES_PREV_EN;
+	tgb->bgimagename_press = FNAME_BTN_FILES_PREV_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_FILES_PREV_DIS;
+	
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = _tgui_FilesPrevButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+		// UP button
+	tgb = &(tguiScrFilesListButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrFilesListButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_FILES_UP_ID;
+	tgb->position = {393, 179, 472, 243};
+
+	tgb->textposition = {393, 179, 472, 243};
+	
+	tgb->options.disabled = 0;
+
+	tgb->bgimagename_en = FNAME_BTN_FILES_UP_EN;
+	tgb->bgimagename_press = FNAME_BTN_FILES_UP_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_FILES_UP_DIS;
+	
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = _tgui_FilesUpButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+		// DOWN button
+	tgb = &(tguiScrFilesListButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrFilesListButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_FILES_DOWN_ID;
+	tgb->position = {393, 247, 472, 311};
+
+	tgb->textposition = {393, 247, 472, 311};
+	
+	tgb->bgimagename_en = FNAME_BTN_FILES_DN_EN;
+	tgb->bgimagename_press = FNAME_BTN_FILES_DN_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_FILES_DN_DIS;
+	
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = _tgui_FilesDownButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	
+	// FILES SCREEN
+	tgs = &tguiScreenFilesList;
+	memset((void*)tgs, 0, sizeof(TG_SCREEN));
+	
+	tgs->bgimagename = FNAME_BKGR_FILESLIST;
+	tgs->prevscreen = &tguiScreenMain;
+
+	tgs->name = LSTR_PRINT;
+	tgs->nameposition = {205, 3, 475, 30};
+	tgs->nameoptions.textalign_h = HTA_CENTER;
+	tgs->nameoptions.textalign_v = VTA_CENTER;
+
+	tgs->btns_count = TG_BTN_CNT_SCREEN_FILESICONS;
+	tgs->buttons = tguiScrFilesListButtons;
 
 	tgs->font = LCDUI_FONT_H12;
 	tgs->namefont = tgc->scrnamefont;
@@ -1137,6 +1419,14 @@ void		TGUI_USBStateChanged()
 {
 	if (tguiScreenFiles.funcs._process != NULL && tguiActiveScreen != &tguiScreenFiles)
 		tguiScreenFiles.funcs._process((void*)&tguiScreenFiles, NULL);
+}
+//==============================================================================
+
+
+
+
+void		TGUI_ShowMessageBoxOk(char* caption, char *msg, pressfunc func)
+{
 }
 //==============================================================================
 

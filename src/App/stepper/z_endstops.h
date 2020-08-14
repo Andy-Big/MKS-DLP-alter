@@ -66,9 +66,9 @@ void	EndstopsInterrupt();
 
 
 
-enum EndstopEnum : char {
-  Z_MIN,
-  Z_MAX
+enum EndstopEnum : uint8_t {
+  Z_MIN = 0x01,
+  Z_MAX = 0x02
 };
 
 class Endstops {
@@ -76,8 +76,8 @@ class Endstops {
       typedef uint8_t esbits_t;
 
   private:
-    static bool enabled, enabled_globally;
-    static esbits_t live_state;
+    static bool enabled;
+    static uint8_t live_state;
     static volatile uint8_t hit_state;      // Use X_MIN, Y_MIN, Z_MIN and Z_MIN_PROBE as BIT index
 
   public:
@@ -91,20 +91,23 @@ class Endstops {
     /**
      * Are endstops or the probe set to abort the move?
      */
-    __INLINE static bool abort_enabled()
+    __INLINE static bool is_enabled()
 	{
       return enabled;
     }
 
-    static inline bool global_enabled()
+    __INLINE static void enable()
 	{
-		return enabled_globally;
-	}
+      enabled = 1;
+	  update();
+    }
 
-    /**
-     * Periodic call to poll endstops if required. Called from temperature ISR
-     */
-    static void poll();
+    __INLINE static void disable()
+	{
+      enabled = 0;
+	  live_state = 0;
+	  hit_state = 0;
+    }
 
     /**
      * Update endstops bits from the pins. Apply filtering to get a verified state.
@@ -124,7 +127,7 @@ class Endstops {
     /**
      * Get current endstops state
      */
-    __INLINE static esbits_t state()
+    __INLINE static uint8_t state()
 	{
       return live_state;
     }
@@ -133,28 +136,6 @@ class Endstops {
      * Report endstop hits to serial. Called from loop().
      */
     static void event_handler();
-
-    // Enable / disable endstop checking globally
-    static void enable_globally(const bool onoff=true);
-
-    // Enable / disable endstop checking
-    static void enable(const bool onoff=true);
-
-    // Disable / Enable endstops based on ENSTOPS_ONLY_FOR_HOMING and global enable
-    static void not_homing();
-
-    __INLINE static void validate_homing_move()
-	{
-		hit_on_purpose();
-	}
-
-    // Clear endstops (i.e., they were hit intentionally) to suppress the report
-    __INLINE static void hit_on_purpose()
-	{
-		hit_state = 0;
-	}
-
-    static void resync();
 
 };
 

@@ -8,6 +8,20 @@
 
 
 
+typedef enum
+{
+	PST_IDLE = 0,
+	PST_HOMING_PREUP,
+	PST_HOMING_FAST,
+	PST_HOMING_UP,
+	PST_HOMING_SLOW,
+	PST_FREEMOVING_UP,
+	PST_FREEMOVING_DOWN,
+	
+} PRINTER_STATE;
+
+
+
 
 typedef struct
 {
@@ -15,8 +29,7 @@ typedef struct
 	int8_t			z_home_dir;
 	float			z_min_pos;
 	float			z_max_pos;
-	uint8_t			min_software_endstops;
-	uint8_t			max_software_endstops;
+	uint8_t			move_below_endstop;
 	float			homing_feedrate_z;
 	uint8_t			z_min_endstop_inverting;
 	uint8_t			z_max_endstop_inverting;
@@ -26,12 +39,18 @@ typedef struct
 	float			axis_steps_per_mm;
 	float			max_feedrate_mm_s;
 	unsigned long	max_acceleration_mm_per_s2;
-	float			acceleration;
-	float			travel_acceleration;
 	float			min_feedrate_mm_s;
 	float			min_travel_feedrate_mm_s;
 	float			max_jerk;
+
+	float			acceleration;
+	float			feedrate;
+	float			travel_acceleration;
+	float			travel_feedrate;
+	
 	float			current_vref;
+	float			current_hold_vref;
+	uint32_t		hold_time;		// time after the last movement until the motor current decreases by half, in msec
 
 } MOTOR_CONFIG;
 
@@ -39,17 +58,19 @@ typedef struct
 
 typedef struct
 {
+	PRINTER_STATE	printer_state;
 	int32_t			current_position_steps;
 	float			target_position;
 	uint8_t			is_printing;
 	uint8_t			position_known;
+	uint8_t			zmotor_enabled;
 
-} SYSTEM_STATE;
+} SYSTEM_INFO;
 
 
 
 
-extern SYSTEM_STATE			systemState;
+extern SYSTEM_INFO			systemInfo;
 extern MOTOR_CONFIG			cfgzMotor;
 
 

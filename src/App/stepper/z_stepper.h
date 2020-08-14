@@ -328,7 +328,8 @@ class Stepper {
     static void set_axis_position(const int32_t v);
 
     // Discard current block and free any resources
-    __INLINE static void discard_current_block() {
+    __INLINE static void discard_current_block()
+   {
       current_block = nullptr;
       axis_did_move = 0;
       zPlanner.release_current_block();

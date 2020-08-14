@@ -670,7 +670,7 @@ void Planner::quick_stop()
 	delay_before_delivering = BLOCK_DELAY_FOR_1ST_MOVE;
 	
 	// Make sure to drop any attempt of queuing moves for 1 second
-	cleaning_buffer_counter = TEMP_TIMER_FREQUENCY;
+	cleaning_buffer_counter = 0;
 	
 	// Reenable Stepper ISR
 	if (was_enabled)
@@ -879,7 +879,7 @@ bool Planner::_populate_block(block_t * const block, bool split_move, const int3
 	{
 
 		// Start with print or travel acceleration
-		accel = (uint32_t)CEIL((systemState.is_printing ? settings.acceleration : settings.travel_acceleration) * steps_per_mm);
+		accel = (uint32_t)CEIL((systemInfo.is_printing ? settings.acceleration : settings.travel_acceleration) * steps_per_mm);
 
 		// Limit acceleration per axis
 		if (block->step_event_count <= cutoff_long)
@@ -1170,7 +1170,7 @@ void Planner::reset_acceleration_rates()
 void Planner::refresh_positioning()
 {
 	steps_to_mm = 1.0f / settings.axis_steps_per_mm;
-	set_position_mm((float)systemState.current_position_steps * steps_to_mm);
+	set_position_mm((float)systemInfo.current_position_steps * steps_to_mm);
 	reset_acceleration_rates();
 }
 

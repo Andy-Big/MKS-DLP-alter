@@ -80,6 +80,14 @@ typedef struct
 	uint16_t			btnbackcolor_act;
 	LCDUI_FONT_TYPE		btnfont;
 	
+	// message box properties
+	LCDUI_FONT_TYPE		text_font;
+	LCDUI_FONT_TYPE		capt_font;
+	uint16_t			text_color;
+	uint16_t			box_backcolor;
+	uint16_t			capt_textcolor;
+	uint16_t			capt_backcolor;
+	
 	char				*imagesdir;
 } TG_CONFIG;
 
@@ -183,6 +191,32 @@ typedef struct
 
 
 
+typedef struct
+{
+	void				*prevscreen;
+	
+	char				caption[128];
+	char				text[512];
+	TG_RECT				captpos;
+	TG_RECT				textpos;
+	
+	uint8_t				btns_count;
+	TG_BUTTON			buttons[2];
+	
+	LCDUI_FONT_TYPE		font;
+	uint16_t			text_color;
+	uint16_t			box_backcolor;
+	uint16_t			capt_textcolor;
+	uint16_t			capt_backcolor;
+
+	struct {
+		paintfunc		_callpaint;	// repaint screen
+		processfunc		_process;	// screen process handling (check for changes, touch pressed, etc)
+	} funcs;
+} TG_MSGBOX;
+
+
+
 #define	FNAME_LOGO					(char*)"logo.cimg"
 #define	FNAME_BKGR_MAIN				(char*)"scr_main.cimg"
 #define	FNAME_BKGR_SERVICE			(char*)"scr_service.cimg"
@@ -190,11 +224,14 @@ typedef struct
 #define	FNAME_BKGR_INFO				(char*)"scr_info.cimg"
 #define	FNAME_BKGR_MOVEZ			(char*)"scr_movez.cimg"
 #define	FNAME_BKGR_FILES			(char*)"scr_files.cimg"
+#define	FNAME_BKGR_FILESLIST		(char*)"scr_files_list.cimg"
 
 #define	FNAME_BTN_MOVEZ_UP_EN		(char*)"btn_movez_up_en.cimg"
 #define	FNAME_BTN_MOVEZ_UP_PRESS	(char*)"btn_movez_up_press.cimg"
 #define	FNAME_BTN_MOVEZ_DN_EN		(char*)"btn_movez_down_en.cimg"
 #define	FNAME_BTN_MOVEZ_DN_PRESS	(char*)"btn_movez_down_press.cimg"
+#define	FNAME_BTN_MOVEZ_HOMERDY_EN	(char*)"btn_movez_home_ready.cimg"
+#define	FNAME_BTN_MOVEZ_HOMENRDY_EN	(char*)"btn_movez_home_noready.cimg"
 
 #define	FNAME_BTN_FILES_UP_DIS		(char*)"btn_files_up_dis.cimg"
 #define	FNAME_BTN_FILES_UP_EN		(char*)"btn_files_up_en.cimg"
@@ -205,6 +242,12 @@ typedef struct
 #define	FNAME_BTN_FILES_PREV_EN		(char*)"btn_files_prev_en.cimg"
 #define	FNAME_BTN_FILES_PREV_DIS	(char*)"btn_files_prev_dis.cimg"
 #define	FNAME_BTN_FILES_PREV_PRESS	(char*)"btn_files_prev_press.cimg"
+#define	FNAME_BTN_FILES_LIST_EN		(char*)"btn_files_list_en.cimg"
+#define	FNAME_BTN_FILES_LIST_DIS	(char*)"btn_files_list_dis.cimg"
+#define	FNAME_BTN_FILES_LIST_PRESS	(char*)"btn_files_list_press.cimg"
+#define	FNAME_BTN_FILES_ICONS_EN	(char*)"btn_files_icons_en.cimg"
+#define	FNAME_BTN_FILES_ICONS_DIS	(char*)"btn_files_icons_dis.cimg"
+#define	FNAME_BTN_FILES_ICONS_PRESS	(char*)"btn_files_icons_press.cimg"
 #define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn_files_dir.cimg"
 
 
@@ -239,17 +282,29 @@ extern TG_SCREEN		tguiScreenLanguage;
 extern TG_BUTTON		tguiScrInfoButtons[TG_BTN_CNT_SCREEN_INFO];
 extern TG_SCREEN		tguiScreenInfo;
 
+#define		TG_SCR_MOVEZ_STEP_GROUP_ID		1
+#define		TG_SCR_MOVEZ_10_ID				20
+#define		TG_SCR_MOVEZ_1_ID				21
+#define		TG_SCR_MOVEZ_02_ID				22
+#define		TG_SCR_MOVEZ_005_ID				23
+#define		TG_SCR_MOVEZ_HOME_ID			30
+
 #define		TG_BTN_CNT_SCREEN_MOVEZ			10
 extern TG_BUTTON		tguiScrMovezButtons[TG_BTN_CNT_SCREEN_MOVEZ];
 extern TG_SCREEN		tguiScreenMovez;
 
-#define		TG_BTN_CNT_SCREEN_FILES			9
 #define		TG_SCR_FILES_DIR_ID				20
 #define		TG_SCR_FILES_PREV_ID			21
 #define		TG_SCR_FILES_UP_ID				22
 #define		TG_SCR_FILES_DOWN_ID			23
+#define		TG_SCR_FILES_LIST_ID			24
+
+#define		TG_BTN_CNT_SCREEN_FILES			10
 extern TG_BUTTON		tguiScrFilesButtons[TG_BTN_CNT_SCREEN_FILES];
 extern TG_SCREEN		tguiScreenFiles;
+#define		TG_BTN_CNT_SCREEN_FILESICONS	14
+extern TG_BUTTON		tguiScrFilesListButtons[TG_BTN_CNT_SCREEN_FILESICONS];
+extern TG_SCREEN		tguiScreenFilesList;
 
 
 
@@ -269,6 +324,8 @@ void		TGUI_ForceRepaint();
 void		TGUI_Process();
 
 void		TGUI_USBStateChanged();
+
+void		TGUI_ShowMessageBoxOk(char* caption, char *msg, pressfunc func);
 
 
 

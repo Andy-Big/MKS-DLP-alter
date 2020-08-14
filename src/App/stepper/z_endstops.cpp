@@ -52,10 +52,10 @@ void	EndstopsInterrupt()
 
 // private:
 
-bool Endstops::enabled, Endstops::enabled_globally; // Initialized by settings.load()
-volatile uint8_t Endstops::hit_state;
+bool				Endstops::enabled = 1; // Initialized by settings.load()
+volatile uint8_t	Endstops::hit_state = 0;
 
-Endstops::esbits_t Endstops::live_state = 0;
+uint8_t				Endstops::live_state = 0;
 
 // Initialized by settings.load()
 
@@ -72,68 +72,41 @@ void Endstops::init()
 	HAL_NVIC_SetPriority(ZE_MAX_EXTI_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(ZE_MAX_EXTI_IRQn);
 
+	enabled = 1;
 } // Endstops::init
 
 
-void Endstops::enable_globally(const bool onoff)
-{
-  enabled_globally = enabled = onoff;
-  resync();
-}
-
-// Enable / disable endstop checking
-void Endstops::enable(const bool onoff)
-{
-  enabled = onoff;
-  resync();
-}
-
-// Disable / Enable endstops based on ENSTOPS_ONLY_FOR_HOMING and global enable
-void Endstops::not_homing()
-{
-  enabled = enabled_globally;
-}
-
-// Get the stable endstop states when enabled
-void Endstops::resync() {
-  if (!abort_enabled()) return;     // If endstops/probes are disabled the loop below can hang
-
-  // Wait for Temperature ISR to run at least once (runs at 1KHz)
-  update();
-}
-
-// The following routines are called from an ISR context. It could be the temperature ISR, the
-// endstop ISR or the Stepper ISR.
-
 // Check endstops - Could be called from Temperature ISR!
-void Endstops::update() {
+void Endstops::update()
+{
+	if (enabled)
+	{
+		__SET_BIT(live_state, Z_MIN, (HAL_GPIO_ReadPin(ZE_MIN_GPIO_Port, ZE_MIN_Pin) != cfgzMotor.z_min_endstop_inverting));
+		__SET_BIT(live_state, Z_MAX, (HAL_GPIO_ReadPin(ZE_MAX_GPIO_Port, ZE_MAX_Pin) != cfgzMotor.z_max_endstop_inverting));
 
-  /**
-   * Check and update endstops
-   */
-      __SET_BIT(live_state, Z_MIN, (HAL_GPIO_ReadPin(ZE_MIN_GPIO_Port, ZE_MIN_Pin) != cfgzMotor.z_min_endstop_inverting));
-      __SET_BIT(live_state, Z_MAX, (HAL_GPIO_ReadPin(ZE_MAX_GPIO_Port, ZE_MAX_Pin) != cfgzMotor.z_max_endstop_inverting));
+		// Signal, after validation, if an endstop limit is pressed or not
 
-  // Signal, after validation, if an endstop limit is pressed or not
+		if (zStepper.axis_is_moving())
+		{
+			if (zStepper.motor_direction())
+			{ // Z -direction. Gantry down, bed up.
 
-  if (zStepper.axis_is_moving()) {
-    if (zStepper.motor_direction())
-	{ // Z -direction. Gantry down, bed up.
-
-//        PROCESS_ENDSTOP_Z(MIN);
-      if (TEST(state(), Z_MIN))
-	  {
-        SBI(hit_state, Z_MIN);
-        zPlanner.endstop_triggered();
-      }
-    }
-    else { // Z +direction. Gantry up, bed down.
-      if (TEST(state(), Z_MAX))
-	  {
-        SBI(hit_state, Z_MAX);
-        zPlanner.endstop_triggered();
-      }
-    }
-  }
+				//        PROCESS_ENDSTOP_Z(MIN);
+				if (TEST(state(), Z_MIN))
+				{
+					SBI(hit_state, Z_MIN);
+					zPlanner.endstop_triggered();
+				}
+			}
+			else
+			{ // Z +direction. Gantry up, bed down.
+				if (TEST(state(), Z_MAX))
+				{
+					SBI(hit_state, Z_MAX);
+					zPlanner.endstop_triggered();
+				}
+			}
+		}
+	}
 } // Endstops::update()
 

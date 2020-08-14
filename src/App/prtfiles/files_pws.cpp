@@ -2,7 +2,7 @@
 
 
 
-extern __no_init uint8_t 		fbuff[8192] @ "CCMRAM";
+extern __no_init uint8_t 		fbuff[16384] @ "CCMRAM";
 extern __no_init FIL			ufile @ "CCMRAM";
 extern __no_init FIL			sfile @ "CCMRAM";
 
@@ -109,10 +109,14 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 	uint32_t		rd = 0;
 	uint16_t		*buff;
 	uint32_t		doffset = FPWS_GetPreviewDataOffset();
+	uint16_t		dbuff[480];
+	uint32_t		bufpos = 0, oldbufpos = 0, oldline = 0, btoread = 0;
 
 
 	pw = FPWS_GetPreviewWidth();
 	ph = FPWS_GetPreviewHeight();
+	// read by full lines of source preview image
+	btoread = sizeof(fbuff) / ( pw * 2) * pw;
 
 	if (pw == 0 || ph == 0)
 		return 0;
@@ -135,23 +139,40 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 	LCD_SetWindows(ix, iy, iw, ih);
 	LCD_WriteRAM_Prepare();
 
+	if (f_lseek(file, doffset) != FR_OK)
+		return 0;
+	if (f_read(file, fbuff, btoread, &rd) != FR_OK || rd != btoread)
+		return 0;
+
+	bufpos = (uint32_t)(nextcol);
 	while (lpainted < ih)
 	{
-		if (f_lseek(file, doffset + (uint32_t)nextline * pw * 2) != FR_OK)
-			return 0;
-		if (f_read(file, fbuff, pw * 2, &rd) != FR_OK || rd != pw * 2)
-			return 0;
-		buff = (uint16_t*)fbuff;
 		while (cpainted < iw)
 		{
-			LCD_WriteRAM(buff[(uint32_t)(nextcol)]);
+			if (bufpos >= btoread / 2)
+			{
+				if (f_read(file, fbuff, btoread, &rd) != FR_OK)
+					return 0;
+				bufpos = 0;
+				oldbufpos = bufpos;
+				nextcol = 0;
+			}
+			dbuff[cpainted] = buff[bufpos];
+//			LCD_WriteRAM(buff[(uint32_t)(nextcol)]);
 			nextcol += pscale;
 			cpainted++;
+			bufpos = oldbufpos + (uint32_t)(nextcol);
 		}
+		LCD_WriteRAM_DMA(dbuff, cpainted);
 		nextcol = 0;
 		nextline += pscale;
 		cpainted = 0;
 		lpainted++;
+		bufpos += ((uint32_t)nextline - oldline) * pw;
+		if (bufpos % pw)
+			bufpos -= (bufpos % pw);
+		oldline = (uint32_t)nextline;
+		oldbufpos = bufpos;
 	}
 
 

@@ -2538,6 +2538,9 @@
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_mainscreenfuncs.cpp</name>
             </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_movezscreenfuncs.cpp</name>
+            </file>
         </group>
         <file>
             <name>$PROJ_DIR$\src\App\datetime.cpp</name>
