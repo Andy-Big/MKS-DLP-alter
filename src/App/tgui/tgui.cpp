@@ -21,8 +21,7 @@ __no_init TCHAR			tfname[512] @ "CCMRAM";
 
 TG_CONFIG		tguiDefaultConfig;
 
-TG_BUTTON		tguiMsgBoxButtons[TG_BTN_CNT_MSGBOX];
-TG_MSGBOX		tguiMsgeBox;
+TG_MSGBOX		tguiMsgBox;
 
 TG_BUTTON		tguiScrMainButtons[TG_BTN_CNT_SCREEN_MAIN];
 TG_SCREEN		tguiScreenMain;
@@ -118,11 +117,11 @@ void		TGUI_Init()
 	
 	// -------------------- Messagebox elements -----------------------
 {
+	bi = 0;
+	memset((void*)&tguiMsgBox, 0, sizeof(TG_MSGBOX));
 	for (uint8_t ii = 0; ii < TG_BTN_CNT_MSGBOX; ii++)
 	{
-		bi = 0;
-		tgb = &(tguiMsgBoxButtons[bi++]);
-		memset((void*)tgb, 0, sizeof(TG_BUTTON));
+		tgb = &(tguiMsgBox.buttons[bi++]);
 
 		tgb->button_id = ii + 1;
 
@@ -150,7 +149,7 @@ void		TGUI_Init()
 		tgb->textoptions.textalign_v = VTA_CENTER;
 
 		tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-		tgb->funcs._call_press = _tgui_MessageBoxButtonPress;
+		tgb->funcs._call_press = _tgui_MsgBoxButtonPress;
 		tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 
 		tgb->parentscreen = NULL;
@@ -159,25 +158,21 @@ void		TGUI_Init()
 
 
 	// MESSAGEBOX
-	memset((void*)&tguiMsgeBox, 0, sizeof(TG_MSGBOX));
 	
-	tguiMsgeBox.type = MSGBOX_OK;
-	tguiMsgeBox.prevscreen = NULL;
+	tguiMsgBox.type = MSGBOX_OK;
+	tguiMsgBox.prevscreen = NULL;
 	
-	tguiMsgeBox.btns_count = TG_BTN_CNT_MSGBOX;
+	tguiMsgBox.btns_count = TG_BTN_CNT_MSGBOX;
 	
-	tguiMsgeBox.caption_height = 26;
+	tguiMsgBox.caption_height = 26;
 	
-	tguiMsgeBox.font_caption = tgc->mb_capt_font;
-	tguiMsgeBox.font_text = tgc->mb_text_font;
-	tguiMsgeBox.text_color = tgc->mb_text_color;
-	tguiMsgeBox.box_backcolor = tgc->mb_box_backcolor;
-	tguiMsgeBox.capt_textcolor = tgc->mb_capt_textcolor;
-	tguiMsgeBox.capt_backcolor = tgc->mb_capt_backcolor;
+	tguiMsgBox.font_caption = tgc->mb_capt_font;
+	tguiMsgBox.font_text = tgc->mb_text_font;
+	tguiMsgBox.text_color = tgc->mb_text_color;
+	tguiMsgBox.box_backcolor = tgc->mb_box_backcolor;
+	tguiMsgBox.capt_textcolor = tgc->mb_capt_textcolor;
+	tguiMsgBox.capt_backcolor = tgc->mb_capt_backcolor;
 
-	tguiMsgeBox.funcs._callpaint = _tgui_DefaultScreenPaint;
-	tguiMsgeBox.funcs._process = _tgui_DefaultScreenProcess;
-	
 }
 
 
@@ -447,7 +442,7 @@ void		TGUI_Init()
 
 	// LANGUAGE buttons
 	char		*txt;
-	for (id = 0; id < LANG_GetLanduadesCount(); id++)
+	for (id = 0; id < LANG_GetLanduagesCount(); id++)
 	{
 		tgb = &(tguiScrLanguageButtons[bi++]);
 		memset((void*)tgb, 0, sizeof(TG_BUTTON));
@@ -898,7 +893,7 @@ void		TGUI_Init()
 	
 	tgb->position = {16, 177, 335, 221};
 	
-	tgb->options.disabled = 1;
+	tgb->options.disabled = 0;
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 	tgb->textcolor_dis = tgc->btntextcolor_dis;
@@ -910,7 +905,7 @@ void		TGUI_Init()
 	tgb->bgimagename_press = NULL;
 	tgb->bgimagename_act = NULL;
 
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_MovezSetZ0ButtonPress;
 
 	// STOP button
 	tgb = &(tguiScrMovezButtons[bi++]);
@@ -1465,7 +1460,9 @@ void		TGUI_DrawLogo()
 // Forced repaint current screen
 void		TGUI_ForceRepaint()
 {
-	if (tguiActiveScreen->funcs._callpaint != NULL)
+	if (tguiActiveScreen == (TG_SCREEN*)&tguiMsgBox)
+		_tgui_MsgBoxPaint();
+	else if (tguiActiveScreen->funcs._callpaint != NULL)
 		tguiActiveScreen->funcs._callpaint(tguiActiveScreen, NULL);
 }
 //==============================================================================
@@ -1476,7 +1473,9 @@ void		TGUI_ForceRepaint()
 // Current screen periodical process handling (check for changes, touch pressed, etc)
 void		TGUI_Process()
 {
-	if (tguiActiveScreen->funcs._process != NULL)
+	if (tguiActiveScreen == (TG_SCREEN*)&tguiMsgBox)
+		_tgui_MsgBoxProcess();
+	else if (tguiActiveScreen->funcs._process != NULL)
 		tguiActiveScreen->funcs._process(tguiActiveScreen, NULL);
 }
 //==============================================================================
@@ -1495,8 +1494,9 @@ void		TGUI_USBStateChanged()
 
 
 
-void		TGUI_ShowMessageBoxOk(char* caption, char *msg, pressfunc func)
+void		TGUI_MessageBoxOk(char *caption, char *text)
 {
+	_tgui_MsgBoxShow(MSGBOX_OK, caption, text, NULL, NULL);
 }
 //==============================================================================
 

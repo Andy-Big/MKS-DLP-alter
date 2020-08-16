@@ -301,8 +301,8 @@ void	LCDUI_FillRect(int16_t x, int16_t y, int16_t w, int16_t h)
 
 	LCD_SetWindows(x, y, w, h);
 	LCD_WriteRAM_Prepare();
-	h *= w;
-	for(y = 0; y < h; y++)
+	int32_t cnt = h * w;
+	while(cnt--)
 	{
 		LCD_WriteRAM(lcdui_color);
 	}

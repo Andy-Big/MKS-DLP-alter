@@ -21,6 +21,11 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"h",
 		(char*)"min",
 		(char*)"sec",
+		
+		(char*)"OK",
+		(char*)"Cancel",
+		(char*)"Yes",
+		(char*)"No",
 
 		(char*)"10",
 		(char*)"1",
@@ -46,6 +51,9 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Set Z=0",
 		(char*)"Stop!",
 		
+		(char*)"Error!",
+		(char*)"You must first home\nthe platform.",
+		
 	};
 
 constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
@@ -68,6 +76,11 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"ч",
 		(char*)"мин",
 		(char*)"сек",
+
+		(char*)"OK",
+		(char*)"Отмена",
+		(char*)"Да",
+		(char*)"Нет",
 
 		(char*)"10",
 		(char*)"1",
@@ -93,7 +106,10 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Домой",
 		(char*)"Уст. Z=0",
 		(char*)"Стоп!",
-		
+
+		(char*)"Ошибка!",
+		(char*)"Необходимо сначала отхомить\nплатформу.",
+
 	};
 
 
@@ -157,7 +173,7 @@ void		LANG_SetLanguage(uint8_t lang)
 
 
 
-uint8_t		LANG_GetLanduadesCount()
+uint8_t		LANG_GetLanduagesCount()
 {
 	return LNG_LANGS_COUNT;
 }

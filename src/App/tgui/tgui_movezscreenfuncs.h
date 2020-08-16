@@ -11,6 +11,7 @@ void		_tgui_MovezHomeButtonPress(void *tguiobj, void *param);
 void		_tgui_MovezStepSelectButtonPress(void *tguiobj, void *param);
 void		_tgui_MovezUpButtonPress(void *tguiobj, void *param);
 void		_tgui_MovezDownButtonPress(void *tguiobj, void *param);
+void		_tgui_MovezSetZ0ButtonPress(void *tguiobj, void *param);
 
 void		_tgui_MovezUpdateHomed();
 

@@ -200,6 +200,7 @@ typedef enum
 
 
 
+#define		TG_BTN_CNT_MSGBOX				2
 typedef struct
 {
 	MSGBOXTYPE			type;
@@ -208,11 +209,10 @@ typedef struct
 	
 	char				caption[128];
 	char				text[512];
-	TG_RECT				captpos;
-	TG_RECT				textpos;
+	TG_RECT				boxpos;
 	
 	uint8_t				btns_count;
-	TG_BUTTON			buttons[2];
+	TG_BUTTON			buttons[TG_BTN_CNT_MSGBOX];
 	
 	uint16_t			caption_height;
 	
@@ -222,11 +222,6 @@ typedef struct
 	uint16_t			box_backcolor;
 	uint16_t			capt_textcolor;
 	uint16_t			capt_backcolor;
-
-	struct {
-		paintfunc		_callpaint;	// repaint screen
-		processfunc		_process;	// screen process handling (check for changes, touch pressed, etc)
-	} funcs;
 } TG_MSGBOX;
 
 
@@ -284,9 +279,7 @@ extern TG_CONFIG		tguiDefaultConfig;
 #define		TG_BTN_MSGBOX_YESOK_ID			10
 #define		TG_BTN_MSGBOX_NOCANCEL_ID		11
 
-#define		TG_BTN_CNT_MSGBOX				2
-extern TG_BUTTON		tguiMsgBoxButtons[TG_BTN_CNT_MSGBOX];
-extern TG_MSGBOX		tguiMsgeBox;
+extern TG_MSGBOX		tguiMsgBox;
 
 #define		TG_BTN_CNT_SCREEN_MAIN			4
 #define		TG_TIMEBUTTON_ID				1
@@ -348,7 +341,7 @@ void		TGUI_Process();
 
 void		TGUI_USBStateChanged();
 
-void		TGUI_ShowMessageBoxOk(char* caption, char *msg, pressfunc func);
+void		TGUI_MessageBoxOk(char *caption, char *text);
 
 
 

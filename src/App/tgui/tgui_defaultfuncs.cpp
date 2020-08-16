@@ -900,28 +900,45 @@ void		_tgui_DefaultButtonProcess(void *tguiobj, void *param)
 					// call linked function or predefined action
 					if (thisbtn->funcs._call_press != NULL)
 					{
-						if (thisbtn->funcs._call_press == (pressfunc)BTNA_GOCHILDSCR && thisbtn->childscreen != NULL)
+						if (tguiActiveScreen == (TG_SCREEN*)&tguiMsgBox)
 						{
-							// go to child screen
-							thisbtn->options.pressed = 0;
-							TG_SCREEN		*curscreen = tguiActiveScreen;
-							tguiActiveScreen = (TG_SCREEN*)thisbtn->childscreen;
-							tguiActiveScreen->prevscreen = curscreen;
-							TGUI_ForceRepaint();
-						}
-						else
-						{
-							// back to previous screen
-							if (thisbtn->funcs._call_press == (pressfunc)BTNA_GOPREVSCR && tguiActiveScreen->prevscreen != NULL)
+							if (thisbtn->funcs._call_press == (pressfunc)BTNA_GOPREVSCR)
 							{
 								thisbtn->options.pressed = 0;
-								tguiActiveScreen = (TG_SCREEN*)tguiActiveScreen->prevscreen;
+								tguiActiveScreen = (TG_SCREEN*)((TG_MSGBOX*)tguiActiveScreen)->prevscreen;
 								TGUI_ForceRepaint();
 							}
 							else
 							{
 								// call linked function or predefined action
 								thisbtn->funcs._call_press((void*)thisbtn, NULL);
+							}
+						}
+						else
+						{
+							if (thisbtn->funcs._call_press == (pressfunc)BTNA_GOCHILDSCR && thisbtn->childscreen != NULL)
+							{
+								// go to child screen
+								thisbtn->options.pressed = 0;
+								TG_SCREEN		*curscreen = tguiActiveScreen;
+								tguiActiveScreen = (TG_SCREEN*)thisbtn->childscreen;
+								tguiActiveScreen->prevscreen = curscreen;
+								TGUI_ForceRepaint();
+							}
+							else
+							{
+								// back to previous screen
+								if (thisbtn->funcs._call_press == (pressfunc)BTNA_GOPREVSCR && tguiActiveScreen->prevscreen != NULL)
+								{
+									thisbtn->options.pressed = 0;
+									tguiActiveScreen = (TG_SCREEN*)tguiActiveScreen->prevscreen;
+									TGUI_ForceRepaint();
+								}
+								else
+								{
+									// call linked function or predefined action
+									thisbtn->funcs._call_press((void*)thisbtn, NULL);
+								}
 							}
 						}
 					}

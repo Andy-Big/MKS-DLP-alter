@@ -29,6 +29,11 @@ typedef enum
 	LSTR_SHORTHOUR,
 	LSTR_SHORTMINUTE,
 	LSTR_SHORTSECOND,
+	
+	LSTR_OK,
+	LSTR_CANCEL,
+	LSTR_YES,
+	LSTR_NO,
 
 	LSTR_10MM,
 	LSTR_1MM,
@@ -52,6 +57,9 @@ typedef enum
 	LSTR_SETZ0,
 	LSTR_STOPMOVE,
 	
+	LSTR_ERROR,
+	LSTR_HOME_FIRST,
+	
 	_LSTR_LASTITEM,
 
 	_LSTR_MAXITEM = 0xFFFFFFFF
@@ -70,7 +78,7 @@ typedef struct
 char*		LANG_GetString(LNG_STRING_ID id);
 char*		LANG_GetLanguageName(uint8_t lang);
 void		LANG_SetLanguage(uint8_t lang);
-uint8_t		LANG_GetLanduadesCount();
+uint8_t		LANG_GetLanduagesCount();
 
 
 

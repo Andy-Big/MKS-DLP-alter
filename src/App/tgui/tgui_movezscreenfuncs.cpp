@@ -177,6 +177,18 @@ void		_tgui_MovezDownButtonPress(void *tguiobj, void *param)
 
 
 
+void		_tgui_MovezSetZ0ButtonPress(void *tguiobj, void *param)
+{
+	if (systemInfo.position_known == 0)
+	{
+		TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_HOME_FIRST));
+	}
+}
+//==============================================================================
+
+
+
+
 void		_tgui_MovezUpdateHomed()
 {
 	for (uint8_t i = 0; i < tguiScreenMovez.btns_count; i++)
