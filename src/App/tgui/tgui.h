@@ -81,12 +81,12 @@ typedef struct
 	LCDUI_FONT_TYPE		btnfont;
 	
 	// message box properties
-	LCDUI_FONT_TYPE		text_font;
-	LCDUI_FONT_TYPE		capt_font;
-	uint16_t			text_color;
-	uint16_t			box_backcolor;
-	uint16_t			capt_textcolor;
-	uint16_t			capt_backcolor;
+	LCDUI_FONT_TYPE		mb_text_font;
+	LCDUI_FONT_TYPE		mb_capt_font;
+	uint16_t			mb_text_color;
+	uint16_t			mb_box_backcolor;
+	uint16_t			mb_capt_textcolor;
+	uint16_t			mb_capt_backcolor;
 	
 	char				*imagesdir;
 } TG_CONFIG;
@@ -190,9 +190,20 @@ typedef struct
 } TG_SCREEN;
 
 
+typedef enum
+{
+	MSGBOX_OK = 0,
+	MSGBOX_OKCANCEL,
+	MSGBOX_YESNO,
+	
+} MSGBOXTYPE;
+
+
 
 typedef struct
 {
+	MSGBOXTYPE			type;
+	
 	void				*prevscreen;
 	
 	char				caption[128];
@@ -203,7 +214,10 @@ typedef struct
 	uint8_t				btns_count;
 	TG_BUTTON			buttons[2];
 	
-	LCDUI_FONT_TYPE		font;
+	uint16_t			caption_height;
+	
+	LCDUI_FONT_TYPE		font_caption;
+	LCDUI_FONT_TYPE		font_text;
 	uint16_t			text_color;
 	uint16_t			box_backcolor;
 	uint16_t			capt_textcolor;
@@ -249,6 +263,8 @@ typedef struct
 #define	FNAME_BTN_FILES_ICONS_DIS	(char*)"btn_files_icons_dis.cimg"
 #define	FNAME_BTN_FILES_ICONS_PRESS	(char*)"btn_files_icons_press.cimg"
 #define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn_files_dir.cimg"
+#define	FNAME_BTN_MSGBOX_EN			(char*)"btn_msgbox_en.cimg"
+#define	FNAME_BTN_MSGBOX_PRESS		(char*)"btn_msgbox_press.cimg"
 
 
 
@@ -264,6 +280,13 @@ extern TCHAR			tfname[512] @ "CCMRAM";
 extern TG_CONFIG		tguiDefaultConfig;
 
 
+
+#define		TG_BTN_MSGBOX_YESOK_ID			10
+#define		TG_BTN_MSGBOX_NOCANCEL_ID		11
+
+#define		TG_BTN_CNT_MSGBOX				2
+extern TG_BUTTON		tguiMsgBoxButtons[TG_BTN_CNT_MSGBOX];
+extern TG_MSGBOX		tguiMsgeBox;
 
 #define		TG_BTN_CNT_SCREEN_MAIN			4
 #define		TG_TIMEBUTTON_ID				1

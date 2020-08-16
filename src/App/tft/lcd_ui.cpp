@@ -630,7 +630,7 @@ LCDUI_FONT_TYPE		LCDUI_GetCurrentFont()
 
 
 
-
+/*
 uint32_t	LCDUI_GetTextWidth(char *str)
 {
 	uint32_t i = 0, res = 0;
@@ -644,12 +644,12 @@ uint32_t	LCDUI_GetTextWidth(char *str)
 	return res;
 }
 //==============================================================================
+*/
 
 
 
 
-
-uint32_t	LCDUI_GetTextWidthUTF(char *str)
+uint32_t	LCDUI_GetTextWidth(char *str)
 {
 	uint32_t i = 0, res = 0;
 	char c;
@@ -783,7 +783,7 @@ void	LCDUI_DrawChar(char c,  uint16_t opt, int16_t x, int16_t y)
 
 
 
-void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2, int16_t y2)
+void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2, int16_t y2, TSIZE *tsize)
 {
 	uint16_t i = 0, oldcolor = lcdui_color, oldbgcolor = lcdui_bgcolor, copt = opt;
 	char c;
@@ -797,8 +797,11 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 		x2 = lcdui_width-1;
 	if (y2 < 0)
 		y2 = lcdui_height-1;
-	lcdui_cursor_x = x1;
-	lcdui_cursor_y = y1;
+	if ((opt & LCDUI_TEXT_GETSIZE) == 0)
+	{
+		lcdui_cursor_x = x1;
+		lcdui_cursor_y = y1;
+	}
 
 
 
@@ -822,17 +825,25 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 				sp = i;
 			if (c == '\n')
 				sp = i;
-			if (opt & LCDUI_TEXT_ALIGN_RIGHT)
-				lcdui_cursor_x = x2 - cw;
-			if (opt & LCDUI_TEXT_ALIGN_CENTER)
-				lcdui_cursor_x = x1 + (x2 - x1 - cw) / 2;
-			for (uint16_t j = 0; j < sp; )
+			if (tsize != NULL && tsize->x_size < cw)
+				tsize->x_size = cw;
+			if (tsize != NULL && cw > 0)
+				tsize->y_size += lcdui_current_font->height;
+			
+			if ((opt & LCDUI_TEXT_GETSIZE) == 0)
 			{
-				LCDUI_DrawChar(UTF8toANSI(cp+j), copt);
-				if (*(cp+j) < 0x80)
-					j++;
-				else
-					j += 2;
+				if (opt & LCDUI_TEXT_ALIGN_RIGHT)
+					lcdui_cursor_x = x2 - cw;
+				if (opt & LCDUI_TEXT_ALIGN_CENTER)
+					lcdui_cursor_x = x1 + (x2 - x1 - cw) / 2;
+				for (uint16_t j = 0; j < sp; )
+				{
+					LCDUI_DrawChar(UTF8toANSI(cp+j), copt);
+					if (*(cp+j) < 0x80)
+						j++;
+					else
+						j += 2;
+				}
 			}
 			cw = 0;
 			sw = 0;
@@ -846,7 +857,7 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 				else
 					cp += 2;
 			}
-			if (c != 0)
+			if (c != 0 && (opt & LCDUI_TEXT_GETSIZE) == 0)
 			{
 				lcdui_cursor_y += lcdui_current_font->height;
 				lcdui_cursor_x = x1;

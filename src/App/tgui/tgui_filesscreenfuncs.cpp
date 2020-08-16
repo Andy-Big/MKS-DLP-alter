@@ -225,7 +225,7 @@ void		_tgui_FilesScreenProcess(void *tguiobj, void *param)
 
 void		_tgui_FilesScreenPaint(void *tguiobj, void *param)
 {
-	TG_SCREEN		*thisscr = (TG_SCREEN*)tguiobj;
+//	TG_SCREEN		*thisscr = (TG_SCREEN*)tguiobj;
 	// USB disk removed/inserted after last read files
 	if (UsbMounted == 1 && lastfilenum == 255)
 	{

@@ -119,14 +119,14 @@ void		_tgui_DrawStringInRect(char *str, TG_RECT *rect, TG_TEXTOPTIONS *opt)
 	int16_t th = 0;
 	if (opt->textalign_h == HTA_CENTER)
 	{
-		tw = LCDUI_GetTextWidthUTF(str);
+		tw = LCDUI_GetTextWidth(str);
 		tx += ((rect->right - tx) - tw) / 2;
 	}
 	else
 	{
 		if (opt->textalign_h == HTA_RIGHT)
 		{
-			tw = LCDUI_GetTextWidthUTF(str);
+			tw = LCDUI_GetTextWidth(str);
 			tx = (rect->right - tw);
 		}
 	}
@@ -139,7 +139,7 @@ void		_tgui_DrawStringInRect(char *str, TG_RECT *rect, TG_TEXTOPTIONS *opt)
 	{
 		if (opt->textalign_v == VTA_BOTTOM)
 		{
-			th = LCDUI_GetTextWidthUTF(str);
+			th = LCDUI_GetTextWidth(str);
 			ty = (rect->bottom - th) + th / 8;
 		}
 	}

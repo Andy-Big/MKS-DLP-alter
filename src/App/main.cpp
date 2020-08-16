@@ -366,7 +366,7 @@ int main()
 		
 		if (SYSTIMER_GetCountDown(tguiTimer) == 0)
 		{
-			SYSTIMER_SetCountDown(tguiTimer, 60);
+			SYSTIMER_SetCountDown(tguiTimer, 10);
 			TGUI_Process();
 		}
 		if (SYSTIMER_GetCountDown(zHoldTimer) > 0 && SYSTIMER_GetCountDown(zHoldTimer) < 10)
@@ -384,7 +384,10 @@ int main()
 			case PST_HOMING_PREUP:
 				if (ZMOTOR_IsMoving() == 0)
 				{
-					systemInfo.target_position = cfgzMotor.z_max_pos * (-1.0);
+					if (cfgzMotor.z_home_dir == -1)
+						systemInfo.target_position = cfgzMotor.z_max_pos * (-1.0);
+					else
+						systemInfo.target_position = cfgzMotor.z_max_pos;
 					ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
 					systemInfo.printer_state = PST_HOMING_FAST;
 				}
@@ -393,11 +396,19 @@ int main()
 			case PST_HOMING_FAST:
 				if (ZMOTOR_IsMoving() == 0)
 				{
-					// moved to min endstop
-					if (ZMOTOR_GetEndstopState() & (1 << Z_MIN))
+					if (cfgzMotor.z_home_dir == -1 && ZMOTOR_GetEndstopState() & (1 << Z_MIN))
 					{
-						ZMOTOR_SetPosition(0);
-						systemInfo.target_position = 3;
+						// moved to min endstop
+						ZMOTOR_SetPosition(cfgzMotor.z_home_pos);
+						systemInfo.target_position = cfgzMotor.z_home_pos + 3;
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+						systemInfo.printer_state = PST_HOMING_UP;
+					}
+					else if (cfgzMotor.z_home_dir == 1 && ZMOTOR_GetEndstopState() & (1 << Z_MAX))
+					{
+						// moved to max endstop
+						ZMOTOR_SetPosition(cfgzMotor.z_home_pos);
+						systemInfo.target_position = cfgzMotor.z_home_pos - 3;
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
 						systemInfo.printer_state = PST_HOMING_UP;
 					}
@@ -407,69 +418,56 @@ int main()
 						systemInfo.printer_state = PST_IDLE;
 						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
 					}
-					ZMOTOR_SetPosition(0);
-					systemInfo.target_position = 0;
 				}
 				break;
 
 			case PST_HOMING_UP:
 				if (ZMOTOR_IsMoving() == 0)
 				{
-					systemInfo.target_position = -3;
-					ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_z);
-					systemInfo.printer_state = PST_HOMING_SLOW;
+					if (cfgzMotor.z_home_dir == -1)
+					{
+						systemInfo.target_position = -1;
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_z);
+						systemInfo.printer_state = PST_HOMING_SLOW;
+					}
+					else
+					{
+						systemInfo.target_position = 1;
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_z);
+						systemInfo.printer_state = PST_HOMING_SLOW;
+					}
 				}
 				break;
 
 			case PST_HOMING_SLOW:
 				if (ZMOTOR_IsMoving() == 0)
 				{
-					// moved to min endstop
-					if (ZMOTOR_GetEndstopState() & (1 << Z_MIN))
+					if (ZMOTOR_GetEndstopState() != 0)
 					{
+						// moved to endstop
 						systemInfo.position_known = 1;
 						_tgui_MovezUpdateHomed();
+						ZMOTOR_SetPosition(cfgzMotor.z_home_pos);
+						systemInfo.target_position = cfgzMotor.z_home_pos;
+						ZMOTOR_DisableEndstops();
 					}
-					// endstop not reached, error
 					else
 					{
 					}
-					ZMOTOR_SetPosition(0);
-					systemInfo.target_position = 0;
 					systemInfo.printer_state = PST_IDLE;
 					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
 				}
 				break;
 
 			case PST_FREEMOVING_UP:
-				if (ZMOTOR_IsMoving() == 0)
-				{
-					// max endstop
-					if (ZMOTOR_GetEndstopState() & (1 << Z_MAX))
-					{
-						systemInfo.target_position = ZMOTOR_GetCurrentPosition();
-						ZMOTOR_SetPosition(systemInfo.target_position);
-					}
-					systemInfo.printer_state = PST_IDLE;
-					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
-				}
-				break;
-
 			case PST_FREEMOVING_DOWN:
 				if (ZMOTOR_IsMoving() == 0)
 				{
-					if (cfgzMotor.move_below_endstop)
+					// min endstop
+					if (ZMOTOR_GetEndstopState() != 0)
 					{
-						ZMOTOR_EnableEndstops();
-					}
-					else
-					{
-						// min endstop
-						if (ZMOTOR_GetEndstopState() & (1 << Z_MIN))
-						{
-							systemInfo.target_position = ZMOTOR_GetCurrentPosition();
-							ZMOTOR_SetPosition(systemInfo.target_position);
-						}
+						systemInfo.target_position = ZMOTOR_GetCurrentPosition();
+						ZMOTOR_SetPosition(systemInfo.target_position);
 					}
 					systemInfo.printer_state = PST_IDLE;
 					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);

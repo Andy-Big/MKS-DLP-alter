@@ -2539,6 +2539,9 @@
                 <name>$PROJ_DIR$\src\App\tgui\tgui_mainscreenfuncs.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_messagebox.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_movezscreenfuncs.cpp</name>
             </file>
         </group>

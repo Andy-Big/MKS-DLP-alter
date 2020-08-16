@@ -15,3 +15,14 @@
 settings/Project.wsdt
 *.sim
 *.tmp
+*.obj
+*.pch
+*.tlog
+*.idb
+*.pdb
+*.ilk
+*.ncb
+*.sdf
+*.ipch
+*.suo
+*.lastbuildstate

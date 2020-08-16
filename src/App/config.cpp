@@ -23,9 +23,10 @@ void			CFG_Init()
 
 	cfgzMotor.invert_z_dir = 1;
 	cfgzMotor.z_home_dir = -1;
+	cfgzMotor.z_home_pos = 0;
+	cfgzMotor.z_zero_pos = cfgzMotor.z_home_pos;
 	cfgzMotor.z_min_pos = -3;
 	cfgzMotor.z_max_pos = 180;
-	cfgzMotor.move_below_endstop = 1;
 	cfgzMotor.z_min_endstop_inverting = 1;
 	cfgzMotor.z_max_endstop_inverting = 1;
 	cfgzMotor.z_pause_pos = 5.0;

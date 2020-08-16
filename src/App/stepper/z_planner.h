@@ -74,7 +74,7 @@ extern Planner			zPlanner;
 
 
 #define F_CPU						168000000
-#define BLOCK_BUFFER_SIZE			8 // maximize block buffer
+#define BLOCK_BUFFER_SIZE			16 // maximize block buffer
 #define MAX_STEP_FREQUENCY			40000 // Max step frequency for Ultimaker (5000 pps / half step)
 #define MINIMUM_PLANNER_SPEED		0.01 // (mm/sec)
 #define MIN_STEPS_PER_SEGMENT		4

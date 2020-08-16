@@ -19,6 +19,11 @@ typedef enum
 	LCDUI_FONT_H24BOLD,
 } LCDUI_FONT_TYPE;
 
+typedef struct
+{
+	uint16_t	x_size;
+	uint16_t	y_size;
+} TSIZE;
 
 
 
@@ -67,11 +72,12 @@ typedef enum
 #define COLOR_YELLOW         LCDUI_RGB(0xFFFF00u)
 
 
-#define	LCDUI_TEXT_ALIGN_RIGHT		(uint16_t)0x0001
-#define	LCDUI_TEXT_ALIGN_CENTER		(uint16_t)0x0002
-#define	LCDUI_TEXT_UNDERLINE		(uint16_t)0x0004
-#define	LCDUI_TEXT_OVERLINE			(uint16_t)0x0008
-#define	LCDUI_TEXT_TRANSBACK		(uint16_t)0x0010
+#define	LCDUI_TEXT_ALIGN_RIGHT		(uint16_t)1 << 0
+#define	LCDUI_TEXT_ALIGN_CENTER		(uint16_t)1 << 1
+#define	LCDUI_TEXT_UNDERLINE		(uint16_t)1 << 2
+#define	LCDUI_TEXT_OVERLINE			(uint16_t)1 << 3
+#define	LCDUI_TEXT_TRANSBACK		(uint16_t)1 << 4
+#define	LCDUI_TEXT_GETSIZE			(uint16_t)1 << 5
 
 
 
@@ -115,7 +121,7 @@ uint32_t	LCDUI_GetTextWidth(char *str);
 uint32_t	LCDUI_GetTextWidthUTF(char *str);
 uint32_t	LCDUI_GetCurrentFontHeight();
 void		LCDUI_DrawChar(char c, uint16_t opt = 0, int16_t x = -1, int16_t y = -1);
-void		LCDUI_DrawText(char *str, uint16_t opt=0, int16_t x1=-1, int16_t y=-1, int16_t x2=-1, int16_t y2=-1);
+void		LCDUI_DrawText(char *str, uint16_t opt=0, int16_t x1=-1, int16_t y=-1, int16_t x2=-1, int16_t y2=-1, TSIZE *tsize = NULL);
 void		LCDUI_DrawCharUTF(char *c, uint16_t opt = 0, int16_t x = -1, int16_t y = -1);
 void		LCDUI_DrawTextUTF(char *str, uint16_t opt=0, int16_t x1=-1, int16_t y=-1, int16_t x2=-1, int16_t y2=-1);
 

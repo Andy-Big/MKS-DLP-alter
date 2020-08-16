@@ -27,10 +27,10 @@ typedef struct
 {
 	uint8_t			invert_z_dir;
 	int8_t			z_home_dir;
+	float			z_home_pos;
+	float			z_zero_pos;
 	float			z_min_pos;
 	float			z_max_pos;
-	uint8_t			move_below_endstop;
-	float			homing_feedrate_z;
 	uint8_t			z_min_endstop_inverting;
 	uint8_t			z_max_endstop_inverting;
 	int16_t			current_vref_z;
@@ -47,6 +47,7 @@ typedef struct
 	float			feedrate;
 	float			travel_acceleration;
 	float			travel_feedrate;
+	float			homing_feedrate_z;
 	
 	float			current_vref;
 	float			current_hold_vref;

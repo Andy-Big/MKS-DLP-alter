@@ -72,10 +72,21 @@ void		_tgui_MovezHomeButtonPress(void *tguiobj, void *param)
 	systemInfo.target_position = ZMOTOR_GetCurrentPosition();
 	ZMOTOR_SetPosition(systemInfo.target_position);
 
-	if (ZMOTOR_GetEndstopState() & (1 << Z_MIN))
+	if (cfgzMotor.z_home_dir == -1)
 	{
-		systemInfo.target_position += 20;
-		ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+		if (ZMOTOR_GetEndstopState() & (1 << Z_MIN))
+		{
+			systemInfo.target_position += 20;
+			ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+		}
+	}
+	else
+	{
+		if (ZMOTOR_GetEndstopState() & (1 << Z_MAX))
+		{
+			systemInfo.target_position -= 20;
+			ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+		}
 	}
 	systemInfo.printer_state = PST_HOMING_PREUP;
 	_tgui_MovezUpdateHomed();
@@ -150,9 +161,6 @@ void		_tgui_MovezDownButtonPress(void *tguiobj, void *param)
 	ZMOTOR_SetFullCurrent();
 	SYSTIMER_SetCountDown(zHoldTimer, 0);
 
-	if (cfgzMotor.move_below_endstop)
-		ZMOTOR_DisableEndstops();
-	
 	systemInfo.target_position -= fMoveStep;
 	if (systemInfo.position_known == 1 && systemInfo.target_position < cfgzMotor.z_min_pos)
 		systemInfo.target_position = cfgzMotor.z_min_pos;

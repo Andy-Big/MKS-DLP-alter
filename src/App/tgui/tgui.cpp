@@ -11,6 +11,7 @@
 #include "tgui_mainscreenfuncs.h"
 #include "tgui_filesscreenfuncs.h"
 #include "tgui_movezscreenfuncs.h"
+#include "tgui_messagebox.h"
 
 
 __no_init uint8_t 		tguiDBuff[UIDBUFF_SIZE];
@@ -19,6 +20,9 @@ __no_init FIL			tguiFile @ "CCMRAM";
 __no_init TCHAR			tfname[512] @ "CCMRAM";
 
 TG_CONFIG		tguiDefaultConfig;
+
+TG_BUTTON		tguiMsgBoxButtons[TG_BTN_CNT_MSGBOX];
+TG_MSGBOX		tguiMsgeBox;
 
 TG_BUTTON		tguiScrMainButtons[TG_BTN_CNT_SCREEN_MAIN];
 TG_SCREEN		tguiScreenMain;
@@ -102,16 +106,82 @@ void		TGUI_Init()
 	tgc->btnbackcolor_act = LCDUI_RGB(0xA6BFCB);
 	tgc->btnfont = LCDUI_FONT_H24BOLD;
 	
-	tgc->text_font = LCDUI_FONT_H18;
-	tgc->capt_font = LCDUI_FONT_H18BOLD;
-	tgc->text_color = LCDUI_RGB(0x000000);
-	tgc->box_backcolor;
-	tgc->capt_textcolor;
-	tgc->capt_backcolor;
+	tgc->mb_text_font = LCDUI_FONT_H18;
+	tgc->mb_capt_font = LCDUI_FONT_H18BOLD;
+	tgc->mb_text_color = LCDUI_RGB(0x000000);
+	tgc->mb_box_backcolor = LCDUI_RGB(0xEEEEEE);
+	tgc->mb_capt_textcolor = LCDUI_RGB(0xFFFFFF);
+	tgc->mb_capt_backcolor = LCDUI_RGB(0x006BA7);
 	
 	_tgui_ScreenTimeInit();
 	
 	
+	// -------------------- Messagebox elements -----------------------
+{
+	for (uint8_t ii = 0; ii < TG_BTN_CNT_MSGBOX; ii++)
+	{
+		bi = 0;
+		tgb = &(tguiMsgBoxButtons[bi++]);
+		memset((void*)tgb, 0, sizeof(TG_BUTTON));
+
+		tgb->button_id = ii + 1;
+
+		tgb->text = LSTR____;
+		
+		tgb->position = {0, 0, 109, 35};
+		tgb->textposition = {0, 0, 109, 35};
+
+		tgb->font = tgc->btnfont;
+		tgb->textcolor_en = tgc->btntextcolor_en;
+		tgb->textcolor_press = tgc->btntextcolor_press;
+		tgb->textcolor_dis = tgc->btntextcolor_dis;
+		tgb->backcolor_en = tgc->btnbackcolor_en;
+		tgb->backcolor_press = tgc->btnbackcolor_press;
+		tgb->backcolor_dis = tgc->btnbackcolor_dis;
+		
+		tgb->options.disabled = 0;
+		tgb->options.bgpaint = BGP_IMAGE;
+		tgb->options.repaintonpress = 1;
+
+		tgb->bgimagename_en = FNAME_BTN_MSGBOX_EN;
+		tgb->bgimagename_press = FNAME_BTN_MSGBOX_PRESS;
+
+		tgb->textoptions.textalign_h = HTA_CENTER;
+		tgb->textoptions.textalign_v = VTA_CENTER;
+
+		tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+		tgb->funcs._call_press = _tgui_MessageBoxButtonPress;
+		tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+		tgb->parentscreen = NULL;
+		tgb->childscreen = NULL;
+	}
+
+
+	// MESSAGEBOX
+	memset((void*)&tguiMsgeBox, 0, sizeof(TG_MSGBOX));
+	
+	tguiMsgeBox.type = MSGBOX_OK;
+	tguiMsgeBox.prevscreen = NULL;
+	
+	tguiMsgeBox.btns_count = TG_BTN_CNT_MSGBOX;
+	
+	tguiMsgeBox.caption_height = 26;
+	
+	tguiMsgeBox.font_caption = tgc->mb_capt_font;
+	tguiMsgeBox.font_text = tgc->mb_text_font;
+	tguiMsgeBox.text_color = tgc->mb_text_color;
+	tguiMsgeBox.box_backcolor = tgc->mb_box_backcolor;
+	tguiMsgeBox.capt_textcolor = tgc->mb_capt_textcolor;
+	tguiMsgeBox.capt_backcolor = tgc->mb_capt_backcolor;
+
+	tguiMsgeBox.funcs._callpaint = _tgui_DefaultScreenPaint;
+	tguiMsgeBox.funcs._process = _tgui_DefaultScreenProcess;
+	
+}
+
+
+
 	// -------------------- Main Screen elements -----------------------
 {
 	bi = 0;
