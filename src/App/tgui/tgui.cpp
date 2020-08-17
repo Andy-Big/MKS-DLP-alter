@@ -149,8 +149,8 @@ void		TGUI_Init()
 		tgb->textoptions.textalign_v = VTA_CENTER;
 
 		tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-		tgb->funcs._call_press = _tgui_MsgBoxButtonPress;
-		tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+		tgb->funcs._call_press = NULL;
+		tgb->funcs._call_process = _tgui_MsgBoxButtonProcess;
 
 		tgb->parentscreen = NULL;
 		tgb->childscreen = NULL;
@@ -1497,6 +1497,24 @@ void		TGUI_USBStateChanged()
 void		TGUI_MessageBoxOk(char *caption, char *text)
 {
 	_tgui_MsgBoxShow(MSGBOX_OK, caption, text, NULL, NULL);
+}
+//==============================================================================
+
+
+
+
+void		TGUI_MessageBoxYesNo(char *caption, char *text, pressfunc func_ok, pressfunc func_cancel)
+{
+	_tgui_MsgBoxShow(MSGBOX_YESNO, caption, text, func_ok, func_cancel);
+}
+//==============================================================================
+
+
+
+
+void		TGUI_MessageBoxOkCancel(char *caption, char *text, pressfunc func_ok, pressfunc func_cancel)
+{
+	_tgui_MsgBoxShow(MSGBOX_OKCANCEL, caption, text, func_ok, func_cancel);
 }
 //==============================================================================
 

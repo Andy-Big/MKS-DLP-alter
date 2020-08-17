@@ -26,8 +26,8 @@ void		_tgui_MsgBoxShow(MSGBOXTYPE type, char *caption, char *text, pressfunc fun
 	if (width_capt > 420)
 		width_capt = 420;
 	width_capt += 20;		// 10 pix for left and right sides each
-	if (width_capt < width_button * 2 + 30)
-		width_capt = width_button * 2 + 30;
+	if (width_capt < width_button * 2 + 40)
+		width_capt = width_button * 2 + 40;
 	
 	LCDUI_SetFont(tguiMsgBox.font_text);
 	TSIZE		box_size = {0, 0};
@@ -70,13 +70,52 @@ void		_tgui_MsgBoxShow(MSGBOXTYPE type, char *caption, char *text, pressfunc fun
 			if (func_ok != NULL)
 				btn->funcs._call_press = func_ok;
 			else
-				btn->funcs._call_press = (pressfunc)BTNA_GOPREVSCR;
+				btn->funcs._call_press = NULL;
 			tguiMsgBox.buttons[0].options.disabled = 0;
 			tguiMsgBox.buttons[1].options.disabled = 1;
 			break;
 
 		case MSGBOX_OKCANCEL:
 		case MSGBOX_YESNO:
+			btn = &tguiMsgBox.buttons[0];
+			btn->position.left = tguiMsgBox.boxpos.left + (box_size.x_size - width_button * 2 - 20) / 2;
+			btn->position.right = btn->position.left + width_button - 1;
+			btn->position.top = tguiMsgBox.boxpos.bottom - 10 - height_button;
+			btn->position.bottom = btn->position.top + height_button - 1;
+			btn->textposition.left = btn->position.left;
+			btn->textposition.right = btn->position.right;
+			btn->textposition.top = btn->position.top;
+			btn->textposition.bottom = btn->position.bottom;
+			if (type == MSGBOX_OKCANCEL)
+				btn->text = LSTR_OK;
+			else
+				btn->text = LSTR_YES;
+			if (func_ok != NULL)
+				btn->funcs._call_press = func_ok;
+			else
+				btn->funcs._call_press = NULL;
+			
+			btn = &tguiMsgBox.buttons[1];
+			btn->position.left = tguiMsgBox.boxpos.right - (box_size.x_size - width_button * 2 - 20) / 2 - width_button;
+			btn->position.right = btn->position.left + width_button - 1;
+			btn->position.top = tguiMsgBox.boxpos.bottom - 10 - height_button;
+			btn->position.bottom = btn->position.top + height_button - 1;
+			btn->textposition.left = btn->position.left;
+			btn->textposition.right = btn->position.right;
+			btn->textposition.top = btn->position.top;
+			btn->textposition.bottom = btn->position.bottom;
+			if (type == MSGBOX_OKCANCEL)
+				btn->text = LSTR_CANCEL;
+			else
+				btn->text = LSTR_NO;
+			if (func_cancel != NULL)
+				btn->funcs._call_press = func_cancel;
+			else
+				btn->funcs._call_press = NULL;
+
+			tguiMsgBox.buttons[0].options.disabled = 0;
+			tguiMsgBox.buttons[1].options.disabled = 0;
+			break;
 			break;
 
 	}
@@ -160,7 +199,7 @@ void		_tgui_MsgBoxPaint()
 
 	for (uint8_t i = 0; i < thisscr->btns_count; i++)
 	{
-		if (thisscr->buttons[i].funcs._call_paint != NULL)
+		if (thisscr->buttons[i].options.disabled == 0)
 			thisscr->buttons[i].funcs._call_paint(&(thisscr->buttons[i]), 0);
 		thisscr->buttons[i].options.needrepaint = 0;
 	}
@@ -174,8 +213,76 @@ void		_tgui_MsgBoxPaint()
 
 
 
-void		_tgui_MsgBoxButtonPress(void *tguiobj, void *param)
+void		_tgui_MsgBoxButtonProcess(void *tguiobj, void *param)
 {
+	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
+	TOUCH_STATES	*ts = (TOUCH_STATES*)param;;
+	TOUCH_POINT		tp;
+	
+	if (*ts > TS_PREPRESSED)
+	{
+		Touch_GetCoords(&tp);
+		switch (*ts)
+		{
+			case TS_SPRESSED:
+				if (thisbtn->options.disabled == 0 && thisbtn->options.pressed == 0)
+				{
+					if (TGUI_PointInRect(&tp, &thisbtn->position) == 1)
+					{
+						thisbtn->options.pressed = 1;
+						if (thisbtn->options.repaintonpress == 1 && thisbtn->funcs._call_paint != NULL)
+						{
+							thisbtn->funcs._call_paint((void*)thisbtn, NULL);
+							thisbtn->options.needrepaint = 0;
+						}
+						Touch_SetWorked(TS_SPRESSED);
+					}
+				}
+				break;
+
+			case TS_LPRESSED:
+				Touch_SetWorked(TS_LPRESSED);
+				break;
+
+			case TS_SRELEASED:
+				if (thisbtn->options.disabled == 0 && thisbtn->options.pressed == 1)
+				{
+					thisbtn->options.pressed = 0;
+					// paint
+					if (thisbtn->options.repaintonpress == 1 && thisbtn->funcs._call_paint != NULL)
+					{
+						thisbtn->funcs._call_paint((void*)thisbtn, NULL);
+						thisbtn->options.needrepaint = 0;
+					}
+					// current messagebox is closed anyway
+					thisbtn->options.pressed = 0;
+					tguiActiveScreen = (TG_SCREEN*)((TG_MSGBOX*)tguiActiveScreen)->prevscreen;
+					// call linked function or predefined action
+					if (thisbtn->funcs._call_press != NULL)
+					{
+						// call linked function or predefined action
+						thisbtn->funcs._call_press((void*)thisbtn, NULL);
+					}
+					TGUI_ForceRepaint();
+					
+					Touch_SetWorked(TS_SRELEASED);
+				}
+				break;
+
+			case TS_LRELEASED:
+				if (thisbtn->options.disabled == 0 && thisbtn->options.pressed == 1)
+				{
+					thisbtn->options.pressed = 0;
+					if (thisbtn->options.repaintonpress == 1 && thisbtn->funcs._call_paint != NULL)
+					{
+						thisbtn->funcs._call_paint((void*)thisbtn, NULL);
+						thisbtn->options.needrepaint = 0;
+					}
+					Touch_SetWorked(TS_LRELEASED);
+				}
+				break;
+		}
+	}
 }
 //==============================================================================
 

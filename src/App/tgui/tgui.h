@@ -342,6 +342,8 @@ void		TGUI_Process();
 void		TGUI_USBStateChanged();
 
 void		TGUI_MessageBoxOk(char *caption, char *text);
+void		TGUI_MessageBoxYesNo(char *caption, char *text, pressfunc func_ok = NULL, pressfunc func_cancel = NULL);
+void		TGUI_MessageBoxOkCancel(char *caption, char *text, pressfunc func_ok = NULL, pressfunc func_cancel = NULL);
 
 
 

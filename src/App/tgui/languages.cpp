@@ -51,8 +51,11 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Set Z=0",
 		(char*)"Stop!",
 		
+		(char*)"Warning!",
 		(char*)"Error!",
-		(char*)"You must first home\nthe platform.",
+		(char*)"You must first home the\nplatform. Do it now?",
+		(char*)"Failed to reach the home position\nlimit switch!",
+		(char*)"Check simit switch!",
 		
 	};
 
@@ -107,8 +110,11 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Уст. Z=0",
 		(char*)"Стоп!",
 
+		(char*)"Внимание!",
 		(char*)"Ошибка!",
-		(char*)"Необходимо сначала отхомить\nплатформу.",
+		(char*)"Домашняя позиция платформы\nне определена.\nСделать это сейчас?",
+		(char*)"Не удалось достичь концевого выключателя\nдомашней позиции!",
+		(char*)"Проверьте концевой выключатель!",
 
 	};
 

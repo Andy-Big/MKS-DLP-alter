@@ -8,6 +8,7 @@
 
 
 
+extern uint8_t			zHoldTimer;
 
 
 
@@ -224,6 +225,44 @@ void			ZMOTOR_EnableEndstops()
 void			ZMOTOR_DisableEndstops()
 {
 	zEndstops.disable();
+}
+//==============================================================================
+
+
+
+
+void			ZMOTOR_StartHoming()
+{
+	systemInfo.position_known = 0;
+
+	if (systemInfo.zmotor_enabled == 0)
+		ZMOTOR_MotorEnable();
+	
+	ZMOTOR_SetFullCurrent();
+	SYSTIMER_SetCountDown(zHoldTimer, 0);
+	
+	ZMOTOR_EnableEndstops();
+
+	ZMOTOR_SetPosition(0);
+	systemInfo.target_position = 0;
+
+	if (cfgzMotor.z_home_dir == -1)
+	{
+		if (ZMOTOR_GetEndstopState() & (1 << Z_MIN))
+		{
+			systemInfo.target_position += 20;
+			ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+		}
+	}
+	else
+	{
+		if (ZMOTOR_GetEndstopState() & (1 << Z_MAX))
+		{
+			systemInfo.target_position -= 20;
+			ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+		}
+	}
+	systemInfo.printer_state = PST_HOMING_PREUP;
 }
 //==============================================================================
 

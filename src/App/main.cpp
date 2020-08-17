@@ -384,12 +384,24 @@ int main()
 			case PST_HOMING_PREUP:
 				if (ZMOTOR_IsMoving() == 0)
 				{
-					if (cfgzMotor.z_home_dir == -1)
-						systemInfo.target_position = cfgzMotor.z_max_pos * (-1.0);
+					// endstop not opened after moving
+					if (ZMOTOR_GetEndstopState() != 0)
+					{
+						ZMOTOR_SetPosition(0);
+						systemInfo.target_position = 0;
+						TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_ENDSTOP_ERROR));
+						systemInfo.printer_state = PST_IDLE;
+						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+					}
 					else
-						systemInfo.target_position = cfgzMotor.z_max_pos;
-					ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
-					systemInfo.printer_state = PST_HOMING_FAST;
+					{
+						if (cfgzMotor.z_home_dir == -1)
+							systemInfo.target_position = cfgzMotor.z_max_pos * (-1.0);
+						else
+							systemInfo.target_position = cfgzMotor.z_max_pos;
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+						systemInfo.printer_state = PST_HOMING_FAST;
+					}
 				}
 				break;
 
@@ -415,6 +427,9 @@ int main()
 					// endstop not reached, error
 					else
 					{
+						ZMOTOR_SetPosition(0);
+						systemInfo.target_position = 0;
+						TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_ENDSTOP_NOT_FOUND));
 						systemInfo.printer_state = PST_IDLE;
 						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
 					}
@@ -424,17 +439,29 @@ int main()
 			case PST_HOMING_UP:
 				if (ZMOTOR_IsMoving() == 0)
 				{
-					if (cfgzMotor.z_home_dir == -1)
+					// endstop not opened after moving
+					if (ZMOTOR_GetEndstopState() != 0)
 					{
-						systemInfo.target_position = -1;
-						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_z);
-						systemInfo.printer_state = PST_HOMING_SLOW;
+						ZMOTOR_SetPosition(0);
+						systemInfo.target_position = 0;
+						TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_ENDSTOP_ERROR));
+						systemInfo.printer_state = PST_IDLE;
+						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
 					}
 					else
 					{
-						systemInfo.target_position = 1;
-						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_z);
-						systemInfo.printer_state = PST_HOMING_SLOW;
+						if (cfgzMotor.z_home_dir == -1)
+						{
+							systemInfo.target_position = -1;
+							ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_z);
+							systemInfo.printer_state = PST_HOMING_SLOW;
+						}
+						else
+						{
+							systemInfo.target_position = 1;
+							ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_z);
+							systemInfo.printer_state = PST_HOMING_SLOW;
+						}
 					}
 				}
 				break;
@@ -453,6 +480,9 @@ int main()
 					}
 					else
 					{
+						ZMOTOR_SetPosition(0);
+						systemInfo.target_position = 0;
+						TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_ENDSTOP_NOT_FOUND));
 					}
 					systemInfo.printer_state = PST_IDLE;
 					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);

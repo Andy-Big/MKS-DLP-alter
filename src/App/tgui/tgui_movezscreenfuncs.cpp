@@ -58,37 +58,9 @@ void		_tgui_MovezHomeButtonPress(void *tguiobj, void *param)
 {
 	if (ZMOTOR_IsMoving() == 1)
 		return;
-
-	systemInfo.position_known = 0;
-
-	if (systemInfo.zmotor_enabled == 0)
-		ZMOTOR_MotorEnable();
 	
-	ZMOTOR_SetFullCurrent();
-	SYSTIMER_SetCountDown(zHoldTimer, 0);
-	
-	ZMOTOR_EnableEndstops();
+	ZMOTOR_StartHoming();
 
-	systemInfo.target_position = ZMOTOR_GetCurrentPosition();
-	ZMOTOR_SetPosition(systemInfo.target_position);
-
-	if (cfgzMotor.z_home_dir == -1)
-	{
-		if (ZMOTOR_GetEndstopState() & (1 << Z_MIN))
-		{
-			systemInfo.target_position += 20;
-			ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
-		}
-	}
-	else
-	{
-		if (ZMOTOR_GetEndstopState() & (1 << Z_MAX))
-		{
-			systemInfo.target_position -= 20;
-			ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
-		}
-	}
-	systemInfo.printer_state = PST_HOMING_PREUP;
 	_tgui_MovezUpdateHomed();
 }
 //==============================================================================
@@ -181,7 +153,7 @@ void		_tgui_MovezSetZ0ButtonPress(void *tguiobj, void *param)
 {
 	if (systemInfo.position_known == 0)
 	{
-		TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_HOME_FIRST));
+		TGUI_MessageBoxYesNo(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_HOME_FIRST), _tgui_MovezHomeButtonPress);
 	}
 }
 //==============================================================================

@@ -31,6 +31,7 @@ void			ZMOTOR_Stop();
 float			ZMOTOR_GetCurrentPosition();
 void			ZMOTOR_EnableEndstops();
 void			ZMOTOR_DisableEndstops();
+void			ZMOTOR_StartHoming();
 
 #endif /*__motor_H */
 

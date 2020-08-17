@@ -9,7 +9,7 @@ void		_tgui_MsgBoxShow(MSGBOXTYPE type, char *caption, char *text, pressfunc fun
 
 void		_tgui_MsgBoxProcess();
 void		_tgui_MsgBoxPaint();
-void		_tgui_MsgBoxButtonPress(void *tguiobj, void *param);
+void		_tgui_MsgBoxButtonProcess(void *tguiobj, void *param);
 
 
 
