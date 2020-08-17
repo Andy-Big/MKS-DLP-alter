@@ -37,6 +37,7 @@
 #include "config.h"
 #include "z_stepper.h"
 #include "uvdisplay.h"
+#include "eeprom.h"
 #include "tgui_movezscreenfuncs.h"
 
 
@@ -196,6 +197,8 @@ int main()
 		
 	RTC_Init();
 	RTC_Enable(&hRTC);
+	
+	EEPROM_Init();
 
 	CFG_Init();
 

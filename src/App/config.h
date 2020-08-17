@@ -8,6 +8,9 @@
 
 
 
+
+
+
 typedef enum
 {
 	PST_IDLE = 0,
@@ -22,18 +25,20 @@ typedef enum
 
 
 
-
+#pragma pack(1)
 typedef struct
 {
+	uint16_t		cfg_version;
+
 	uint8_t			invert_z_dir;
 	int8_t			z_home_dir;
 	float			z_home_pos;
-	float			z_zero_pos;
 	float			z_min_pos;
 	float			z_max_pos;
 	uint8_t			z_min_endstop_inverting;
 	uint8_t			z_max_endstop_inverting;
-	int16_t			current_vref_z;
+
+	float			z_zero_pos;
 	float			z_pause_pos;
 
 	float			axis_steps_per_mm;
@@ -55,6 +60,36 @@ typedef struct
 
 } MOTOR_CONFIG;
 
+typedef struct
+{
+	uint16_t		cfg_version;
+
+	uint8_t			language;
+
+} GLOBAL_CONFIG;
+
+typedef struct
+{
+	uint32_t		cfg_version;
+
+	uint32_t		led_time;
+	uint32_t		disp_time;
+	uint32_t		fan_led_time;
+	uint32_t		fan_mb_time;
+	uint32_t		total_print_time;
+
+} WORK_TIME;
+
+#pragma pack()
+
+
+
+#define			EEPR_ADDR_MOTORCONFIG	0x0000
+#define			EEPR_ADDR_GLOBALCONFIG	0x0200
+#define			EEPR_ADDR_WORKTIME		0x0400
+
+
+
 
 
 typedef struct
@@ -73,8 +108,8 @@ typedef struct
 
 extern SYSTEM_INFO			systemInfo;
 extern MOTOR_CONFIG			cfgzMotor;
-
-
+extern GLOBAL_CONFIG		cfgConfig;
+extern WORK_TIME			cfgTimers;
 
 
 

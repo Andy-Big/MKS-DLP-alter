@@ -1,5 +1,6 @@
 
 #include "config.h"
+#include "eeprom.h"
 
 
 
@@ -7,6 +8,8 @@
 
 MOTOR_CONFIG			cfgzMotor;
 SYSTEM_INFO				systemInfo;
+GLOBAL_CONFIG			cfgConfig;
+WORK_TIME				cfgTimers;
 
 
 
@@ -18,8 +21,10 @@ SYSTEM_INFO				systemInfo;
 
 void			CFG_Init()
 {
-	memset(&cfgzMotor, 0, sizeof(MOTOR_CONFIG));
 	memset(&systemInfo, 0, sizeof(SYSTEM_INFO));
+	memset(&cfgzMotor, 0, sizeof(MOTOR_CONFIG));
+	memset(&cfgConfig, 0, sizeof(GLOBAL_CONFIG));
+	memset(&cfgTimers, 0, sizeof(WORK_TIME));
 
 	cfgzMotor.invert_z_dir = 1;
 	cfgzMotor.z_home_dir = -1;

@@ -2141,6 +2141,9 @@
             <file>
                 <name>$PROJ_DIR$\src\App\config.cpp</name>
             </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\eeprom.cpp</name>
+            </file>
         </group>
         <group>
             <name>FATFS</name>
@@ -2311,6 +2314,45 @@
                 <name>$PROJ_DIR$\src\App\tgui\tgui_movezscreenfuncs.cpp</name>
             </file>
         </group>
+        <group>
+            <name>UV_DISPLAY</name>
+            <group>
+                <name>orig</name>
+                <excluded>
+                    <configuration>MKSDLP_Alter_debug</configuration>
+                </excluded>
+                <file>
+                    <name>$PROJ_DIR$\src\App\uvdisplay\orig\_main.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\src\App\uvdisplay\orig\fastio_dlp_board.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\src\App\uvdisplay\orig\mks_dlp_main.cpp</name>
+                    <excluded>
+                        <configuration>MKSDLP_Alter_debug</configuration>
+                    </excluded>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\src\App\uvdisplay\orig\mks_reprint.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\src\App\uvdisplay\orig\ssd2828.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\src\App\uvdisplay\orig\ssd2828.h</name>
+                </file>
+            </group>
+            <file>
+                <name>$PROJ_DIR$\src\App\uvdisplay\cpld_utils.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\uvdisplay\ssd_utils.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\uvdisplay\uvdisplay.cpp</name>
+            </file>
+        </group>
         <file>
             <name>$PROJ_DIR$\src\App\datetime.cpp</name>
         </file>
@@ -2348,6 +2390,18 @@
         <group>
             <name>CMSIS</name>
             <file>
+                <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\libstmf4\source\stm32f4xx_i2c.c</name>
+                <excluded>
+                    <configuration>MKSDLP_Alter_debug</configuration>
+                </excluded>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\libstmf4\include\stm32f4xx_i2c.h</name>
+                <excluded>
+                    <configuration>MKSDLP_Alter_debug</configuration>
+                </excluded>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\src\System\system_stm32f4xx.c</name>
             </file>
         </group>
@@ -2382,6 +2436,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_hcd.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_i2c.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_pwr.c</name>
@@ -2492,45 +2549,6 @@
         </file>
         <file>
             <name>$PROJ_DIR$\src\System\stm32f4xx_it.c</name>
-        </file>
-    </group>
-    <group>
-        <name>UV_DISPLAY</name>
-        <group>
-            <name>orig</name>
-            <excluded>
-                <configuration>MKSDLP_Alter_debug</configuration>
-            </excluded>
-            <file>
-                <name>$PROJ_DIR$\src\App\uvdisplay\orig\_main.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\src\App\uvdisplay\orig\fastio_dlp_board.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\src\App\uvdisplay\orig\mks_dlp_main.cpp</name>
-                <excluded>
-                    <configuration>MKSDLP_Alter_debug</configuration>
-                </excluded>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\src\App\uvdisplay\orig\mks_reprint.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\src\App\uvdisplay\orig\ssd2828.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\src\App\uvdisplay\orig\ssd2828.h</name>
-            </file>
-        </group>
-        <file>
-            <name>$PROJ_DIR$\src\App\uvdisplay\cpld_utils.cpp</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\App\uvdisplay\ssd_utils.cpp</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\App\uvdisplay\uvdisplay.cpp</name>
         </file>
     </group>
     <file>
