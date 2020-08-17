@@ -201,6 +201,8 @@ int main()
 	EEPROM_Init();
 
 	CFG_Init();
+	
+	LANG_SetLanguage(cfgConfig.language);
 
 	// ZMotor
 	ZMOTOR_Init();

@@ -55,7 +55,7 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Error!",
 		(char*)"You must first home the\nplatform. Do it now?",
 		(char*)"Failed to reach the home position\nlimit switch!",
-		(char*)"Check simit switch!",
+		(char*)"Check the limit switch!",
 		
 	};
 

@@ -50,8 +50,12 @@ void		_EEPROM_Send7bitAddress(uint8_t Address, uint8_t I2C_Direction);
 void 		_EEPROM_abort();
 uint8_t 	_EEPROM_generate_start();
 uint8_t 	_EEPROM_generate_stop();
+
 uint8_t 	_EEPROM_send_addr_send(uint8_t addr);
 uint8_t 	_EEPROM_send_addr_receive(uint8_t addr);
+uint8_t 	_EEPROM_send_memaddr_send(uint16_t addr);
+uint8_t 	_EEPROM_send_memaddr_receive(uint16_t addr);
+
 uint8_t 	_EEPROM_send_data(uint8_t addr, uint8_t reg);
 
 uint8_t 	EEPROM_CheckRead(uint8_t addr, uint8_t reg, uint8_t *result = 0);
@@ -63,6 +67,8 @@ uint8_t 	EEPROM_ReadReg(uint8_t addr, uint8_t reg);
 
 uint8_t		EEPROM_ReadBuff(uint8_t addr, uint8_t reg, uint8_t *buff, uint16_t count);
 uint8_t		EEPROM_WriteBuff(uint8_t addr, uint8_t reg, uint8_t *buff, uint16_t count);
+uint8_t		EEPROM_ReadMemBuff(uint16_t addr, uint8_t *buff, uint16_t count);
+uint8_t		EEPROM_WriteMemBuff(uint16_t addr, uint8_t *buff, uint16_t count);
 
 
 	

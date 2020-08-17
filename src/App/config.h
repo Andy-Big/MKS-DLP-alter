@@ -38,9 +38,6 @@ typedef struct
 	uint8_t			z_min_endstop_inverting;
 	uint8_t			z_max_endstop_inverting;
 
-	float			z_zero_pos;
-	float			z_pause_pos;
-
 	float			axis_steps_per_mm;
 	float			max_feedrate_mm_s;
 	unsigned long	max_acceleration_mm_per_s2;
@@ -58,6 +55,7 @@ typedef struct
 	float			current_hold_vref;
 	uint32_t		hold_time;		// time after the last movement until the motor current decreases by half, in msec
 
+	uint16_t		cfg_crc;
 } MOTOR_CONFIG;
 
 typedef struct
@@ -65,7 +63,11 @@ typedef struct
 	uint16_t		cfg_version;
 
 	uint8_t			language;
+	float			z_zero_pos;
+	float			z_pause_pos;
 
+
+	uint16_t		cfg_crc;
 } GLOBAL_CONFIG;
 
 typedef struct
@@ -78,6 +80,7 @@ typedef struct
 	uint32_t		fan_mb_time;
 	uint32_t		total_print_time;
 
+	uint16_t		cfg_crc;
 } WORK_TIME;
 
 #pragma pack()
@@ -85,8 +88,8 @@ typedef struct
 
 
 #define			EEPR_ADDR_MOTORCONFIG	0x0000
-#define			EEPR_ADDR_GLOBALCONFIG	0x0200
-#define			EEPR_ADDR_WORKTIME		0x0400
+#define			EEPR_ADDR_GLOBALCONFIG	0x0100
+#define			EEPR_ADDR_WORKTIME		0x0200
 
 
 
@@ -114,6 +117,12 @@ extern WORK_TIME			cfgTimers;
 
 
 void			CFG_Init();
+void			CFG_SetMotorDefault();
+void			CFG_SaveMotor();
+void			CFG_SetConfigDefault();
+void			CFG_SaveConfig();
+void			CFG_SetTimersDefault();
+void			CFG_SaveTimers();
 
 	
 
