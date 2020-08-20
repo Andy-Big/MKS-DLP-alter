@@ -38,7 +38,9 @@ void		_tgui_MsgBoxShow(MSGBOXTYPE type, char *caption, char *text, pressfunc fun
 	if (box_size.x_size < width_capt)
 		box_size.x_size = width_capt;
 
-	box_size.y_size += tguiMsgBox.caption_height + 10 + height_button + 20;			// caption, top side space and bottom side, include buttons
+	box_size.y_size += tguiMsgBox.caption_height + 20;	// caption, top side space and bottom side
+	if (type != MSGBOX_WAIT)
+		box_size.y_size += height_button + 10;			// buttons height and space
 	if (box_size.y_size > 300)
 		box_size.y_size = 300;
 	if (box_size.y_size < 130)
@@ -56,6 +58,10 @@ void		_tgui_MsgBoxShow(MSGBOXTYPE type, char *caption, char *text, pressfunc fun
 	TG_BUTTON		*btn;
 	switch (type)
 	{
+		case MSGBOX_WAIT:
+			tguiMsgBox.buttons[0].options.disabled = 1;
+			tguiMsgBox.buttons[1].options.disabled = 1;
+			break;
 		case MSGBOX_OK:
 			btn = &tguiMsgBox.buttons[0];
 			btn->position.left = tguiMsgBox.boxpos.left + (box_size.x_size - width_button) / 2;

@@ -415,3 +415,51 @@ TCHAR*	tstrcat_utf(TCHAR *dst, char *src)
 
 
 
+char*		strtrim(char *src)
+{
+	// begin spaces
+	char	*begin = src;
+	while (*begin > 0 && *begin < '!')
+		begin++;
+	if (begin != src)
+		strcpy_utf(src, begin);
+	if (*src == 0)
+		return src;
+	
+	// end spaces
+	begin = src;
+	while (*begin != 0)
+		begin++;
+	begin--;
+	if (begin == src)
+		return src;
+	while (*begin < '!')
+	{
+		begin--;
+		if (begin == src)
+		{
+			*begin = 0;
+			return src;
+		}
+	}
+	begin++;
+	*begin = 0;
+	
+	return src;
+}
+//==============================================================================
+
+
+
+
+char*		strupper_utf(char *src)
+{
+	
+	
+	return src;
+}
+//==============================================================================
+
+
+
+

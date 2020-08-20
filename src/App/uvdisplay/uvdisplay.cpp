@@ -75,7 +75,7 @@ void		UVD_ExposSetCircle()
 //		line_gen_data_TFT(i + exposure_bmp_data_circle[0][2]);	//TFT2
 	}
 
-	_cpld_fill_lines_zero(1, exposure_bmp_data_circle[CIRCLE_BMP_DATA_ROW-1][2]+1, TEST_USED_BANK);	//后面行填充"0"
+	_cpld_fill_lines_zero(1, exposure_bmp_data_circle[CIRCLE_BMP_DATA_ROW-1][2]+1, TEST_USED_BANK);
 
 	_cpld_bank2disp_enable(TEST_USED_BANK, 1, 1);
 }

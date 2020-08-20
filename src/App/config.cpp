@@ -1,7 +1,8 @@
 
 #include "config.h"
 #include "eeprom.h"
-
+#include "languages.h"
+#include "tgui_messagebox.h"
 
 
 
@@ -10,7 +11,12 @@ MOTOR_CONFIG			cfgzMotor;
 SYSTEM_INFO				systemInfo;
 GLOBAL_CONFIG			cfgConfig;
 WORK_TIME				cfgTimers;
+char					cfgCFileName[512];
+TCHAR					cfgTFileName[512];
 
+extern char				msg[512];
+extern FIL				ufile;
+extern FIL				sfile;
 
 
 
@@ -255,6 +261,78 @@ void			CFG_SaveTimers()
 	
 	EEPROM_WriteMemBuff(EEPR_ADDR_WORKTIME, (uint8_t*)&cfgTimers, sizeof(WORK_TIME));
 	
+}
+//==============================================================================
+
+
+
+
+void			CFG_LoadFromFile(void *par1, void *par2)
+{
+	sprintf(msg, LANG_GetString(LSTR_CFGFILE_LOADING), cfgCFileName);
+	TGUI_MessageBoxWait(LANG_GetString(LSTR_WAIT), msg);
+
+	UTF8ToUnicode_Str(cfgTFileName, cfgCFileName, sizeof(cfgTFileName)/2);
+	if (f_open(&ufile, cfgTFileName, FA_OPEN_EXISTING | FA_READ) != FR_OK)
+	{
+		if (tguiActiveScreen == (TG_SCREEN*)&tguiMsgBox)
+			tguiActiveScreen = (TG_SCREEN*)((TG_MSGBOX*)tguiActiveScreen)->prevscreen;
+		TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_FILE_OPEN_ERROR));
+		return;
+	}
+
+	uint16_t	cnt = 0;
+	uint32_t	readed = 0, totalreaded = 0;
+	char		*string = msg;
+	while (1)
+	{
+		// read one string
+		cnt = 0;
+		readed = 0;
+		string = msg;
+		while (cnt < sizeof(msg))
+		{
+			if (f_read(&ufile, string, 1, &readed) != FR_OK || readed == 0 || *string == '\n')
+			{
+				*string = 0;
+				break;
+			}
+			cnt++;
+			string++;
+			totalreaded += readed;
+		}
+		string = msg;
+		
+		// trim spaces/tabs at begin and end
+		strtrim(string);
+		
+		// if string is empty
+		if (*string == 0)
+		{
+			// if end of file
+			if (readed == 0)
+				break;
+			else
+				continue;
+		}
+		
+		// skip comments
+		if (*string == '#')
+			continue;
+		
+		// upper all letters
+		strupper_utf(string);
+	}
+
+
+
+	f_close(&ufile);
+	if (tguiActiveScreen == (TG_SCREEN*)&tguiMsgBox)
+	{
+		tguiActiveScreen = (TG_SCREEN*)((TG_MSGBOX*)tguiActiveScreen)->prevscreen;
+	}
+
+	TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LSTR_CFGFILE_LOADED));
 }
 //==============================================================================
 

@@ -7,6 +7,7 @@
 #include "tgui_filesscreenfuncs.h"
 #include "tgui_defaultfuncs.h"
 #include "usb_host.h"
+#include "config.h"
 
 
 extern uint8_t					UsbMounted;
@@ -104,6 +105,18 @@ uint8_t		_tgui_FilesReadDir()
 				{
 					if (currfilenum >= lastfilenum)
 						ftype = FTYPE_PWS;
+					currfilenum++;
+				}
+				else if (strcmp(fext, (char*)"cimg") == 0)
+				{
+					if (currfilenum >= lastfilenum)
+						ftype = FTYPE_IMAGE;
+					currfilenum++;
+				}
+				else if (strcmp(fext, (char*)"acfg") == 0)
+				{
+					if (currfilenum >= lastfilenum)
+						ftype = FTYPE_CONFIG;
 					currfilenum++;
 				}
 
@@ -266,6 +279,14 @@ void		_tgui_FilesFileButtonPaint(void *tguiobj, void *param)
 	if (files[thisbtn->button_id-1].type == FTYPE_DIR)
 	{
 		_tgui_DrawFileCimg(FNAME_ICN_FILES_DIRECTORY, thisbtn->position.left, thisbtn->position.top);
+	}
+	else if(files[thisbtn->button_id-1].type == FTYPE_CONFIG)
+	{
+		_tgui_DrawFileCimg(FNAME_ICN_FILES_CONFIG, thisbtn->position.left, thisbtn->position.top);
+	}
+	else if(files[thisbtn->button_id-1].type == FTYPE_IMAGE)
+	{
+		_tgui_DrawFileCimg(FNAME_ICN_FILES_IMAGE, thisbtn->position.left, thisbtn->position.top);
 	}
 	else
 	{
@@ -599,6 +620,18 @@ void		_tgui_FilesFileButtonPress(void *tguiobj, void *param)
 					thisscr->buttons[i].funcs._call_paint(&(thisscr->buttons[i]), 0);
 				thisscr->buttons[i].options.needrepaint = 0;
 			}
+			break;
+
+
+		case FTYPE_CONFIG:
+			UnicodeToUTF8_Str(cfgCFileName, UsbPath, sizeof(cfgCFileName));
+			if (subdir > 0)
+			{
+				strcat(cfgCFileName, currdir);
+				strcat(cfgCFileName, (char*)"/");
+			}
+			strcat(cfgCFileName, files[thisbtn->button_id-1].fname);
+			TGUI_MessageBoxYesNo(LANG_GetString(LSTR_CONFIRM_ACT), LANG_GetString(LSTR_CFGFILE_LOAD_QUEST), CFG_LoadFromFile);
 			break;
 	}
 	

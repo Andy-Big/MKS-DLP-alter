@@ -1,0 +1,25 @@
+# Stepper motor Z axis settings
+[ZMotor]
+
+	# Specifies the direction of movement of the Z axis.
+	# Valid values are 0 or 1. The default is 1.
+	# Change this parameter if the platform moves in the inverted direction.
+	invert_z_dir = 1
+
+	# dfg
+	z_home_dir = -1
+	z_home_pos = 0
+	z_min_pos = -3
+	z_max_pos = 180
+	z_min_endstop_inverting = 1
+	z_max_endstop_inverting = 1
+	axis_steps_per_mm = 1600
+	homing_feedrate_z = 1
+	acceleration = 0.7
+	feedrate = 5
+	travel_acceleration = 40
+	travel_feedrate = 30
+	current_vref = 800
+	current_hold_vref = 300
+	hold_time = 10
+

@@ -10,6 +10,9 @@ extern LCDUI_FONT		font_fnt18;
 extern LCDUI_FONT		font_fnt18bold;
 extern LCDUI_FONT		font_fnt24;
 extern LCDUI_FONT		font_fnt24bold;
+extern LCDUI_FONT		font_fnt48num_lcd;
+extern LCDUI_FONT		font_fnt36num_lcd;
+
 
 //uint8_t 		lcdui_startH, lcdui_endH, lcdui_startV, lcdui_endV, lcdui_ramAddrOne, lcdui_ramAddrTwo;
 int16_t			lcdui_width = 480, lcdui_height = 320, lcdui_cursor_x = 0, lcdui_cursor_y = 0;
@@ -220,6 +223,8 @@ uint16_t	LCDUI_GetCurrentBackColor()
 void	LCDUI_Clear()
 {
 	LCD_Clear(lcdui_bgcolor);
+	lcdui_cursor_y = 0;
+	lcdui_cursor_x = 0;
 }
 //==============================================================================
 
@@ -607,7 +612,15 @@ LCDUI_FONT_TYPE		LCDUI_SetFont(LCDUI_FONT_TYPE newfont)
 		case LCDUI_FONT_H24BOLD:
 			lcdui_current_font = &font_fnt24bold;
 			break;
-		
+
+		case LCDUI_FONT_H48NUMLCD:
+			lcdui_current_font = &font_fnt48num_lcd;
+			break;
+
+		case LCDUI_FONT_H36NUMLCD:
+			lcdui_current_font = &font_fnt36num_lcd;
+			break;
+
 		default:
 			return lcdui_current_font_type;
 	}

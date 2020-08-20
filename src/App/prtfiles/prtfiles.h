@@ -13,6 +13,9 @@ typedef enum
 {
 	FTYPE_NONE = 0,
 	FTYPE_DIR,
+	FTYPE_CONFIG,
+	FTYPE_IMAGE,
+	
 	FTYPE_PWS,
 } FILES_TYPE;
 

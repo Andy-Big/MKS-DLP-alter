@@ -39,7 +39,8 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"INFO",
 		(char*)"LANGUAGE",
 		(char*)"MOVE Z",
-		(char*)"TEST",
+		(char*)"UV TEST",
+		(char*)"SETTINGS",
 
 		(char*)"Version",
 		(char*)"Light time",
@@ -53,10 +54,17 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		
 		(char*)"Warning!",
 		(char*)"Error!",
+		(char*)"Confirm the action",
+		(char*)"Please wait",
+		(char*)"Completed",
 		(char*)"You must first home the\nplatform. Do it now?",
 		(char*)"Failed to reach the home position\nlimit switch!",
 		(char*)"Check the limit switch!",
-		
+		(char*)"Do you want to load settings\nfrom this file?",
+		(char*)"Loading settings from a file\n%s ...",
+		(char*)"File opening error!",
+		(char*)"Settings loaded success.",
+
 	};
 
 constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
@@ -97,8 +105,8 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"ИНФО",
 		(char*)"ЯЗЫК",
 		(char*)"ОСЬ Z",
-		(char*)"ТЕСТ",
-
+		(char*)"УФ ТЕСТ",
+		(char*)"НАСТР.",
 
 		(char*)"Версия",
 		(char*)"Время засветки",
@@ -112,9 +120,16 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 
 		(char*)"Внимание!",
 		(char*)"Ошибка!",
+		(char*)"Подтвердите действие",
+		(char*)"Пожалуйста, подождите",
+		(char*)"Завершено",
 		(char*)"Домашняя позиция платформы\nне определена.\nСделать это сейчас?",
 		(char*)"Не удалось достичь концевого выключателя\nдомашней позиции!",
 		(char*)"Проверьте концевой выключатель!",
+		(char*)"Вы хотите загрузить настройки\nиз этого файла?",
+		(char*)"Загружаются настройки из файла\n%s ...",
+		(char*)"Ошибка открытия файла!",
+		(char*)"Настройки успешно загружены.",
 
 	};
 

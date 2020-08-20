@@ -3,6 +3,7 @@
 
 #include "includes.h"
 #include "main.h"
+#include "ff.h"
 
 
 
@@ -113,6 +114,8 @@ extern SYSTEM_INFO			systemInfo;
 extern MOTOR_CONFIG			cfgzMotor;
 extern GLOBAL_CONFIG		cfgConfig;
 extern WORK_TIME			cfgTimers;
+extern char					cfgCFileName[512];
+extern TCHAR				cfgTFileName[512];
 
 
 
@@ -123,6 +126,8 @@ void			CFG_SetConfigDefault();
 void			CFG_SaveConfig();
 void			CFG_SetTimersDefault();
 void			CFG_SaveTimers();
+
+void			CFG_LoadFromFile(void *par1, void *par2);
 
 	
 

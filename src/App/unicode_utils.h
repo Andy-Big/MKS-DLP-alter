@@ -42,17 +42,13 @@ uint16_t	UnicodeToUTF8_Str(char *utfstr, uint16_t *unistr, uint16_t maxlen);
 uint16_t	UnicodeToANSI_Str(char *cstr, uint16_t *unistr, uint16_t maxlen);
 
 uint32_t	strlen_utf(char *text);
-
 uint32_t	tstrlen(uint16_t *text);
-
 char*		strcpy_utf(char *dst, char* src);
-
 TCHAR*		tstrcpy(TCHAR *dst, TCHAR *src);
-
 TCHAR*		tstrcpy_utf(TCHAR *dst, char *src);
-
 TCHAR*		tstrcat(TCHAR *dst, TCHAR *src);
-
 TCHAR*		tstrcat_utf(TCHAR *dst, char *src);
+char*		strtrim(char *src);
+char*		strupper_utf(char *src);
 
 #endif

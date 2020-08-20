@@ -157,6 +157,39 @@ int main()
 	{
 		LCDUI_SetColor(COLOR_GREEN);
 		LCDUI_DrawText((char*)"> Service mode\n");
+
+
+		FATFS *fs;
+		DWORD fre_clust, fre_sect, tot_sect;
+
+		if (f_getfree(SpiflPath, &fre_clust, &fs) != FR_OK)
+		{
+			LCDUI_DrawText((char*)"> Can't get free space of internal filesystem\n");
+		}
+		else
+		{
+			tot_sect = (fs->n_fatent - 2) * fs->csize * fs->ssize / 1024;
+			fre_sect = fre_clust * fs->csize * fs->ssize / 1024;
+			if (fre_sect == 0)
+			{
+				LCDUI_DrawText((char*)"> !! Internal filesystem error, try to format...\n");
+				if (f_mkfs(SpiflPath, 0, fbuff, sizeof(fbuff)) != FR_OK)
+				{
+					LCDUI_DrawText((char*)"> !! Failed to formate internal filesystem\n");
+				}
+				else
+				{
+					LCDUI_DrawText((char*)"> Internal filesystem format success\n");
+					f_getfree(SpiflPath, &fre_clust, &fs);
+					tot_sect = (fs->n_fatent - 2) * fs->csize * fs->ssize / 1024;
+					fre_sect = fre_clust * fs->csize * fs->ssize / 1024;
+				}
+			}
+				
+
+			sprintf(msg, "> %u KB total internal filesystem,  %u KB available.\n", tot_sect, fre_sect);
+			LCDUI_DrawText(msg);
+		}
 /*
 		LCDUI_DrawText((char*)"> Formating internal filesystem...\n");
 		f_mount(NULL,  SpiflPath, 1);
@@ -293,6 +326,10 @@ int main()
 										{
 											// Found update file, copying it into SPIFlash filesystem
 											
+											if (LCDUI_GetCurrentCursorY() > (LCD_HEIGHT - LCDUI_GetCurrentFontHeight()))
+											{
+												LCDUI_Clear();
+											}
 											// Open file for read in USB
 											tstrcpy(u_tfname, UsbPath);
 											tstrcat_utf(u_tfname, SDIR_IMAGES);

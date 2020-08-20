@@ -193,6 +193,7 @@ typedef struct
 typedef enum
 {
 	MSGBOX_OK = 0,
+	MSGBOX_WAIT,
 	MSGBOX_OKCANCEL,
 	MSGBOX_YESNO,
 	
@@ -257,9 +258,12 @@ typedef struct
 #define	FNAME_BTN_FILES_ICONS_EN	(char*)"btn_files_icons_en.cimg"
 #define	FNAME_BTN_FILES_ICONS_DIS	(char*)"btn_files_icons_dis.cimg"
 #define	FNAME_BTN_FILES_ICONS_PRESS	(char*)"btn_files_icons_press.cimg"
-#define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn_files_dir.cimg"
 #define	FNAME_BTN_MSGBOX_EN			(char*)"btn_msgbox_en.cimg"
 #define	FNAME_BTN_MSGBOX_PRESS		(char*)"btn_msgbox_press.cimg"
+
+#define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn_files_dir.cimg"
+#define	FNAME_ICN_FILES_IMAGE		(char*)"icn_files_image.cimg"
+#define	FNAME_ICN_FILES_CONFIG		(char*)"icn_files_config.cimg"
 
 
 
@@ -286,7 +290,7 @@ extern TG_MSGBOX		tguiMsgBox;
 extern TG_BUTTON		tguiScrMainButtons[TG_BTN_CNT_SCREEN_MAIN];
 extern TG_SCREEN		tguiScreenMain;
 
-#define		TG_BTN_CNT_SCREEN_SERVICE		3
+#define		TG_BTN_CNT_SCREEN_SERVICE		5
 extern TG_BUTTON		tguiScrServiceButtons[TG_BTN_CNT_SCREEN_SERVICE];
 extern TG_SCREEN		tguiScreenService;
 
@@ -341,7 +345,8 @@ void		TGUI_Process();
 
 void		TGUI_USBStateChanged();
 
-void		TGUI_MessageBoxOk(char *caption, char *text);
+void		TGUI_MessageBoxOk(char *caption, char *text, pressfunc func_ok = NULL);
+void		TGUI_MessageBoxWait(char *caption, char *text);
 void		TGUI_MessageBoxYesNo(char *caption, char *text, pressfunc func_ok = NULL, pressfunc func_cancel = NULL);
 void		TGUI_MessageBoxOkCancel(char *caption, char *text, pressfunc func_ok = NULL, pressfunc func_cancel = NULL);
 

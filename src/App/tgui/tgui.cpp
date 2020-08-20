@@ -361,7 +361,7 @@ void		TGUI_Init()
 	
 	// MOVEZ button
 	tgb = &(tguiScrServiceButtons[bi++]);
-	memcpy((void*)tgb, (void*)(&tguiScrServiceButtons[0]), sizeof(TG_BUTTON));
+	memcpy((void*)tgb, (void*)(&tguiScrServiceButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->position = {245, 65, 464, 130};
 
@@ -374,6 +374,36 @@ void		TGUI_Init()
 
 	tgb->childscreen = &tguiScreenMovez;
 	
+	// UVTEST button
+	tgb = &(tguiScrServiceButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrServiceButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {15, 139, 234, 204};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LSTR_UVTEST;
+	tgb->textposition = {80, 142, 230, 201};
+
+	tgb->funcs._call_press = NULL;
+
+	tgb->childscreen = NULL;
+	
+	// SETTINGS button
+	tgb = &(tguiScrServiceButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrServiceButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {245, 139, 464, 204};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LSTR_SETTINGS;
+	tgb->textposition = {316, 142, 462, 201};
+
+	tgb->funcs._call_press = NULL;
+
+	tgb->childscreen = NULL;
+	
 	
 	// SERVICE SCREEN
 	tgs = &tguiScreenService;
@@ -382,7 +412,7 @@ void		TGUI_Init()
 	tgs->bgimagename = FNAME_BKGR_SERVICE;
 	tgs->prevscreen = &tguiScreenMain;
 
-	tgs->name = LSTR_INFO;
+	tgs->name = LSTR_SERVICE;
 	tgs->nameposition = {205, 3, 475, 30};
 	tgs->nameoptions.textalign_h = HTA_CENTER;
 	tgs->nameoptions.textalign_v = VTA_CENTER;
@@ -1494,9 +1524,18 @@ void		TGUI_USBStateChanged()
 
 
 
-void		TGUI_MessageBoxOk(char *caption, char *text)
+void		TGUI_MessageBoxOk(char *caption, char *text, pressfunc func_ok)
 {
-	_tgui_MsgBoxShow(MSGBOX_OK, caption, text, NULL, NULL);
+	_tgui_MsgBoxShow(MSGBOX_OK, caption, text, func_ok, NULL);
+}
+//==============================================================================
+
+
+
+
+void		TGUI_MessageBoxWait(char *caption, char *text)
+{
+	_tgui_MsgBoxShow(MSGBOX_WAIT, caption, text, NULL, NULL);
 }
 //==============================================================================
 
