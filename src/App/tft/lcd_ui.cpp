@@ -12,6 +12,7 @@ extern LCDUI_FONT		font_fnt24;
 extern LCDUI_FONT		font_fnt24bold;
 extern LCDUI_FONT		font_fnt48num_lcd;
 extern LCDUI_FONT		font_fnt36num_lcd;
+extern LCDUI_FONT		font_fnt36num;
 
 
 //uint8_t 		lcdui_startH, lcdui_endH, lcdui_startV, lcdui_endV, lcdui_ramAddrOne, lcdui_ramAddrTwo;
@@ -619,6 +620,10 @@ LCDUI_FONT_TYPE		LCDUI_SetFont(LCDUI_FONT_TYPE newfont)
 
 		case LCDUI_FONT_H36NUMLCD:
 			lcdui_current_font = &font_fnt36num_lcd;
+			break;
+
+		case LCDUI_FONT_H36NUM:
+			lcdui_current_font = &font_fnt36num;
 			break;
 
 		default:

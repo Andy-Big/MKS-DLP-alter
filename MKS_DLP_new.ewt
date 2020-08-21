@@ -2442,6 +2442,9 @@
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt24bold.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt36num.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt36num_lcd.c</name>
                 </file>
                 <file>
@@ -2552,6 +2555,12 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_movezscreenfuncs.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_numenterscreenfuncs.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_settingsscreenfuncs.cpp</name>
             </file>
         </group>
         <group>

@@ -41,7 +41,7 @@ typedef struct
 
 	float			steps_per_mm;
 	float			max_feedrate;
-	unsigned long	max_acceleration;
+	float			max_acceleration;
 	float			min_feedrate;
 	float			min_travel_feedrate;
 	float			max_jerk;
@@ -65,8 +65,12 @@ typedef struct
 	uint16_t		cfg_version;
 
 	uint8_t			language;
-	float			z_zero_pos;
-	float			z_pause_pos;
+	float			zero_pos;
+	float			pause_lift;
+	uint8_t			buzzer;
+	uint32_t		motor_disable_time;
+	uint32_t		screen_disable_time;
+	uint8_t			screensaver_type;
 
 
 	uint16_t		cfg_crc;

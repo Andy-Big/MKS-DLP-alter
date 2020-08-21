@@ -41,6 +41,7 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"MOVE Z",
 		(char*)"UV TEST",
 		(char*)"SETTINGS",
+		(char*)"SETTINGS",
 
 		(char*)"Version",
 		(char*)"Light time",
@@ -68,6 +69,12 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Error in settings file\non line %u :\nUnknown parameter name",
 		(char*)"Error in settings file\non line %u :\nParameter value is invalid",
 		(char*)"Make sure there is no\nprinted model or debris left\non the platform or in the vat.",
+		(char*)"Lift on pause",
+		(char*)"Buzzer",
+		(char*)"On",
+		(char*)"Off",
+		(char*)"Settings are being saved ...",
+		(char*)"AC",
 
 	};
 
@@ -111,6 +118,7 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"ОСЬ Z",
 		(char*)"УФ ТЕСТ",
 		(char*)"НАСТР.",
+		(char*)"НАСТРОЙКИ",
 
 		(char*)"Версия",
 		(char*)"Время засветки",
@@ -138,6 +146,12 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Ошибка в файле настроек\nв строке %u :\nНеизвестное имя параметра",
 		(char*)"Ошибка в файле настроек\nв строке %u :\nНеверное значения параметра",
 		(char*)"Убедитесь, что на платформе\nи в ванне не осталась напечатанная\nмодель или ее остатки.",
+		(char*)"Подъем на паузе",
+		(char*)"Звук",
+		(char*)"Вкл",
+		(char*)"Выкл",
+		(char*)"Идет сохранение настроек...",
+		(char*)"AC",
 
 	};
 

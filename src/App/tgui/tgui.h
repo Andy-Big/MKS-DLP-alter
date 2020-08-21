@@ -235,6 +235,8 @@ typedef struct
 #define	FNAME_BKGR_MOVEZ			(char*)"scr_movez.cimg"
 #define	FNAME_BKGR_FILES			(char*)"scr_files.cimg"
 #define	FNAME_BKGR_FILESLIST		(char*)"scr_files_list.cimg"
+#define	FNAME_BKGR_EMPTY			(char*)"scr_empty.cimg"
+#define	FNAME_BKGR_NUMENTER			(char*)"scr_numenter.cimg"
 
 #define	FNAME_BTN_MOVEZ_UP_EN		(char*)"btn_movez_up_en.cimg"
 #define	FNAME_BTN_MOVEZ_UP_PRESS	(char*)"btn_movez_up_press.cimg"
@@ -261,6 +263,24 @@ typedef struct
 #define	FNAME_BTN_MSGBOX_EN			(char*)"btn_msgbox_en.cimg"
 #define	FNAME_BTN_MSGBOX_PRESS		(char*)"btn_msgbox_press.cimg"
 
+#define	FNAME_BTN_SETTINGS_UP_DIS	(char*)"btn_settings_up_dis.cimg"
+#define	FNAME_BTN_SETTINGS_UP_EN	(char*)"btn_settings_up_en.cimg"
+#define	FNAME_BTN_SETTINGS_UP_PRESS	(char*)"btn_settings_up_press.cimg"
+#define	FNAME_BTN_SETTINGS_DN_DIS	(char*)"btn_settings_down_dis.cimg"
+#define	FNAME_BTN_SETTINGS_DN_EN	(char*)"btn_settings_down_en.cimg"
+#define	FNAME_BTN_SETTINGS_DN_PRESS	(char*)"btn_settings_down_press.cimg"
+#define	FNAME_BTN_SETTINGS_SAVE_EN	(char*)"btn_settings_save_en.cimg"
+#define	FNAME_BTN_SETTINGS_SAVE_PRESS	(char*)"btn_settings_save_press.cimg"
+#define	FNAME_BTN_SETTINGS_ITEM_EN		(char*)"btn_settings_item_en.cimg"
+#define	FNAME_BTN_SETTINGS_ITEM_PRESS	(char*)"btn_settings_item_press.cimg"
+
+#define	FNAME_BTN_NUMENTER_AC_EN		(char*)"btn_numenter_ac_en.cimg"
+#define	FNAME_BTN_NUMENTER_AC_PRESS		(char*)"btn_numenter_ac_press.cimg"
+#define	FNAME_BTN_NUMENTER_DEL_EN		(char*)"btn_numenter_del_en.cimg"
+#define	FNAME_BTN_NUMENTER_DEL_PRESS	(char*)"btn_numenter_del_press.cimg"
+#define	FNAME_BTN_NUMENTER_DIG_EN		(char*)"btn_numenter_dig_en.cimg"
+#define	FNAME_BTN_NUMENTER_DIG_PRESS	(char*)"btn_numenter_dig_press.cimg"
+
 #define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn_files_dir.cimg"
 #define	FNAME_ICN_FILES_IMAGE		(char*)"icn_files_image.cimg"
 #define	FNAME_ICN_FILES_CONFIG		(char*)"icn_files_config.cimg"
@@ -285,22 +305,27 @@ extern TG_CONFIG		tguiDefaultConfig;
 
 extern TG_MSGBOX		tguiMsgBox;
 
+
 #define		TG_BTN_CNT_SCREEN_MAIN			4
 #define		TG_TIMEBUTTON_ID				1
 extern TG_BUTTON		tguiScrMainButtons[TG_BTN_CNT_SCREEN_MAIN];
 extern TG_SCREEN		tguiScreenMain;
 
+
 #define		TG_BTN_CNT_SCREEN_SERVICE		5
 extern TG_BUTTON		tguiScrServiceButtons[TG_BTN_CNT_SCREEN_SERVICE];
 extern TG_SCREEN		tguiScreenService;
+
 
 #define		TG_BTN_CNT_SCREEN_LANGUAGE		LNG_LANGS_COUNT + 1
 extern TG_BUTTON		tguiScrLanguageButtons[TG_BTN_CNT_SCREEN_LANGUAGE];
 extern TG_SCREEN		tguiScreenLanguage;
 
+
 #define		TG_BTN_CNT_SCREEN_INFO			11
 extern TG_BUTTON		tguiScrInfoButtons[TG_BTN_CNT_SCREEN_INFO];
 extern TG_SCREEN		tguiScreenInfo;
+
 
 #define		TG_SCR_MOVEZ_STEP_GROUP_ID		1
 #define		TG_SCR_MOVEZ_10_ID				20
@@ -312,6 +337,7 @@ extern TG_SCREEN		tguiScreenInfo;
 #define		TG_BTN_CNT_SCREEN_MOVEZ			10
 extern TG_BUTTON		tguiScrMovezButtons[TG_BTN_CNT_SCREEN_MOVEZ];
 extern TG_SCREEN		tguiScreenMovez;
+
 
 #define		TG_SCR_FILES_DIR_ID				20
 #define		TG_SCR_FILES_PREV_ID			21
@@ -325,6 +351,25 @@ extern TG_SCREEN		tguiScreenFiles;
 #define		TG_BTN_CNT_SCREEN_FILESICONS	14
 extern TG_BUTTON		tguiScrFilesListButtons[TG_BTN_CNT_SCREEN_FILESICONS];
 extern TG_SCREEN		tguiScreenFilesList;
+
+
+#define		TG_SCR_SETTINGS_LIFTPAUSE_ID	20
+#define		TG_SCR_SETTINGS_BUZZER_ID		21
+#define		TG_SCR_SETTINGS_MOTORDIS_ID		22
+#define		TG_SCR_SETTINGS_DISPDIS_ID		23
+#define		TG_SCR_SETTINGS_SCREENSAVER_ID	24
+
+#define		TG_BTN_CNT_SCREEN_SETTINGS		7
+extern TG_BUTTON		tguiScrSettingsButtons[TG_BTN_CNT_SCREEN_SETTINGS];
+extern TG_SCREEN		tguiScreenSettings;
+
+
+#define		TG_SCR_NUMENTER_MINUS_ID		20
+#define		TG_SCR_NUMENTER_DOT_ID			21
+
+#define		TG_BTN_CNT_SCREEN_NUMENTER		17
+extern TG_BUTTON		tguiScrNumenterButtons[TG_BTN_CNT_SCREEN_NUMENTER];
+extern TG_SCREEN		tguiScreenNumenter;
 
 
 

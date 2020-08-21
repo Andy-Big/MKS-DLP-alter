@@ -12,6 +12,8 @@
 #include "tgui_filesscreenfuncs.h"
 #include "tgui_movezscreenfuncs.h"
 #include "tgui_messagebox.h"
+#include "tgui_settingsscreenfuncs.h"
+#include "tgui_numenterscreenfuncs.h"
 
 
 __no_init uint8_t 		tguiDBuff[UIDBUFF_SIZE];
@@ -42,6 +44,12 @@ TG_BUTTON		tguiScrFilesButtons[TG_BTN_CNT_SCREEN_FILES];
 TG_SCREEN		tguiScreenFiles;
 TG_BUTTON		tguiScrFilesListButtons[TG_BTN_CNT_SCREEN_FILESICONS];
 TG_SCREEN		tguiScreenFilesList;
+
+TG_BUTTON		tguiScrSettingsButtons[TG_BTN_CNT_SCREEN_SETTINGS];
+TG_SCREEN		tguiScreenSettings;
+
+TG_BUTTON		tguiScrNumenterButtons[TG_BTN_CNT_SCREEN_NUMENTER];
+TG_SCREEN		tguiScreenNumenter;
 
 
 
@@ -397,12 +405,12 @@ void		TGUI_Init()
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
-	tgb->text = LSTR_SETTINGS;
+	tgb->text = LSTR_SETTINGS_SHORT;
 	tgb->textposition = {316, 142, 462, 201};
 
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
 
-	tgb->childscreen = NULL;
+	tgb->childscreen = &tguiScreenSettings;
 	
 	
 	// SERVICE SCREEN
@@ -1466,6 +1474,350 @@ void		TGUI_Init()
 
 	tgs->funcs._callpaint = _tgui_FilesScreenPaint;
 	tgs->funcs._process = _tgui_FilesScreenProcess;
+	
+}
+
+
+
+	// -------------------- Settings Screen elements -----------------------
+	id = 1;
+{
+	bi = 0;
+	// BACK button
+	tgb = &(tguiScrSettingsButtons[bi++]);
+	memset((void*)tgb, 0, sizeof(TG_BUTTON));
+	
+	tgb->position = {4, 4, 167, 49};
+
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->text = LSTR_BACK;
+	tgb->textposition = {54, 6, 165, 47};
+	tgb->font = tgc->btnfont;
+	tgb->textcolor_en = LCDUI_RGB(0x074B19);
+	tgb->textcolor_press = tgc->btntextcolor_press;
+	tgb->textcolor_dis = tgc->btntextcolor_dis;
+	tgb->backcolor_en = tgc->btnbackcolor_en;
+	tgb->backcolor_press = tgc->btnbackcolor_press;
+	tgb->backcolor_dis = tgc->btnbackcolor_dis;
+	
+	tgb->options.disabled = 0;
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.repaintonpress = 1;
+	
+	tgb->textoptions.textalign_h = HTA_CENTER;
+	tgb->textoptions.textalign_v = VTA_CENTER;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = (pressfunc)BTNA_GOPREVSCR;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+	tgb->parentscreen = &tguiScreenSettings;
+	tgb->childscreen = NULL;
+
+	// UP button
+	tgb = &(tguiScrSettingsButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->position = {393, 56, 472, 120};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LSTR____;
+	tgb->textposition = {393, 56, 472, 120};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_SETTINGS_UP_EN;
+	tgb->bgimagename_press = FNAME_BTN_SETTINGS_UP_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_SETTINGS_UP_DIS;
+	
+	tgb->options.disabled = 1;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	// DOWN button
+	tgb = &(tguiScrSettingsButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {393, 247, 472, 311};
+
+	tgb->textposition = {393, 247, 472, 311};
+	
+	tgb->bgimagename_en = FNAME_BTN_SETTINGS_DN_EN;
+	tgb->bgimagename_press = FNAME_BTN_SETTINGS_DN_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_SETTINGS_DN_DIS;
+
+	tgb->funcs._call_press = NULL;
+
+	// SAVE button
+	tgb = &(tguiScrSettingsButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {393, 56, 472, 120};
+
+	tgb->textposition = {393, 56, 472, 120};
+	
+	tgb->bgimagename_en = FNAME_BTN_SETTINGS_SAVE_EN;
+	tgb->bgimagename_press = FNAME_BTN_SETTINGS_SAVE_PRESS;
+
+	tgb->options.disabled = 0;
+
+	tgb->funcs._call_press = _tgui_SettingsSaveButtonPress;
+
+	// Item1 button - Lift on pause
+	tgb = &(tguiScrSettingsButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, 57, 387, 104};
+
+	tgb->button_id = TG_SCR_SETTINGS_LIFTPAUSE_ID;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, 57, 382, 104};
+	tgb->text = LSTR_LIFT_ON_PAUSE;
+
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_SETTINGS_ITEM_EN;
+	tgb->bgimagename_press = FNAME_BTN_SETTINGS_ITEM_PRESS;
+
+	tgb->options.disabled = 0;
+
+	tgb->funcs._call_paint = _tgui_SettingsItemButtonPaint;
+	tgb->funcs._call_press = _tgui_SettingsPauseliftButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	
+	// Item2 button - Buzzer
+	tgb = &(tguiScrSettingsButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, 108, 387, 155};
+
+	tgb->button_id = TG_SCR_SETTINGS_BUZZER_ID;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, 108, 382, 155};
+	tgb->text = LSTR_BUZZER;
+
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_SETTINGS_ITEM_EN;
+	tgb->bgimagename_press = FNAME_BTN_SETTINGS_ITEM_PRESS;
+
+
+	tgb->funcs._call_paint = _tgui_SettingsItemButtonPaint;
+	tgb->funcs._call_press = _tgui_SettingsBuzzerButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	
+	// SETTINGS SCREEN
+	tgs = &tguiScreenSettings;
+	memset((void*)tgs, 0, sizeof(TG_SCREEN));
+	
+	tgs->bgimagename = FNAME_BKGR_EMPTY;
+	tgs->prevscreen = &tguiScreenService;
+
+	tgs->name = LSTR_SETTINGS_FULL;
+	tgs->nameposition = {205, 3, 475, 30};
+	tgs->nameoptions.textalign_h = HTA_CENTER;
+	tgs->nameoptions.textalign_v = VTA_CENTER;
+
+	tgs->btns_count = TG_BTN_CNT_SCREEN_SETTINGS;
+	tgs->buttons = tguiScrSettingsButtons;
+
+	tgs->font = tgc->scrfont;
+	tgs->namefont = tgc->scrnamefont;
+	tgs->textcolor = tgc->scrtextcolor;
+	tgs->nametextcolor = tgc->scrnametextcolor;
+	tgs->backcolor = tgc->scrbackcolor;
+
+	tgs->funcs._callpaint = _tgui_DefaultScreenPaint;
+	tgs->funcs._process = _tgui_DefaultScreenProcess;
+	
+}
+
+
+
+	// -------------------- Numenter Screen elements -----------------------
+	id = 1;
+{
+	bi = 0;
+	// BACK button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memset((void*)tgb, 0, sizeof(TG_BUTTON));
+	
+	tgb->position = {4, 4, 167, 49};
+
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->text = LSTR_BACK;
+	tgb->textposition = {54, 6, 165, 47};
+	tgb->font = tgc->btnfont;
+	tgb->textcolor_en = LCDUI_RGB(0x074B19);
+	tgb->textcolor_press = tgc->btntextcolor_press;
+	tgb->textcolor_dis = tgc->btntextcolor_dis;
+	tgb->backcolor_en = tgc->btnbackcolor_en;
+	tgb->backcolor_press = tgc->btnbackcolor_press;
+	tgb->backcolor_dis = tgc->btnbackcolor_dis;
+	
+	tgb->options.disabled = 0;
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.repaintonpress = 1;
+	
+	tgb->textoptions.textalign_h = HTA_CENTER;
+	tgb->textoptions.textalign_v = VTA_CENTER;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = (pressfunc)BTNA_GOPREVSCR;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+	tgb->parentscreen = &tguiScreenNumenter;
+	tgb->childscreen = NULL;
+
+	// AC button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->position = {340, 106, 469, 155};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LCTR_AC;
+	tgb->textposition = {340, 106, 469, 155};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_NUMENTER_AC_EN;
+	tgb->bgimagename_press = FNAME_BTN_NUMENTER_AC_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_NUMENTER_AC_EN;
+	
+	tgb->options.disabled = 0;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	// OK button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->position = {340, 262, 469, 311};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LSTR_OK;
+	tgb->textposition = {340, 262, 469, 311};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_NUMENTER_AC_EN;
+	tgb->bgimagename_press = FNAME_BTN_NUMENTER_AC_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_NUMENTER_AC_EN;
+	
+	tgb->options.disabled = 0;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	// DEL button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->position = {340, 158, 469, 207};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LSTR____;
+	tgb->textposition = {340, 158, 469, 207};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_NUMENTER_DEL_EN;
+	tgb->bgimagename_press = FNAME_BTN_NUMENTER_DEL_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_NUMENTER_DEL_EN;
+	
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	char *txt;
+	// DOT button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->position = {219, 262, 318, 311};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	txt = (char*)".";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {219, 262, 318, 311};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_NUMENTER_DIG_EN;
+	tgb->bgimagename_press = FNAME_BTN_NUMENTER_DIG_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_NUMENTER_DIG_EN;
+	
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	// MINUS button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->position = {9, 262, 108, 311};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	txt = (char*)"-/+";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {9, 262, 108, 311};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_NUMENTER_DIG_EN;
+	tgb->bgimagename_press = FNAME_BTN_NUMENTER_DIG_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_NUMENTER_DIG_EN;
+	
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	
+	// NUMENTER SCREEN
+	tgs = &tguiScreenNumenter;
+	memset((void*)tgs, 0, sizeof(TG_SCREEN));
+	
+	tgs->bgimagename = FNAME_BKGR_NUMENTER;
+	tgs->prevscreen = &tguiScreenService;
+
+	tgs->name = LSTR_LIFT_ON_PAUSE;
+	tgs->nameposition = {205, 3, 475, 30};
+	tgs->nameoptions.textalign_h = HTA_CENTER;
+	tgs->nameoptions.textalign_v = VTA_CENTER;
+
+	tgs->btns_count = TG_BTN_CNT_SCREEN_NUMENTER;
+	tgs->buttons = tguiScrNumenterButtons;
+
+	tgs->font = tgc->scrfont;
+	tgs->namefont = tgc->scrnamefont;
+	tgs->textcolor = tgc->scrtextcolor;
+	tgs->nametextcolor = tgc->scrnametextcolor;
+	tgs->backcolor = tgc->scrbackcolor;
+
+	tgs->funcs._callpaint = _tgui_DefaultScreenPaint;
+	tgs->funcs._process = _tgui_DefaultScreenProcess;
 	
 }
 

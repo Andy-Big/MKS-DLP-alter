@@ -194,8 +194,12 @@ void			CFG_SetConfigDefault()
 	memset(data, 0, sizeof(GLOBAL_CONFIG));
 	cfgConfig.cfg_version = FW_VERSION;
 	cfgConfig.language = 0;		// english default
-	cfgConfig.z_zero_pos = cfgzMotor.home_pos;
-	cfgConfig.z_pause_pos = 5.0;
+	cfgConfig.zero_pos = cfgzMotor.home_pos;
+	cfgConfig.pause_lift = 40.0;
+	cfgConfig.buzzer = 1;
+	cfgConfig.motor_disable_time = 30;
+	cfgConfig.screen_disable_time = 10;
+	cfgConfig.screensaver_type = 1;
 	
 	for (uint16_t i = 0; i < sizeof(GLOBAL_CONFIG) - 2; i++)
 	{
