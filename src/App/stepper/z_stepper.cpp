@@ -193,12 +193,12 @@ void Stepper::set_directions()
 	
 	if (motor_direction())
 	{
-		HAL_GPIO_WritePin(Z_DIR_GPIO_Port, Z_DIR_Pin, (GPIO_PinState)cfgzMotor.invert_z_dir);
+		HAL_GPIO_WritePin(Z_DIR_GPIO_Port, Z_DIR_Pin, (GPIO_PinState)cfgzMotor.invert_dir);
 		count_direction = -1;
 	}
 	else
 	{
-		HAL_GPIO_WritePin(Z_DIR_GPIO_Port, Z_DIR_Pin, (GPIO_PinState)!cfgzMotor.invert_z_dir);
+		HAL_GPIO_WritePin(Z_DIR_GPIO_Port, Z_DIR_Pin, (GPIO_PinState)!cfgzMotor.invert_dir);
 		count_direction = 1;
 	}
 	
@@ -902,7 +902,7 @@ void Stepper::init()
 	sei();
 	
 	// Init direction bits for first moves
-	last_direction_bits = cfgzMotor.invert_z_dir;
+	last_direction_bits = cfgzMotor.invert_dir;
 	set_directions();
 	
 }

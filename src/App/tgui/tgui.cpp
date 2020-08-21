@@ -1128,8 +1128,6 @@ void		TGUI_Init()
 
 	tgb->textposition = {(int16_t)(tgb->position.left + 1), (int16_t)(tgb->position.bottom - 25), (int16_t)(tgb->position.right - 1), (int16_t)(tgb->position.bottom - 1)};
 
-	tgb->options.disabled = 1;
-
 	tgb->funcs._call_press = _tgui_FilesFileButtonPress;		// must not be zero or a predefined value
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 

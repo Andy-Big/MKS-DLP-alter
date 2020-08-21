@@ -437,11 +437,11 @@ int main()
 					}
 					else
 					{
-						if (cfgzMotor.z_home_dir == -1)
-							systemInfo.target_position = cfgzMotor.z_max_pos * (-1.0);
+						if (cfgzMotor.home_dir == -1)
+							systemInfo.target_position = cfgzMotor.max_pos * (-1.0);
 						else
-							systemInfo.target_position = cfgzMotor.z_max_pos;
-						ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+							systemInfo.target_position = cfgzMotor.max_pos;
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_fast);
 						systemInfo.printer_state = PST_HOMING_FAST;
 					}
 				}
@@ -450,20 +450,20 @@ int main()
 			case PST_HOMING_FAST:
 				if (ZMOTOR_IsMoving() == 0)
 				{
-					if (cfgzMotor.z_home_dir == -1 && ZMOTOR_GetEndstopState() & (1 << Z_MIN))
+					if (cfgzMotor.home_dir == -1 && ZMOTOR_GetEndstopState() & (1 << Z_MIN))
 					{
 						// moved to min endstop
-						ZMOTOR_SetPosition(cfgzMotor.z_home_pos);
-						systemInfo.target_position = cfgzMotor.z_home_pos + 3;
-						ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+						ZMOTOR_SetPosition(cfgzMotor.home_pos);
+						systemInfo.target_position = cfgzMotor.home_pos + 3;
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_fast);
 						systemInfo.printer_state = PST_HOMING_UP;
 					}
-					else if (cfgzMotor.z_home_dir == 1 && ZMOTOR_GetEndstopState() & (1 << Z_MAX))
+					else if (cfgzMotor.home_dir == 1 && ZMOTOR_GetEndstopState() & (1 << Z_MAX))
 					{
 						// moved to max endstop
-						ZMOTOR_SetPosition(cfgzMotor.z_home_pos);
-						systemInfo.target_position = cfgzMotor.z_home_pos - 3;
-						ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+						ZMOTOR_SetPosition(cfgzMotor.home_pos);
+						systemInfo.target_position = cfgzMotor.home_pos - 3;
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_fast);
 						systemInfo.printer_state = PST_HOMING_UP;
 					}
 					// endstop not reached, error
@@ -492,16 +492,16 @@ int main()
 					}
 					else
 					{
-						if (cfgzMotor.z_home_dir == -1)
+						if (cfgzMotor.home_dir == -1)
 						{
 							systemInfo.target_position = -1;
-							ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_z);
+							ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_slow);
 							systemInfo.printer_state = PST_HOMING_SLOW;
 						}
 						else
 						{
 							systemInfo.target_position = 1;
-							ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_z);
+							ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_slow);
 							systemInfo.printer_state = PST_HOMING_SLOW;
 						}
 					}
@@ -516,8 +516,8 @@ int main()
 						// moved to endstop
 						systemInfo.position_known = 1;
 						_tgui_MovezUpdateHomed();
-						ZMOTOR_SetPosition(cfgzMotor.z_home_pos);
-						systemInfo.target_position = cfgzMotor.z_home_pos;
+						ZMOTOR_SetPosition(cfgzMotor.home_pos);
+						systemInfo.target_position = cfgzMotor.home_pos;
 						ZMOTOR_DisableEndstops();
 					}
 					else

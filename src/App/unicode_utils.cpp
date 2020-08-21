@@ -454,7 +454,35 @@ char*		strtrim(char *src)
 
 char*		strupper_utf(char *src)
 {
-	
+	uint16_t	uchar;
+	char		*string = src;
+	while (*string != 0)
+	{
+		if (*string > 96 && *string < 123)
+		{
+			*string -= 32;
+		}
+		else if (*string >= 0x7F)
+		{
+			// cyrillic UTF8
+			uchar = *string;
+			uchar <<= 8;
+			uchar +=  *(string + 1);
+			if (uchar > 0xD0AF && uchar < 0xD0C0)
+			{
+				uchar -= 0x20;
+			}
+			else if (uchar > 0xD17F && uchar < 0xD190)
+			{
+				uchar -= 0xE0;
+			}
+			
+			*string = uchar >> 8;
+			string++;
+			*string = uchar & 0xFF;
+		}
+		string++;
+	}
 	
 	return src;
 }

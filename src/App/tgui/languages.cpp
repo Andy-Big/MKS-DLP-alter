@@ -64,6 +64,10 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Loading settings from a file\n%s ...",
 		(char*)"File opening error!",
 		(char*)"Settings loaded success.",
+		(char*)"Error in settings file\non line %u :\nUnknown section name",
+		(char*)"Error in settings file\non line %u :\nUnknown parameter name",
+		(char*)"Error in settings file\non line %u :\nParameter value is invalid",
+		(char*)"Make sure there is no\nprinted model or debris left\non the platform or in the vat.",
 
 	};
 
@@ -130,6 +134,10 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Загружаются настройки из файла\n%s ...",
 		(char*)"Ошибка открытия файла!",
 		(char*)"Настройки успешно загружены.",
+		(char*)"Ошибка в файле настроек\nв строке %u :\nНеизвестное имя раздела",
+		(char*)"Ошибка в файле настроек\nв строке %u :\nНеизвестное имя параметра",
+		(char*)"Ошибка в файле настроек\nв строке %u :\nНеверное значения параметра",
+		(char*)"Убедитесь, что на платформе\nи в ванне не осталась напечатанная\nмодель или ее остатки.",
 
 	};
 

@@ -40,13 +40,13 @@ void		ZMOTOR_Init()
 {
 
 //*
-	zPlanner.settings.axis_steps_per_mm = 			cfgzMotor.axis_steps_per_mm;
-	zPlanner.settings.max_feedrate_mm_s = 			cfgzMotor.max_feedrate_mm_s;
-	zPlanner.settings.max_acceleration_mm_per_s2 =	cfgzMotor.max_acceleration_mm_per_s2;
+	zPlanner.settings.axis_steps_per_mm = 			cfgzMotor.steps_per_mm;
+	zPlanner.settings.max_feedrate_mm_s = 			cfgzMotor.max_feedrate;
+	zPlanner.settings.max_acceleration_mm_per_s2 =	cfgzMotor.max_acceleration;
 	zPlanner.settings.acceleration = 				cfgzMotor.acceleration;
 	zPlanner.settings.travel_acceleration = 		cfgzMotor.travel_acceleration;
-	zPlanner.settings.min_feedrate_mm_s = 			cfgzMotor.min_feedrate_mm_s;
-	zPlanner.settings.min_travel_feedrate_mm_s = 	cfgzMotor.min_travel_feedrate_mm_s;
+	zPlanner.settings.min_feedrate_mm_s = 			cfgzMotor.min_feedrate;
+	zPlanner.settings.min_travel_feedrate_mm_s = 	cfgzMotor.min_travel_feedrate;
 	zPlanner.settings.max_jerk = 					cfgzMotor.max_jerk;
 /**/
 /*
@@ -206,7 +206,7 @@ void			ZMOTOR_Stop()
 
 float			ZMOTOR_GetCurrentPosition()
 {
-	return (float)systemInfo.current_position_steps / (float)cfgzMotor.axis_steps_per_mm;
+	return (float)systemInfo.current_position_steps / (float)cfgzMotor.steps_per_mm;
 }
 //==============================================================================
 
@@ -246,12 +246,12 @@ void			ZMOTOR_StartHoming()
 	ZMOTOR_SetPosition(0);
 	systemInfo.target_position = 0;
 
-	if (cfgzMotor.z_home_dir == -1)
+	if (cfgzMotor.home_dir == -1)
 	{
 		if (ZMOTOR_GetEndstopState() & (1 << Z_MIN))
 		{
 			systemInfo.target_position += 20;
-			ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+			ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_fast);
 		}
 	}
 	else
@@ -259,7 +259,7 @@ void			ZMOTOR_StartHoming()
 		if (ZMOTOR_GetEndstopState() & (1 << Z_MAX))
 		{
 			systemInfo.target_position -= 20;
-			ZMOTOR_MoveAbsolute(systemInfo.target_position, 10);
+			ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_fast);
 		}
 	}
 	systemInfo.printer_state = PST_HOMING_PREUP;

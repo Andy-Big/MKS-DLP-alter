@@ -59,8 +59,19 @@ void		_tgui_MovezHomeButtonPress(void *tguiobj, void *param)
 	if (ZMOTOR_IsMoving() == 1)
 		return;
 	
-	ZMOTOR_StartHoming();
+	TGUI_MessageBoxOkCancel(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_SURE_NO_MODEL_ON_PLATFORM), _tgui_StartHoming);
+}
+//==============================================================================
 
+
+
+
+void		_tgui_StartHoming(void *tguiobj, void *param)
+{
+	if (ZMOTOR_IsMoving() == 1)
+		return;
+	
+	ZMOTOR_StartHoming();
 	_tgui_MovezUpdateHomed();
 }
 //==============================================================================
@@ -96,7 +107,7 @@ void		_tgui_MovezStepSelectButtonPress(void *tguiobj, void *param)
 
 void		_tgui_MovezUpButtonPress(void *tguiobj, void *param)
 {
-	if (systemInfo.position_known == 1 && systemInfo.target_position >= cfgzMotor.z_max_pos)
+	if (systemInfo.position_known == 1 && systemInfo.target_position >= cfgzMotor.max_pos)
 		return;
 
 	if (systemInfo.zmotor_enabled == 0)
@@ -109,12 +120,25 @@ void		_tgui_MovezUpButtonPress(void *tguiobj, void *param)
 	// if not homed then decrease speed | decrease speed below 30 mm
 	if (systemInfo.position_known == 0 || systemInfo.target_position < 30)
 		feedrate /= 3;
+	if (feedrate < 5)
+		feedrate = 5;
 
-	systemInfo.target_position += fMoveStep;
-	if (systemInfo.position_known == 1 && systemInfo.target_position > cfgzMotor.z_max_pos)
-		systemInfo.target_position = cfgzMotor.z_max_pos;
-
+	if (ZMOTOR_IsMoving() == 0)
+	{
+		systemInfo.target_position += fMoveStep / 2;
+		if (systemInfo.position_known == 1 && systemInfo.target_position > cfgzMotor.max_pos)
+			systemInfo.target_position = cfgzMotor.max_pos;
+		ZMOTOR_MoveAbsolute(systemInfo.target_position, feedrate);
+		systemInfo.target_position += fMoveStep / 2;
+	}
+	else
+	{
+		systemInfo.target_position += fMoveStep;
+	}
+	if (systemInfo.position_known == 1 && systemInfo.target_position > cfgzMotor.max_pos)
+		systemInfo.target_position = cfgzMotor.max_pos;
 	ZMOTOR_MoveAbsolute(systemInfo.target_position, feedrate);
+
 	systemInfo.printer_state = PST_FREEMOVING_UP;
 }
 //==============================================================================
@@ -124,7 +148,7 @@ void		_tgui_MovezUpButtonPress(void *tguiobj, void *param)
 
 void		_tgui_MovezDownButtonPress(void *tguiobj, void *param)
 {
-	if (systemInfo.position_known == 1 && systemInfo.target_position <= cfgzMotor.z_min_pos)
+	if (systemInfo.position_known == 1 && systemInfo.target_position <= cfgzMotor.min_pos)
 		return;
 
 	if (systemInfo.zmotor_enabled == 0)
@@ -133,14 +157,37 @@ void		_tgui_MovezDownButtonPress(void *tguiobj, void *param)
 	ZMOTOR_SetFullCurrent();
 	SYSTIMER_SetCountDown(zHoldTimer, 0);
 
-	systemInfo.target_position -= fMoveStep;
-	if (systemInfo.position_known == 1 && systemInfo.target_position < cfgzMotor.z_min_pos)
-		systemInfo.target_position = cfgzMotor.z_min_pos;
-
 	float feedrate = cfgzMotor.travel_feedrate;
+	if (ZMOTOR_IsMoving() == 0)
+	{
+		systemInfo.target_position -= fMoveStep / 2;
+		if (systemInfo.position_known == 1 && systemInfo.target_position < cfgzMotor.min_pos)
+			systemInfo.target_position = cfgzMotor.min_pos;
+		// if not homed then decrease speed | decrease speed below 30 mm
+		if (systemInfo.position_known == 0 || systemInfo.target_position < 30)
+		{
+			feedrate /= 3;
+			if (feedrate < 5)
+				feedrate = 5;
+		}
+		ZMOTOR_MoveAbsolute(systemInfo.target_position, feedrate);
+		
+		systemInfo.target_position -= fMoveStep / 2;
+	}
+	else
+	{
+		systemInfo.target_position -= fMoveStep;
+	}
+	if (systemInfo.position_known == 1 && systemInfo.target_position < cfgzMotor.min_pos)
+		systemInfo.target_position = cfgzMotor.min_pos;
 	// if not homed then decrease speed | decrease speed below 30 mm
-	if (systemInfo.position_known == 0 || systemInfo.target_position < 30)
+	if ((systemInfo.position_known == 0 || systemInfo.target_position < 30) && feedrate == cfgzMotor.travel_feedrate)
+	{
 		feedrate /= 3;
+		if (feedrate < 5)
+			feedrate = 5;
+	}
+
 	ZMOTOR_MoveAbsolute(systemInfo.target_position, feedrate);
 	systemInfo.printer_state = PST_FREEMOVING_DOWN;
 }
@@ -151,6 +198,9 @@ void		_tgui_MovezDownButtonPress(void *tguiobj, void *param)
 
 void		_tgui_MovezSetZ0ButtonPress(void *tguiobj, void *param)
 {
+	if (ZMOTOR_IsMoving() == 1)
+		return;
+	
 	if (systemInfo.position_known == 0)
 	{
 		TGUI_MessageBoxYesNo(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_HOME_FIRST), _tgui_MovezHomeButtonPress);

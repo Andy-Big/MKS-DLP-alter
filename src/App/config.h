@@ -31,26 +31,27 @@ typedef struct
 {
 	uint16_t		cfg_version;
 
-	uint8_t			invert_z_dir;
-	int8_t			z_home_dir;
-	float			z_home_pos;
-	float			z_min_pos;
-	float			z_max_pos;
-	uint8_t			z_min_endstop_inverting;
-	uint8_t			z_max_endstop_inverting;
+	uint8_t			invert_dir;
+	int8_t			home_dir;
+	float			home_pos;
+	float			min_pos;
+	float			max_pos;
+	uint8_t			min_endstop_inverting;
+	uint8_t			max_endstop_inverting;
 
-	float			axis_steps_per_mm;
-	float			max_feedrate_mm_s;
-	unsigned long	max_acceleration_mm_per_s2;
-	float			min_feedrate_mm_s;
-	float			min_travel_feedrate_mm_s;
+	float			steps_per_mm;
+	float			max_feedrate;
+	unsigned long	max_acceleration;
+	float			min_feedrate;
+	float			min_travel_feedrate;
 	float			max_jerk;
 
 	float			acceleration;
 	float			feedrate;
 	float			travel_acceleration;
 	float			travel_feedrate;
-	float			homing_feedrate_z;
+	float			homing_feedrate_fast;
+	float			homing_feedrate_slow;
 	
 	float			current_vref;
 	float			current_hold_vref;
@@ -109,6 +110,31 @@ typedef struct
 
 
 
+typedef enum
+{
+	PARAMVAL_NONE = 0,
+	PARAMVAL_NUMERIC,
+	PARAMVAL_STRING
+} VALUE_TYPE;
+
+typedef struct
+{
+	float			float_val;
+	int32_t			int_val;
+	uint32_t		uint_val;
+	char			*char_val;
+	VALUE_TYPE		type;
+} PARAM_VALUE;
+
+
+typedef enum
+{
+	CFGR_ERROR = 0,
+	CFGR_COMMON,
+	CFGR_ZMOTOR,
+} CFGREAD_STATE;
+
+
 
 extern SYSTEM_INFO			systemInfo;
 extern MOTOR_CONFIG			cfgzMotor;
@@ -127,6 +153,8 @@ void			CFG_SaveConfig();
 void			CFG_SetTimersDefault();
 void			CFG_SaveTimers();
 
+void			_cfg_GetParamName(char *src, char *dest, uint16_t maxlen);
+void			_cfg_GetParamValue(char *src, PARAM_VALUE *val);
 void			CFG_LoadFromFile(void *par1, void *par2);
 
 	

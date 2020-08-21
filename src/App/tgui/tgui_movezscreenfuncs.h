@@ -8,6 +8,7 @@
 void		_tgui_MovezBackButtonPress(void *tguiobj, void *param);
 void		_tgui_MovezStopButtonPress(void *tguiobj, void *param);
 void		_tgui_MovezHomeButtonPress(void *tguiobj, void *param);
+void		_tgui_StartHoming(void *tguiobj, void *param);
 void		_tgui_MovezStepSelectButtonPress(void *tguiobj, void *param);
 void		_tgui_MovezUpButtonPress(void *tguiobj, void *param);
 void		_tgui_MovezDownButtonPress(void *tguiobj, void *param);
