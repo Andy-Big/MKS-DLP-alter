@@ -133,7 +133,7 @@ void		_tgui_SettingsSaveButtonPress(void *tguiobj, void *param)
 
 void		_tgui_SettingsPauseliftButtonPress(void *tguiobj, void *param)
 {
-	TGUI_NumenterScreenShow(LANG_GetString(LSTR_LIFT_ON_PAUSE), NT_FLOAT, (void*)&(cfgConfig.pause_lift));
+	TGUI_NumenterScreenShow(LANG_GetString(LSTR_LIFT_ON_PAUSE), NT_UFLOAT, (void*)&(cfgConfig.pause_lift));
 }
 //==============================================================================
 

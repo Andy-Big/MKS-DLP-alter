@@ -366,6 +366,7 @@ extern TG_SCREEN		tguiScreenSettings;
 
 #define		TG_SCR_NUMENTER_MINUS_ID		20
 #define		TG_SCR_NUMENTER_DOT_ID			21
+#define		TG_SCR_NUMENTER_DIGISCREEN		22
 
 #define		TG_BTN_CNT_SCREEN_NUMENTER		17
 extern TG_BUTTON		tguiScrNumenterButtons[TG_BTN_CNT_SCREEN_NUMENTER];

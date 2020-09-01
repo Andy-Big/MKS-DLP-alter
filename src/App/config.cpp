@@ -145,8 +145,8 @@ void			CFG_SetMotorDefault()
 	cfgzMotor.homing_feedrate_slow = 1;
 	cfgzMotor.acceleration = 0.7;
 	cfgzMotor.feedrate = 5;
-	cfgzMotor.travel_acceleration = 40;
-	cfgzMotor.travel_feedrate = 30;
+	cfgzMotor.travel_acceleration = 20;
+	cfgzMotor.travel_feedrate = 20;
 	cfgzMotor.min_feedrate = 0.01;
 	cfgzMotor.min_travel_feedrate = 0.01;
 	cfgzMotor.max_jerk = 0.05;

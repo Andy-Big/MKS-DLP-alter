@@ -2567,9 +2567,9 @@
         </file>
     </group>
     <file>
-        <name>$PROJ_DIR$\README.md</name>
+        <name>$PROJ_DIR$\src\motor_settings.acfg</name>
     </file>
     <file>
-        <name>$PROJ_DIR$\src\ui_config.ccfg</name>
+        <name>$PROJ_DIR$\README.md</name>
     </file>
 </project>

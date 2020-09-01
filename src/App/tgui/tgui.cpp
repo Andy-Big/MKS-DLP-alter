@@ -1648,6 +1648,7 @@ void		TGUI_Init()
 	id = 1;
 {
 	bi = 0;
+	
 	// BACK button
 	tgb = &(tguiScrNumenterButtons[bi++]);
 	memset((void*)tgb, 0, sizeof(TG_BUTTON));
@@ -1702,7 +1703,7 @@ void		TGUI_Init()
 	tgb->options.disabled = 0;
 
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_NumenterACPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 	
 	// OK button
@@ -1746,7 +1747,7 @@ void		TGUI_Init()
 	tgb->bgimagename_dis = FNAME_BTN_NUMENTER_DEL_EN;
 	
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_NumenterDelPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 	
 	char *txt;
@@ -1755,6 +1756,7 @@ void		TGUI_Init()
 	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->group_id = 0;
+	tgb->button_id = TG_SCR_NUMENTER_DOT_ID;
 	tgb->position = {219, 262, 318, 311};
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
@@ -1769,7 +1771,7 @@ void		TGUI_Init()
 	tgb->bgimagename_dis = FNAME_BTN_NUMENTER_DIG_EN;
 	
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_NumenterDotPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 	
 	// MINUS button
@@ -1777,6 +1779,7 @@ void		TGUI_Init()
 	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->group_id = 0;
+	tgb->button_id = TG_SCR_NUMENTER_MINUS_ID;
 	tgb->position = {9, 262, 108, 311};
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
@@ -1793,6 +1796,187 @@ void		TGUI_Init()
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
 	tgb->funcs._call_press = NULL;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	// digitals
+	{
+	// 7 button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = 8;
+	tgb->position = {9, 106, 108, 155};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	txt = (char*)"7";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {9, 106, 108, 155};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_NUMENTER_DIG_EN;
+	tgb->bgimagename_press = FNAME_BTN_NUMENTER_DIG_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_NUMENTER_DIG_EN;
+	
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = _tgui_NumenterNumbersPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	// 4 button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = 5;
+	tgb->position = {9, 158, 108, 207};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	txt = (char*)"4";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {9, 158, 108, 207};
+	
+	// 1 button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = 2;
+	tgb->position = {9, 210, 108, 259};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	txt = (char*)"1";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {9, 210, 108, 259};
+	
+	// 8 button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = 9;
+	tgb->position = {114, 106, 213, 155};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	txt = (char*)"8";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {114, 106, 213, 155};
+	
+	// 5 button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = 6;
+	tgb->position = {114, 158, 213, 207};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	txt = (char*)"5";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {114, 158, 213, 207};
+	
+	// 2 button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = 3;
+	tgb->position = {114, 210, 213, 259};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	txt = (char*)"2";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {114, 210, 213, 259};
+	
+	// 0 button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = 1;
+	tgb->position = {114, 262, 213, 311};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	txt = (char*)"0";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {114, 262, 213, 311};
+	
+	// 9 button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = 10;
+	tgb->position = {219, 106, 318, 155};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	txt = (char*)"9";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {219, 106, 318, 155};
+	
+	// 6 button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = 7;
+	tgb->position = {219, 158, 318, 207};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	txt = (char*)"6";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {219, 158, 318, 207};
+	
+	// 3 button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = 4;
+	tgb->position = {219, 210, 318, 259};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	txt = (char*)"3";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {219, 210, 318, 259};
+	
+	}
+	
+	// NumScreen button
+	tgb = &(tguiScrNumenterButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrNumenterButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = TG_SCR_NUMENTER_DIGISCREEN;
+	tgb->position = {12, 57, 317, 97};
+
+	tgb->textcolor_en = LCDUI_RGB(0x2E2E2E);
+	tgb->textcolor_dis = LCDUI_RGB(0x2E2E2E);
+	tgb->backcolor_en = LCDUI_RGB(0xDDDDDD);
+	tgb->backcolor_dis = LCDUI_RGB(0xDDDDDD);
+	tgb->font = LCDUI_FONT_H36NUM;
+
+	txt = (char*)"0.0";
+	tgb->text = (LNG_STRING_ID)((DWORD)txt);
+	tgb->textposition = {12, 57, 310, 97};
+	
+	tgb->options.bgpaint = BGP_FILL;
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_dis = NULL;
+	tgb->options.disabled = 1;
+	
+	tgb->funcs._call_paint = _tgui_NumenterDigiScreenPaint;
+	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_process = NULL;
 	
 	
 	// NUMENTER SCREEN
