@@ -237,6 +237,7 @@ typedef struct
 #define	FNAME_BKGR_FILESLIST		(char*)"scr_files_list.cimg"
 #define	FNAME_BKGR_EMPTY			(char*)"scr_empty.cimg"
 #define	FNAME_BKGR_NUMENTER			(char*)"scr_numenter.cimg"
+#define	FNAME_BKGR_FILEVIEW			(char*)"scr_fileview.cimg"
 
 #define	FNAME_BTN_MOVEZ_UP_EN		(char*)"btn_movez_up_en.cimg"
 #define	FNAME_BTN_MOVEZ_UP_PRESS	(char*)"btn_movez_up_press.cimg"
@@ -371,6 +372,11 @@ extern TG_SCREEN		tguiScreenSettings;
 #define		TG_BTN_CNT_SCREEN_NUMENTER		17
 extern TG_BUTTON		tguiScrNumenterButtons[TG_BTN_CNT_SCREEN_NUMENTER];
 extern TG_SCREEN		tguiScreenNumenter;
+
+
+#define		TG_BTN_CNT_SCREEN_FILEVIEW		3
+extern TG_BUTTON		tguiScrFileviewButtons[TG_BTN_CNT_SCREEN_FILEVIEW];
+extern TG_SCREEN		tguiScreenFileview;
 
 
 

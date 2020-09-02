@@ -75,6 +75,8 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Off",
 		(char*)"Settings are being saved ...",
 		(char*)"AC",
+		(char*)"Set the original position of the\nplatform in this position?",
+		(char*)"The original position of the\nplatform is set and saved.",
 
 	};
 
@@ -152,6 +154,8 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Выкл",
 		(char*)"Идет сохранение настроек...",
 		(char*)"AC",
+		(char*)"Установить исходное положение\nплатформы в этой позиции?",
+		(char*)"Исходное положение платформы\nустановлено и сохранено.",
 
 	};
 
