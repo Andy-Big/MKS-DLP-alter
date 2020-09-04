@@ -25,6 +25,7 @@ typedef enum
 
 
 uint8_t		PFILE_Init(FIL *file, FILES_TYPE ftype);
+uint8_t		PFILE_IsInited();
 uint8_t		PFILE_SetPointerToPreview();
 uint16_t	PFILE_GetPreviewWidth();
 uint16_t	PFILE_GetPreviewHeight();

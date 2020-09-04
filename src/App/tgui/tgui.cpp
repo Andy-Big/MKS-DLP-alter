@@ -14,6 +14,7 @@
 #include "tgui_messagebox.h"
 #include "tgui_settingsscreenfuncs.h"
 #include "tgui_numenterscreenfuncs.h"
+#include "tgui_fileviewscreenfuncs.h"
 
 
 __no_init uint8_t 		tguiDBuff[UIDBUFF_SIZE];
@@ -50,6 +51,9 @@ TG_SCREEN		tguiScreenSettings;
 
 TG_BUTTON		tguiScrNumenterButtons[TG_BTN_CNT_SCREEN_NUMENTER];
 TG_SCREEN		tguiScreenNumenter;
+
+TG_BUTTON		tguiScrFileviewButtons[TG_BTN_CNT_SCREEN_FILEVIEW];
+TG_SCREEN		tguiScreenFileview;
 
 
 
@@ -1098,7 +1102,7 @@ void		TGUI_Init()
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 
 	tgb->parentscreen = &tguiScreenFiles;
-	tgb->childscreen = NULL;
+	tgb->childscreen = &tguiScreenFileview;
 	
 	// FILE-2 buttons
 	tgb = &(tguiScrFilesButtons[bi++]);
@@ -1361,7 +1365,7 @@ void		TGUI_Init()
 		tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 
 		tgb->parentscreen = &tguiScreenFilesList;
-		tgb->childscreen = NULL;
+		tgb->childscreen = &tguiScreenFileview;
 	}
 	
 	
@@ -1692,7 +1696,7 @@ void		TGUI_Init()
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
-	tgb->text = LCTR_AC;
+	tgb->text = LSTR_AC;
 	tgb->textposition = {340, 106, 469, 155};
 	
 	tgb->options.bgpaint = BGP_IMAGE;
@@ -1726,7 +1730,7 @@ void		TGUI_Init()
 	tgb->options.disabled = 0;
 
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_NumenterOKPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 	
 	// DEL button
@@ -2007,6 +2011,144 @@ void		TGUI_Init()
 
 
 
+	// -------------------- Fileview Screen elements -----------------------
+{
+	bi = 0;
+	// BACK button
+	tgb = &(tguiScrFileviewButtons[bi++]);
+	memset((void*)tgb, 0, sizeof(TG_BUTTON));
+	
+	tgb->position = {4, 4, 167, 49};
+
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->text = LSTR_BACK;
+	tgb->textposition = {54, 6, 165, 47};
+	tgb->font = tgc->btnfont;
+	tgb->textcolor_en = LCDUI_RGB(0x074B19);
+	tgb->textcolor_press = tgc->btntextcolor_press;
+	tgb->textcolor_dis = tgc->btntextcolor_dis;
+	tgb->backcolor_en = tgc->btnbackcolor_en;
+	tgb->backcolor_press = tgc->btnbackcolor_press;
+	tgb->backcolor_dis = tgc->btnbackcolor_dis;
+	
+	tgb->options.disabled = 0;
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.repaintonpress = 1;
+	
+	tgb->textoptions.textalign_h = HTA_CENTER;
+	tgb->textoptions.textalign_v = VTA_CENTER;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = (pressfunc)BTNA_GOPREVSCR;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+	tgb->parentscreen = &tguiScrFilesButtons;
+	tgb->childscreen = NULL;
+
+	// DEL button
+	tgb = &(tguiScrFileviewButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrFileviewButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->position = {254, 247, 333, 311};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LSTR____;
+	tgb->textposition = {254, 247, 333, 311};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_FILEVIEW_DEL_EN;
+	tgb->bgimagename_press = FNAME_BTN_FILEVIEW_DEL_PRESS;
+	tgb->bgimagename_dis = NULL;
+	
+	tgb->options.disabled = 0;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	// PRINT button
+	tgb = &(tguiScrFileviewButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrFileviewButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {389, 247, 468, 311};
+
+	tgb->textposition = {389, 247, 468, 311};
+	
+	tgb->bgimagename_en = FNAME_BTN_FILEVIEW_PRINT_EN;
+	tgb->bgimagename_press = FNAME_BTN_FILEVIEW_PRINT_PRESS;
+
+	tgb->funcs._call_press = NULL;
+
+	// PREVIEW image
+	tgb = &(tguiScrFileviewButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrFileviewButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {7, 54, 246, 233};
+
+	tgb->textposition = {7, 54, 246, 233};
+	
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	
+	tgb->funcs._call_process = NULL;
+	tgb->funcs._call_paint = _tgui_FileviewPreviewPaint;
+	
+	// FILEINFO region
+	tgb = &(tguiScrFileviewButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrFileviewButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {7, 235, 246, 311};
+
+	tgb->textposition = {7, 235, 246, 311};
+	
+	tgb->funcs._call_paint = _tgui_FileviewFileinfoPaint;
+	
+	// PRINTINFO region
+	tgb = &(tguiScrFileviewButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrFileviewButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {248, 54, 472, 233};
+
+	tgb->textposition = {248, 54, 472, 233};
+	
+	tgb->funcs._call_process = NULL;
+	tgb->funcs._call_paint = _tgui_FileviewPrintinfoPaint;
+	
+	
+	// FILEVIEW SCREEN
+	tgs = &tguiScreenFileview;
+	memset((void*)tgs, 0, sizeof(TG_SCREEN));
+	
+	tgs->bgimagename = FNAME_BKGR_FILEVIEW;
+	tgs->prevscreen = &tguiScreenService;
+
+	tgs->name = LSTR_FILEVIEW_CAPTION;
+	tgs->nameposition = {205, 3, 475, 30};
+	tgs->nameoptions.textalign_h = HTA_CENTER;
+	tgs->nameoptions.textalign_v = VTA_CENTER;
+
+	tgs->btns_count = TG_BTN_CNT_SCREEN_FILEVIEW;
+	tgs->buttons = tguiScrFileviewButtons;
+
+	tgs->font = tgc->scrfont;
+	tgs->namefont = tgc->scrnamefont;
+	tgs->textcolor = tgc->scrtextcolor;
+	tgs->nametextcolor = tgc->scrnametextcolor;
+	tgs->backcolor = tgc->scrbackcolor;
+
+	tgs->funcs._callpaint = _tgui_DefaultScreenPaint;
+	tgs->funcs._process = _tgui_DefaultScreenProcess;
+	
+}
+
+
+
 }
 //==============================================================================
 
@@ -2050,7 +2192,7 @@ void		TGUI_Process()
 // Current screen periodical process handling (check for changes, touch pressed, etc)
 void		TGUI_USBStateChanged()
 {
-	if (tguiScreenFiles.funcs._process != NULL && tguiActiveScreen != &tguiScreenFiles)
+	if (tguiScreenFiles.funcs._process != NULL && tguiActiveScreen != &tguiScreenFiles && tguiActiveScreen != &tguiScreenFilesList)
 		tguiScreenFiles.funcs._process((void*)&tguiScreenFiles, NULL);
 }
 //==============================================================================

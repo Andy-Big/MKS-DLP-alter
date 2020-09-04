@@ -5,6 +5,7 @@
 ********************************************************************************/
 
 #include "tgui_filesscreenfuncs.h"
+#include "tgui_fileviewscreenfuncs.h"
 #include "tgui_defaultfuncs.h"
 #include "usb_host.h"
 #include "config.h"
@@ -275,32 +276,31 @@ void		_tgui_FilesFileButtonPaint(void *tguiobj, void *param)
 	LCDUI_FillRect(thisbtn->position.left, thisbtn->position.top, thisbtn->position.right - thisbtn->position.left, thisbtn->position.bottom - thisbtn->position.top);
 	LCDUI_SetColor(thisbtn->textcolor_en);
 
-	// directory icon
-	if (files[thisbtn->button_id-1].type == FTYPE_DIR)
+	uint16_t	fh = LCDUI_GetCurrentFontHeight() * 2 + 2;
+	TG_RECT		rc;
+	switch (files[thisbtn->button_id-1].type)
 	{
-		_tgui_DrawFileCimg(FNAME_ICN_FILES_DIRECTORY, thisbtn->position.left, thisbtn->position.top);
-	}
-	else if(files[thisbtn->button_id-1].type == FTYPE_CONFIG)
-	{
-		_tgui_DrawFileCimg(FNAME_ICN_FILES_CONFIG, thisbtn->position.left, thisbtn->position.top);
-	}
-	else if(files[thisbtn->button_id-1].type == FTYPE_IMAGE)
-	{
-		_tgui_DrawFileCimg(FNAME_ICN_FILES_IMAGE, thisbtn->position.left, thisbtn->position.top);
-	}
-	else
-	{
-		if (files[thisbtn->button_id-1].type == FTYPE_PWS)
-		{
-			uint16_t	fh = LCDUI_GetCurrentFontHeight() * 2 + 2;
-			TG_RECT		rc;
+		// directory icon
+		case FTYPE_DIR:
+			_tgui_DrawFileCimg(FNAME_ICN_FILES_DIRECTORY, thisbtn->position.left, thisbtn->position.top);
+			break;
+		// config icon
+		case FTYPE_CONFIG:
+			_tgui_DrawFileCimg(FNAME_ICN_FILES_CONFIG, thisbtn->position.left, thisbtn->position.top);
+			break;
+		// image icon
+		case FTYPE_IMAGE:
+			_tgui_DrawFileCimg(FNAME_ICN_FILES_IMAGE, thisbtn->position.left, thisbtn->position.top);
+			break;
+		// PWS preview
+		case FTYPE_PWS:
 			rc.left = thisbtn->position.left + 5;
 			rc.right = thisbtn->position.right - 5;
 			rc.top = thisbtn->position.top + 5;
 			rc.bottom = thisbtn->position.bottom - fh - 5;
 			// preview paint
 			_tgui_FilesDrawPreview(&rc, &files[thisbtn->button_id-1]);
-		}
+			break;
 	}	
 	
 	
@@ -632,6 +632,14 @@ void		_tgui_FilesFileButtonPress(void *tguiobj, void *param)
 			}
 			strcat(cfgCFileName, files[thisbtn->button_id-1].fname);
 			TGUI_MessageBoxYesNo(LANG_GetString(LSTR_CONFIRM_ACT), LANG_GetString(LSTR_CFGFILE_LOAD_QUEST), CFG_LoadFromFile);
+			break;
+
+		case FTYPE_PWS:
+			TGUI_FileviewScreenShow(files[thisbtn->button_id-1].fname, currdir, files[thisbtn->button_id-1].type);
+			thisbtn->options.pressed = 0;
+			tguiScreenFileview.prevscreen = tguiActiveScreen;
+			tguiActiveScreen = &tguiScreenFileview;
+			TGUI_ForceRepaint();
 			break;
 	}
 	

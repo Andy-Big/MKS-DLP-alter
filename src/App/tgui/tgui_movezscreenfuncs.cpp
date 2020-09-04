@@ -207,7 +207,7 @@ void		_tgui_MovezSetZ0ButtonPress(void *tguiobj, void *param)
 	}
 	else
 	{
-		TGUI_MessageBoxYesNo(LANG_GetString(LSTR_CONFIRM_ACT), LANG_GetString(LCTR_SET_CURRENT_Z0_QUEST), _tgui_MovezSetZHome);
+		TGUI_MessageBoxYesNo(LANG_GetString(LSTR_CONFIRM_ACT), LANG_GetString(LSTR_SET_CURRENT_Z0_QUEST), _tgui_MovezSetZHome);
 	}
 }
 //==============================================================================
@@ -239,7 +239,7 @@ void		_tgui_MovezSetZHome(void *tguiobj, void *param)
 {
 	cfgConfig.zero_pos = systemInfo.target_position;
 	CFG_SaveConfig();
-	TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LCTR_SET_CURRENT_Z0_SUCCESS));
+	TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LSTR_SET_CURRENT_Z0_SUCCESS));
 }
 //==============================================================================
 

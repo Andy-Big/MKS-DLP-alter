@@ -19,6 +19,7 @@ typedef enum
 void		TGUI_NumenterScreenShow(char *name, NUMENTER_TYPEVAL type, void *value);
 
 void		_tgui_NumenterButtonPaint(void *tguiobj, void *param);
+void		_tgui_NumenterOKPress(void *tguiobj, void *param);
 void		_tgui_NumenterDigiScreenPaint(void *tguiobj, void *param);
 void		_tgui_NumenterNumbersPress(void *tguiobj, void *param);
 void		_tgui_NumenterDelPress(void *tguiobj, void *param);

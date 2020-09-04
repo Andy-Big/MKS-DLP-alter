@@ -4,109 +4,151 @@
 *
 ********************************************************************************/
 
-#include "tgui_numenterscreenfuncs.h"
+#include "tgui_fileviewscreenfuncs.h"
 #include "tgui_defaultfuncs.h"
 #include "config.h"
-
-
-#define	NUMVALUE_MAXLEN		10
-
+#include "usb_host.h"
+#include "ff.h"
 
 
 extern TG_SCREEN		*tguiActiveScreen;
 extern char				msg[512];
+extern __no_init FIL	ufile @ "CCMRAM";
 
 
-NUMENTER_TYPEVAL		typeval = NT_UINT;
-void					*edit_value;
-char					numstr[32];
-uint8_t					numstr_len = 0;
-uint8_t					enter_begin = 0;
-uint8_t					dot_entered = 0;
+char					filename[256];
+char					dirname[256];
+FILES_TYPE				filetype;
+TCHAR					tfilename[512];
+uint32_t				filesize = 0;
+uint16_t				filedate = 0;
+uint16_t				filetime = 0;
 
 
 
-void		TGUI_NumenterScreenShow(char *name, NUMENTER_TYPEVAL type, void *value)
+void		TGUI_FileviewScreenShow(char *fname, char *dname, FILES_TYPE ftype)
 {
-	edit_value = value;
-	typeval = type;
-	enter_begin = 0;
-	dot_entered = 0;
-	tguiScreenNumenter.prevscreen = tguiActiveScreen;
-	tguiScreenNumenter.name = (LNG_STRING_ID)((DWORD)name);
-	switch(typeval)
-	{
-		case NT_UINT:
-			sprintf(numstr, "%u", *((uint32_t*)(edit_value)));
-			for (uint8_t i = 0; i < tguiScreenNumenter.btns_count; i++)
-			{
-				if (tguiScreenNumenter.buttons[i].button_id == TG_SCR_NUMENTER_MINUS_ID || tguiScreenNumenter.buttons[i].button_id == TG_SCR_NUMENTER_DOT_ID)
-					tguiScreenNumenter.buttons[i].options.disabled = 1;
-				else
-					tguiScreenNumenter.buttons[i].options.disabled = 0;
-				if (tguiScreenNumenter.buttons[i].button_id == TG_SCR_NUMENTER_DIGISCREEN)
-					tguiScreenNumenter.buttons[i].text = (LNG_STRING_ID)((DWORD)numstr);
-			}
-			break;
-		case NT_INT:
-			sprintf(numstr, "%d", *((int32_t*)(edit_value)));
-			for (uint8_t i = 0; i < tguiScreenNumenter.btns_count; i++)
-			{
-				if (tguiScreenNumenter.buttons[i].button_id == TG_SCR_NUMENTER_DOT_ID)
-					tguiScreenNumenter.buttons[i].options.disabled = 1;
-				else
-					tguiScreenNumenter.buttons[i].options.disabled = 0;
-				if (tguiScreenNumenter.buttons[i].button_id == TG_SCR_NUMENTER_DIGISCREEN)
-					tguiScreenNumenter.buttons[i].text = (LNG_STRING_ID)((DWORD)numstr);
-			}
-			break;
-		case NT_UFLOAT:
-			sprintf(numstr, "%0.3f", *((float*)(edit_value)));
-			for (uint8_t i = 0; i < tguiScreenNumenter.btns_count; i++)
-			{
-				if (tguiScreenNumenter.buttons[i].button_id == TG_SCR_NUMENTER_MINUS_ID)
-					tguiScreenNumenter.buttons[i].options.disabled = 1;
-				else
-					tguiScreenNumenter.buttons[i].options.disabled = 0;
-				if (tguiScreenNumenter.buttons[i].button_id == TG_SCR_NUMENTER_DIGISCREEN)
-					tguiScreenNumenter.buttons[i].text = (LNG_STRING_ID)((DWORD)numstr);
-			}
-			break;
-		case NT_FLOAT:
-			sprintf(numstr, "%0.3f", *((float*)(edit_value)));
-			dot_entered = 1;
-			for (uint8_t i = 0; i < tguiScreenNumenter.btns_count; i++)
-			{
-				tguiScreenNumenter.buttons[i].options.disabled = 0;
-				if (tguiScreenNumenter.buttons[i].button_id == TG_SCR_NUMENTER_DIGISCREEN)
-					tguiScreenNumenter.buttons[i].text = (LNG_STRING_ID)((DWORD)numstr);
-			}
-			break;
-		default:
-			strcpy(numstr, (char*)"0");
-	}
+	memset(tfilename, 0, sizeof(tfilename));
+	filesize = 0;
+	filedate = 0;
+	filetime = 0;
 	
-	numstr_len = strlen(numstr);
-	tguiActiveScreen = &tguiScreenNumenter;
-	TGUI_ForceRepaint();
+	strcpy(filename, fname);
+	strcpy(dirname, dname);
+	if (dirname[strlen(dirname)-1] != '/')
+		strcat(dirname, (char*)"/");
+	filetype = ftype;
+	tguiScreenFileview.prevscreen = tguiActiveScreen;
+
+	tstrcpy(tfilename, UsbPath);
+	tstrcat_utf(tfilename, dirname);
+	tstrcat_utf(tfilename, filename);
+
+	FILINFO finfo;
+	memset(&finfo, 0, sizeof(FILINFO));
+	if (f_stat(tfilename, &finfo) != FR_OK)
+		return;
+	filesize = finfo.fsize;
+	filedate = finfo.fdate;
+	filetime = finfo.ftime;
+	
+	if (f_open(&ufile, tfilename, FA_OPEN_EXISTING | FA_READ) != FR_OK)
+		return;
+
+	PFILE_Init(&ufile, ftype);
+
+	f_close(&ufile);
 }
 //==============================================================================
 
 
 
-void		_tgui_NumenterButtonPaint(void *tguiobj, void *param)
+
+void		_tgui_FileviewFileinfoPaint(void *tguiobj, void *param)
 {
+	if (PFILE_IsInited() == 0)
+		return;
+
+	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
+
+	LCDUI_FONT_TYPE oldfont = LCDUI_SetFont(LCDUI_FONT_H12BOLD);
+	uint16_t 		oldcolor = LCDUI_SetColor(LCDUI_RGB(0x00496C));
+	uint16_t 		oldbackcolor = LCDUI_SetBackColor(LCDUI_RGB(0xDDDDDD));
+
+	// file name
+	TSIZE		namesize = {0,0};
+	LCDUI_DrawText(filename, LCDUI_TEXT_GETSIZE, thisbtn->position.left, thisbtn->position.top, thisbtn->position.right, -1, &namesize);
+	uint16_t	ybot = thisbtn->position.top + (thisbtn->position.bottom - thisbtn->position.top) / 2;
+	uint16_t	ytop = thisbtn->position.top + (ybot - thisbtn->position.top - namesize.y_size) / 2;
+	LCDUI_DrawText(filename, LCDUI_TEXT_ALIGN_CENTER, thisbtn->position.left, ytop, thisbtn->position.right, -1);
+	
+	// file info
+	uint16_t	fntheight = LCDUI_GetCurrentFontHeight();
+	uint16_t	yinc = (thisbtn->position.bottom - ybot - fntheight * 2) / 3;
+	// size
+	ytop = ybot + yinc;
+	LCDUI_SetColor(LCDUI_RGB(0x000000));
+	LCDUI_DrawText(LANG_GetString(LSTR_FILESIZE), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	LCDUI_SetColor(LCDUI_RGB(0x00496C));
+	sprintf(msg, "%0.2f %s", (float)filesize / 1000000, LANG_GetString(LSTR_MB));
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	// date-time
+	ytop += fntheight + yinc;
+	LCDUI_SetColor(LCDUI_RGB(0x000000));
+	LCDUI_DrawText(LANG_GetString(LSTR_FILETIME), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	LCDUI_SetColor(LCDUI_RGB(0x00496C));
+	sprintf(msg, "%02u:%02u  %02u/%02u/%02u", filetime >> 11, (filetime >> 5) & 0x3F, (filedate) & 0x1F, (filedate >> 5) & 0x0F, (filedate >> 9) + 1980);
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	
+
+	LCDUI_SetColor(oldcolor);
+	LCDUI_SetBackColor(oldbackcolor);
+	LCDUI_SetFont(oldfont);
+}
+//==============================================================================
+
+
+
+
+void		_tgui_FileviewPrintinfoPaint(void *tguiobj, void *param)
+{
+}
+//==============================================================================
+
+
+
+
+void		_tgui_FileviewPreviewPaint(void *tguiobj, void *param)
+{
+	if (PFILE_IsInited() == 0)
+		return;
+
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
 	
-	if (thisbtn->button_id == 0 || thisbtn->button_id > 10)
-		_tgui_DefaultButtonPaint(tguiobj, param);
+	uint16_t	fh = LCDUI_GetCurrentFontHeight() * 2 + 2;
+	TG_RECT		rc;
 
-	return;
+	if (f_open(&ufile, tfilename, FA_OPEN_EXISTING | FA_READ) != FR_OK)
+		return;
+
+	switch (filetype)
+	{
+		// PWS preview
+		case FTYPE_PWS:
+			rc.left = thisbtn->position.left;
+			rc.right = thisbtn->position.right;
+			rc.top = thisbtn->position.top;
+			rc.bottom = thisbtn->position.bottom;
+			FPWS_DrawPreview(&ufile, &rc);
+			break;
+	}	
+
+	f_close(&ufile);
 }
 //==============================================================================
 
 
-
+/*
 void		_tgui_NumenterDigiScreenPaint(void *tguiobj, void *param)
 {
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
@@ -267,6 +309,6 @@ void		_tgui_NumenterACPress(void *tguiobj, void *param)
 	}
 }
 //==============================================================================
-
+*/
 
 

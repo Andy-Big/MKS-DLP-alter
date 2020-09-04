@@ -282,6 +282,11 @@ typedef struct
 #define	FNAME_BTN_NUMENTER_DIG_EN		(char*)"btn_numenter_dig_en.cimg"
 #define	FNAME_BTN_NUMENTER_DIG_PRESS	(char*)"btn_numenter_dig_press.cimg"
 
+#define	FNAME_BTN_FILEVIEW_DEL_EN		(char*)"btn_fileview_delete_en.cimg"
+#define	FNAME_BTN_FILEVIEW_DEL_PRESS	(char*)"btn_fileview_delete_press.cimg"
+#define	FNAME_BTN_FILEVIEW_PRINT_EN		(char*)"btn_fileview_print_en.cimg"
+#define	FNAME_BTN_FILEVIEW_PRINT_PRESS	(char*)"btn_fileview_print_press.cimg"
+
 #define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn_files_dir.cimg"
 #define	FNAME_ICN_FILES_IMAGE		(char*)"icn_files_image.cimg"
 #define	FNAME_ICN_FILES_CONFIG		(char*)"icn_files_config.cimg"
@@ -374,7 +379,7 @@ extern TG_BUTTON		tguiScrNumenterButtons[TG_BTN_CNT_SCREEN_NUMENTER];
 extern TG_SCREEN		tguiScreenNumenter;
 
 
-#define		TG_BTN_CNT_SCREEN_FILEVIEW		3
+#define		TG_BTN_CNT_SCREEN_FILEVIEW		6
 extern TG_BUTTON		tguiScrFileviewButtons[TG_BTN_CNT_SCREEN_FILEVIEW];
 extern TG_SCREEN		tguiScreenFileview;
 

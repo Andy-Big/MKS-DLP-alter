@@ -126,8 +126,8 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 	pscale = (float)pw / (float)rw;
 	if ((float)ph / (float)rh > pscale)
 		pscale = (float)ph / (float)rh;
-	if (pscale < 1)
-		pscale = 1;
+//	if (pscale < 1)
+//		pscale = 1;
 	
 	iw = (uint32_t)((float)pw / pscale);
 	ih = (uint32_t)((float)ph / pscale);
@@ -168,7 +168,10 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 		nextline += pscale;
 		cpainted = 0;
 		lpainted++;
-		bufpos += ((uint32_t)nextline - oldline) * pw;
+		if (((uint32_t)nextline - oldline) > 1)
+			bufpos += ((uint32_t)nextline - oldline) * pw;
+		if (((uint32_t)nextline - oldline) == 0)
+			bufpos -= pw;
 		if (bufpos % pw)
 			bufpos -= (bufpos % pw);
 		oldline = (uint32_t)nextline;

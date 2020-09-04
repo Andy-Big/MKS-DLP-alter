@@ -2308,6 +2308,9 @@
                 <name>$PROJ_DIR$\src\App\tgui\tgui_filesscreenfuncs.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_fileviewscreenfuncs.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_infoscreenfuncs.cpp</name>
             </file>
             <file>

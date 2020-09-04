@@ -6,13 +6,14 @@
 
 FILES_TYPE		pfile_type = FTYPE_NONE;
 FIL				*prt_file;
+uint8_t			inited = 0;
 
 
 
 uint8_t		PFILE_Init(FIL *file, FILES_TYPE ftype)
 {
 	uint8_t		res = 0;
-
+	inited = 0;
 	pfile_type = ftype;
 	prt_file = file;
 	
@@ -25,11 +26,24 @@ uint8_t		PFILE_Init(FIL *file, FILES_TYPE ftype)
 				pfile_type = FTYPE_NONE;
 				prt_file = NULL;
 			}
+			else
+			{
+				inited = 1;
+			}
 			break;
 		
 	}
 
 	return res;
+}
+//==============================================================================
+
+
+
+
+uint8_t		PFILE_IsInited()
+{
+	return inited;
 }
 //==============================================================================
 

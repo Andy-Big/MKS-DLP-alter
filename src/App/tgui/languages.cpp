@@ -21,6 +21,11 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"h",
 		(char*)"min",
 		(char*)"sec",
+		(char*)"mm/min",
+		(char*)"mm/sec",
+		(char*)"mm/sec2",
+		(char*)"KB",
+		(char*)"MB",
 		
 		(char*)"OK",
 		(char*)"Cancel",
@@ -77,6 +82,9 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"AC",
 		(char*)"Set the original position of the\nplatform in this position?",
 		(char*)"The original position of the\nplatform is set and saved.",
+		(char*)"FILE VIEW",
+		(char*)"SIZE:",
+		(char*)"DATE:",
 
 	};
 
@@ -100,6 +108,11 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"ч",
 		(char*)"мин",
 		(char*)"сек",
+		(char*)"мм/мин",
+		(char*)"мм/сек",
+		(char*)"мм/сек2",
+		(char*)"КБ",
+		(char*)"МБ",
 
 		(char*)"OK",
 		(char*)"Отмена",
@@ -156,6 +169,9 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"AC",
 		(char*)"Установить исходное положение\nплатформы в этой позиции?",
 		(char*)"Исходное положение платформы\nустановлено и сохранено.",
+		(char*)"ПРОСМОТР",
+		(char*)"РАЗМЕР:",
+		(char*)"ДАТА:",
 
 	};
 
