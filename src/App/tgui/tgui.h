@@ -328,7 +328,7 @@ extern TG_BUTTON		tguiScrLanguageButtons[TG_BTN_CNT_SCREEN_LANGUAGE];
 extern TG_SCREEN		tguiScreenLanguage;
 
 
-#define		TG_BTN_CNT_SCREEN_INFO			11
+#define		TG_BTN_CNT_SCREEN_INFO			2
 extern TG_BUTTON		tguiScrInfoButtons[TG_BTN_CNT_SCREEN_INFO];
 extern TG_SCREEN		tguiScreenInfo;
 

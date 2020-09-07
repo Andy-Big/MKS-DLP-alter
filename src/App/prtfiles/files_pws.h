@@ -8,7 +8,7 @@
 
 
 
-
+#pragma pack(1)
 typedef struct
 {
 	char		mark[12];
@@ -55,17 +55,37 @@ typedef struct
 	uint32_t	height;
 } FPWS_PREVIEW;
 
+typedef struct
+{
+	char		mark[12];
+	uint32_t	data_length;
+	uint32_t	total_layers;
+} FPWS_LAYERSDATA;
+
+#pragma pack()
 
 
 
 
-uint8_t			FPWS_ReadFileInfo(FIL *file);
-uint8_t			FPWS_SetPointerToPreview(FIL *file);
-uint32_t		FPWS_GetPreviewDataOffset();
-uint16_t		FPWS_GetPreviewWidth();
-uint16_t		FPWS_GetPreviewHeight();
-uint8_t			FPWS_DrawPreview(FIL *file, TG_RECT *rect);
+uint8_t		FPWS_ReadFileInfo(FIL *file);
+uint8_t		FPWS_SetPointerToPreview(FIL *file);
+uint32_t	FPWS_GetPreviewDataOffset();
+uint16_t	FPWS_GetPreviewWidth();
+uint16_t	FPWS_GetPreviewHeight();
+uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect);
 
+uint32_t	FPWS_GetTotalLayers();
+uint32_t	FPWS_GetBottomLayers();
+float		FPWS_GetLayerThickness();
+uint32_t	FPWS_GetAntialiasing();
+float		FPWS_GetLightLayer();
+float		FPWS_GetLightBottom();
+float		FPWS_GetLightPause();
+float		FPWS_GetLiftHeight();
+float		FPWS_GetLiftSpeed();
+float		FPWS_GetDropSpeed();
+float		FPWS_GetResinVolume();
+uint32_t	FPWS_GetIndLayerSettings();
 
 
 

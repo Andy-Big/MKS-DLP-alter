@@ -1,4 +1,3 @@
-
 #include "config.h"
 #include "eeprom.h"
 #include "languages.h"
@@ -197,6 +196,8 @@ void			CFG_SetConfigDefault()
 	cfgConfig.zero_pos = cfgzMotor.home_pos;
 	cfgConfig.pause_lift = 40.0;
 	cfgConfig.buzzer = 1;
+	cfgConfig.buzzer_msg = 50;
+	cfgConfig.buzzer_touch = 700;
 	cfgConfig.motor_disable_time = 30;
 	cfgConfig.screen_disable_time = 10;
 	cfgConfig.screensaver_type = 1;

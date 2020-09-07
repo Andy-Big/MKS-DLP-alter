@@ -80,25 +80,21 @@ extern "C"
 #define CPLD_RST_Pin			GPIO_PIN_1
 #define CPLD_RST_GPIO_Port		GPIOB
 
-
 #define FLSPI_CS_Pin			GPIO_PIN_15
 #define FLSPI_CS_GPIO_Port		GPIOA
-
 
 #define USBH_VBUS_Pin			GPIO_PIN_3
 #define USBH_VBUS_GPIO_Port		GPIOD
 
-
 #define LED_UV_Pin				GPIO_PIN_2
 #define LED_UV_GPIO_Port		GPIOE
 
+#define BUZZER_Pin				GPIO_PIN_13
+#define BUZZER_GPIO_Port		GPIOB
+
+
 
 	
-	
-#define LED_UV_On()				LED_UV_GPIO_Port->BSRR = LED_UV_Pin						// Set pin
-#define LED_UV_Off()			LED_UV_GPIO_Port->BSRR = (uint32_t)LED_UV_Pin << 16U	// Reset pin
-
-
 void Error_Handler(void);
 
 

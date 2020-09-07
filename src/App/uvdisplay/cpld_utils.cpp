@@ -153,15 +153,15 @@ uint8_t		_cpld_reTransmission()
 
 void		_cpld_line_gen_data(uint16_t line, uint8_t bank_used_id)
 {
-	uint8_t pixel_sum = 0;
-	uint8_t *p,*q;
-	uint8_t i,j;
+	uint8_t		pixel_sum = 0;
+	uint8_t		*p, *q;
+	uint8_t		i, j;
 	
 	bmp.line.d_frame.mark1 = 0x40 | (bank_used_id<<4) | ((line >> 8)&0x0F);//tan ---напиши SDRAM
 	bmp.line.d_frame.mark2 =  line&0xFF;
 	memset(bmp.line.d_frame.data, 0, DATA_LEN);
 
-	p=bmp.line.d_frame.data;
+	p = bmp.line.d_frame.data;
 	q = Line_Pixel;         //tan ---Из среза - строка данных, которые были проанализированы (данные отображаются на экране 2k).
 	for(i=0; i < DATA_LEN; i++) //tan ---Скопируйте данные из Line_Pixel в bmp.line.d_frame.data
 	{

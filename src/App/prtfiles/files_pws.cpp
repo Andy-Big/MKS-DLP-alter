@@ -10,18 +10,19 @@ extern __no_init FIL			sfile @ "CCMRAM";
 FPWS_HEADER			fpws_header;
 FPWS_INFO			fpws_info;
 FPWS_PREVIEW		fpws_preview;
-
+FPWS_LAYERSDATA		fpws_layersdata;
 
 uint8_t		FPWS_ReadFileInfo(FIL *file)
 {
 	uint32_t	rd;
 	
-	memset(&fpws_header, 0, sizeof(fpws_header));
-	memset(&fpws_info, 0, sizeof(fpws_info));
-	memset(&fpws_preview, 0, sizeof(fpws_preview));
+	memset(&fpws_header, 0, sizeof(FPWS_HEADER));
+	memset(&fpws_info, 0, sizeof(FPWS_INFO));
+	memset(&fpws_preview, 0, sizeof(FPWS_PREVIEW));
+	memset(&fpws_layersdata, 0, sizeof(FPWS_LAYERSDATA));
 
 	// header
-	if (f_read(file, &fpws_header, sizeof(fpws_header), &rd) != FR_OK || rd != sizeof(fpws_header))
+	if (f_read(file, &fpws_header, sizeof(FPWS_HEADER), &rd) != FR_OK || rd != sizeof(FPWS_HEADER))
 		return 0;
 	if (strcmp(fpws_header.mark, (char*)"ANYCUBIC") != 0)
 		return 0;
@@ -31,7 +32,7 @@ uint8_t		FPWS_ReadFileInfo(FIL *file)
 	// info
 	if (f_lseek(file, fpws_header.info_offset) != FR_OK)
 		return 0;
-	if (f_read(file, &fpws_info, sizeof(fpws_info), &rd) != FR_OK || rd != sizeof(fpws_info))
+	if (f_read(file, &fpws_info, sizeof(FPWS_INFO), &rd) != FR_OK || rd != sizeof(FPWS_INFO))
 		return 0;
 	if (strcmp(fpws_info.mark, (char*)"HEADER") != 0)
 		return 0;
@@ -39,9 +40,17 @@ uint8_t		FPWS_ReadFileInfo(FIL *file)
 	// preview
 	if (f_lseek(file, fpws_header.preview_offset) != FR_OK)
 		return 0;
-	if (f_read(file, &fpws_preview, sizeof(fpws_preview), &rd) != FR_OK || rd != sizeof(fpws_preview))
+	if (f_read(file, &fpws_preview, sizeof(FPWS_PREVIEW), &rd) != FR_OK || rd != sizeof(FPWS_PREVIEW))
 		return 0;
 	if (strcmp(fpws_preview.mark, (char*)"PREVIEW") != 0)
+		return 0;
+
+	// layers data
+	if (f_lseek(file, fpws_header.layersdef_offset) != FR_OK)
+		return 0;
+	if (f_read(file, &fpws_layersdata, sizeof(FPWS_LAYERSDATA), &rd) != FR_OK || rd != sizeof(FPWS_LAYERSDATA))
+		return 0;
+	if (strcmp(fpws_layersdata.mark, (char*)"LAYERDEF") != 0)
 		return 0;
 
 	
@@ -180,6 +189,114 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 
 
 	return 1;
+}
+//==============================================================================
+
+
+
+
+uint32_t	FPWS_GetTotalLayers()
+{
+	return fpws_layersdata.total_layers;
+}
+//==============================================================================
+
+
+
+
+uint32_t	FPWS_GetBottomLayers()
+{
+	return (uint32_t)fpws_info.bottom_layers;
+}
+//==============================================================================
+
+
+
+
+float		FPWS_GetLayerThickness()
+{
+	return fpws_info.layers_thickness;
+}
+//==============================================================================
+
+
+
+
+uint32_t	FPWS_GetAntialiasing()
+{
+	return fpws_info.aa_grade;
+}
+//==============================================================================
+
+
+
+
+float		FPWS_GetLightLayer()
+{
+	return fpws_info.exp_time;
+}
+//==============================================================================
+
+
+
+
+float		FPWS_GetLightBottom()
+{
+	return fpws_info.expbottom_time;
+}
+//==============================================================================
+
+
+
+
+float		FPWS_GetLightPause()
+{
+	return fpws_info.lightoff_time;
+}
+//==============================================================================
+
+
+
+
+float		FPWS_GetLiftHeight()
+{
+	return fpws_info.lift_height;
+}
+//==============================================================================
+
+
+
+
+float		FPWS_GetLiftSpeed()
+{
+	return fpws_info.lift_speed;
+}
+//==============================================================================
+
+
+
+
+float		FPWS_GetDropSpeed()
+{
+	return fpws_info.down_speed;
+}
+//==============================================================================
+
+
+
+
+float		FPWS_GetResinVolume()
+{
+	return fpws_info.resin_volume;
+}
+//==============================================================================
+
+
+
+
+uint32_t	FPWS_GetIndLayerSettings()
+{
+	return fpws_info.use_layer_params;
 }
 //==============================================================================
 

@@ -6,80 +6,78 @@
 
 #include "tgui_infoscreenfuncs.h"
 #include "tgui_defaultfuncs.h"
+#include "config.h"
+#include "cpld_utils.h"
 
 
+extern char				msg[512];
 
 
 	
-void		_tgui_InfoScreenVersionPaint(void *tguiobj, void *param)
+void		_tgui_InfoScreenInfoPaint(void *tguiobj, void *param)
 {
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
-	
-	char	msg[32];
-	sprintf(msg, "v%u.%02u", (FW_VERSION >> 8) & 0xFF, FW_VERSION & 0xFF);
-	thisbtn->text = (LNG_STRING_ID)((DWORD)&msg);
-	_tgui_DefaultButtonPaint(tguiobj, NULL);
-	thisbtn->text = LSTR____;
-}
-//==============================================================================
 
+	LCDUI_FONT_TYPE oldfont = LCDUI_SetFont(thisbtn->font);
+	uint16_t 		oldcolor = LCDUI_SetColor(thisbtn->textcolor_en);
+	uint16_t 		oldbackcolor = LCDUI_SetBackColor(LCDUI_RGB(0xE0E0E0));
 
-
-
-void		_tgui_InfoScreenLightTimePaint(void *tguiobj, void *param)
-{
-	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
-	
-	char	msg[32];
-	sprintf(msg, "%u ", 18);
-	strcat(msg, LANG_GetString(LSTR_SHORTHOUR));
-	thisbtn->text = (LNG_STRING_ID)((DWORD)&msg);
-	_tgui_DefaultButtonPaint(tguiobj, NULL);
-	thisbtn->text = LSTR____;
-}
-//==============================================================================
-
-
-
-
-void		_tgui_InfoScreenFansTimePaint(void *tguiobj, void *param)
-{
-	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
-	
-	char	msg[32];
-	sprintf(msg, "%u ", 21);
-	strcat(msg, LANG_GetString(LSTR_SHORTHOUR));
-	thisbtn->text = (LNG_STRING_ID)((DWORD)&msg);
-	_tgui_DefaultButtonPaint(tguiobj, NULL);
-	thisbtn->text = LSTR____;
-}
-//==============================================================================
-
-
-
-
-void		_tgui_InfoScreenURLPaint(void *tguiobj, void *param)
-{
-	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
-	
-	char	*msg = (char*)"github.com/Andy-Big/MKS-DLP-alter";
-	thisbtn->text = (LNG_STRING_ID)((DWORD)msg);
-	_tgui_DefaultButtonPaint(tguiobj, NULL);
-	thisbtn->text = LSTR____;
-}
-//==============================================================================
-
-
-
-
-void		_tgui_InfoScreenUIAuthorPaint(void *tguiobj, void *param)
-{
-	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
-	
-	char	*msg = (char*)"AndyBig";
-	thisbtn->text = (LNG_STRING_ID)((DWORD)msg);
-	_tgui_DefaultButtonPaint(tguiobj, NULL);
-	thisbtn->text = LSTR____;
+	uint16_t	fntheight = LCDUI_GetCurrentFontHeight();
+	uint16_t	yinc = (thisbtn->position.bottom - thisbtn->position.top - fntheight * 7) / 8;	// 8 text lines and 9 intervals
+	uint16_t	ytop = thisbtn->position.top + yinc;
+	// version
+	uint8_t		fpgav = _cpld_get_version();
+	LCDUI_SetColor(LCDUI_RGB(0x000000));
+	LCDUI_DrawText(LANG_GetString(LSTR_VERSION), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	LCDUI_SetColor(LCDUI_RGB(0x00496C));
+	sprintf(msg, "mcu: v%0u.%02u / fpga: v%u", FW_VERSION >> 8, FW_VERSION & 0xFF, fpgav);
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	// light time
+	ytop += fntheight + yinc;
+	LCDUI_SetColor(LCDUI_RGB(0x000000));
+	LCDUI_DrawFastHLine(thisbtn->position.left + 5, ytop - (yinc / 2) - 1, thisbtn->position.right - thisbtn->position.left - 10);
+	LCDUI_DrawText(LANG_GetString(LSTR_LIGHT_TIME), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	LCDUI_SetColor(LCDUI_RGB(0x00496C));
+	sprintf(msg, "%u %s", cfgTimers.led_time, LANG_GetString(LSTR_SHORTHOUR));
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	// diaplay time
+	ytop += fntheight + yinc;
+	LCDUI_SetColor(LCDUI_RGB(0x000000));
+	LCDUI_DrawFastHLine(thisbtn->position.left + 5, ytop - (yinc / 2) - 1, thisbtn->position.right - thisbtn->position.left - 10);
+	LCDUI_DrawText(LANG_GetString(LSTR_DISPLAY_TIME), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	LCDUI_SetColor(LCDUI_RGB(0x00496C));
+	sprintf(msg, "%u %s", cfgTimers.disp_time, LANG_GetString(LSTR_SHORTHOUR));
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	// fan time
+	ytop += fntheight + yinc;
+	LCDUI_SetColor(LCDUI_RGB(0x000000));
+	LCDUI_DrawFastHLine(thisbtn->position.left + 5, ytop - (yinc / 2) - 1, thisbtn->position.right - thisbtn->position.left - 10);
+	LCDUI_DrawText(LANG_GetString(LSTR_FAN_TIME), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	LCDUI_SetColor(LCDUI_RGB(0x00496C));
+	sprintf(msg, "%u %s", cfgTimers.fan_time, LANG_GetString(LSTR_SHORTHOUR));
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	// total print time
+	ytop += fntheight + yinc;
+	LCDUI_SetColor(LCDUI_RGB(0x000000));
+	LCDUI_DrawFastHLine(thisbtn->position.left + 5, ytop - (yinc / 2) - 1, thisbtn->position.right - thisbtn->position.left - 10);
+	LCDUI_DrawText(LANG_GetString(LSTR_TOTALPRINT_TIME), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	LCDUI_SetColor(LCDUI_RGB(0x00496C));
+	sprintf(msg, "%u %s", cfgTimers.total_print_time, LANG_GetString(LSTR_SHORTHOUR));
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	// URL 
+	ytop += fntheight + yinc;
+	LCDUI_SetColor(LCDUI_RGB(0x000000));
+	LCDUI_DrawFastHLine(thisbtn->position.left + 5, ytop - (yinc / 2) - 1, thisbtn->position.right - thisbtn->position.left - 10);
+	LCDUI_DrawText(LANG_GetString(LSTR_URL), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	LCDUI_SetColor(LCDUI_RGB(0x00496C));
+	LCDUI_DrawText((char*)"github.com/Andy-Big/MKS-DLP-alter", LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	// URL 
+	ytop += fntheight + yinc;
+	LCDUI_SetColor(LCDUI_RGB(0x000000));
+	LCDUI_DrawFastHLine(thisbtn->position.left + 5, ytop - (yinc / 2) - 1, thisbtn->position.right - thisbtn->position.left - 10);
+	LCDUI_DrawText(LANG_GetString(LSTR_UIAUTHOR), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
+	LCDUI_SetColor(LCDUI_RGB(0x00496C));
+	LCDUI_DrawText((char*)"andybig@gmail.com", LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
 }
 //==============================================================================
 

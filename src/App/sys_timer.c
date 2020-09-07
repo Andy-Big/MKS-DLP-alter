@@ -2,8 +2,10 @@
 #include "touch.h"
 
 
-SYSTIMERS_STRUCT	Timers[TIMER_MAXTIMERS];
 
+SYSTIMERS_STRUCT	Timers[TIMER_MAXTIMERS];
+uint32_t			buzz_timer = 0;
+uint32_t			uvled_timer = 0;
 
 
 
@@ -22,6 +24,20 @@ void		HAL_IncTick(void)
 	{
 		if (Timers[i].active && Timers[i].msecs)
 			Timers[i].msecs--;
+		
+		if (buzz_timer)
+		{
+			buzz_timer--;
+			if (buzz_timer == 0)
+				BUZZER_Off();
+		}
+
+		if (uvled_timer)
+		{
+			uvled_timer--;
+			if (uvled_timer == 0)
+				UVLED_Off();
+		}
 	}
 }
 
@@ -95,6 +111,24 @@ void		SYSTIMER_SetCountDown(uint8_t timer, uint32_t msecs)
 {
 	if (timer < TIMER_MAXTIMERS && Timers[timer].active)
 		Timers[timer].msecs = msecs;
+}
+//==============================================================================	
+
+
+
+void		BUZZ_TimerOn(uint16_t time)
+{
+	buzz_timer = time;
+	BUZZER_On();
+}
+//==============================================================================	
+
+
+
+void		UVLED_TimerOn(uint16_t time)
+{
+	uvled_timer = time;
+	UVLED_On();
 }
 //==============================================================================	
 

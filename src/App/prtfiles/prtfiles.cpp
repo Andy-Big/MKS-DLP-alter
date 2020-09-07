@@ -1,6 +1,8 @@
 #include "prtfiles.h"
+#include "math.h"
 
 #include "files_pws.h"
+#include "config.h"
 
 
 
@@ -120,6 +122,264 @@ uint8_t		PFILE_DrawPreview(FIL *file, TG_RECT *rect)
 	{
 		case FTYPE_PWS:
 			return FPWS_DrawPreview(file, rect);
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+float		PFILE_GetPrintTime()
+{
+	if (pfile_type == FTYPE_NONE)
+		return 0;
+	
+	uint32_t	total_layers = PFILE_GetTotalLayers();
+	float		set_liftspeed = PFILE_GetLiftSpeed();
+	float		set_dropspeed = PFILE_GetDropSpeed();
+	float		set_accel = cfgzMotor.acceleration;
+	float		set_height = PFILE_GetLiftHeight();
+	float		time1 = 0, up_time = 0, down_time = 0, total_time = 0;
+	
+	
+	// distance of up accelerate/decelerate to set speed
+	float	dist_acc = (set_liftspeed * set_liftspeed) / (set_accel * 2);
+	// if accelerate distance is more then half of lift height
+	if (dist_acc > (set_height / 2))
+	{
+		// up move time
+		up_time = ((1.414 * sqrt(set_height)) / sqrt(set_accel)) * 2;
+	}
+	else
+	{
+		// up accelerate and decelerate time
+		time1 = (set_liftspeed / set_accel) * 2;
+		// up move time
+		up_time = (set_height - (dist_acc * 2)) / set_liftspeed;
+		// up total time
+		up_time += time1;
+	}
+	// distance of down accelerate/decelerate to set speed
+	dist_acc = (set_dropspeed * set_dropspeed) / (set_accel * 2);
+	// if accelerate distance is more then half of lift height
+	if (dist_acc > (set_height / 2))
+	{
+		// down move time
+		down_time = ((1.414 * sqrt(set_height / 2)) / sqrt(set_accel)) * 2;
+	}
+	else
+	{
+		// down accelerate and decelerate time
+		time1 = (set_dropspeed / set_accel) * 2;
+		// down move time
+		down_time = (set_height - (dist_acc * 2)) / set_dropspeed;
+		// down total time
+		down_time += time1;
+	}
+	// total move time for one layer
+	total_time = up_time + down_time;
+	// total move time for all layers
+	total_time *= total_layers;
+	
+	// add bottom light time
+	total_time += PFILE_GetBottomLayers() * PFILE_GetLightBottom();
+	// add common light time
+	total_time += (total_layers - PFILE_GetBottomLayers()) * PFILE_GetLightLayer();
+	// add pause light time
+	total_time += total_layers * PFILE_GetLightPause();
+
+	return total_time;
+}
+//==============================================================================
+
+
+
+
+uint32_t	PFILE_GetTotalLayers()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetTotalLayers();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+uint32_t	PFILE_GetBottomLayers()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetBottomLayers();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+float		PFILE_GetLayerThickness()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetLayerThickness();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+uint32_t	PFILE_GetAntialiasing()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetAntialiasing();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+float		PFILE_GetLightLayer()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetLightLayer();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+float		PFILE_GetLightBottom()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetLightBottom();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+float		PFILE_GetLightPause()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetLightPause();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+float		PFILE_GetLiftHeight()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetLiftHeight();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+float		PFILE_GetLiftSpeed()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetLiftSpeed();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+float		PFILE_GetDropSpeed()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetDropSpeed();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+float		PFILE_GetResinVolume()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetResinVolume();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+uint32_t	PFILE_GetIndLayerSettings()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetIndLayerSettings();
 		
 	}
 

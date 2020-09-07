@@ -10,6 +10,13 @@
 
 
 
+#define			EEPR_ADDR_MOTORCONFIG	0x0000
+#define			EEPR_ADDR_GLOBALCONFIG	0x0100
+#define			EEPR_ADDR_WORKTIME		0x0200
+
+
+
+
 
 
 typedef enum
@@ -68,6 +75,8 @@ typedef struct
 	float			zero_pos;
 	float			pause_lift;
 	uint8_t			buzzer;
+	uint16_t		buzzer_touch;
+	uint16_t		buzzer_msg;
 	uint32_t		motor_disable_time;
 	uint32_t		screen_disable_time;
 	uint8_t			screensaver_type;
@@ -82,21 +91,13 @@ typedef struct
 
 	uint32_t		led_time;
 	uint32_t		disp_time;
-	uint32_t		fan_led_time;
-	uint32_t		fan_mb_time;
+	uint32_t		fan_time;
 	uint32_t		total_print_time;
 
 	uint16_t		cfg_crc;
 } WORK_TIME;
 
 #pragma pack()
-
-
-
-#define			EEPR_ADDR_MOTORCONFIG	0x0000
-#define			EEPR_ADDR_GLOBALCONFIG	0x0100
-#define			EEPR_ADDR_WORKTIME		0x0200
-
 
 
 

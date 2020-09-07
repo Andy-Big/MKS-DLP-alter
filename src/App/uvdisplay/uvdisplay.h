@@ -8,8 +8,6 @@
 
 
 
-
-
 #define CIRCLE_BMP_DATA_ROW	1000
 const uint16_t		exposure_bmp_data_circle[CIRCLE_BMP_DATA_ROW][3] =
 {

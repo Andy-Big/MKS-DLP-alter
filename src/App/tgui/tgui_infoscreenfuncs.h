@@ -6,11 +6,7 @@
 
 
 
-void		_tgui_InfoScreenVersionPaint(void *tguiobj, void *param);
-void		_tgui_InfoScreenLightTimePaint(void *tguiobj, void *param);
-void		_tgui_InfoScreenFansTimePaint(void *tguiobj, void *param);
-void		_tgui_InfoScreenURLPaint(void *tguiobj, void *param);
-void		_tgui_InfoScreenUIAuthorPaint(void *tguiobj, void *param);
+void		_tgui_InfoScreenInfoPaint(void *tguiobj, void *param);
 
 
 

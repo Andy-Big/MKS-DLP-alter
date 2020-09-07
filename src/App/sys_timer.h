@@ -10,6 +10,16 @@ extern "C"
 #include "main.h"
 
 
+#define BUZZER_On()				BUZZER_GPIO_Port->BSRR = BUZZER_Pin						// Set pin
+#define BUZZER_Off()			BUZZER_GPIO_Port->BSRR = (uint32_t)BUZZER_Pin << 16U	// Reset pin
+
+#define UVLED_On()				LED_UV_GPIO_Port->BSRR = LED_UV_Pin						// Set pin
+#define UVLED_Off()				LED_UV_GPIO_Port->BSRR = (uint32_t)LED_UV_Pin << 16U	// Reset pin
+
+
+
+	
+
 #define TIMER_MAXTIMERS		(uint8_t)32
 #define INVALID_TIMER		(uint8_t)0xFF
 
@@ -34,6 +44,9 @@ uint32_t	SYSTIMER_GetCountDown(uint8_t timer);
 void		SYSTIMER_SetCountDown(uint8_t timer, uint32_t msecs);
 
 
+void		BUZZ_TimerOn(uint16_t time);
+
+void		UVLED_TimerOn(uint16_t time);
 
 
 #ifdef __cplusplus

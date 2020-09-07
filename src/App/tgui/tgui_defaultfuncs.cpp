@@ -7,13 +7,18 @@
 #include "tgui_defaultfuncs.h"
 #include "datetime.h"
 #include "sys_timer.h"
+#include "config.h"
 
 
 
 
 // period in ms of timer for check to repaint time on main screen
 #define		MS_SECTIMER_PERIOD			500
+
+
 uint8_t		scrTimeTimer = INVALID_TIMER;
+
+
 
 void		_tgui_ScreenTimeInit()
 {
@@ -149,7 +154,6 @@ void		_tgui_DrawStringInRect(char *str, TG_RECT *rect, TG_TEXTOPTIONS *opt)
 
 
 
-
 void		_tgui_DrawFileBmpBackground(char* file)
 {
 	DWORD		readed = 0;
@@ -242,7 +246,6 @@ closeexit:
 	return;
 }
 //==============================================================================
-
 
 
 
@@ -850,6 +853,10 @@ void		_tgui_DefaultButtonProcess(void *tguiobj, void *param)
 				{
 					if (TGUI_PointInRect(&tp, &thisbtn->position) == 1)
 					{
+						if (cfgConfig.buzzer)
+						{
+							BUZZ_TimerOn(cfgConfig.buzzer_touch);
+						}
 						thisbtn->options.pressed = 1;
 						if (thisbtn->options.repaintonpress == 1 && thisbtn->funcs._call_paint != NULL)
 						{

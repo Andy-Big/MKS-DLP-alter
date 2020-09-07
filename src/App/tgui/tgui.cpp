@@ -92,7 +92,7 @@ void		TGUI_Init()
 	
 	uint8_t			bi = 0;
 	uint8_t			id = 0;
-	int16_t			bx, by, bw, bh;
+//	int16_t			bx, by, bw, bh;
 	
 	
 	tguiActiveScreen = &tguiScreenMain;
@@ -591,24 +591,20 @@ void		TGUI_Init()
 	tgb->childscreen = NULL;
 
 	
-	bx = 25;
-	by = 65;
-	bw = 50;
-	bh = 30;
-	// VERSION_TEXT button
+	// information button
 	tgb = &(tguiScrInfoButtons[bi++]);
 	memset((void*)tgb, 0, sizeof(TG_BUTTON));
 	
-	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
+	tgb->position = {12, 58, 465, 304};
 
 	tgb->bgimagename_en = NULL;
 	tgb->bgimagename_press = NULL;
 	tgb->bgimagename_dis = NULL;
 
-	tgb->text = LSTR_VERSION;
-	tgb->textposition = {(int16_t)(bx+10), by, (int16_t)(bx+bw), (int16_t)(by+bh)};
+	tgb->text = LSTR____;
+	tgb->textposition = {12, 58, 465, 304};
 	tgb->font = LCDUI_FONT_H24;
-	tgb->textcolor_en = LCDUI_RGB(0x00272E);
+	tgb->textcolor_en = LCDUI_RGB(0x00496C);
 	tgb->textcolor_press = tgc->btntextcolor_press;
 	tgb->textcolor_dis = tgc->btntextcolor_dis;
 	tgb->backcolor_en = tgc->btnbackcolor_en;
@@ -619,122 +615,12 @@ void		TGUI_Init()
 	tgb->options.bgpaint = BGP_NONE;
 	tgb->options.repaintonpress = 0;
 	
-	tgb->textoptions.textalign_h = HTA_LEFT;
-	tgb->textoptions.textalign_v = VTA_CENTER;
-
-	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_paint = _tgui_InfoScreenInfoPaint;
 	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_process = NULL;
 
 	tgb->parentscreen = &tguiScreenInfo;
 	tgb->childscreen = NULL;
-	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
-	by += bh;
-
-	// LIGHTTIME_TEXT button
-	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
-
-	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-
-	tgb->text = LSTR_LIGHTTIME;
-	tgb->textposition = {(int16_t)(bx+10), by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-	by += bh;
-
-	// FANSTIME_TEXT button
-	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-
-	tgb->text = LSTR_FANSTIME;
-	tgb->textposition = {(int16_t)(bx+10), by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-	by += bh;
-
-	// URL_TEXT button
-	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-
-	tgb->text = LSTR_URL;
-	tgb->textposition = {(int16_t)(bx+10), by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-	by += bh;
-
-	// UIAUTHOR_TEXT button
-	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-
-	tgb->text = LSTR_UIAUTHOR;
-	tgb->textposition = {(int16_t)(bx+10), by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-
-	bx = 76;
-	by = 65;
-	bw = 380;
-	// VERSION_VAL button
-	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-
-	tgb->text = LSTR____;
-	tgb->textposition = {bx, by, (int16_t)(bx+bw-10), (int16_t)(by+bh)};
-	tgb->textoptions.textalign_h = HTA_RIGHT;
-	tgb->textcolor_en = LCDUI_RGB(0x0060A0);
-
-	tgb->funcs._call_paint = _tgui_InfoScreenVersionPaint;
-	by += bh;
-
-	// LIGHTTIME_VAL button
-	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-
-	tgb->text = LSTR____;
-	tgb->textposition = {bx, by, (int16_t)(bx+bw-10), (int16_t)(by+bh)};
-
-	tgb->funcs._call_paint = _tgui_InfoScreenLightTimePaint;
-	by += bh;
-
-	// FANSTIME_VAL button
-	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-
-	tgb->text = LSTR____;
-	tgb->textposition = {bx, by, (int16_t)(bx+bw-10), (int16_t)(by+bh)};
-
-	tgb->funcs._call_paint = _tgui_InfoScreenFansTimePaint;
-	by += bh;
-
-	// URL_VAL button
-	by += 4;
-	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-
-	tgb->text = LSTR____;
-	tgb->textposition = {bx, by, (int16_t)(bx+bw-10), (int16_t)(by+bh)};
-	tgb->font = LCDUI_FONT_H18;
-
-	tgb->funcs._call_paint = _tgui_InfoScreenURLPaint;
-	by += bh;
-
-	// UIAUTHOR_VAL button
-	tgb = &(tguiScrInfoButtons[bi++]);
-	memcpy((void*)tgb, &(tguiScrInfoButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {bx, by, (int16_t)(bx+bw), (int16_t)(by+bh)};
-
-	tgb->text = LSTR____;
-	tgb->textposition = {bx, by, (int16_t)(bx+bw-10), (int16_t)(by+bh)};
-
-	tgb->funcs._call_paint = _tgui_InfoScreenUIAuthorPaint;
-
 
 	
 	// INFO SCREEN

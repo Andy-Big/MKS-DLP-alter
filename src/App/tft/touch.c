@@ -1,6 +1,8 @@
 #include "touch.h"
 #include "fst_spi.h"
 #include "lcd_low.h"
+#include "sys_timer.h"
+#include "config.h"
 
 
 
@@ -128,7 +130,9 @@ void		_touch_RefreshState()
 			if (TOUCH_PRESSED())
 			{
 				if (touch_info.time > 1)
+				{
 					touch_info.state = TS_SPRESSED;
+				}
 				else
 					touch_info.time++;
 			}

@@ -7,16 +7,6 @@
 
 
 
-/*
-
-void		_tgui_FilesDownButtonPress(void *tguiobj, void *param);
-void		_tgui_FilesUpButtonPress(void *tguiobj, void *param);
-void		_tgui_FilesBackButtonPress(void *tguiobj, void *param);
-void		_tgui_FilesPrevButtonPress(void *tguiobj, void *param);
-void		_tgui_FilesListButtonPress(void *tguiobj, void *param);
-
-*/
-
 void		_tgui_SettingsItemButtonPaint(void *tguiobj, void *param);
 void		_tgui_SettingsSaveButtonPress(void *tguiobj, void *param);
 
