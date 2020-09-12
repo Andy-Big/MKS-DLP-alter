@@ -38,7 +38,7 @@ void		_tgui_InfoScreenInfoPaint(void *tguiobj, void *param)
 	LCDUI_DrawFastHLine(thisbtn->position.left + 5, ytop - (yinc / 2) - 1, thisbtn->position.right - thisbtn->position.left - 10);
 	LCDUI_DrawText(LANG_GetString(LSTR_LIGHT_TIME), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
 	LCDUI_SetColor(LCDUI_RGB(0x00496C));
-	sprintf(msg, "%u %s", cfgTimers.led_time, LANG_GetString(LSTR_SHORTHOUR));
+	sprintf(msg, "%u %s", cfgTimers.led_time / 3600, LANG_GetString(LSTR_SHORTHOUR));
 	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
 	// diaplay time
 	ytop += fntheight + yinc;
@@ -46,7 +46,7 @@ void		_tgui_InfoScreenInfoPaint(void *tguiobj, void *param)
 	LCDUI_DrawFastHLine(thisbtn->position.left + 5, ytop - (yinc / 2) - 1, thisbtn->position.right - thisbtn->position.left - 10);
 	LCDUI_DrawText(LANG_GetString(LSTR_DISPLAY_TIME), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
 	LCDUI_SetColor(LCDUI_RGB(0x00496C));
-	sprintf(msg, "%u %s", cfgTimers.disp_time, LANG_GetString(LSTR_SHORTHOUR));
+	sprintf(msg, "%u %s", cfgTimers.disp_time / 3600, LANG_GetString(LSTR_SHORTHOUR));
 	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
 	// fan time
 	ytop += fntheight + yinc;
@@ -54,7 +54,7 @@ void		_tgui_InfoScreenInfoPaint(void *tguiobj, void *param)
 	LCDUI_DrawFastHLine(thisbtn->position.left + 5, ytop - (yinc / 2) - 1, thisbtn->position.right - thisbtn->position.left - 10);
 	LCDUI_DrawText(LANG_GetString(LSTR_FAN_TIME), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
 	LCDUI_SetColor(LCDUI_RGB(0x00496C));
-	sprintf(msg, "%u %s", cfgTimers.fan_time, LANG_GetString(LSTR_SHORTHOUR));
+	sprintf(msg, "%u %s", cfgTimers.fan_time / 3600, LANG_GetString(LSTR_SHORTHOUR));
 	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
 	// total print time
 	ytop += fntheight + yinc;
@@ -62,7 +62,7 @@ void		_tgui_InfoScreenInfoPaint(void *tguiobj, void *param)
 	LCDUI_DrawFastHLine(thisbtn->position.left + 5, ytop - (yinc / 2) - 1, thisbtn->position.right - thisbtn->position.left - 10);
 	LCDUI_DrawText(LANG_GetString(LSTR_TOTALPRINT_TIME), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
 	LCDUI_SetColor(LCDUI_RGB(0x00496C));
-	sprintf(msg, "%u %s", cfgTimers.total_print_time, LANG_GetString(LSTR_SHORTHOUR));
+	sprintf(msg, "%u %s", cfgTimers.total_print_time / 3600, LANG_GetString(LSTR_SHORTHOUR));
 	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
 	// URL 
 	ytop += fntheight + yinc;

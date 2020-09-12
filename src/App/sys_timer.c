@@ -6,6 +6,8 @@
 SYSTIMERS_STRUCT	Timers[TIMER_MAXTIMERS];
 uint32_t			buzz_timer = 0;
 uint32_t			uvled_timer = 0;
+uint32_t			uvpause_timer = 0;
+uint32_t			uvfan_timer = 0;
 
 
 
@@ -25,19 +27,32 @@ void		HAL_IncTick(void)
 		if (Timers[i].active && Timers[i].msecs)
 			Timers[i].msecs--;
 		
-		if (buzz_timer)
-		{
-			buzz_timer--;
-			if (buzz_timer == 0)
-				BUZZER_Off();
-		}
+	}
 
-		if (uvled_timer)
-		{
-			uvled_timer--;
-			if (uvled_timer == 0)
-				UVLED_Off();
-		}
+	if (buzz_timer)
+	{
+		buzz_timer--;
+		if (buzz_timer == 0)
+			BUZZER_Off();
+	}
+
+	if (uvled_timer)
+	{
+		uvled_timer--;
+		if (uvled_timer == 0)
+			UVLED_Off();
+	}
+
+	if (uvpause_timer)
+	{
+		uvpause_timer--;
+	}
+
+	if (uvfan_timer)
+	{
+		uvfan_timer--;
+		if (uvfan_timer == 0)
+			FAN_LED_Off();
 	}
 }
 
@@ -129,6 +144,47 @@ void		UVLED_TimerOn(uint16_t time)
 {
 	uvled_timer = time;
 	UVLED_On();
+}
+//==============================================================================	
+
+
+
+uint32_t	UVLED_TimerState()
+{
+	return uvled_timer;
+}
+//==============================================================================	
+
+
+
+void		UVPAUSE_TimerOn(uint16_t time)
+{
+	uvpause_timer = time;
+}
+//==============================================================================	
+
+
+
+uint32_t	UVPAUSE_TimerState()
+{
+	return uvpause_timer;
+}
+//==============================================================================	
+
+
+
+void		UVFAN_TimerOn(uint16_t time)
+{
+	FAN_LED_On();
+	uvfan_timer = time;
+}
+//==============================================================================	
+
+
+
+uint32_t	UVFAN_TimerState()
+{
+	return uvfan_timer;
 }
 //==============================================================================	
 

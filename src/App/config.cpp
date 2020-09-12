@@ -196,8 +196,8 @@ void			CFG_SetConfigDefault()
 	cfgConfig.zero_pos = cfgzMotor.home_pos;
 	cfgConfig.pause_lift = 40.0;
 	cfgConfig.buzzer = 1;
-	cfgConfig.buzzer_msg = 50;
-	cfgConfig.buzzer_touch = 700;
+	cfgConfig.buzzer_msg = 800;
+	cfgConfig.buzzer_touch = 50;
 	cfgConfig.motor_disable_time = 30;
 	cfgConfig.screen_disable_time = 10;
 	cfgConfig.screensaver_type = 1;
@@ -356,7 +356,7 @@ void			_cfg_GetParamValue(char *src, PARAM_VALUE *val)
 
 void			CFG_LoadFromFile(void *par1, void *par2)
 {
-	sprintf(msg, LANG_GetString(LSTR_CFGFILE_LOADING), cfgCFileName);
+	sprintf(msg, LANG_GetString(LSTR_MSG_CFGFILE_LOADING), cfgCFileName);
 	TGUI_MessageBoxWait(LANG_GetString(LSTR_WAIT), msg);
 
 	UTF8ToUnicode_Str(cfgTFileName, cfgCFileName, sizeof(cfgTFileName)/2);
@@ -364,7 +364,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 	{
 		if (tguiActiveScreen == (TG_SCREEN*)&tguiMsgBox)
 			tguiActiveScreen = (TG_SCREEN*)((TG_MSGBOX*)tguiActiveScreen)->prevscreen;
-		TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_FILE_OPEN_ERROR));
+		TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_FILE_OPEN_ERROR));
 		return;
 	}
 
@@ -440,7 +440,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 			else
 			{
 				rdstate = CFGR_ERROR;
-				string = LANG_GetString(LSTR_UNKNOWN_SECTNAME_IN_CFG);
+				string = LANG_GetString(LSTR_MSG_UNKNOWN_SECTNAME_IN_CFG);
 				sprintf(msg, string, numstr);
 				break;
 			}
@@ -451,7 +451,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 		if (pval.type == PARAMVAL_NONE)
 		{
 			rdstate = CFGR_ERROR;
-			string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+			string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 			sprintf(msg, string, numstr);
 			break;
 		}
@@ -467,7 +467,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -484,7 +484,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -500,7 +500,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -519,7 +519,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -538,7 +538,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -554,7 +554,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -568,7 +568,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -580,7 +580,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -596,7 +596,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -615,7 +615,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -632,7 +632,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -646,7 +646,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -658,7 +658,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -672,7 +672,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -687,7 +687,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -706,7 +706,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -720,7 +720,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					{
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
-							string = LANG_GetString(LSTR_INVALID_PARAMVAL_IN_CFG);
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
 							sprintf(msg, string, numstr);
 							break;
 						}
@@ -732,7 +732,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 					}
 				}
 
-				string = LANG_GetString(LSTR_UNKNOWN_PARAMNAME_IN_CFG);
+				string = LANG_GetString(LSTR_MSG_UNKNOWN_PARAMNAME_IN_CFG);
 				sprintf(msg, string, numstr);
 				break;
 		}
@@ -756,7 +756,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 	else
 	{
 		CFG_SaveMotor();
-		TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LSTR_CFGFILE_LOADED));
+		TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LSTR_MSG_CFGFILE_LOADED));
 	}
 }
 //==============================================================================

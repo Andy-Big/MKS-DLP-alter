@@ -32,7 +32,7 @@ uint16_t	PFILE_GetPreviewHeight();
 uint8_t		PFILE_GetPreviewBpp();
 uint8_t		PFILE_DrawPreview(FIL *file, TG_RECT *rect);
 
-float		PFILE_GetPrintTime();
+uint32_t	PFILE_GetPrintTime();
 
 uint32_t	PFILE_GetTotalLayers();
 uint32_t	PFILE_GetBottomLayers();
@@ -42,7 +42,9 @@ float		PFILE_GetLightLayer();
 float		PFILE_GetLightBottom();
 float		PFILE_GetLightPause();
 float		PFILE_GetLiftHeight();
+float		PFILE_GetLiftBottom();
 float		PFILE_GetLiftSpeed();
+float		PFILE_GetLiftSpeedBottom();
 float		PFILE_GetDropSpeed();
 float		PFILE_GetResinVolume();
 uint32_t	PFILE_GetIndLayerSettings();

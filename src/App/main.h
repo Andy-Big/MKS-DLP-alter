@@ -92,9 +92,23 @@ extern "C"
 #define BUZZER_Pin				GPIO_PIN_13
 #define BUZZER_GPIO_Port		GPIOB
 
+#define FAN_LED_Pin				GPIO_PIN_4
+#define FAN_LED_GPIO_Port		GPIOE
+
+#define FAN_MB_Pin				GPIO_PIN_3
+#define FAN_MB_GPIO_Port		GPIOE
 
 
-	
+
+#define FAN_LED_On()			FAN_LED_GPIO_Port->BSRR = FAN_LED_Pin					// Set pin
+#define FAN_LED_Off()			FAN_LED_GPIO_Port->BSRR = (uint32_t)FAN_LED_Pin << 16U	// Reset pin
+
+#define FAN_MB_On()				FAN_MB_GPIO_Port->BSRR = FAN_MB_Pin						// Set pin
+#define FAN_MB_Off()			FAN_MB_GPIO_Port->BSRR = (uint32_t)FAN_MB_Pin << 16U	// Reset pin
+
+
+
+
 void Error_Handler(void);
 
 

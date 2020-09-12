@@ -59,7 +59,7 @@ void		_tgui_MovezHomeButtonPress(void *tguiobj, void *param)
 	if (ZMOTOR_IsMoving() == 1)
 		return;
 	
-	TGUI_MessageBoxOkCancel(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_SURE_NO_MODEL_ON_PLATFORM), _tgui_StartHoming);
+	TGUI_MessageBoxOkCancel(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_MSG_SURE_NO_MODEL_ON_PLATFORM), _tgui_StartHoming);
 }
 //==============================================================================
 
@@ -86,6 +86,9 @@ void		_tgui_MovezStepSelectButtonPress(void *tguiobj, void *param)
 	uint8_t			currid = thisbtn->button_id;
 	switch (currid)
 	{
+		case TG_SCR_MOVEZ_30_ID:
+			fMoveStep = 30.0;
+			break;
 		case TG_SCR_MOVEZ_10_ID:
 			fMoveStep = 10.0;
 			break;
@@ -203,11 +206,11 @@ void		_tgui_MovezSetZ0ButtonPress(void *tguiobj, void *param)
 	
 	if (systemInfo.position_known == 0)
 	{
-		TGUI_MessageBoxYesNo(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_HOME_FIRST), _tgui_MovezHomeButtonPress);
+		TGUI_MessageBoxYesNo(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_MSG_HOME_FIRST), _tgui_MovezHomeButtonPress);
 	}
 	else
 	{
-		TGUI_MessageBoxYesNo(LANG_GetString(LSTR_CONFIRM_ACT), LANG_GetString(LSTR_SET_CURRENT_Z0_QUEST), _tgui_MovezSetZHome);
+		TGUI_MessageBoxYesNo(LANG_GetString(LSTR_CONFIRM_ACT), LANG_GetString(LSTR_MSG_SET_CURRENT_Z0_QUEST), _tgui_MovezSetZHome);
 	}
 }
 //==============================================================================
@@ -239,7 +242,7 @@ void		_tgui_MovezSetZHome(void *tguiobj, void *param)
 {
 	cfgConfig.zero_pos = systemInfo.target_position;
 	CFG_SaveConfig();
-	TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LSTR_SET_CURRENT_Z0_SUCCESS));
+	TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LSTR_MSG_SET_CURRENT_Z0_SUCCESS));
 }
 //==============================================================================
 

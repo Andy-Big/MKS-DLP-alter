@@ -20,14 +20,16 @@ uint8_t		DTIME_GetSeconds();
 uint8_t		DTIME_GetMinutes();
 uint8_t		DTIME_GetHours();
 
-void		DTIME_GetDateTime(DATETIME_STRUCT *dt);
-void		RTCTIMER_SetCurrentDateTime(DATETIME_STRUCT *datetime);
-uint32_t	RTCTIMER_TimeToSeconds(DATETIME_STRUCT *datetime);
-void		RTCTIMER_SecondsToTime(uint32_t secs, DATETIME_STRUCT *datetime);
-void		RTCTIMER_SetWeekDay(DATETIME_STRUCT *datetime);
-void		RTCTIMER_TimeAddSeconds(DATETIME_STRUCT *datetime, uint32_t seconds);
-void		RTCTIMER_TimeAddMinutes(DATETIME_STRUCT *datetime, uint32_t minutes);
-void		RTCTIMER_TimeAddHours(DATETIME_STRUCT *datetime, uint32_t hours);
+void		DTIME_GetCurrentDatetime(DATETIME_STRUCT *dt);
+uint32_t	DTIME_GetCurrentUnixtime();
+void		DTIME_SetCurrentDatetime(DATETIME_STRUCT *datetime);
+void		DTIME_SetCurrentUnixtime(uint32_t unixtime);
+uint32_t	DTIME_DatetimeToUnixtime(DATETIME_STRUCT *datetime);
+void		DTIME_UnixtimeToDatetime(uint32_t secs, DATETIME_STRUCT *datetime);
+void		DTIME_SetWeekDay(DATETIME_STRUCT *datetime);
+void		DTIME_DatetimeAddSeconds(DATETIME_STRUCT *datetime, uint32_t seconds);
+void		DTIME_DatetimeAddMinutes(DATETIME_STRUCT *datetime, uint32_t minutes);
+void		DTIME_DatetimeAddHours(DATETIME_STRUCT *datetime, uint32_t hours);
 
 
 

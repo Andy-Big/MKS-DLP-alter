@@ -132,7 +132,7 @@ uint8_t		PFILE_DrawPreview(FIL *file, TG_RECT *rect)
 
 
 
-float		PFILE_GetPrintTime()
+uint32_t	PFILE_GetPrintTime()
 {
 	if (pfile_type == FTYPE_NONE)
 		return 0;
@@ -191,7 +191,7 @@ float		PFILE_GetPrintTime()
 	// add pause light time
 	total_time += total_layers * PFILE_GetLightPause();
 
-	return total_time;
+	return (uint32_t)total_time;
 }
 //==============================================================================
 
@@ -326,7 +326,39 @@ float		PFILE_GetLiftHeight()
 
 
 
+float		PFILE_GetLiftBottom()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetLiftHeight();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
 float		PFILE_GetLiftSpeed()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetLiftSpeed();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+float		PFILE_GetLiftSpeedBottom()
 {
 	switch (pfile_type)
 	{

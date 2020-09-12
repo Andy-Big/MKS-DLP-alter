@@ -238,6 +238,7 @@ typedef struct
 #define	FNAME_BKGR_EMPTY			(char*)"scr_empty.cimg"
 #define	FNAME_BKGR_NUMENTER			(char*)"scr_numenter.cimg"
 #define	FNAME_BKGR_FILEVIEW			(char*)"scr_fileview.cimg"
+#define	FNAME_BKGR_PRINT			(char*)"scr_print.cimg"
 
 #define	FNAME_BTN_MOVEZ_UP_EN		(char*)"btn_movez_up_en.cimg"
 #define	FNAME_BTN_MOVEZ_UP_PRESS	(char*)"btn_movez_up_press.cimg"
@@ -287,6 +288,14 @@ typedef struct
 #define	FNAME_BTN_FILEVIEW_PRINT_EN		(char*)"btn_fileview_print_en.cimg"
 #define	FNAME_BTN_FILEVIEW_PRINT_PRESS	(char*)"btn_fileview_print_press.cimg"
 
+#define	FNAME_BTN_PRINT_PAUSE_EN		(char*)"btn_print_pause_en.cimg"
+#define	FNAME_BTN_PRINT_PAUSE_PRESS		(char*)"btn_print_pause_press.cimg"
+#define	FNAME_BTN_PRINT_PAUSE_ACT		(char*)"btn_print_pause_act.cimg"
+#define	FNAME_BTN_PRINT_SETT_EN			(char*)"btn_print_sett_en.cimg"
+#define	FNAME_BTN_PRINT_SETT_PRESS		(char*)"btn_print_sett_press.cimg"
+#define	FNAME_BTN_PRINT_STOP_EN			(char*)"btn_print_stop_en.cimg"
+#define	FNAME_BTN_PRINT_STOP_PRESS		(char*)"btn_print_stop_press.cimg"
+
 #define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn_files_dir.cimg"
 #define	FNAME_ICN_FILES_IMAGE		(char*)"icn_files_image.cimg"
 #define	FNAME_ICN_FILES_CONFIG		(char*)"icn_files_config.cimg"
@@ -334,13 +343,14 @@ extern TG_SCREEN		tguiScreenInfo;
 
 
 #define		TG_SCR_MOVEZ_STEP_GROUP_ID		1
-#define		TG_SCR_MOVEZ_10_ID				20
-#define		TG_SCR_MOVEZ_1_ID				21
-#define		TG_SCR_MOVEZ_02_ID				22
-#define		TG_SCR_MOVEZ_005_ID				23
+#define		TG_SCR_MOVEZ_30_ID				20
+#define		TG_SCR_MOVEZ_10_ID				21
+#define		TG_SCR_MOVEZ_1_ID				22
+#define		TG_SCR_MOVEZ_02_ID				23
+#define		TG_SCR_MOVEZ_005_ID				24
 #define		TG_SCR_MOVEZ_HOME_ID			30
 
-#define		TG_BTN_CNT_SCREEN_MOVEZ			10
+#define		TG_BTN_CNT_SCREEN_MOVEZ			11
 extern TG_BUTTON		tguiScrMovezButtons[TG_BTN_CNT_SCREEN_MOVEZ];
 extern TG_SCREEN		tguiScreenMovez;
 
@@ -382,6 +392,15 @@ extern TG_SCREEN		tguiScreenNumenter;
 #define		TG_BTN_CNT_SCREEN_FILEVIEW		6
 extern TG_BUTTON		tguiScrFileviewButtons[TG_BTN_CNT_SCREEN_FILEVIEW];
 extern TG_SCREEN		tguiScreenFileview;
+
+
+#define		TG_SCR_PRINT_PREVIEW_ID		20
+#define		TG_SCR_PRINT_INFO_ID		21
+#define		TG_SCR_PRINT_PAUSE_BTN_ID	22
+
+#define		TG_BTN_CNT_SCREEN_PRINT			5
+extern TG_BUTTON		tguiScrPrintButtons[TG_BTN_CNT_SCREEN_PRINT];
+extern TG_SCREEN		tguiScreenPrint;
 
 
 

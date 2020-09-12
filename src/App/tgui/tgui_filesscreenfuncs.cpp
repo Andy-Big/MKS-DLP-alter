@@ -631,7 +631,7 @@ void		_tgui_FilesFileButtonPress(void *tguiobj, void *param)
 				strcat(cfgCFileName, (char*)"/");
 			}
 			strcat(cfgCFileName, files[thisbtn->button_id-1].fname);
-			TGUI_MessageBoxYesNo(LANG_GetString(LSTR_CONFIRM_ACT), LANG_GetString(LSTR_CFGFILE_LOAD_QUEST), CFG_LoadFromFile);
+			TGUI_MessageBoxYesNo(LANG_GetString(LSTR_CONFIRM_ACT), LANG_GetString(LSTR_MSG_CFGFILE_LOAD_QUEST), CFG_LoadFromFile);
 			break;
 
 		case FTYPE_PWS:

@@ -60,7 +60,7 @@ void		_tgui_ScreenTimePaint(void *tguiobj, void *param)
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
 	
 	DATETIME_STRUCT dt;
-	DTIME_GetDateTime(&dt);
+	DTIME_GetCurrentDatetime(&dt);
 	
 	char *mshortname;
 	switch (dt.month)

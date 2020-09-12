@@ -29,6 +29,14 @@ typedef enum
 	PST_FREEMOVING_UP,
 	PST_FREEMOVING_DOWN,
 	
+	PST_PRINT_MOVETOLAYER,
+	PST_PRINT_LIGHTPAUSE,
+	PST_PRINT_LIGHT,
+	PST_PRINT_LIFT,
+	PST_PRINT_DROP,
+	
+	PST_PRINT_LASTLAYERLIFT,
+	
 } PRINTER_STATE;
 
 
@@ -107,10 +115,12 @@ typedef struct
 	PRINTER_STATE	printer_state;
 	int32_t			current_position_steps;
 	float			target_position;
-	uint8_t			is_printing;
 	uint8_t			position_known;
 	uint8_t			zmotor_enabled;
-
+	
+	uint8_t			is_printhoming;
+	uint8_t			is_printing;
+	uint8_t			is_paused;
 } SYSTEM_INFO;
 
 

@@ -39,6 +39,8 @@
 #include "uvdisplay.h"
 #include "eeprom.h"
 #include "tgui_movezscreenfuncs.h"
+#include "tgui_printscreenfuncs.h"
+#include "printing.h"
 
 
 #define	SDIR_IMAGES			(char*)"alterupd\\images"
@@ -57,6 +59,9 @@ extern TCHAR					SpiflPath[4];
 extern FATFS					SpiflFS;
 
 extern TOUCH_INFO				touchInfo;
+
+extern PRINT_STATE				prtState;
+
 TOUCH_POINT						touchCoord;
 TOUCH_STATES					touchState;
 
@@ -216,8 +221,8 @@ int main()
 		// Draw initial logo
 		TGUI_DrawLogo();
 		sprintf(msg, "v %d.%02d", (FW_VERSION >> 8) & 0xFF, FW_VERSION & 0xFF);
-		LCDUI_SetColor(LCDUI_RGB(0x808080));
-		LCDUI_DrawText(msg, LCDUI_TEXT_TRANSBACK, 410, 290);
+		LCDUI_SetColor(LCDUI_RGB(0x47C7DA));
+		LCDUI_DrawText(msg, LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_RIGHT, 260, 192, 356, -1);
 	}
 	
 	// Clear CCRAM
@@ -244,23 +249,23 @@ int main()
 	
 	
 	UVD_Init();
-/*	
+
 	UVD_ExposSetCircle();
 	UVD_Wakeup();
 	HAL_Delay(50);
-	LED_UV_On();
+	UVLED_On();
 	HAL_Delay(50);
-	LED_UV_Off();
+	UVLED_Off();
 	UVD_Sleep();
 
 	UVD_ExposSetSquare();
 	UVD_Wakeup();
 	HAL_Delay(50);
-	LED_UV_On();
+	UVLED_On();
 	HAL_Delay(50);
-	LED_UV_Off();
+	UVLED_Off();
 	UVD_Sleep();
-*/
+
 	// Disable USB power line
 	USB_HOST_VbusFS(1);
 
@@ -423,6 +428,21 @@ int main()
 
 		switch (systemInfo.printer_state)
 		{
+			case PST_FREEMOVING_UP:
+			case PST_FREEMOVING_DOWN:
+				if (ZMOTOR_IsMoving() == 0)
+				{
+					// min endstop
+					if (ZMOTOR_GetEndstopState() != 0)
+					{
+						systemInfo.target_position = ZMOTOR_GetCurrentPosition();
+						ZMOTOR_SetPosition(systemInfo.target_position);
+					}
+					systemInfo.printer_state = PST_IDLE;
+					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+				}
+				break;
+
 			case PST_HOMING_PREUP:
 				if (ZMOTOR_IsMoving() == 0)
 				{
@@ -431,9 +451,15 @@ int main()
 					{
 						ZMOTOR_SetPosition(0);
 						systemInfo.target_position = 0;
-						TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_ENDSTOP_ERROR));
 						systemInfo.printer_state = PST_IDLE;
 						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+						if (systemInfo.is_printhoming)
+						{
+							systemInfo.is_printhoming = 0;
+							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR), TGUI_PrintScreenExit);
+						}
+						else
+							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR));
 					}
 					else
 					{
@@ -471,9 +497,15 @@ int main()
 					{
 						ZMOTOR_SetPosition(0);
 						systemInfo.target_position = 0;
-						TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_ENDSTOP_NOT_FOUND));
 						systemInfo.printer_state = PST_IDLE;
 						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+						if (systemInfo.is_printhoming)
+						{
+							systemInfo.is_printhoming = 0;
+							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR), TGUI_PrintScreenExit);
+						}
+						else
+							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR));
 					}
 				}
 				break;
@@ -486,9 +518,15 @@ int main()
 					{
 						ZMOTOR_SetPosition(0);
 						systemInfo.target_position = 0;
-						TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_ENDSTOP_ERROR));
 						systemInfo.printer_state = PST_IDLE;
 						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+						if (systemInfo.is_printhoming)
+						{
+							systemInfo.is_printhoming = 0;
+							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR), TGUI_PrintScreenExit);
+						}
+						else
+							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR));
 					}
 					else
 					{
@@ -524,25 +562,121 @@ int main()
 					{
 						ZMOTOR_SetPosition(0);
 						systemInfo.target_position = 0;
-						TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_ENDSTOP_NOT_FOUND));
+						if (systemInfo.is_printhoming)
+						{
+							systemInfo.is_printhoming = 0;
+							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR), TGUI_PrintScreenExit);
+						}
+						else
+							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR));
 					}
-					systemInfo.printer_state = PST_IDLE;
-					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+					if (systemInfo.is_printhoming)
+					{
+						systemInfo.is_printhoming = 0;
+						systemInfo.is_printing = 1;
+						systemInfo.printer_state = PST_PRINT_MOVETOLAYER;
+						systemInfo.target_position = cfgConfig.zero_pos + (prtState.current_layer + 1) * PFILE_GetLayerThickness();
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.feedrate);
+						FAN_LED_On();
+					}
+					else
+					{
+						systemInfo.printer_state = PST_IDLE;
+						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+					}
 				}
 				break;
 
-			case PST_FREEMOVING_UP:
-			case PST_FREEMOVING_DOWN:
+			case PST_PRINT_MOVETOLAYER:
 				if (ZMOTOR_IsMoving() == 0)
 				{
-					// min endstop
-					if (ZMOTOR_GetEndstopState() != 0)
+					systemInfo.printer_state = PST_PRINT_LIGHTPAUSE;
+					UVPAUSE_TimerOn((uint32_t)(PFILE_GetLightPause() * 1000));
+				}
+				break;
+
+			case PST_PRINT_LIGHTPAUSE:
+				if (UVPAUSE_TimerState() == 0)
+				{
+					systemInfo.printer_state = PST_PRINT_LIGHT;
+					if (prtState.current_layer < PFILE_GetBottomLayers())
 					{
-						systemInfo.target_position = ZMOTOR_GetCurrentPosition();
-						ZMOTOR_SetPosition(systemInfo.target_position);
+						UVLED_TimerOn((uint32_t)(PFILE_GetLightBottom() * 1000));
+						prtState.light_time_total += PFILE_GetLightBottom();
 					}
+					else
+					{
+						UVLED_TimerOn((uint32_t)(PFILE_GetLightLayer() * 1000));
+						prtState.light_time_total += PFILE_GetLightLayer();
+					}
+				}
+				break;
+
+			case PST_PRINT_LIGHT:
+				if (UVLED_TimerState() == 0)
+				{
+					systemInfo.printer_state = PST_PRINT_LIFT;
+					systemInfo.target_position = cfgConfig.zero_pos + (prtState.current_layer + 1) * PFILE_GetLayerThickness();
+					if (prtState.current_layer < PFILE_GetBottomLayers())
+					{
+						systemInfo.target_position += PFILE_GetLiftBottom();
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetLiftSpeedBottom());
+					}
+					else
+					{
+						systemInfo.target_position += PFILE_GetLiftHeight();
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetLiftSpeed());
+					}
+					prtState.current_layer++;
+					if (prtState.current_layer >= PFILE_GetTotalLayers())
+					{
+						systemInfo.is_printing = 0;
+						systemInfo.printer_state = PST_PRINT_LASTLAYERLIFT;
+						if (systemInfo.target_position < 30)
+						{
+							systemInfo.target_position = 30;
+							ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
+						}
+						systemInfo.target_position = cfgzMotor.max_pos;
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate);
+						UVFAN_TimerOn(10000);
+						cfgTimers.led_time += (uint32_t)prtState.light_time_total;
+						cfgTimers.fan_time += DTIME_GetCurrentUnixtime() - prtState.time_begin;
+						cfgTimers.total_print_time += DTIME_GetCurrentUnixtime() - prtState.time_begin;
+						CFG_SaveTimers();
+					}
+				}
+				break;
+
+			case PST_PRINT_LIFT:
+				if (ZMOTOR_IsMoving() == 0)
+				{
+					systemInfo.printer_state = PST_PRINT_DROP;
+					systemInfo.target_position = cfgConfig.zero_pos + (prtState.current_layer + 1) * PFILE_GetLayerThickness();
+					ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetDropSpeed());
+				}
+				break;
+
+			case PST_PRINT_DROP:
+				if (ZMOTOR_IsMoving() == 0)
+				{
+					systemInfo.printer_state = PST_PRINT_LIGHTPAUSE;
+					UVPAUSE_TimerOn((uint32_t)(PFILE_GetLightPause() * 1000));
+				}
+				break;
+
+			case PST_PRINT_LASTLAYERLIFT:
+				if (ZMOTOR_IsMoving() == 0)
+				{
 					systemInfo.printer_state = PST_IDLE;
-					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+					uint32_t	ut = DTIME_GetCurrentUnixtime();
+					ut -= prtState.time_begin;
+					uint32_t	ut_h = ut / 3600;
+					uint32_t	ut_m = (ut - (ut_h * 3600)) / 60;
+					char		*t = LANG_GetString(LSTR_MSG_PRINT_COMPLETED);
+					sprintf(msg, t, ut_h, ut_m, ut % 60); 
+					TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), msg, TGUI_PrintScreenExit);
+					BUZZ_TimerOn(cfgConfig.buzzer_msg);
 				}
 				break;
 

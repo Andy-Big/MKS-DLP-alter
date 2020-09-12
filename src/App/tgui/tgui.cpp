@@ -15,6 +15,7 @@
 #include "tgui_settingsscreenfuncs.h"
 #include "tgui_numenterscreenfuncs.h"
 #include "tgui_fileviewscreenfuncs.h"
+#include "tgui_printscreenfuncs.h"
 
 
 __no_init uint8_t 		tguiDBuff[UIDBUFF_SIZE];
@@ -54,6 +55,9 @@ TG_SCREEN		tguiScreenNumenter;
 
 TG_BUTTON		tguiScrFileviewButtons[TG_BTN_CNT_SCREEN_FILEVIEW];
 TG_SCREEN		tguiScreenFileview;
+
+TG_BUTTON		tguiScrPrintButtons[TG_BTN_CNT_SCREEN_PRINT];
+TG_SCREEN		tguiScreenPrint;
 
 
 
@@ -688,6 +692,25 @@ void		TGUI_Init()
 	tgb->parentscreen = &tguiScreenMovez;
 	tgb->childscreen = NULL;
 
+	// 30mm button
+	tgb = &(tguiScrMovezButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrMovezButtons[0]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = TG_SCR_MOVEZ_STEP_GROUP_ID;
+	tgb->button_id = TG_SCR_MOVEZ_30_ID;
+	
+	tgb->position = {11, 65, 99, 114};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = LCDUI_RGB(0xC80000);
+
+	tgb->text = LSTR_30MM;
+	tgb->textposition = {11, 65, 99, 114};
+
+	tgb->funcs._call_press = _tgui_MovezStepSelectButtonPress;
+
+	tgb->childscreen = NULL;
+
 	// 10mm button
 	tgb = &(tguiScrMovezButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrMovezButtons[0]), sizeof(TG_BUTTON));
@@ -695,13 +718,13 @@ void		TGUI_Init()
 	tgb->group_id = TG_SCR_MOVEZ_STEP_GROUP_ID;
 	tgb->button_id = TG_SCR_MOVEZ_10_ID;
 	
-	tgb->position = {16, 65, 115, 114};
+	tgb->position = {106, 65, 190, 114};
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 	tgb->textcolor_act = LCDUI_RGB(0xC80000);
 
 	tgb->text = LSTR_10MM;
-	tgb->textposition = {16, 65, 115, 114};
+	tgb->textposition = {106, 65, 190, 114};
 
 	tgb->funcs._call_press = _tgui_MovezStepSelectButtonPress;
 
@@ -713,12 +736,12 @@ void		TGUI_Init()
 	
 	tgb->button_id = TG_SCR_MOVEZ_1_ID;
 
-	tgb->position = {132, 65, 231, 114};
+	tgb->position = {197, 65, 281, 114};
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
 	tgb->text = LSTR_1MM;
-	tgb->textposition = {132, 65, 231, 114};
+	tgb->textposition = {197, 65, 281, 114};
 
 	tgb->funcs._call_press = _tgui_MovezStepSelectButtonPress;
 
@@ -731,12 +754,12 @@ void		TGUI_Init()
 	tgb->button_id = TG_SCR_MOVEZ_02_ID;
 	tgb->options.active = 1;
 
-	tgb->position = {248, 65, 347, 114};
+	tgb->position = {288, 65, 372, 114};
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
 	tgb->text = LSTR_02MM;
-	tgb->textposition = {248, 65, 347, 114};
+	tgb->textposition = {288, 65, 372, 114};
 
 	tgb->funcs._call_press = _tgui_MovezStepSelectButtonPress;
 
@@ -749,12 +772,12 @@ void		TGUI_Init()
 	tgb->button_id = TG_SCR_MOVEZ_005_ID;
 	tgb->options.active = 0;
 
-	tgb->position = {364, 65, 463, 114};
+	tgb->position = {379, 65, 463, 114};
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
 	tgb->text = LSTR_005MM;
-	tgb->textposition = {364, 65, 463, 114};
+	tgb->textposition = {379, 65, 463, 114};
 
 	tgb->funcs._call_press = _tgui_MovezStepSelectButtonPress;
 
@@ -765,12 +788,12 @@ void		TGUI_Init()
 	memcpy((void*)tgb, (void*)(&tguiScrMovezButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->group_id = 0;
-	tgb->position = {364, 125, 463, 204};
+	tgb->position = {365, 125, 464, 204};
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
 	tgb->text = LSTR____;
-	tgb->textposition = {364, 125, 463, 204};
+	tgb->textposition = {365, 125, 464, 204};
 	
 	tgb->options.bgpaint = BGP_IMAGE;
 	tgb->bgimagename_en = FNAME_BTN_MOVEZ_UP_EN;
@@ -784,9 +807,9 @@ void		TGUI_Init()
 	tgb = &(tguiScrMovezButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrMovezButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {364, 230, 463, 309};
+	tgb->position = {365, 230, 464, 309};
 
-	tgb->textposition = {364, 230, 463, 309};
+	tgb->textposition = {365, 230, 464, 309};
 	
 	tgb->bgimagename_en = FNAME_BTN_MOVEZ_DN_EN;
 	tgb->bgimagename_press = FNAME_BTN_MOVEZ_DN_PRESS;
@@ -1968,7 +1991,7 @@ void		TGUI_Init()
 	tgb->bgimagename_en = FNAME_BTN_FILEVIEW_PRINT_EN;
 	tgb->bgimagename_press = FNAME_BTN_FILEVIEW_PRINT_PRESS;
 
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_FileviewPrintPress;
 
 	// PREVIEW image
 	tgb = &(tguiScrFileviewButtons[bi++]);
@@ -2033,6 +2056,136 @@ void		TGUI_Init()
 	
 }
 
+
+	// -------------------- Printing Screen elements -----------------------
+{
+	bi = 0;
+	// PAUSE button
+	tgb = &(tguiScrPrintButtons[bi++]);
+	memset((void*)tgb, 0, sizeof(TG_BUTTON));
+	
+	tgb->position = {334, 38, 468, 95};
+	tgb->group_id = 1;
+	tgb->button_id = TG_SCR_PRINT_PAUSE_BTN_ID;
+
+	tgb->bgimagename_en = FNAME_BTN_PRINT_PAUSE_EN;
+	tgb->bgimagename_press = FNAME_BTN_PRINT_PAUSE_PRESS;
+	tgb->bgimagename_act = FNAME_BTN_PRINT_PAUSE_ACT;
+
+	tgb->text = LSTR____;
+	tgb->textposition = {334, 38, 468, 95};
+	tgb->font = tgc->btnfont;
+	tgb->textcolor_en = LCDUI_RGB(0x074B19);
+	tgb->textcolor_press = tgc->btntextcolor_press;
+	tgb->textcolor_dis = tgc->btntextcolor_dis;
+	tgb->backcolor_en = tgc->btnbackcolor_en;
+	tgb->backcolor_press = tgc->btnbackcolor_press;
+	tgb->backcolor_dis = tgc->btnbackcolor_dis;
+	
+	tgb->options.disabled = 0;
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->options.repaintonpress = 1;
+	
+	tgb->textoptions.textalign_h = HTA_CENTER;
+	tgb->textoptions.textalign_v = VTA_CENTER;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	tgb->funcs._call_press = _tgui_PrintScreenPausePress;
+
+	tgb->parentscreen = &tguiScreenPrint;
+	tgb->childscreen = NULL;
+
+	// SETTINGS button
+	tgb = &(tguiScrPrintButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrintButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = 0;
+	
+	tgb->position = {334, 99, 468, 156};
+
+	tgb->textposition = {334, 99, 468, 156};
+	
+	tgb->bgimagename_en = FNAME_BTN_PRINT_SETT_EN;
+	tgb->bgimagename_press = FNAME_BTN_PRINT_SETT_PRESS;
+	tgb->bgimagename_act = NULL;
+
+	tgb->funcs._call_press = NULL;
+
+	// STOP button
+	tgb = &(tguiScrPrintButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrintButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {334, 160, 468, 217};
+
+	tgb->textposition = {334, 160, 468, 217};
+	
+	tgb->bgimagename_en = FNAME_BTN_PRINT_STOP_EN;
+	tgb->bgimagename_press = FNAME_BTN_PRINT_STOP_PRESS;
+
+	tgb->funcs._call_press = NULL;
+
+	// PREVIEW image
+	tgb = &(tguiScrPrintButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrintButtons[bi-2]), sizeof(TG_BUTTON));
+
+	tgb->button_id = TG_SCR_PRINT_PREVIEW_ID;
+
+	tgb->position = {7, 39, 326, 218};
+
+	tgb->textposition = {7, 39, 326, 218};
+	
+	tgb->backcolor_en = LCDUI_RGB(0x000000);
+
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_process = NULL;
+	tgb->funcs._call_press = NULL;
+	
+	// PRINTINFO region
+	tgb = &(tguiScrPrintButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrintButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_PRINT_INFO_ID;
+
+	tgb->position = {7, 221, 471, 312};
+
+	tgb->textposition = {7, 221, 471, 312};
+	
+	tgb->backcolor_en = LCDUI_RGB(0xDDDDDD);
+
+	tgb->funcs._call_paint = _tgui_PrintScreenProgressPaint;
+	
+
+	// PRINT SCREEN
+	tgs = &tguiScreenPrint;
+	memset((void*)tgs, 0, sizeof(TG_SCREEN));
+	
+	tgs->bgimagename = FNAME_BKGR_PRINT;
+	tgs->prevscreen = &tguiScreenService;
+
+	tgs->name = LSTR_PRINTING_CAPTION;
+	tgs->nameposition = {205, 3, 475, 30};
+	tgs->nameoptions.textalign_h = HTA_CENTER;
+	tgs->nameoptions.textalign_v = VTA_CENTER;
+
+	tgs->btns_count = TG_BTN_CNT_SCREEN_PRINT;
+	tgs->buttons = tguiScrPrintButtons;
+
+	tgs->font = tgc->scrfont;
+	tgs->namefont = tgc->scrnamefont;
+	tgs->textcolor = tgc->scrtextcolor;
+	tgs->nametextcolor = tgc->scrnametextcolor;
+	tgs->backcolor = tgc->scrbackcolor;
+
+	tgs->funcs._callpaint = _tgui_DefaultScreenPaint;
+	tgs->funcs._process = _tgui_PrintScreenProcess;
+	
+}
 
 
 }

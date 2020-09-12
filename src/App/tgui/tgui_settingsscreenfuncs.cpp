@@ -119,7 +119,7 @@ void		_tgui_SettingsItemButtonPaint(void *tguiobj, void *param)
 
 void		_tgui_SettingsSaveButtonPress(void *tguiobj, void *param)
 {
-	TGUI_MessageBoxWait(LANG_GetString(LSTR_WAIT), LANG_GetString(LSTR_SAVING_SETTINGS));
+	TGUI_MessageBoxWait(LANG_GetString(LSTR_WAIT), LANG_GetString(LSTR_MSG_SAVING_SETTINGS));
 	CFG_SaveConfig();
 	if (tguiActiveScreen == (TG_SCREEN*)&tguiMsgBox)
 	{

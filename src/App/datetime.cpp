@@ -56,7 +56,7 @@ uint8_t		DTIME_GetHours()
 
 
 
-void		DTIME_GetDateTime(DATETIME_STRUCT *dt)
+void		DTIME_GetCurrentDatetime(DATETIME_STRUCT *dt)
 {
 	uint32_t 	time = RTC->TR;
 	uint32_t	date = RTC->DR;
@@ -85,7 +85,17 @@ void		DTIME_GetDateTime(DATETIME_STRUCT *dt)
 
 
 
-void		DTIME_SetCurrentDateTime(DATETIME_STRUCT *datetime)
+uint32_t	DTIME_GetCurrentUnixtime()
+{
+	DATETIME_STRUCT dt;
+	DTIME_GetCurrentDatetime(&dt);
+	return DTIME_DatetimeToUnixtime(&dt);
+}
+//==============================================================================
+
+
+
+void		DTIME_SetCurrentDatetime(DATETIME_STRUCT *datetime)
 {
 	uint32_t	date = 0, time = 0;
 
@@ -146,8 +156,17 @@ void		DTIME_SetCurrentDateTime(DATETIME_STRUCT *datetime)
 
 
 
+void		DTIME_SetCurrentUnixtime(uint32_t unixtime)
+{
+	DATETIME_STRUCT dt;
+	DTIME_UnixtimeToDatetime(unixtime, &dt);
+	DTIME_SetCurrentDatetime(&dt);
+}
+//==============================================================================
 
-uint32_t	DTIME_TimeToSeconds(DATETIME_STRUCT *datetime)
+
+
+uint32_t	DTIME_DatetimeToUnixtime(DATETIME_STRUCT *datetime)
 {
 	int32_t		days;
 	uint32_t	secs;
@@ -178,7 +197,7 @@ uint32_t	DTIME_TimeToSeconds(DATETIME_STRUCT *datetime)
 
 
 
-void		DTIME_SecondsToTime(uint32_t secs, DATETIME_STRUCT *datetime)
+void		DTIME_UnixtimeToDatetime(uint32_t secs, DATETIME_STRUCT *datetime)
 {
 	int32_t			days = _TBIAS_DAYS;
 	int32_t			mon;
@@ -242,30 +261,30 @@ void		DTIME_SetWeekDay(DATETIME_STRUCT *datetime)
 
 
 
-void		DTIME_TimeAddSeconds(DATETIME_STRUCT *datetime, uint32_t seconds)
+void		DTIME_DatetimeAddSeconds(DATETIME_STRUCT *datetime, uint32_t seconds)
 {
-	uint32_t secs = DTIME_TimeToSeconds(datetime) + seconds;
-	DTIME_SecondsToTime(secs, datetime);
+	uint32_t secs = DTIME_DatetimeToUnixtime(datetime) + seconds;
+	DTIME_UnixtimeToDatetime(secs, datetime);
 }
 //==============================================================================	
 
 
 
 
-void		DTIME_TimeAddMinutes(DATETIME_STRUCT *datetime, uint32_t minutes)
+void		DTIME_DatetimeAddMinutes(DATETIME_STRUCT *datetime, uint32_t minutes)
 {
-	uint32_t secs = DTIME_TimeToSeconds(datetime) + minutes * 60;
-	DTIME_SecondsToTime(secs, datetime);
+	uint32_t secs = DTIME_DatetimeToUnixtime(datetime) + minutes * 60;
+	DTIME_UnixtimeToDatetime(secs, datetime);
 }
 //==============================================================================	
 
 
 
 
-void		DTIME_TimeAddHours(DATETIME_STRUCT *datetime, uint32_t hours)
+void		DTIME_DatetimeAddHours(DATETIME_STRUCT *datetime, uint32_t hours)
 {
-	uint32_t secs = DTIME_TimeToSeconds(datetime) + hours * 3600;
-	DTIME_SecondsToTime(secs, datetime);
+	uint32_t secs = DTIME_DatetimeToUnixtime(datetime) + hours * 3600;
+	DTIME_UnixtimeToDatetime(secs, datetime);
 }
 //==============================================================================	
 

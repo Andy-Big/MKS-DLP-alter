@@ -1274,6 +1274,9 @@
                 <name>$PROJ_DIR$\src\App\tgui\tgui_numenterscreenfuncs.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_printscreenfuncs.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_settingsscreenfuncs.cpp</name>
             </file>
         </group>
@@ -1330,6 +1333,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\src\App\main.cpp</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\src\App\printing.cpp</name>
         </file>
     </group>
     <group>
