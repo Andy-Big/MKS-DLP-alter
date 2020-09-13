@@ -5,7 +5,7 @@
 
 
 volatile uint32_t		reTransmission_zero_cnt = 0, reTransmission_data_cnt = 0, reTransmission_all_cnt = 0;
-extern uint8_t			Line_Pixel[Y_RATIO + FILLCODE * 2];
+extern uint8_t			Line_Pixel[CLPD_Y_RATIO + CLPD_FILLCODE * 2];
 
 CPLD_CMD_FRAME			cmd;
 DLP_BMP					bmp;
@@ -100,17 +100,17 @@ void		_cpld_fill_lines_zero(char flag, uint16_t line, uint8_t bank_used_id)
 	else
 	{
 		startLine = line;
-		endLine = X_RATIO;
+		endLine = CLPD_X_RATIO;
 	}
 
-	memset(bmp.line.d_frame.data, 0, DATA_LEN);
+	memset(bmp.line.d_frame.data, 0, CLPD_DATA_LEN);
 	
 	for(cur_line = startLine; cur_line < endLine; cur_line++)
 	{
 		
 		bmp.line.d_frame.mark1 = 0x40 | (bank_used_id<<4) | ((cur_line >> 8)&0x0F);
 		bmp.line.d_frame.mark2 =  cur_line & 0xFF;
-		bmp.line.d_frame.CRC16 = _cpld_CRC16_XMODEM(&bmp.line.d_frame.mark1, DATA_CRC_LEN);
+		bmp.line.d_frame.CRC16 = _cpld_CRC16_XMODEM(&bmp.line.d_frame.mark1, CLPD_DATA_CRC_LEN);
 
 		bmp.line.crc_status = CPLD_Get_CRC();
 
@@ -121,8 +121,8 @@ void		_cpld_fill_lines_zero(char flag, uint16_t line, uint8_t bank_used_id)
 		}
 
 		CPLD_CS_On();
-		memcpy(&bmp.line.d_frame_bakup[0], &bmp.line.d_frame.mark1, TXDATA_LEN);
-		FLASH_SPIWriteBuffDMA(TXDATA_LEN, &bmp.line.d_frame_bakup[0]);
+		memcpy(&bmp.line.d_frame_bakup[0], &bmp.line.d_frame.mark1, CLPD_TXDATA_LEN);
+		FLASH_SPIWriteBuffDMA(CLPD_TXDATA_LEN, &bmp.line.d_frame_bakup[0]);
 		CPLD_CS_Off();
 		//hspi1.hdmatx.Instance.CR |= DMA_IT_TC | DMA_IT_TE | DMA_IT_DME;
 //		*spi1_hdmatx_CR &= 0xFFFFFFF7;
@@ -138,7 +138,7 @@ uint8_t		_cpld_reTransmission()
 	{
 		reTransmission_all_cnt++;
 		CPLD_CS_On();
-		FLASH_SPIWriteBuffDMA(TXDATA_LEN, &bmp.line.d_frame_bakup[0]);
+		FLASH_SPIWriteBuffDMA(CLPD_TXDATA_LEN, &bmp.line.d_frame_bakup[0]);
 		CPLD_CS_Off();
 		for(volatile uint8_t k=0; k<10; k++);	
 		bmp.line.crc_status = CPLD_Get_CRC();
@@ -159,11 +159,11 @@ void		_cpld_line_gen_data(uint16_t line, uint8_t bank_used_id)
 	
 	bmp.line.d_frame.mark1 = 0x40 | (bank_used_id<<4) | ((line >> 8)&0x0F);//tan ---напиши SDRAM
 	bmp.line.d_frame.mark2 =  line&0xFF;
-	memset(bmp.line.d_frame.data, 0, DATA_LEN);
+	memset(bmp.line.d_frame.data, 0, CLPD_DATA_LEN);
 
 	p = bmp.line.d_frame.data;
 	q = Line_Pixel;         //tan ---Из среза - строка данных, которые были проанализированы (данные отображаются на экране 2k).
-	for(i=0; i < DATA_LEN; i++) //tan ---Скопируйте данные из Line_Pixel в bmp.line.d_frame.data
+	for(i=0; i < CLPD_DATA_LEN; i++) //tan ---Скопируйте данные из Line_Pixel в bmp.line.d_frame.data
 	{
 		for(j = 0; j < 8; j++)
 		{
@@ -179,7 +179,7 @@ void		_cpld_line_gen_data(uint16_t line, uint8_t bank_used_id)
 		}
 		p++;
 	}
-	bmp.line.d_frame.CRC16 = _cpld_CRC16_XMODEM(&bmp.line.d_frame.mark1, DATA_CRC_LEN);
+	bmp.line.d_frame.CRC16 = _cpld_CRC16_XMODEM(&bmp.line.d_frame.mark1, CLPD_DATA_CRC_LEN);
 
 	bmp.line.crc_status = CPLD_Get_CRC();              //tan ---Проверьте штифт crc, проверка высокого уровня в норме.
 	if(bmp.line.crc_status == 0)	//Решение о повторной передаче
@@ -189,8 +189,8 @@ void		_cpld_line_gen_data(uint16_t line, uint8_t bank_used_id)
 	}
 	
 	CPLD_CS_On();
-	memcpy(&bmp.line.d_frame_bakup[0], &bmp.line.d_frame.mark1, TXDATA_LEN);
-	FLASH_SPIWriteBuffDMA(TXDATA_LEN, &bmp.line.d_frame_bakup[0]);   //Начать передачу DMA
+	memcpy(&bmp.line.d_frame_bakup[0], &bmp.line.d_frame.mark1, CLPD_TXDATA_LEN);
+	FLASH_SPIWriteBuffDMA(CLPD_TXDATA_LEN, &bmp.line.d_frame_bakup[0]);   //Начать передачу DMA
 	CPLD_CS_Off();
 
 }

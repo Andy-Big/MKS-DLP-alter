@@ -853,10 +853,7 @@ void		_tgui_DefaultButtonProcess(void *tguiobj, void *param)
 				{
 					if (TGUI_PointInRect(&tp, &thisbtn->position) == 1)
 					{
-						if (cfgConfig.buzzer)
-						{
-							BUZZ_TimerOn(cfgConfig.buzzer_touch);
-						}
+						BUZZ_TimerOn(cfgConfig.buzzer_touch);
 						thisbtn->options.pressed = 1;
 						if (thisbtn->options.repaintonpress == 1 && thisbtn->funcs._call_paint != NULL)
 						{

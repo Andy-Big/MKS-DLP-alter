@@ -1188,6 +1188,9 @@
     <group>
         <name>__ORIGINAL_SOURCES__</name>
         <file>
+            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\mks_dlp_main.cpp</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\spi.c</name>
         </file>
         <file>

@@ -15,20 +15,20 @@
 
 
 
+#define LAYERBUFF_SIZE		4096
 
 
 typedef struct
 {
-	uint32_t		time_begin;
-	uint32_t		current_layer;
-	uint32_t		current_sublayer;
-	float			light_time_total;
 } PRINT_STATE;
 
 
 
 
 uint8_t		PRINT_Init();
+uint8_t		PRINT_Complete();
+
+uint8_t		PRINT_ReadLayerBegin();
 
 
 #endif /*__printing_H */

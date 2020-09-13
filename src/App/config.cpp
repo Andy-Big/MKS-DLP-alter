@@ -365,6 +365,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 		if (tguiActiveScreen == (TG_SCREEN*)&tguiMsgBox)
 			tguiActiveScreen = (TG_SCREEN*)((TG_MSGBOX*)tguiActiveScreen)->prevscreen;
 		TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_FILE_OPEN_ERROR));
+		BUZZ_TimerOn(cfgConfig.buzzer_msg);
 		return;
 	}
 
@@ -752,6 +753,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 	if (rdstate == CFGR_ERROR)
 	{
 		TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), msg);
+		BUZZ_TimerOn(cfgConfig.buzzer_msg);
 	}
 	else
 	{

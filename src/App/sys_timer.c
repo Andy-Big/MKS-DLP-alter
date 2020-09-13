@@ -1,5 +1,6 @@
 #include "sys_timer.h"
 #include "touch.h"
+#include "config.h"
 
 
 
@@ -133,6 +134,9 @@ void		SYSTIMER_SetCountDown(uint8_t timer, uint32_t msecs)
 
 void		BUZZ_TimerOn(uint16_t time)
 {
+	if (cfgConfig.buzzer == 0)
+		return;
+	
 	buzz_timer = time;
 	BUZZER_On();
 }

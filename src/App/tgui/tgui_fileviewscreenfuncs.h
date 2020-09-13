@@ -15,6 +15,7 @@ void		_tgui_FileviewPrintinfoPaint(void *tguiobj, void *param);
 void		_tgui_FileviewPreviewPaint(void *tguiobj, void *param);
 
 void		_tgui_FileviewPrintPress(void *tguiobj, void *param);
+void		_tgui_FileviewPrintBegin(void *tguiobj, void *param);
 
 
 

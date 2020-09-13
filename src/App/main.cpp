@@ -453,13 +453,17 @@ int main()
 						systemInfo.target_position = 0;
 						systemInfo.printer_state = PST_IDLE;
 						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
-						if (systemInfo.is_printhoming)
+						if (systemInfo.print_is_homing)
 						{
-							systemInfo.is_printhoming = 0;
+							systemInfo.print_is_homing = 0;
 							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR), TGUI_PrintScreenExit);
+							BUZZ_TimerOn(cfgConfig.buzzer_msg);
 						}
 						else
+						{
 							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR));
+							BUZZ_TimerOn(cfgConfig.buzzer_msg);
+						}
 					}
 					else
 					{
@@ -469,6 +473,7 @@ int main()
 							systemInfo.target_position = cfgzMotor.max_pos;
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_fast);
 						systemInfo.printer_state = PST_HOMING_FAST;
+						PRINT_ReadLayerBegin();
 					}
 				}
 				break;
@@ -499,13 +504,17 @@ int main()
 						systemInfo.target_position = 0;
 						systemInfo.printer_state = PST_IDLE;
 						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
-						if (systemInfo.is_printhoming)
+						if (systemInfo.print_is_homing)
 						{
-							systemInfo.is_printhoming = 0;
+							systemInfo.print_is_homing = 0;
 							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR), TGUI_PrintScreenExit);
+							BUZZ_TimerOn(cfgConfig.buzzer_msg);
 						}
 						else
+						{
 							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR));
+							BUZZ_TimerOn(cfgConfig.buzzer_msg);
+						}
 					}
 				}
 				break;
@@ -520,13 +529,17 @@ int main()
 						systemInfo.target_position = 0;
 						systemInfo.printer_state = PST_IDLE;
 						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
-						if (systemInfo.is_printhoming)
+						if (systemInfo.print_is_homing)
 						{
-							systemInfo.is_printhoming = 0;
+							systemInfo.print_is_homing = 0;
 							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR), TGUI_PrintScreenExit);
+							BUZZ_TimerOn(cfgConfig.buzzer_msg);
 						}
 						else
+						{
 							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR));
+							BUZZ_TimerOn(cfgConfig.buzzer_msg);
+						}
 					}
 					else
 					{
@@ -562,20 +575,24 @@ int main()
 					{
 						ZMOTOR_SetPosition(0);
 						systemInfo.target_position = 0;
-						if (systemInfo.is_printhoming)
+						if (systemInfo.print_is_homing)
 						{
-							systemInfo.is_printhoming = 0;
+							systemInfo.print_is_homing = 0;
+							BUZZ_TimerOn(cfgConfig.buzzer_msg);
 							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR), TGUI_PrintScreenExit);
 						}
 						else
+						{
+							BUZZ_TimerOn(cfgConfig.buzzer_msg);
 							TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ENDSTOP_ERROR));
+						}
 					}
-					if (systemInfo.is_printhoming)
+					if (systemInfo.print_is_homing)
 					{
-						systemInfo.is_printhoming = 0;
-						systemInfo.is_printing = 1;
+						systemInfo.print_is_homing = 0;
+						systemInfo.print_is_printing = 1;
 						systemInfo.printer_state = PST_PRINT_MOVETOLAYER;
-						systemInfo.target_position = cfgConfig.zero_pos + (prtState.current_layer + 1) * PFILE_GetLayerThickness();
+						systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.feedrate);
 						FAN_LED_On();
 					}
@@ -599,15 +616,15 @@ int main()
 				if (UVPAUSE_TimerState() == 0)
 				{
 					systemInfo.printer_state = PST_PRINT_LIGHT;
-					if (prtState.current_layer < PFILE_GetBottomLayers())
+					if (systemInfo.print_current_layer < PFILE_GetBottomLayers())
 					{
 						UVLED_TimerOn((uint32_t)(PFILE_GetLightBottom() * 1000));
-						prtState.light_time_total += PFILE_GetLightBottom();
+						systemInfo.print_light_time_total += PFILE_GetLightBottom();
 					}
 					else
 					{
 						UVLED_TimerOn((uint32_t)(PFILE_GetLightLayer() * 1000));
-						prtState.light_time_total += PFILE_GetLightLayer();
+						systemInfo.print_light_time_total += PFILE_GetLightLayer();
 					}
 				}
 				break;
@@ -616,8 +633,8 @@ int main()
 				if (UVLED_TimerState() == 0)
 				{
 					systemInfo.printer_state = PST_PRINT_LIFT;
-					systemInfo.target_position = cfgConfig.zero_pos + (prtState.current_layer + 1) * PFILE_GetLayerThickness();
-					if (prtState.current_layer < PFILE_GetBottomLayers())
+					systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
+					if (systemInfo.print_current_layer < PFILE_GetBottomLayers())
 					{
 						systemInfo.target_position += PFILE_GetLiftBottom();
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetLiftSpeedBottom());
@@ -627,10 +644,29 @@ int main()
 						systemInfo.target_position += PFILE_GetLiftHeight();
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetLiftSpeed());
 					}
-					prtState.current_layer++;
-					if (prtState.current_layer >= PFILE_GetTotalLayers())
+					// check max height
+					if (systemInfo.target_position > cfgzMotor.max_pos)
 					{
-						systemInfo.is_printing = 0;
+						systemInfo.target_position = cfgzMotor.max_pos;
+					}
+					else
+					// check pause
+					{
+						if (systemInfo.print_is_paused && (systemInfo.print_current_layer + 1) < PFILE_GetTotalLayers())
+						{
+							systemInfo.printer_state = PST_PRINT_PAUSELIFT;
+							systemInfo.target_position += cfgConfig.pause_lift;
+							if (systemInfo.target_position > cfgzMotor.max_pos)
+								systemInfo.target_position = cfgzMotor.max_pos;
+								ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
+						}
+					}
+						
+					systemInfo.print_current_layer++;
+					if (systemInfo.print_current_layer >= PFILE_GetTotalLayers() || systemInfo.target_position == cfgzMotor.max_pos)
+					{
+						systemInfo.print_current_layer--;
+						systemInfo.print_is_printing = 0;
 						systemInfo.printer_state = PST_PRINT_LASTLAYERLIFT;
 						if (systemInfo.target_position < 30)
 						{
@@ -640,19 +676,46 @@ int main()
 						systemInfo.target_position = cfgzMotor.max_pos;
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate);
 						UVFAN_TimerOn(10000);
-						cfgTimers.led_time += (uint32_t)prtState.light_time_total;
-						cfgTimers.fan_time += DTIME_GetCurrentUnixtime() - prtState.time_begin;
-						cfgTimers.total_print_time += DTIME_GetCurrentUnixtime() - prtState.time_begin;
+						cfgTimers.led_time += (uint32_t)systemInfo.print_light_time_total;
+						cfgTimers.fan_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
+						cfgTimers.total_print_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
 						CFG_SaveTimers();
+					}
+					else
+					{
+						PRINT_ReadLayerBegin();
 					}
 				}
 				break;
 
 			case PST_PRINT_LIFT:
-				if (ZMOTOR_IsMoving() == 0)
+				if (systemInfo.print_is_paused)
+				{
+					systemInfo.printer_state = PST_PRINT_PAUSELIFT;
+					systemInfo.target_position += cfgConfig.pause_lift;
+					if (systemInfo.target_position > cfgzMotor.max_pos)
+						systemInfo.target_position = cfgzMotor.max_pos;
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
+				}
+				if (ZMOTOR_IsMoving() == 0 && systemInfo.print_is_paused == 0)
 				{
 					systemInfo.printer_state = PST_PRINT_DROP;
-					systemInfo.target_position = cfgConfig.zero_pos + (prtState.current_layer + 1) * PFILE_GetLayerThickness();
+					systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
+					ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetDropSpeed());
+				}
+				break;
+
+			case PST_PRINT_PAUSELIFT:
+				if (ZMOTOR_IsMoving() == 0 && systemInfo.print_is_paused == 0)
+				{
+					systemInfo.printer_state = PST_PRINT_DROP;
+					systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
+					if (systemInfo.print_current_layer < PFILE_GetBottomLayers())
+						systemInfo.target_position += PFILE_GetLiftBottom();
+					else
+						systemInfo.target_position += PFILE_GetLiftHeight();
+					ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
+					systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
 					ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetDropSpeed());
 				}
 				break;
@@ -669,14 +732,26 @@ int main()
 				if (ZMOTOR_IsMoving() == 0)
 				{
 					systemInfo.printer_state = PST_IDLE;
-					uint32_t	ut = DTIME_GetCurrentUnixtime();
-					ut -= prtState.time_begin;
-					uint32_t	ut_h = ut / 3600;
-					uint32_t	ut_m = (ut - (ut_h * 3600)) / 60;
-					char		*t = LANG_GetString(LSTR_MSG_PRINT_COMPLETED);
-					sprintf(msg, t, ut_h, ut_m, ut % 60); 
-					TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), msg, TGUI_PrintScreenExit);
+					if (systemInfo.print_is_canceled == 0)
+					{
+						uint32_t	ut = DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin - systemInfo.print_pause_time;
+						uint32_t	ut_h = ut / 3600;
+						uint32_t	ut_m = (ut - (ut_h * 3600)) / 60;
+						char		*t = LANG_GetString(LSTR_MSG_PRINT_COMPLETED);
+						sprintf(msg, t, ut_h, ut_m, ut % 60); 
+						TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), msg, TGUI_PrintScreenExit);
+					}
+					else
+					{
+						if (tguiActiveScreen == (TG_SCREEN*)&tguiMsgBox)
+						{
+							tguiActiveScreen = (TG_SCREEN*)((TG_MSGBOX*)tguiActiveScreen)->prevscreen;
+						}
+						TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LSTR_MSG_PRINT_CANCELED), TGUI_PrintScreenExit);
+						systemInfo.print_is_canceled = 0;
+					}
 					BUZZ_TimerOn(cfgConfig.buzzer_msg);
+					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
 				}
 				break;
 

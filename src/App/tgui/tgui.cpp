@@ -2124,7 +2124,7 @@ void		TGUI_Init()
 	tgb->bgimagename_en = FNAME_BTN_PRINT_STOP_EN;
 	tgb->bgimagename_press = FNAME_BTN_PRINT_STOP_PRESS;
 
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_PrintScreenStopPress;
 
 	// PREVIEW image
 	tgb = &(tguiScrPrintButtons[bi++]);

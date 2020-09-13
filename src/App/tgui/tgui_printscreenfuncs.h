@@ -17,6 +17,8 @@ void		TGUI_PrintScreenExit(void *tguiobj, void *param);
 void		_tgui_PrintScreenProcess(void *tguiobj, void *param);
 
 void		_tgui_PrintScreenPausePress(void *tguiobj, void *param);
+void		_tgui_PrintScreenStopPress(void *tguiobj, void *param);
+void		_tgui_PrintScreenStopping(void *tguiobj, void *param);
 
 void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param);
 void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param);

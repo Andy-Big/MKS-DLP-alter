@@ -34,15 +34,14 @@ void		TGUI_PrintScreenShow(void *tguiobj, void *param)
 	if (PRINT_Init() == 0)
 	{
 		TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_FILE_OPEN_ERROR));
+		BUZZ_TimerOn(cfgConfig.buzzer_msg);
 		return;
 	}
 
 	tguiScreenPrint.prevscreen = tguiScreenFileview.prevscreen;
 	tguiActiveScreen = &tguiScreenPrint;
 
-	systemInfo.is_paused = 0;
-	systemInfo.is_printing = 0;
-	systemInfo.is_printhoming = 1;
+	systemInfo.print_is_homing = 1;
 
 	old_time = DTIME_GetCurrentUnixtime();
 	old_layer = 0;
@@ -67,10 +66,7 @@ void		TGUI_PrintScreenShow(void *tguiobj, void *param)
 
 void		TGUI_PrintScreenExit(void *tguiobj, void *param)
 {
-	systemInfo.is_paused = 0;
-	systemInfo.is_printing = 0;
-	systemInfo.is_printhoming = 0;
-	FAN_LED_Off();
+	PRINT_Complete();
 
 	tguiActiveScreen = (TG_SCREEN*)tguiScreenFileview.prevscreen;
 	TGUI_ForceRepaint();
@@ -82,7 +78,7 @@ void		TGUI_PrintScreenExit(void *tguiobj, void *param)
 
 void		_tgui_PrintScreenProcess(void *tguiobj, void *param)
 {
-	if (old_time != DTIME_GetCurrentUnixtime() || old_layer != prtState.current_layer || old_pause != systemInfo.is_paused)
+	if (old_time != DTIME_GetCurrentUnixtime() || old_layer != systemInfo.print_current_layer || old_pause != systemInfo.print_is_paused)
 	{
 		for (uint8_t i = 0; i < tguiScreenPrint.btns_count; i++)
 		{
@@ -93,7 +89,7 @@ void		_tgui_PrintScreenProcess(void *tguiobj, void *param)
 			}
 		}
 		old_time = DTIME_GetCurrentUnixtime();
-		old_layer = prtState.current_layer;
+		old_layer = systemInfo.print_current_layer;
 	}
 	_tgui_DefaultScreenProcess(tguiobj, param);
 }
@@ -104,15 +100,15 @@ void		_tgui_PrintScreenProcess(void *tguiobj, void *param)
 
 void		_tgui_PrintScreenPausePress(void *tguiobj, void *param)
 {
-	if (systemInfo.is_paused)
-		systemInfo.is_paused = 0;
+	if (systemInfo.print_is_paused)
+		systemInfo.print_is_paused = 0;
 	else
-		systemInfo.is_paused = 1;
+		systemInfo.print_is_paused = 1;
 	for (uint8_t i = 0; i < tguiScreenPrint.btns_count; i++)
 	{
 		if (tguiScreenPrint.buttons[i].button_id == TG_SCR_PRINT_PAUSE_BTN_ID)
 		{
-			tguiScreenPrint.buttons[i].options.active = systemInfo.is_paused;
+			tguiScreenPrint.buttons[i].options.active = systemInfo.print_is_paused;
 			tguiScreenPrint.buttons[i].options.needrepaint = 1;
 			break;
 		}
@@ -125,7 +121,63 @@ void		_tgui_PrintScreenPausePress(void *tguiobj, void *param)
 			break;
 		}
 	}
-	old_pause = systemInfo.is_paused;
+	old_pause = systemInfo.print_is_paused;
+}
+//==============================================================================
+
+
+
+
+void		_tgui_PrintScreenStopPress(void *tguiobj, void *param)
+{
+		TGUI_MessageBoxYesNo(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_MSG_PRINT_CANCEL_QUEST), _tgui_PrintScreenStopping);
+}
+//==============================================================================
+
+
+
+
+void		_tgui_PrintScreenStopping(void *tguiobj, void *param)
+{
+	TGUI_MessageBoxWait(LANG_GetString(LSTR_WAIT), LANG_GetString(LSTR_MSG_PRINT_CANCELING));
+	
+	ZMOTOR_Stop();
+	while (ZMOTOR_IsMoving() != 0);
+		
+	if (systemInfo.print_is_paused)
+		systemInfo.print_is_paused = 0;
+	UVLED_Off();
+
+	systemInfo.printer_state = PST_PRINT_LASTLAYERLIFT;
+	systemInfo.print_is_canceled = 1;
+	if (systemInfo.position_known)
+	{
+		// prelifting
+		systemInfo.target_position += PFILE_GetLiftHeight();
+		if (systemInfo.target_position > cfgzMotor.max_pos)
+			systemInfo.target_position = cfgzMotor.max_pos;
+		ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetLiftSpeed());
+
+		// main lifting
+		systemInfo.print_is_printing = 0;
+		
+		if (systemInfo.target_position < 30)
+		{
+			systemInfo.target_position = 30;
+			ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
+		}
+		systemInfo.target_position = cfgzMotor.max_pos - 5;
+		ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate);
+	}
+	
+	UVFAN_TimerOn(10000);
+	cfgTimers.led_time += (uint32_t)systemInfo.print_light_time_total;
+	cfgTimers.fan_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
+	cfgTimers.total_print_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
+	CFG_SaveTimers();
+
+	systemInfo.print_is_printing = 0;
+	PRINT_Complete();
 }
 //==============================================================================
 
@@ -152,7 +204,7 @@ void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param)
 	LCDUI_SetFont(LCDUI_FONT_H18);
 	LCDUI_SetColor(LCDUI_RGB(0x00496C));
 	uint32_t	est_time = PFILE_GetPrintTime();
-	uint32_t	pass_time = DTIME_GetCurrentUnixtime() - prtState.time_begin;
+	uint32_t	pass_time = DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
 	uint32_t	est_h = est_time / 3600;
 	uint32_t	est_m = (est_time - (est_h * 3600)) / 60;
 	uint32_t	pass_h = pass_time / 3600;
@@ -166,12 +218,12 @@ void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param)
 	LCDUI_DrawText(LANG_GetString(LSTR_LAYERS), 0, thisbtn->position.left + 5, thisbtn->position.top + 48, thisbtn->position.right - 366, -1);
 	LCDUI_SetFont(LCDUI_FONT_H18);
 	LCDUI_SetColor(LCDUI_RGB(0x00496C));
-	sprintf(msg, (char*)"%u/%u", prtState.current_layer + 1, PFILE_GetTotalLayers());
+	sprintf(msg, (char*)"%u/%u", systemInfo.print_current_layer + 1, PFILE_GetTotalLayers());
 	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 100, thisbtn->position.top + 48, thisbtn->position.right - 196, -1);
 
 	// progress bar
 	LCDUI_DrawRect(thisbtn->position.left + 5, thisbtn->position.top + 69, 380, 18);
-	float		f_proc = ((float)(prtState.current_layer + 1) / (float)PFILE_GetTotalLayers()) * 100;
+	float		f_proc = ((float)(systemInfo.print_current_layer + 1) / (float)PFILE_GetTotalLayers()) * 100;
 	uint32_t	proc = (uint32_t)f_proc;
 	f_proc = (376.0 / 100.0) * f_proc;
 	uint32_t		pb_width = (uint32_t)f_proc;
@@ -183,7 +235,7 @@ void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param)
 
 	// state (printing/pause)
 	LCDUI_SetFont(LCDUI_FONT_H24BOLD);
-	if (systemInfo.is_paused)
+	if (systemInfo.print_is_paused)
 	{
 		LCDUI_SetColor(LCDUI_RGB(0xA67500));
 		LCDUI_DrawText(LANG_GetString(LSTR_PAUSE_CAPS), LCDUI_TEXT_ALIGN_CENTER, thisbtn->position.left + 272, thisbtn->position.top + 37, thisbtn->position.right - 5, -1);
@@ -216,8 +268,15 @@ void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param)
 	// printing time
 	if (old_time != DTIME_GetCurrentUnixtime())
 	{
+		if (systemInfo.printer_state == PST_PRINT_PAUSELIFT || systemInfo.printer_state == PST_HOMING_PREUP
+					|| systemInfo.printer_state == PST_HOMING_FAST || systemInfo.printer_state == PST_HOMING_UP
+					|| systemInfo.printer_state == PST_HOMING_SLOW || systemInfo.printer_state == PST_PRINT_LASTLAYERLIFT)
+		{
+			systemInfo.print_pause_time++;
+		}
+
 		uint32_t	est_time = PFILE_GetPrintTime();
-		uint32_t	pass_time = DTIME_GetCurrentUnixtime() - prtState.time_begin;
+		uint32_t	pass_time = DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin - systemInfo.print_pause_time;
 		uint32_t	est_h = est_time / 3600;
 		uint32_t	est_m = (est_time - (est_h * 3600)) / 60;
 		uint32_t	pass_h = pass_time / 3600;
@@ -227,13 +286,14 @@ void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param)
 		LCDUI_FillRect(thisbtn->position.left + 86, thisbtn->position.top + 28, 190, 18);
 		LCDUI_SetColor(LCDUI_RGB(0x00496C));
 		LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 100, thisbtn->position.top + 28, thisbtn->position.right - 196, -1);
+		
 	}
 	
 	// layers
-	if (old_layer != prtState.current_layer)
+	if (old_layer != systemInfo.print_current_layer)
 	{
 		LCDUI_SetColor(LCDUI_RGB(0x00496C));
-		sprintf(msg, (char*)"%u/%u", prtState.current_layer + 1, PFILE_GetTotalLayers());
+		sprintf(msg, (char*)"%u/%u", systemInfo.print_current_layer + 1, PFILE_GetTotalLayers());
 		LCDUI_SetColor(LCDUI_RGB(0xDDDDDD));
 		LCDUI_FillRect(thisbtn->position.left + 86, thisbtn->position.top + 48, 190, 18);
 		LCDUI_FillRect(thisbtn->position.left + 386, thisbtn->position.top + 70, 72, 18);
@@ -242,7 +302,7 @@ void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param)
 		LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 100, thisbtn->position.top + 48, thisbtn->position.right - 196, -1);
 
 		// progress bar
-		float		f_proc = ((float)(prtState.current_layer + 1) / (float)PFILE_GetTotalLayers()) * 100;
+		float		f_proc = ((float)(systemInfo.print_current_layer + 1) / (float)PFILE_GetTotalLayers()) * 100;
 		uint32_t	proc = (uint32_t)f_proc;
 		f_proc = (376.0 / 100.0) * f_proc;
 		uint32_t		pb_width = (uint32_t)f_proc;
@@ -255,12 +315,12 @@ void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param)
 	}
 
 	// state (printing/pause)
-	if (old_pause != systemInfo.is_paused)
+	if (old_pause != systemInfo.print_is_paused)
 	{
 		LCDUI_SetColor(LCDUI_RGB(0xDDDDDD));
 		LCDUI_FillRect(thisbtn->position.left + 270, thisbtn->position.top + 35, 195, 25);
 		LCDUI_SetFont(LCDUI_FONT_H24BOLD);
-		if (systemInfo.is_paused)
+		if (systemInfo.print_is_paused)
 		{
 			LCDUI_SetColor(LCDUI_RGB(0xA67500));
 			LCDUI_DrawText(LANG_GetString(LSTR_PAUSE_CAPS), LCDUI_TEXT_ALIGN_CENTER, thisbtn->position.left + 272, thisbtn->position.top + 37, thisbtn->position.right - 5, -1);

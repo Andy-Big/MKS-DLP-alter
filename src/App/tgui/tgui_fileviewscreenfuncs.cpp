@@ -126,9 +126,15 @@ void		_tgui_FileviewPrintinfoPaint(void *tguiobj, void *param)
 	uint16_t	yinc = (thisbtn->position.bottom - thisbtn->position.top - fntheight * 12) / 13;	// 12 text lines and 13 intervals
 	uint16_t	ytop = thisbtn->position.top + yinc;
 	// total layers
-	LCDUI_SetColor(LCDUI_RGB(0x000000));
+	if ((PFILE_GetTotalLayers() * PFILE_GetLayerThickness()) > (cfgzMotor.max_pos - PFILE_GetLiftHeight()))
+		LCDUI_SetColor(LCDUI_RGB(0xE00000));
+	else
+		LCDUI_SetColor(LCDUI_RGB(0x000000));
 	LCDUI_DrawText(LANG_GetString(LSTR_TOTAL_LAYERS), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
-	LCDUI_SetColor(LCDUI_RGB(0x00496C));
+	if ((PFILE_GetTotalLayers() * PFILE_GetLayerThickness()) > (cfgzMotor.max_pos - PFILE_GetLiftHeight()))
+		LCDUI_SetColor(LCDUI_RGB(0xE00000));
+	else
+		LCDUI_SetColor(LCDUI_RGB(0x00496C));
 	sprintf(msg, "%u", PFILE_GetTotalLayers());
 	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
 	// print time
@@ -257,7 +263,19 @@ void		_tgui_FileviewPrintPress(void *tguiobj, void *param)
 	if (PFILE_IsInited() == 0)
 		return;
 
-	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
+	if ((PFILE_GetTotalLayers() * PFILE_GetLayerThickness()) > (cfgzMotor.max_pos - PFILE_GetLiftHeight()))
+		TGUI_MessageBoxYesNo(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_MSG_MODEL_TOO_HIGH), _tgui_FileviewPrintBegin);
+	else
+		_tgui_FileviewPrintBegin(NULL, NULL);
+}
+//==============================================================================
+
+
+
+void		_tgui_FileviewPrintBegin(void *tguiobj, void *param)
+{
+	if (PFILE_IsInited() == 0)
+		return;
 	
 	TGUI_MessageBoxOkCancel(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_MSG_SURE_NO_MODEL_ON_PLATFORM), TGUI_PrintScreenShow);
 	

@@ -1079,7 +1079,7 @@
                     <item>oldline</item>
                     <item>cfgConfig.buzzer_touch</item>
                     <item>prtState.current_layer</item>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>

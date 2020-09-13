@@ -34,6 +34,7 @@ typedef enum
 	PST_PRINT_LIGHT,
 	PST_PRINT_LIFT,
 	PST_PRINT_DROP,
+	PST_PRINT_PAUSELIFT,
 	
 	PST_PRINT_LASTLAYERLIFT,
 	
@@ -118,9 +119,15 @@ typedef struct
 	uint8_t			position_known;
 	uint8_t			zmotor_enabled;
 	
-	uint8_t			is_printhoming;
-	uint8_t			is_printing;
-	uint8_t			is_paused;
+	uint8_t			print_is_homing;
+	uint8_t			print_is_printing;
+	uint8_t			print_is_paused;
+	uint8_t			print_is_canceled;
+	uint32_t		print_time_begin;
+	uint32_t		print_pause_time;
+	uint32_t		print_current_layer;
+	uint32_t		print_current_sublayer;
+	float			print_light_time_total;
 } SYSTEM_INFO;
 
 

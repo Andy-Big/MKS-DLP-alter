@@ -10,7 +10,7 @@ extern __no_init FIL			sfile @ "CCMRAM";
 FPWS_HEADER			fpws_header;
 FPWS_INFO			fpws_info;
 FPWS_PREVIEW		fpws_preview;
-FPWS_LAYERSDATA		fpws_layersdata;
+FPWS_LAYERSDEF		fpws_layersdata;
 
 uint8_t		FPWS_ReadFileInfo(FIL *file)
 {
@@ -19,7 +19,7 @@ uint8_t		FPWS_ReadFileInfo(FIL *file)
 	memset(&fpws_header, 0, sizeof(FPWS_HEADER));
 	memset(&fpws_info, 0, sizeof(FPWS_INFO));
 	memset(&fpws_preview, 0, sizeof(FPWS_PREVIEW));
-	memset(&fpws_layersdata, 0, sizeof(FPWS_LAYERSDATA));
+	memset(&fpws_layersdata, 0, sizeof(FPWS_LAYERSDEF));
 
 	// header
 	if (f_read(file, &fpws_header, sizeof(FPWS_HEADER), &rd) != FR_OK || rd != sizeof(FPWS_HEADER))
@@ -48,7 +48,7 @@ uint8_t		FPWS_ReadFileInfo(FIL *file)
 	// layers data
 	if (f_lseek(file, fpws_header.layersdef_offset) != FR_OK)
 		return 0;
-	if (f_read(file, &fpws_layersdata, sizeof(FPWS_LAYERSDATA), &rd) != FR_OK || rd != sizeof(FPWS_LAYERSDATA))
+	if (f_read(file, &fpws_layersdata, sizeof(FPWS_LAYERSDEF), &rd) != FR_OK || rd != sizeof(FPWS_LAYERSDEF))
 		return 0;
 	if (strcmp(fpws_layersdata.mark, (char*)"LAYERDEF") != 0)
 		return 0;
@@ -297,6 +297,28 @@ float		FPWS_GetResinVolume()
 uint32_t	FPWS_GetIndLayerSettings()
 {
 	return fpws_info.use_layer_params;
+}
+//==============================================================================
+
+
+
+
+uint8_t		FPWS_GetLayerInfo(uint32_t layer_num, FPWS_LAYERSINFO *layer_info)
+{
+	if (layer_num >= fpws_layersdata.total_layers)
+		return 0;
+	
+	uint32_t	rd = 0;
+	uint32_t	data_offset = fpws_header.layersdef_offset;
+	data_offset += sizeof(FPWS_LAYERSDEF);
+	data_offset += sizeof(FPWS_LAYERSINFO) * layer_num;
+
+	if (f_lseek(&ufile, data_offset) != FR_OK)
+		return 0;
+	if (f_read(&ufile, layer_info, sizeof(FPWS_LAYERSINFO), &rd) != FR_OK || rd != sizeof(FPWS_LAYERSINFO))
+		return 0;
+
+	return 1;
 }
 //==============================================================================
 

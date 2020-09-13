@@ -14,12 +14,12 @@
 
 
 
-#define  X_RATIO 2560
-#define  Y_RATIO 1440
-#define  FILLCODE 48
-#define  DATA_LEN		192 	// (Y_RATIO+2*FILLCODE)/8				//tan ---Одна строка данных длиной (720 + 48 + 720 + 48) бит
-#define  DATA_CRC_LEN	194 	// mark16 + DATA_LEN
-#define  TXDATA_LEN		196		//mark16 + DATA_LEN + CRC16
+#define  CLPD_X_RATIO		2560
+#define  CLPD_Y_RATIO		1440
+#define  CLPD_FILLCODE		48
+#define  CLPD_DATA_LEN		192 	// (Y_RATIO+2*FILLCODE)/8				//tan ---Одна строка данных длиной (720 + 48 + 720 + 48) бит
+#define  CLPD_DATA_CRC_LEN	194 	// mark16 + DATA_LEN
+#define  CLPD_TXDATA_LEN	196		//mark16 + DATA_LEN + CRC16
 
 #define BANK_USED_ID0		0	// CPLD_SDRAM BANK серийный номер 0 ~ 3
 #define BANK_USED_ID1		1	// CPLD_SDRAM BANK серийный номер 0 ~ 3
@@ -47,7 +47,7 @@ struct CPLD_DATA_FRAME
 	//bit7~0:	Номер строки 8 младших бит
 	uint8_t mark2;
 
-	uint8_t data[DATA_LEN];	//Пиксельные данные
+	uint8_t data[CLPD_DATA_LEN];	//Пиксельные данные
 
 	uint16_t CRC16;	// X^16 + X^15 + X^2 + 1
 #pragma pack()        
@@ -80,7 +80,7 @@ struct DLP_BMP_LINE
 
 #pragma pack(1)                  
 		CPLD_DATA_FRAME d_frame;
-		uint8_t d_frame_bakup[TXDATA_LEN];
+		uint8_t d_frame_bakup[CLPD_TXDATA_LEN];
 		volatile uint8_t crc_status;
 #pragma pack()                  
 		

@@ -90,7 +90,11 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Set the original position of the\nplatform in this position?",
 		(char*)"The original position of the\nplatform is set and saved.",
 		(char*)"Printing is complete.\nPrinting time: %02u:%02u:%02u",
-		
+		(char*)"Are you sure you want to\ncancel printing?",
+		(char*)"Finishing printing...",
+		(char*)"User interrupted printing.",
+		(char*)"Model height exceeds the maximum\nplatform lift height. The model\nwill be cropped in height.\nProceed?",
+
 // Settings screen
 		(char*)"Lift on pause",
 		(char*)"Buzzer",
@@ -212,6 +216,10 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Установить исходное положение\nплатформы в этой позиции?",
 		(char*)"Исходное положение платформы\nустановлено и сохранено.",
 		(char*)"Печать завершена.\nВремя печати: %02u:%02u:%02u",
+		(char*)"Вы уверены, что хотите прервать печать?",
+		(char*)"Завершение печати...",
+		(char*)"Печать прервана пользователем.",
+		(char*)"Высота модели превышает\nмаксимальную высоту подъема\nплатформы. Модель будет\nобрезана по высоте.\nПродолжить?",
 
 // Settings screen
 		(char*)"Подъем на паузе",

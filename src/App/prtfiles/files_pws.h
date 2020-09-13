@@ -60,7 +60,17 @@ typedef struct
 	char		mark[12];
 	uint32_t	data_length;
 	uint32_t	total_layers;
-} FPWS_LAYERSDATA;
+} FPWS_LAYERSDEF;
+
+typedef struct
+{
+	uint32_t	data_point;
+	uint32_t	data_length;
+	float		lift_height;
+	float		lift_speed;
+	float		light_time;
+	float		backup[3];
+} FPWS_LAYERSINFO;
 
 #pragma pack()
 
@@ -86,6 +96,8 @@ float		FPWS_GetLiftSpeed();
 float		FPWS_GetDropSpeed();
 float		FPWS_GetResinVolume();
 uint32_t	FPWS_GetIndLayerSettings();
+
+uint8_t		FPWS_GetLayerInfo(uint32_t layer_num, FPWS_LAYERSINFO *layer_info);
 
 
 

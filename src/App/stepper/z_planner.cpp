@@ -879,7 +879,7 @@ bool Planner::_populate_block(block_t * const block, bool split_move, const int3
 	{
 
 		// Start with print or travel acceleration
-		accel = (uint32_t)CEIL((systemInfo.is_printing ? settings.acceleration : settings.travel_acceleration) * steps_per_mm);
+		accel = (uint32_t)CEIL((systemInfo.print_is_printing ? settings.acceleration : settings.travel_acceleration) * steps_per_mm);
 
 		// Limit acceleration per axis
 		if (block->step_event_count <= cutoff_long)

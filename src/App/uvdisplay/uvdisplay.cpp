@@ -5,7 +5,7 @@
 
 
 
-uint8_t					Line_Pixel[Y_RATIO + FILLCODE * 2];
+uint8_t					Line_Pixel[CLPD_Y_RATIO + CLPD_FILLCODE * 2];
 
 
 
@@ -61,13 +61,13 @@ void		UVD_ExposSetCircle()
 		p = &Line_Pixel[exposure_bmp_data_circle[i][0]];
 		for(int j = exposure_bmp_data_circle[i][0]; j < exposure_bmp_data_circle[i][1] + 1; j++)	
 		{
-			if(j < Y_RATIO / 2)
+			if(j < CLPD_Y_RATIO / 2)
 			{
 				*p = 1;
 			}
 			else
 			{
-				*(p+FILLCODE) = 1;
+				*(p+CLPD_FILLCODE) = 1;
 			}
 			p++;
 		}
@@ -98,13 +98,13 @@ void		UVD_ExposSetSquare()
 		p = &Line_Pixel[exposure_bmp_data_square[i][0]];
 		for(int j = exposure_bmp_data_square[i][0]; j < exposure_bmp_data_square[i][1] + 1; j++)	
 		{
-			if(j < Y_RATIO / 2)
+			if(j < CLPD_Y_RATIO / 2)
 			{
 				*p = 1;
 			}
 			else
 			{
-				*(p+FILLCODE) = 1;
+				*(p+CLPD_FILLCODE) = 1;
 			}
 			p++;
 		}
