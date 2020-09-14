@@ -303,6 +303,24 @@ uint32_t	FPWS_GetIndLayerSettings()
 
 
 
+uint32_t	FPWS_GetResolutionX()
+{
+	return fpws_info.res_x;
+}
+//==============================================================================
+
+
+
+
+uint32_t	FPWS_GetResolutionY()
+{
+	return fpws_info.res_y;
+}
+//==============================================================================
+
+
+
+
 uint8_t		FPWS_GetLayerInfo(uint32_t layer_num, FPWS_LAYERSINFO *layer_info)
 {
 	if (layer_num >= fpws_layersdata.total_layers)

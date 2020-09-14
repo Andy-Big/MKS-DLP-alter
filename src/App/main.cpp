@@ -249,7 +249,8 @@ int main()
 	
 	
 	UVD_Init();
-
+	UVD_Sleep();
+/*
 	UVD_ExposSetCircle();
 	UVD_Wakeup();
 	HAL_Delay(50);
@@ -265,7 +266,7 @@ int main()
 	HAL_Delay(50);
 	UVLED_Off();
 	UVD_Sleep();
-
+*/
 	// Disable USB power line
 	USB_HOST_VbusFS(1);
 
@@ -473,7 +474,6 @@ int main()
 							systemInfo.target_position = cfgzMotor.max_pos;
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_fast);
 						systemInfo.printer_state = PST_HOMING_FAST;
-						PRINT_ReadLayerBegin();
 					}
 				}
 				break;
@@ -595,6 +595,9 @@ int main()
 						systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.feedrate);
 						FAN_LED_On();
+						UVD_Init();
+						UVD_Wakeup();
+						PRINT_ReadLayerBegin();
 					}
 					else
 					{
@@ -752,6 +755,7 @@ int main()
 					}
 					BUZZ_TimerOn(cfgConfig.buzzer_msg);
 					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+					UVD_Sleep();
 				}
 				break;
 

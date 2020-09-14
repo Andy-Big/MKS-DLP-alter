@@ -96,6 +96,8 @@ float		FPWS_GetLiftSpeed();
 float		FPWS_GetDropSpeed();
 float		FPWS_GetResinVolume();
 uint32_t	FPWS_GetIndLayerSettings();
+uint32_t	FPWS_GetResolutionX();
+uint32_t	FPWS_GetResolutionY();
 
 uint8_t		FPWS_GetLayerInfo(uint32_t layer_num, FPWS_LAYERSINFO *layer_info);
 

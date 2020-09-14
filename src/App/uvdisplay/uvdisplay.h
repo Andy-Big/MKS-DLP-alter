@@ -1827,6 +1827,8 @@ const uint16_t exposure_bmp_data_square[SQUARE_BMP_DATA_ROW][3]={
 void		UVD_Init();
 void		UVD_Sleep();
 void		UVD_Wakeup();
+void		UVD_Off();
+void		UVD_On();
 void		UVD_ExposSetCircle();
 void		UVD_ExposSetSquare();
 

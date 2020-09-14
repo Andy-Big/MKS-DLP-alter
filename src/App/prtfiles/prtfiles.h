@@ -49,6 +49,8 @@ float		PFILE_GetDropSpeed();
 float		PFILE_GetResinVolume();
 uint32_t	PFILE_GetIndLayerSettings();
 uint32_t	PFILE_GetIndLayerSettings();
+uint32_t	PFILE_GetResolutionX();
+uint32_t	PFILE_GetResolutionY();
 
 
 

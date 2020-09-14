@@ -44,12 +44,12 @@ uint32_t	SYSTIMER_GetCountDown(uint8_t timer);
 void		SYSTIMER_SetCountDown(uint8_t timer, uint32_t msecs);
 
 
-void		BUZZ_TimerOn(uint16_t time);
-void		UVLED_TimerOn(uint16_t time);
+void		BUZZ_TimerOn(uint32_t time);
+void		UVLED_TimerOn(uint32_t time);
 uint32_t	UVLED_TimerState();
-void		UVPAUSE_TimerOn(uint16_t time);
+void		UVPAUSE_TimerOn(uint32_t time);
 uint32_t	UVPAUSE_TimerState();
-void		UVFAN_TimerOn(uint16_t time);
+void		UVFAN_TimerOn(uint32_t time);
 uint32_t	UVFAN_TimerState();
 
 

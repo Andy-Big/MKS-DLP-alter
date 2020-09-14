@@ -184,6 +184,9 @@ uint32_t	PFILE_GetPrintTime()
 	// total move time for all layers
 	total_time *= total_layers;
 	
+	// correction
+	total_time *= 0.937;
+	
 	// add bottom light time
 	total_time += PFILE_GetBottomLayers() * PFILE_GetLightBottom();
 	// add common light time
@@ -412,6 +415,38 @@ uint32_t	PFILE_GetIndLayerSettings()
 	{
 		case FTYPE_PWS:
 			return FPWS_GetIndLayerSettings();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+uint32_t	PFILE_GetResolutionX()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetResolutionX();
+		
+	}
+
+	return 0;
+}
+//==============================================================================
+
+
+
+
+uint32_t	PFILE_GetResolutionY()
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_GetResolutionY();
 		
 	}
 
