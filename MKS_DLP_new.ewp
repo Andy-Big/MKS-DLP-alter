@@ -1522,9 +1522,9 @@
         </file>
     </group>
     <file>
-        <name>$PROJ_DIR$\src\motor_settings.acfg</name>
+        <name>$PROJ_DIR$\README.md</name>
     </file>
     <file>
-        <name>$PROJ_DIR$\README.md</name>
+        <name>$PROJ_DIR$\src\settings.acfg</name>
     </file>
 </project>

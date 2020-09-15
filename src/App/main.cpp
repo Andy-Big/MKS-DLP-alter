@@ -108,6 +108,10 @@ int main()
 	tguiTimer = SYSTIMER_NewCountDown(0);
 	zHoldTimer = SYSTIMER_NewCountDown(0);
 	
+	EEPROM_Init();
+
+	CFG_Init();
+	
 	LANG_SetLanguage(0);
 	
 	// LCD init
@@ -235,10 +239,6 @@ int main()
 		
 	RTC_Init();
 	RTC_Enable(&hRTC);
-	
-	EEPROM_Init();
-
-	CFG_Init();
 	
 	LANG_SetLanguage(cfgConfig.language);
 
@@ -629,6 +629,7 @@ int main()
 						UVLED_TimerOn((uint32_t)(PFILE_GetLightLayer() * 1000));
 						systemInfo.print_light_time_total += PFILE_GetLightLayer();
 					}
+					PRINT_DrawLayerPreview();
 				}
 				break;
 
@@ -664,7 +665,8 @@ int main()
 								ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
 						}
 					}
-						
+					PRINT_ClearLayerPreview();
+
 					systemInfo.print_current_layer++;
 					if (systemInfo.print_current_layer >= PFILE_GetTotalLayers() || systemInfo.target_position == cfgzMotor.max_pos)
 					{

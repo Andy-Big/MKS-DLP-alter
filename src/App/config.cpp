@@ -152,6 +152,7 @@ void			CFG_SetMotorDefault()
 	cfgzMotor.current_vref = 800;
 	cfgzMotor.current_hold_vref = 300;
 	cfgzMotor.hold_time = 10;
+	cfgzMotor.off_time = 30;
 	
 	for (uint16_t i = 0; i < sizeof(MOTOR_CONFIG) - 2; i++)
 	{
@@ -198,10 +199,11 @@ void			CFG_SetConfigDefault()
 	cfgConfig.buzzer = 1;
 	cfgConfig.buzzer_msg = 800;
 	cfgConfig.buzzer_touch = 50;
-	cfgConfig.motor_disable_time = 30;
-	cfgConfig.screen_disable_time = 10;
+	cfgConfig.screensaver_time = 10;
 	cfgConfig.screensaver_type = 1;
 	
+	cfgConfig.display_rotate = 0;
+
 	for (uint16_t i = 0; i < sizeof(GLOBAL_CONFIG) - 2; i++)
 	{
 		crc += data[i];
@@ -374,7 +376,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 	char			*string = msg;
 	char			lexem[128];
 	PARAM_VALUE		pval;
-	CFGREAD_STATE	rdstate = CFGR_COMMON;
+	CFGREAD_STATE	rdstate = CFGR_GENERAL;
 	int16_t			numstr = 0;
 	
 	while (1)
@@ -433,9 +435,9 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 				rdstate = CFGR_ZMOTOR;
 				continue;
 			}
-			else if (strcmp(lexem, (char*)"[COMMON]") == 0)
+			else if (strcmp(lexem, (char*)"[GENERAL]") == 0)
 			{
-				rdstate = CFGR_COMMON;
+				rdstate = CFGR_GENERAL;
 				continue;
 			}
 			else
@@ -682,6 +684,25 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						break;
 					}
 				} else
+				if (*lexem == 'O')
+				{
+					if (strcmp(lexem, (char*)"OFF_TIME") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.uint_val > 100000)
+							pval.uint_val = 100000;
+						if (pval.uint_val < cfgzMotor.hold_time)
+							pval.uint_val = cfgzMotor.hold_time + 1;
+						cfgzMotor.off_time = pval.int_val;
+						rdstate = CFGR_ZMOTOR;
+						break;
+					}
+				} else
 				if (*lexem == 'S')
 				{
 					if (strcmp(lexem, (char*)"STEPS_PER_MM") == 0)
@@ -736,7 +757,73 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 				string = LANG_GetString(LSTR_MSG_UNKNOWN_PARAMNAME_IN_CFG);
 				sprintf(msg, string, numstr);
 				break;
+
+			case CFGR_GENERAL:
+				rdstate = CFGR_ERROR;
+				if (*lexem == 'B')
+				{
+					if (strcmp(lexem, (char*)"BUZZER_MSG_DURATION") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.uint_val > 15000)
+							pval.uint_val = 15000;
+						cfgConfig.buzzer_msg = pval.uint_val;
+						rdstate = CFGR_GENERAL;
+						break;
+					}
+					if (strcmp(lexem, (char*)"BUZZER_TOUCH_DURATION") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.uint_val > 15000)
+							pval.uint_val = 15000;
+						cfgConfig.buzzer_touch = pval.uint_val;
+						rdstate = CFGR_GENERAL;
+						break;
+					}
+				} else
+				if (*lexem == 'R')
+				{
+					if (strcmp(lexem, (char*)"ROTATE_DISPLAY") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.uint_val > 0)
+						{
+							cfgConfig.display_rotate = 1;
+							LCD_WriteCmd(0x0036);
+							LCD_WriteRAM(0x0078);
+						}
+						else
+						{
+							cfgConfig.display_rotate = 0;
+							LCD_WriteCmd(0x0036);
+							LCD_WriteRAM(0x00B8);
+						}
+						rdstate = CFGR_GENERAL;
+						break;
+					}
+				}
+
+				string = LANG_GetString(LSTR_MSG_UNKNOWN_PARAMNAME_IN_CFG);
+				sprintf(msg, string, numstr);
+				break;
+
 		}
+		
 		if (rdstate == CFGR_ERROR)
 			break;
 		
@@ -758,6 +845,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 	else
 	{
 		CFG_SaveMotor();
+		CFG_SaveConfig();
 		TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LSTR_MSG_CFGFILE_LOADED));
 	}
 }

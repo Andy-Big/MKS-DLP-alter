@@ -39,11 +39,18 @@ void		_touch_ReadCoords()
 	}
 	vavg = vavg / TOUCH_READS;
 	if (vavg < touch_info.x_min || vavg > touch_info.x_max)
+	{
 		touch_point.xc = 0;
+	}
 	else
-		touch_point.xc = LCD_WIDTH - (vavg - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
+	{
+		if (cfgConfig.display_rotate == 0)
+			touch_point.xc = LCD_WIDTH - (vavg - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
+		else
+			touch_point.xc = (vavg - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
+	}
 
-	// Calculate X coord
+	// Calculate Y coord
 	vavg = 0;
 	buff = touch_buff+4;
 
@@ -56,9 +63,16 @@ void		_touch_ReadCoords()
 	}
 	vavg = vavg / TOUCH_READS;
 	if (vavg < touch_info.y_min || vavg > touch_info.y_max)
+	{
 		touch_point.yc = 0;
+	}
 	else
-		touch_point.yc = (vavg - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
+	{
+		if (cfgConfig.display_rotate == 0)
+			touch_point.yc = (vavg - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
+		else
+			touch_point.yc = LCD_HEIGHT - (vavg - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
+	}
 	
 	
 	// Start new read

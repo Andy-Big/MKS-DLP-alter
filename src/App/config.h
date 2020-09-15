@@ -72,6 +72,7 @@ typedef struct
 	float			current_vref;
 	float			current_hold_vref;
 	uint32_t		hold_time;		// time after the last movement until the motor current decreases by half, in msec
+	uint32_t		off_time;
 
 	uint16_t		cfg_crc;
 } MOTOR_CONFIG;
@@ -86,10 +87,10 @@ typedef struct
 	uint8_t			buzzer;
 	uint16_t		buzzer_touch;
 	uint16_t		buzzer_msg;
-	uint32_t		motor_disable_time;
-	uint32_t		screen_disable_time;
+	uint32_t		screensaver_time;
 	uint8_t			screensaver_type;
 
+	uint8_t			display_rotate;
 
 	uint16_t		cfg_crc;
 } GLOBAL_CONFIG;
@@ -152,7 +153,7 @@ typedef struct
 typedef enum
 {
 	CFGR_ERROR = 0,
-	CFGR_COMMON,
+	CFGR_GENERAL,
 	CFGR_ZMOTOR,
 } CFGREAD_STATE;
 

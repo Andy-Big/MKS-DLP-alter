@@ -2,6 +2,8 @@
 #include "sys_timer.h"
 #include "cpld_utils.h"
 #include "uvdisplay.h"
+#include "tgui.h"
+#include "tgui_printscreenfuncs.h"
 
 
 
@@ -22,7 +24,13 @@ uint32_t				ldata_offset_current = 0;
 uint32_t				ldata_length = 0;
 uint32_t				resX = 0, resY = 0;
 
-
+#define PRT_PREV_SCALE	8
+TG_RECT					prev_position;
+const uint16_t			prevcolors[2] = {0, 0xFFFF};
+const uint32_t			prevheight = CPLD_Y_RATIO / PRT_PREV_SCALE;
+const uint32_t			prevwidth = CPLD_X_RATIO / PRT_PREV_SCALE;
+const uint32_t			prevheightbytes = prevheight / 8 + 1;
+uint8_t					previmage[prevheightbytes * prevwidth];
 
 
 extern uint8_t			Line_Pixel[CPLD_Y_RATIO + CPLD_FILLCODE * 2];
@@ -42,6 +50,17 @@ uint8_t		PRINT_Init()
 	systemInfo.print_is_canceled = 0;
 	systemInfo.print_pause_time = 0;
 
+	for (uint8_t i = 0; i < tguiScreenPrint.btns_count; i++)
+	{
+		if (tguiScreenPrint.buttons[i].button_id == TG_SCR_PRINT_PREVIEW_ID)
+		{
+			prev_position.left = tguiScreenPrint.buttons[i].position.left;
+			prev_position.top = tguiScreenPrint.buttons[i].position.top;
+			prev_position.right = tguiScreenPrint.buttons[i].position.right;
+			prev_position.bottom = tguiScreenPrint.buttons[i].position.bottom;
+			break;
+		}
+	}
 
 	if (f_open(&ufile, fv_tfilename, FA_OPEN_EXISTING | FA_READ) != FR_OK)
 	{
@@ -153,13 +172,16 @@ uint8_t		PRINT_ReadLayerBegin()
 
 {
 			uint8_t		color;
-			uint16_t	length, length_sum;
+			uint16_t	length;
 			uint16_t	curpoint;
 			uint8_t		*p;
 			uint8_t		remaining;
-			uint8_t		rc;
 			BYTE		sd_char;
-			uint32_t	i = 0, j = 0, k = 0;
+			uint32_t	i = 0;
+			uint32_t	prevcolumn = 0;
+			uint8_t		pbyte = 0;
+			uint8_t		poffset = 0;
+			uint8_t		*pimage = previmage;
 
 			cpld_bmp.current_line = 0;
 			p = Line_Pixel;
@@ -206,6 +228,50 @@ uint8_t		PRINT_ReadLayerBegin()
 				}
 				memset(p, 0, CPLD_FILLCODE);
 				_cpld_line_gen_data(cpld_bmp.current_line, WORK_USED_BANK);
+				
+				// preview image
+				pimage = previmage + prevcolumn * prevheightbytes;
+				pbyte = 0;
+				poffset = 0;
+				if ((cpld_bmp.current_line % PRT_PREV_SCALE) == 0)
+				{
+					p = &Line_Pixel[0];
+					curpoint = 0;
+					while (curpoint < prevheight / 2)
+					{
+						pbyte |= *p & 0x01;
+						if (poffset == 8)
+						{
+							*pimage = pbyte;
+							pbyte = 0;
+							poffset = 0;
+							pimage++;
+						}
+						pbyte <<= 1;
+						poffset++;
+						curpoint++;
+						p += PRT_PREV_SCALE;
+					}
+					p += CPLD_FILLCODE;
+					while (curpoint < prevheight)
+					{
+						pbyte |= *p & 0x01;
+						if (poffset == 8)
+						{
+							*pimage = pbyte;
+							pbyte = 0;
+							poffset = 0;
+							pimage++;
+						}
+						pbyte <<= 1;
+						poffset++;
+						curpoint++;
+						p += PRT_PREV_SCALE;
+					}
+					if (poffset)
+						*pimage = pbyte;
+					prevcolumn++;
+				}
 				cpld_bmp.current_line++;
 				p = &Line_Pixel[0];
 				memset(p, color, remaining);
@@ -258,6 +324,74 @@ uint8_t		PRINT_ReadLayerBegin()
 
 
 	return 1;
+}
+//==============================================================================
+
+
+
+void		PRINT_ClearLayerPreview()
+{
+	if (tguiActiveScreen == &tguiScreenPrint)
+	{
+		uint32_t	curpoint = 0;
+		LCD_SetWindows(prev_position.left, prev_position.top, prevwidth, prevheight);
+		LCD_WriteRAM_Prepare();
+		while (curpoint < prevheight * prevwidth)
+		{
+			LCD_WriteRAM(prevcolors[0]);
+			curpoint++;
+		}
+	}
+}
+//==============================================================================
+
+
+
+void		PRINT_DrawLayerPreview()
+{
+	if (tguiActiveScreen == &tguiScreenPrint)
+	{
+		uint8_t		*pimage = previmage;
+		uint32_t	curpoint = 0;
+		uint8_t		curoffset = 0;
+		uint8_t		curval = *pimage;
+		uint32_t	prevcolumn = 0;
+		
+		LCD_WriteCmd(0x0036);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x0098);
+		else
+			LCD_WriteRAM(0x0058);
+		LCD_SetWindows(prev_position.top, prev_position.left, prevheight, prevwidth);
+		LCD_WriteRAM_Prepare();
+
+		while (prevcolumn < prevwidth)
+		{
+			pimage = previmage + prevcolumn * prevheightbytes;
+			curval = *pimage;
+			curpoint = 0;
+			curoffset = 0;
+			while (curpoint < prevheight)
+			{
+				LCD_WriteRAM(prevcolors[curval >> 7]);
+				curval <<= 1;
+				curpoint++;
+				curoffset++;
+				if (curoffset == 8)
+				{
+					pimage++;
+					curval = *pimage;
+					curoffset = 0;
+				}
+			}
+			prevcolumn++;
+		}
+		LCD_WriteCmd(0x0036);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00B8);
+		else
+			LCD_WriteRAM(0x0078);
+	}
 }
 //==============================================================================
 

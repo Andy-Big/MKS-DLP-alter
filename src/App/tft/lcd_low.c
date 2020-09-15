@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include "gpio.h"
 #include "fsmc.h"
+#include "config.h"
 
 
 uint16_t DeviceCode;
@@ -366,7 +367,12 @@ void		LCD_Initializtion(void)
 
 		LCD_WriteCmd(0x0036);
 		//LCD_WriteRAM(0x0068);
-		LCD_WriteRAM(0x00B8);
+//		LCD_WriteRAM(0x0098);	// rotate 90
+//		LCD_WriteRAM(0x0078);	// rotate 180
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00B8);
+		else
+			LCD_WriteRAM(0x0078);
 
 		LCD_WriteCmd(0x003A); //Interface Mode Control
 		LCD_WriteRAM(0x0055);

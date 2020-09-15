@@ -1,5 +1,6 @@
 #include "includes.h"
 #include "lcd_ui.h"
+#include "config.h"
 
 
 
@@ -1030,7 +1031,10 @@ void		LCDUI_DrawBitmap(uint16_t x, uint16_t y, uint8_t *bmp)
 	else
 	{
 		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00F8);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00F8);
+		else
+			LCD_WriteRAM(0x0038);
 	}
 	uint32_t	linesize = bwidth * 2;
 	while (linesize % 4)
@@ -1063,7 +1067,10 @@ void		LCDUI_DrawBitmap(uint16_t x, uint16_t y, uint8_t *bmp)
 	if (!(bheight & 0x80000000))
 	{
 		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00B8);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00B8);
+		else
+			LCD_WriteRAM(0x0078);
 	}
 }
 //==============================================================================

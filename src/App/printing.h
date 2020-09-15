@@ -29,6 +29,8 @@ uint8_t		PRINT_Init();
 uint8_t		PRINT_Complete();
 
 uint8_t		PRINT_ReadLayerBegin();
+void		PRINT_ClearLayerPreview();
+void		PRINT_DrawLayerPreview();
 
 
 #endif /*__printing_H */

@@ -193,7 +193,10 @@ void		_tgui_DrawFileBmpBackground(char* file)
 		// If flip row order
 		fliprows = 1;
 		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00F8);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00F8);
+		else
+			LCD_WriteRAM(0x0038);
 	}
 	
 	
@@ -239,7 +242,10 @@ flipcloseexit:
 	if (fliprows)
 	{
 		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00B8);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00B8);
+		else
+			LCD_WriteRAM(0x0078);
 	}
 closeexit:
 	f_close(&tguiFile);
@@ -263,7 +269,10 @@ void		_tgui_DrawFileRawImg(FIL *file, int16_t x, int16_t y, uint16_t bwidth, uin
 	if (fliprows)
 	{
 		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00F8);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00F8);
+		else
+			LCD_WriteRAM(0x0038);
 		y = LCD_HEIGHT - y - bheight;
 	}
 
@@ -365,7 +374,10 @@ void		_tgui_DrawFileRawImg(FIL *file, int16_t x, int16_t y, uint16_t bwidth, uin
 	if (fliprows)
 	{
 		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00B8);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00B8);
+		else
+			LCD_WriteRAM(0x0078);
 	}
 	return;
 }
@@ -418,7 +430,10 @@ void		_tgui_DrawFileCimgBackground(char* file)
 		// If flip row order
 		fliprows = 1;
 		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00F8);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00F8);
+		else
+			LCD_WriteRAM(0x0038);
 	}
 	
 	
@@ -488,7 +503,10 @@ flipcloseexit:
 	if (fliprows)
 	{
 		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00B8);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00B8);
+		else
+			LCD_WriteRAM(0x0078);
 	}
 closeexit:
 	f_close(&tguiFile);
@@ -543,7 +561,10 @@ void		_tgui_DrawFileCimgBackground(char* file)
 		// If flip row order
 		fliprows = 1;
 		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00F8);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00F8);
+		else
+			LCD_WriteRAM(0x0038);
 	}
 	
 	
@@ -631,7 +652,10 @@ flipcloseexit:
 	if (fliprows)
 	{
 		LCD_WriteCmd(0x0036);
-		LCD_WriteRAM(0x00B8);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00B8);
+		else
+			LCD_WriteRAM(0x0078);
 	}
 closeexit:
 	f_close(&tguiFile);
