@@ -5,7 +5,7 @@
 Using IAR 8.32 with ST HAL library.
 
 **Screenshots**
-![Main menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/maim_menu.jpg)
+![Main menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/main_menu.jpg)
 ![Service menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/service_menu.jpg)
 ![MoveZ menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/movez_menu.jpg)
 ![Info screen](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/info_screen.jpg)
