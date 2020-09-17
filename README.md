@@ -24,7 +24,7 @@ Using IAR 8.32 with ST HAL library.
 ## 01.08.2020
 + Fully started the stepper motor. The procedures for working with it are taken from Marlin 1.1.8. All unnecessary was completely cut out, only work with one axis was left. Two classes are used - the scheduler (planner.cpp) and directly working with the motor (stepper.cpp).
 
-## 09.15.2020 First print version!
+## 15.09.2020 First print version!
 **Already done:**
 + Printing .pws files (no anti-aliasing yet).
 + Two languages ​​- Russian and English, the ability to add other languages.
