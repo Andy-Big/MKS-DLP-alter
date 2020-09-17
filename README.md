@@ -4,6 +4,8 @@
 
 Using IAR 8.32 with ST HAL library.
 
+**Screenshots**
+![File preview](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/file_preview.jpg)
 
 ## 22.07.2020
 + UI display works (ili9488)
@@ -27,7 +29,7 @@ Using IAR 8.32 with ST HAL library.
 ## 15.09.2020 First print version!
 **Already done:**
 + Printing .pws files (no anti-aliasing yet).
-+ Two languages ​​- Russian and English, the ability to add other languages.
++ Two languages - Russian and English, the ability to add other languages.
 + Clock and calendar in the main menu. To keep the time from getting lost when turning off the printer, a 3-volt CR2016 / CR2032 battery must be soldered to the board.
 + Manual Z-axis movement in steps of 30, 10, 1, 0.2 and 0.05 mm.
 + Zeroing of the Z axis along the upper or lower limit switch.
