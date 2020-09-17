@@ -14,6 +14,8 @@ Using IAR 8.32 with ST HAL library.
 ![File preview](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/file_preview.jpg)
 ![Printing screen](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/printing_screen.jpg)
 
+**Demo video**
+![Demo printing](https://www.youtube.com/watch?v=ob9bVc12w_o)
 
 ## 22.07.2020
 + UI display works (ili9488)
