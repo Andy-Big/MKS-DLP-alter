@@ -1,6 +1,6 @@
 # MKS-DLP-alter
  
-Alternative firmware for MKS DLP board v1.1
+** Alternative firmware for MKS DLP board v1.1 **
 
 Using IAR 8.32 with ST HAL library.
 
@@ -25,7 +25,7 @@ Using IAR 8.32 with ST HAL library.
 + Fully started the stepper motor. The procedures for working with it are taken from Marlin 1.1.8. All unnecessary was completely cut out, only work with one axis was left. Two classes are used - the scheduler (planner.cpp) and directly working with the motor (stepper.cpp).
 
 ## 09/15/2020 First print version!
-Already done:
+** Already done: **
 + Printing .pws files (no anti-aliasing yet).
 + Two languages ​​- Russian and English, the ability to add other languages.
 + Clock and calendar in the main menu. To keep the time from getting lost when turning off the printer, a 3-volt CR2016 / CR2032 battery must be soldered to the board.
@@ -54,7 +54,7 @@ Already done:
 	1. Enable / disable buzzer.
 + Lock against accidental pressing of the on-screen buttons in print mode.
 
-To do in the near future:
+** To do in the near future: **
 1. Support for anti-aliasing.
 1. Setting through the time and date interface.
 1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
