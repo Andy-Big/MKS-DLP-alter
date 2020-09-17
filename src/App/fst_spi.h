@@ -30,11 +30,12 @@ extern "C" {
 
 
 
+#define		_cpld_CS_Enable()	SPI1_CS_CPLD_GPIO_Port->BSRR = (uint32_t)SPI1_CS_CPLD_Pin << 16U
+#define 	_cpld_CS_Disable()	SPI1_CS_CPLD_GPIO_Port->BSRR = SPI1_CS_CPLD_Pin	
 
-#define		_cpld_CS_Enable()	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET)
-#define 	_cpld_CS_Disable()	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET)
 
 
+void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi);
 
 
 void		TOUCH_SPIInit(void);

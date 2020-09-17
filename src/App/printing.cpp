@@ -61,6 +61,9 @@ uint8_t		PRINT_Init()
 			break;
 		}
 	}
+	
+	memset(Line_Pixel, 0, sizeof(Line_Pixel));
+	memset(previmage, 0, sizeof(previmage));
 
 	if (f_open(&ufile, fv_tfilename, FA_OPEN_EXISTING | FA_READ) != FR_OK)
 	{

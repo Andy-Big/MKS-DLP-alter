@@ -28,6 +28,8 @@ uint32_t				old_time = 0;
 uint32_t				old_layer = 0;
 uint8_t					old_pause = 0;
 
+uint8_t					disp_locked = 0;
+
 
 void		TGUI_PrintScreenShow(void *tguiobj, void *param)
 {
@@ -67,7 +69,7 @@ void		TGUI_PrintScreenShow(void *tguiobj, void *param)
 void		TGUI_PrintScreenExit(void *tguiobj, void *param)
 {
 	PRINT_Complete();
-
+	disp_locked = 0;
 	tguiActiveScreen = (TG_SCREEN*)tguiScreenFileview.prevscreen;
 	TGUI_ForceRepaint();
 }
@@ -91,6 +93,7 @@ void		_tgui_PrintScreenProcess(void *tguiobj, void *param)
 		old_time = DTIME_GetCurrentUnixtime();
 		old_layer = systemInfo.print_current_layer;
 	}
+	
 	_tgui_DefaultScreenProcess(tguiobj, param);
 }
 //==============================================================================
@@ -184,6 +187,34 @@ void		_tgui_PrintScreenStopping(void *tguiobj, void *param)
 
 
 
+void		_tgui_PrintScreenLockLPress(void *tguiobj, void *param)
+{
+	if (disp_locked == 0)
+		disp_locked = 1;
+	else
+		disp_locked = 0;
+	
+	for (uint8_t i = 0; i < tguiScreenPrint.btns_count; i++)
+	{
+		if (tguiScreenPrint.buttons[i].button_id == TG_SCR_PRINT_LOCK_BTN_ID)
+		{
+			_tgui_PrintScreenLockPaint((void*)&(tguiScreenPrint.buttons[i]), NULL);
+			break;
+		}
+		else
+		{
+			if (disp_locked == 0)
+				tguiScreenPrint.buttons[i].options.disabled = 0;
+			else
+				tguiScreenPrint.buttons[i].options.disabled = 1;
+		}
+	}
+}
+//==============================================================================
+
+
+
+
 void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param)
 {
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
@@ -249,6 +280,18 @@ void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param)
 	LCDUI_SetColor(oldcolor);
 	LCDUI_SetBackColor(oldbackcolor);
 	LCDUI_SetFont(oldfont);
+}
+//==============================================================================
+
+
+
+
+void		_tgui_PrintScreenPreviewPaint(void *tguiobj, void *param)
+{
+	if (UVLED_TimerState())
+		PRINT_DrawLayerPreview();
+	else
+		PRINT_ClearLayerPreview();
 }
 //==============================================================================
 
@@ -335,6 +378,23 @@ void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param)
 	LCDUI_SetColor(oldcolor);
 	LCDUI_SetBackColor(oldbackcolor);
 	LCDUI_SetFont(oldfont);
+}
+//==============================================================================
+
+
+
+
+void		_tgui_PrintScreenLockPaint(void *tguiobj, void *param)
+{
+	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
+	
+	char *img = thisbtn->bgimagename_en;
+
+	if (disp_locked == 1)
+		img = thisbtn->bgimagename_act;
+
+	_tgui_DrawFileCimg(img, thisbtn->textposition.left, thisbtn->textposition.top);
+
 }
 //==============================================================================
 

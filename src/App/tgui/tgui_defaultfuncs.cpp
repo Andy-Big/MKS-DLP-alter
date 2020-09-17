@@ -890,7 +890,18 @@ void		_tgui_DefaultButtonProcess(void *tguiobj, void *param)
 				break;
 
 			case TS_LPRESSED:
-				Touch_SetWorked(TS_LPRESSED);
+				if (thisbtn->options.disabled == 0 && thisbtn->options.pressed == 1)
+				{
+					// call linked function
+					if (thisbtn->funcs._call_longpress != NULL)
+					{
+						// call linked function
+						BUZZ_TimerOn(cfgConfig.buzzer_touch);
+						thisbtn->funcs._call_longpress((void*)thisbtn, NULL);
+					}
+					
+					Touch_SetWorked(TS_LPRESSED);
+				}
 				break;
 
 			case TS_SRELEASED:

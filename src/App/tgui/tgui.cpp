@@ -2142,7 +2142,7 @@ void		TGUI_Init()
 	tgb->bgimagename_en = NULL;
 	tgb->bgimagename_press = NULL;
 	
-	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_paint = _tgui_PrintScreenPreviewPaint;
 	tgb->funcs._call_process = NULL;
 	tgb->funcs._call_press = NULL;
 	
@@ -2160,6 +2160,24 @@ void		TGUI_Init()
 
 	tgb->funcs._call_paint = _tgui_PrintScreenProgressPaint;
 	
+	// LOCK region
+	tgb = &(tguiScrPrintButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrintButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_PRINT_LOCK_BTN_ID;
+
+	tgb->position = {200, 4, 475, 30};
+
+	tgb->textposition = {455, 6, 473, 27};
+	
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->bgimagename_en = FNAME_BTN_PRINT_LOCK_EN;
+	tgb->bgimagename_act = FNAME_BTN_PRINT_LOCK_ACT;
+	
+	tgb->funcs._call_paint = _tgui_PrintScreenLockPaint;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	tgb->funcs._call_longpress = _tgui_PrintScreenLockLPress;
+
 
 	// PRINT SCREEN
 	tgs = &tguiScreenPrint;

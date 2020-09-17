@@ -191,7 +191,7 @@ void		_cpld_line_gen_data(uint16_t line, uint8_t bank_used_id)
 	CPLD_CS_On();
 	memcpy(&cpld_bmp.line.d_frame_bakup[0], &cpld_bmp.line.d_frame.mark1, CPLD_TXDATA_LEN);
 	FLASH_SPIWriteBuffDMA(CPLD_TXDATA_LEN, &cpld_bmp.line.d_frame_bakup[0]);   //Начать передачу DMA
-	CPLD_CS_Off();
+//	CPLD_CS_Off();
 
 }
 //==============================================================================

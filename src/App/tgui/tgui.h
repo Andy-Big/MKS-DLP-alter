@@ -156,6 +156,7 @@ typedef struct
 	struct {
 		paintfunc		_call_paint;	// repaint button
 		pressfunc		_call_press;	// touch events handling
+		pressfunc		_call_longpress;	// touch events handling
 		processfunc		_call_process;	// periodical processing (for example text value refresh)
 	} funcs;
 } TG_BUTTON;
@@ -295,6 +296,8 @@ typedef struct
 #define	FNAME_BTN_PRINT_SETT_PRESS		(char*)"btn_print_sett_press.cimg"
 #define	FNAME_BTN_PRINT_STOP_EN			(char*)"btn_print_stop_en.cimg"
 #define	FNAME_BTN_PRINT_STOP_PRESS		(char*)"btn_print_stop_press.cimg"
+#define	FNAME_BTN_PRINT_LOCK_EN			(char*)"btn_print_lock_en.cimg"
+#define	FNAME_BTN_PRINT_LOCK_ACT		(char*)"btn_print_lock_act.cimg"
 
 #define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn_files_dir.cimg"
 #define	FNAME_ICN_FILES_IMAGE		(char*)"icn_files_image.cimg"
@@ -397,8 +400,9 @@ extern TG_SCREEN		tguiScreenFileview;
 #define		TG_SCR_PRINT_PREVIEW_ID		20
 #define		TG_SCR_PRINT_INFO_ID		21
 #define		TG_SCR_PRINT_PAUSE_BTN_ID	22
+#define		TG_SCR_PRINT_LOCK_BTN_ID	23
 
-#define		TG_BTN_CNT_SCREEN_PRINT			5
+#define		TG_BTN_CNT_SCREEN_PRINT			6
 extern TG_BUTTON		tguiScrPrintButtons[TG_BTN_CNT_SCREEN_PRINT];
 extern TG_SCREEN		tguiScreenPrint;
 

@@ -28,6 +28,11 @@ void		HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 
 
 
+void 		HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	_cpld_CS_Disable();
+	_flash_CS_Disable();
+}
 
 
 
@@ -444,7 +449,7 @@ void		FLASH_SPIWriteBuffDMA(uint32_t dlen, uint8_t *dbuff)
 {
 	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || (_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0 || hFlashSpi.State != HAL_SPI_STATE_READY);
 	HAL_SPI_Transmit_DMA(&hFlashSpi, dbuff, dlen);
-	while (hFlashSpi.State != HAL_SPI_STATE_READY);
+//	while (hFlashSpi.State != HAL_SPI_STATE_READY);
 	return;
 }
 //==============================================================================
