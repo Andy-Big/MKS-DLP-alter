@@ -51,11 +51,11 @@ Already done:
 + Counter of hours of operation of the display, illumination, fan and the printer as a whole.
 + Through the interface in the settings screen, you can configure:
 	1. Height of rise to pause printing.
-	2. Enable / disable buzzer.
+	1. Enable / disable buzzer.
 + Lock against accidental pressing of the on-screen buttons in print mode.
 
 To do in the near future:
 1. Support for anti-aliasing.
-2. Setting through the time and date interface.
-3. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
-4. Support for .photons files.
+1. Setting through the time and date interface.
+1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
+1. Support for .photons files.
