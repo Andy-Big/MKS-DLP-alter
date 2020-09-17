@@ -5,7 +5,15 @@
 Using IAR 8.32 with ST HAL library.
 
 **Screenshots**
+![Main menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/maim_menu.jpg)
+![Service menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/service_menu.jpg)
+![MoveZ menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/movez_menu.jpg)
+![Info screen](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/info_screen.jpg)
+![Files screen icons](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/files_icons.jpg)
+![Files screen list](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/files_list.jpg)
 ![File preview](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/file_preview.jpg)
+![Printing screen](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/printing_screen.jpg)
+
 
 ## 22.07.2020
 + UI display works (ili9488)
