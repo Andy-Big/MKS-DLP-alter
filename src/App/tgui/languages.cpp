@@ -6,6 +6,14 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"String for test purpose",
 
 // abbreviation
+		(char*)"Mo",
+		(char*)"Tu",
+		(char*)"We",
+		(char*)"Th",
+		(char*)"Fr",
+		(char*)"Sa",
+		(char*)"Su",
+
 		(char*)"Jan",
 		(char*)"Feb",
 		(char*)"Mar",
@@ -41,6 +49,7 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"SETTINGS",
 		(char*)"FILE VIEW",
 		(char*)"PRINTING",
+		(char*)"CLOCK/CALENDAR",
 
 		(char*)"SETTINGS",
 
@@ -96,6 +105,7 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Model height exceeds the maximum\nplatform lift height. The model\nwill be cropped in height.\nProceed?",
 
 // Settings screen
+		(char*)"Clock/Calendar",
 		(char*)"Lift on pause",
 		(char*)"Buzzer",
 		(char*)"On",
@@ -126,12 +136,27 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"PRINTING",
 		(char*)"PAUSE",
 
+// Clock set screen
+		(char*)"Hour",
+		(char*)"Min",
+		(char*)"Day",
+		(char*)"Mon",
+		(char*)"Year",
+
 	};
 
 constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"---",
 		(char*)"Строка для тестовых целей",
 	
+		(char*)"Пн",
+		(char*)"Вт",
+		(char*)"Ср",
+		(char*)"Чт",
+		(char*)"Пт",
+		(char*)"Сб",
+		(char*)"Вс",
+
 		(char*)"Янв",
 		(char*)"Фев",
 		(char*)"Мар",
@@ -167,6 +192,7 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"НАСТРОЙКИ",
 		(char*)"ПРОСМОТР",
 		(char*)"ПЕЧАТЬ",
+		(char*)"ЧАСЫ/КАЛЕНДАРЬ",
 
 		(char*)"НАСТР.",
 
@@ -222,6 +248,7 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Высота модели превышает\nмаксимальную высоту подъема\nплатформы. Модель будет\nобрезана по высоте.\nПродолжить?",
 
 // Settings screen
+		(char*)"Часы/Календарь",
 		(char*)"Подъем на паузе",
 		(char*)"Звук",
 		(char*)"Вкл",
@@ -251,6 +278,13 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Слои:",
 		(char*)"ПЕЧАТЬ",
 		(char*)"ПАУЗА",
+
+// Clock set screen
+		(char*)"Час",
+		(char*)"Мин",
+		(char*)"День",
+		(char*)"Мес",
+		(char*)"Год",
 
 	};
 

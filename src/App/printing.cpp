@@ -111,9 +111,7 @@ uint8_t		PRINT_ReadLayerBegin()
 
 			if (f_lseek(&ufile, ldata_offset_begin) != FR_OK)
 				return 0;
-			uint32_t			toread = LAYERBUFF_SIZE;
 			uint32_t			rd = 0;
-			uint32_t			line = 0;
 
 
 			// original method

@@ -1249,6 +1249,9 @@
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt12bold.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt170num_lcd.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt18.c</name>
                 </file>
                 <file>
@@ -1261,13 +1264,10 @@
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt24bold.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt36.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt36num.c</name>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt36num_lcd.c</name>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt48num_lcd.c</name>
                 </file>
             </group>
             <file>
@@ -1337,6 +1337,9 @@
         <group>
             <name>TIMERS</name>
             <file>
+                <name>$PROJ_DIR$\src\App\datetime.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\src\App\rtc.c</name>
             </file>
             <file>
@@ -1353,6 +1356,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_clocksetscreenfuncs.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_defaultfuncs.cpp</name>
@@ -1383,6 +1389,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_printscreenfuncs.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_screensaverfuncs.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_settingsscreenfuncs.cpp</name>
@@ -1421,9 +1430,6 @@
                 <name>$PROJ_DIR$\src\App\uvdisplay\uvdisplay.cpp</name>
             </file>
         </group>
-        <file>
-            <name>$PROJ_DIR$\src\App\datetime.cpp</name>
-        </file>
         <file>
             <name>$PROJ_DIR$\src\App\fsmc.c</name>
         </file>
@@ -1605,6 +1611,9 @@
             <name>$PROJ_DIR$\src\System\stm32f4xx_it.c</name>
         </file>
     </group>
+    <file>
+        <name>$PROJ_DIR$\src\history.txt</name>
+    </file>
     <file>
         <name>$PROJ_DIR$\README.md</name>
     </file>

@@ -40,6 +40,7 @@
 #include "eeprom.h"
 #include "tgui_movezscreenfuncs.h"
 #include "tgui_printscreenfuncs.h"
+#include "tgui_screensaverfuncs.h"
 #include "printing.h"
 
 
@@ -67,6 +68,8 @@ TOUCH_STATES					touchState;
 
 uint8_t							tguiTimer;
 uint8_t							zHoldTimer;
+uint8_t							zDisTimer;
+uint8_t							tguiScreenTimer;
 
 uint8_t							srvMode;
 	
@@ -107,6 +110,8 @@ int main()
 
 	tguiTimer = SYSTIMER_NewCountDown(0);
 	zHoldTimer = SYSTIMER_NewCountDown(0);
+	zDisTimer = SYSTIMER_NewCountDown(0);
+	tguiScreenTimer = SYSTIMER_NewCountDown(0);
 	
 	EEPROM_Init();
 
@@ -246,6 +251,8 @@ int main()
 	ZMOTOR_Init();
 	ZMOTOR_MotorDisable();
 	SYSTIMER_SetCountDown(zHoldTimer, 0);
+	SYSTIMER_SetCountDown(zDisTimer, 0);
+	SYSTIMER_SetCountDown(tguiScreenTimer, cfgConfig.screensaver_time);
 	
 	
 	UVD_Init();
@@ -424,7 +431,17 @@ int main()
 				ZMOTOR_SetHoldCurrent();
 				SYSTIMER_SetCountDown(zHoldTimer, 0);
 			}
-			TGUI_Process();
+		}
+		if (SYSTIMER_GetCountDown(zDisTimer) > 0 && SYSTIMER_GetCountDown(zDisTimer) < 10)
+		{
+			ZMOTOR_MotorDisable();
+			SYSTIMER_SetCountDown(zDisTimer, 0);
+			systemInfo.position_known = 0;
+		}
+		if (SYSTIMER_GetCountDown(tguiScreenTimer) > 0 && SYSTIMER_GetCountDown(tguiScreenTimer) < 10)
+		{
+			SYSTIMER_SetCountDown(tguiScreenTimer, 0);
+			TGUI_ScreenSaverShow();
 		}
 
 		switch (systemInfo.printer_state)
@@ -440,7 +457,8 @@ int main()
 						ZMOTOR_SetPosition(systemInfo.target_position);
 					}
 					systemInfo.printer_state = PST_IDLE;
-					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time);
+					SYSTIMER_SetCountDown(zDisTimer, cfgzMotor.off_time);
 				}
 				break;
 
@@ -453,7 +471,8 @@ int main()
 						ZMOTOR_SetPosition(0);
 						systemInfo.target_position = 0;
 						systemInfo.printer_state = PST_IDLE;
-						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time);
+						SYSTIMER_SetCountDown(zDisTimer, cfgzMotor.off_time);
 						if (systemInfo.print_is_homing)
 						{
 							systemInfo.print_is_homing = 0;
@@ -503,7 +522,8 @@ int main()
 						ZMOTOR_SetPosition(0);
 						systemInfo.target_position = 0;
 						systemInfo.printer_state = PST_IDLE;
-						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time);
+						SYSTIMER_SetCountDown(zDisTimer, cfgzMotor.off_time);
 						if (systemInfo.print_is_homing)
 						{
 							systemInfo.print_is_homing = 0;
@@ -528,7 +548,8 @@ int main()
 						ZMOTOR_SetPosition(0);
 						systemInfo.target_position = 0;
 						systemInfo.printer_state = PST_IDLE;
-						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time);
+						SYSTIMER_SetCountDown(zDisTimer, cfgzMotor.off_time);
 						if (systemInfo.print_is_homing)
 						{
 							systemInfo.print_is_homing = 0;
@@ -602,7 +623,8 @@ int main()
 					else
 					{
 						systemInfo.printer_state = PST_IDLE;
-						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+						SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time);
+						SYSTIMER_SetCountDown(zDisTimer, cfgzMotor.off_time);
 					}
 				}
 				break;
@@ -662,7 +684,7 @@ int main()
 							systemInfo.target_position += cfgConfig.pause_lift;
 							if (systemInfo.target_position > cfgzMotor.max_pos)
 								systemInfo.target_position = cfgzMotor.max_pos;
-								ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
+							ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
 						}
 					}
 					PRINT_ClearLayerPreview();
@@ -682,6 +704,7 @@ int main()
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate);
 						UVFAN_TimerOn(10000);
 						cfgTimers.led_time += (uint32_t)systemInfo.print_light_time_total;
+						cfgTimers.disp_time += (uint32_t)systemInfo.print_light_time_total;
 						cfgTimers.fan_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
 						cfgTimers.total_print_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
 						CFG_SaveTimers();
@@ -700,7 +723,7 @@ int main()
 					systemInfo.target_position += cfgConfig.pause_lift;
 					if (systemInfo.target_position > cfgzMotor.max_pos)
 						systemInfo.target_position = cfgzMotor.max_pos;
-						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
+					ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
 				}
 				if (ZMOTOR_IsMoving() == 0 && systemInfo.print_is_paused == 0)
 				{
@@ -756,7 +779,8 @@ int main()
 						systemInfo.print_is_canceled = 0;
 					}
 					BUZZ_TimerOn(cfgConfig.buzzer_msg);
-					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
+					SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time);
+					SYSTIMER_SetCountDown(zDisTimer, cfgzMotor.off_time);
 					UVD_Sleep();
 				}
 				break;
@@ -796,11 +820,10 @@ int main()
 	}
 	
 }
+//==============================================================================
 
-/**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+
+
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -846,38 +869,18 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
+//==============================================================================
 
-/* USER CODE BEGIN 4 */
 
-/* USER CODE END 4 */
 
-/**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
 void Error_Handler(void)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-
-  /* USER CODE END Error_Handler_Debug */
 }
 
 #ifdef  USE_FULL_ASSERT
-/**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
 void assert_failed(uint8_t *file, uint32_t line)
 { 
-  /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-     tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
 }
+//==============================================================================
 #endif /* USE_FULL_ASSERT */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

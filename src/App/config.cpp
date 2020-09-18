@@ -151,8 +151,8 @@ void			CFG_SetMotorDefault()
 	cfgzMotor.max_jerk = 0.05;
 	cfgzMotor.current_vref = 800;
 	cfgzMotor.current_hold_vref = 300;
-	cfgzMotor.hold_time = 10;
-	cfgzMotor.off_time = 30;
+	cfgzMotor.hold_time = 10000;
+	cfgzMotor.off_time = 60000;
 	
 	for (uint16_t i = 0; i < sizeof(MOTOR_CONFIG) - 2; i++)
 	{
@@ -199,7 +199,7 @@ void			CFG_SetConfigDefault()
 	cfgConfig.buzzer = 1;
 	cfgConfig.buzzer_msg = 800;
 	cfgConfig.buzzer_touch = 50;
-	cfgConfig.screensaver_time = 10;
+	cfgConfig.screensaver_time = 60000;
 	cfgConfig.screensaver_type = 1;
 	
 	cfgConfig.display_rotate = 0;
@@ -549,7 +549,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							pval.uint_val = 1;
 						if (pval.uint_val > 100000)
 							pval.uint_val = 100000;
-						cfgzMotor.hold_time = pval.uint_val;
+						cfgzMotor.hold_time = pval.uint_val * 1000;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -697,8 +697,8 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						if (pval.uint_val > 100000)
 							pval.uint_val = 100000;
 						if (pval.uint_val < cfgzMotor.hold_time)
-							pval.uint_val = cfgzMotor.hold_time + 1;
-						cfgzMotor.off_time = pval.int_val;
+							pval.uint_val = cfgzMotor.hold_time + 1000;
+						cfgzMotor.off_time = pval.int_val * 60000;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -812,6 +812,28 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							cfgConfig.display_rotate = 0;
 							LCD_WriteCmd(0x0036);
 							LCD_WriteRAM(0x00B8);
+						}
+						rdstate = CFGR_GENERAL;
+						break;
+					}
+				} else
+				if (*lexem == 'S')
+				{
+					if (strcmp(lexem, (char*)"SCREENSAVER_TIME") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.uint_val > 15000)
+						{
+							cfgConfig.screensaver_time = 15000 * 60000;
+						}
+						else
+						{
+							cfgConfig.screensaver_time = pval.uint_val * 60000;
 						}
 						rdstate = CFGR_GENERAL;
 						break;

@@ -14,7 +14,7 @@
     <ProjectGuid>{A6630D39-D2BE-457D-B24E-C5447191B7D3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ConsoleApplication1</RootNamespace>
-    <ProjectName>bmp_comp</ProjectName>
+    <ProjectName>bmp2cimg</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

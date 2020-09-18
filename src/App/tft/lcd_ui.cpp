@@ -11,9 +11,9 @@ extern LCDUI_FONT		font_fnt18;
 extern LCDUI_FONT		font_fnt18bold;
 extern LCDUI_FONT		font_fnt24;
 extern LCDUI_FONT		font_fnt24bold;
-extern LCDUI_FONT		font_fnt48num_lcd;
-extern LCDUI_FONT		font_fnt36num_lcd;
+extern LCDUI_FONT		font_fnt36;
 extern LCDUI_FONT		font_fnt36num;
+extern LCDUI_FONT		font_fnt170num_lcd;
 
 
 //uint8_t 		lcdui_startH, lcdui_endH, lcdui_startV, lcdui_endV, lcdui_ramAddrOne, lcdui_ramAddrTwo;
@@ -615,16 +615,16 @@ LCDUI_FONT_TYPE		LCDUI_SetFont(LCDUI_FONT_TYPE newfont)
 			lcdui_current_font = &font_fnt24bold;
 			break;
 
-		case LCDUI_FONT_H48NUMLCD:
-			lcdui_current_font = &font_fnt48num_lcd;
-			break;
-
-		case LCDUI_FONT_H36NUMLCD:
-			lcdui_current_font = &font_fnt36num_lcd;
+		case LCDUI_FONT_H36:
+			lcdui_current_font = &font_fnt36;
 			break;
 
 		case LCDUI_FONT_H36NUM:
 			lcdui_current_font = &font_fnt36num;
+			break;
+
+		case LCDUI_FONT_H170NUM_LCD:
+			lcdui_current_font = &font_fnt170num_lcd;
 			break;
 
 		default:
@@ -734,13 +734,11 @@ void	LCDUI_DrawChar(char c,  uint16_t opt, int16_t x, int16_t y)
 	LCD_SetWindows(lcdui_cursor_x, lcdui_cursor_y, cw, ch);
 	LCD_WriteRAM_Prepare();
 	
-	for (i = 0; i < cw*ch; i++)
+	if (opt & LCDUI_TEXT_TRANSBACK)
 	{
-		csh = (c >> sh);
-
-
-		if (opt & LCDUI_TEXT_TRANSBACK)
+		for (i = 0; i < cw*ch; i++)
 		{
+			csh = (c >> sh);
 			if (csh&0x01)
 			{
 				LCD_SetCursor(xc, yc);
@@ -753,16 +751,28 @@ void	LCDUI_DrawChar(char c,  uint16_t opt, int16_t x, int16_t y)
 				xc = lcdui_cursor_x;
 				yc++;
 			}
+			
+			sh ++;
+			if (sh == 8)
+			{
+				c = data[ptr++];
+				sh = 0;
+			}
 		}
-		else
-			LCD_WriteRAM(cres[(csh&0x01)]);
-
-		
-		sh ++;
-		if (sh == 8)
+	}
+	else
+	{
+		for (i = 0; i < cw*ch; i++)
 		{
-			c = data[ptr++];
-			sh = 0;
+			csh = (c >> sh);
+			LCD_WriteRAM(cres[(csh&0x01)]);
+			
+			sh ++;
+			if (sh == 8)
+			{
+				c = data[ptr++];
+				sh = 0;
+			}
 		}
 	}
 /*

@@ -240,6 +240,7 @@ typedef struct
 #define	FNAME_BKGR_NUMENTER			(char*)"scr_numenter.cimg"
 #define	FNAME_BKGR_FILEVIEW			(char*)"scr_fileview.cimg"
 #define	FNAME_BKGR_PRINT			(char*)"scr_print.cimg"
+#define	FNAME_BKGR_CLOCKSET			(char*)"scr_clockset.cimg"
 
 #define	FNAME_BTN_MOVEZ_UP_EN		(char*)"btn_movez_up_en.cimg"
 #define	FNAME_BTN_MOVEZ_UP_PRESS	(char*)"btn_movez_up_press.cimg"
@@ -276,6 +277,8 @@ typedef struct
 #define	FNAME_BTN_SETTINGS_SAVE_PRESS	(char*)"btn_settings_save_press.cimg"
 #define	FNAME_BTN_SETTINGS_ITEM_EN		(char*)"btn_settings_item_en.cimg"
 #define	FNAME_BTN_SETTINGS_ITEM_PRESS	(char*)"btn_settings_item_press.cimg"
+#define	FNAME_BTN_SETTINGS_ITEM1_EN		(char*)"btn_settings_item1_en.cimg"
+#define	FNAME_BTN_SETTINGS_ITEM1_PRESS	(char*)"btn_settings_item1_press.cimg"
 
 #define	FNAME_BTN_NUMENTER_AC_EN		(char*)"btn_numenter_ac_en.cimg"
 #define	FNAME_BTN_NUMENTER_AC_PRESS		(char*)"btn_numenter_ac_press.cimg"
@@ -298,6 +301,13 @@ typedef struct
 #define	FNAME_BTN_PRINT_STOP_PRESS		(char*)"btn_print_stop_press.cimg"
 #define	FNAME_BTN_PRINT_LOCK_EN			(char*)"btn_print_lock_en.cimg"
 #define	FNAME_BTN_PRINT_LOCK_ACT		(char*)"btn_print_lock_act.cimg"
+
+#define	FNAME_BTN_CLOCKSET_OK_EN		(char*)"btn_clockset_ok_en.cimg"
+#define	FNAME_BTN_CLOCKSET_OK_PRESS		(char*)"btn_clockset_ok_press.cimg"
+#define	FNAME_BTN_CLOCKSET_UP_EN		(char*)"btn_clockset_up_en.cimg"
+#define	FNAME_BTN_CLOCKSET_UP_PRESS		(char*)"btn_clockset_up_press.cimg"
+#define	FNAME_BTN_CLOCKSET_DOWN_EN		(char*)"btn_clockset_down_en.cimg"
+#define	FNAME_BTN_CLOCKSET_DOWN_PRESS	(char*)"btn_clockset_down_press.cimg"
 
 #define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn_files_dir.cimg"
 #define	FNAME_ICN_FILES_IMAGE		(char*)"icn_files_image.cimg"
@@ -372,13 +382,13 @@ extern TG_BUTTON		tguiScrFilesListButtons[TG_BTN_CNT_SCREEN_FILESICONS];
 extern TG_SCREEN		tguiScreenFilesList;
 
 
-#define		TG_SCR_SETTINGS_LIFTPAUSE_ID	20
-#define		TG_SCR_SETTINGS_BUZZER_ID		21
-#define		TG_SCR_SETTINGS_MOTORDIS_ID		22
+#define		TG_SCR_SETTINGS_CLOCK_ID		20
+#define		TG_SCR_SETTINGS_LIFTPAUSE_ID	21
+#define		TG_SCR_SETTINGS_BUZZER_ID		22
 #define		TG_SCR_SETTINGS_DISPDIS_ID		23
 #define		TG_SCR_SETTINGS_SCREENSAVER_ID	24
 
-#define		TG_BTN_CNT_SCREEN_SETTINGS		7
+#define		TG_BTN_CNT_SCREEN_SETTINGS		9
 extern TG_BUTTON		tguiScrSettingsButtons[TG_BTN_CNT_SCREEN_SETTINGS];
 extern TG_SCREEN		tguiScreenSettings;
 
@@ -397,14 +407,40 @@ extern TG_BUTTON		tguiScrFileviewButtons[TG_BTN_CNT_SCREEN_FILEVIEW];
 extern TG_SCREEN		tguiScreenFileview;
 
 
-#define		TG_SCR_PRINT_PREVIEW_ID		20
-#define		TG_SCR_PRINT_INFO_ID		21
-#define		TG_SCR_PRINT_PAUSE_BTN_ID	22
-#define		TG_SCR_PRINT_LOCK_BTN_ID	23
+#define		TG_SCR_PRINT_PREVIEW_ID			20
+#define		TG_SCR_PRINT_INFO_ID			21
+#define		TG_SCR_PRINT_PAUSE_BTN_ID		22
+#define		TG_SCR_PRINT_LOCK_BTN_ID		23
 
 #define		TG_BTN_CNT_SCREEN_PRINT			6
 extern TG_BUTTON		tguiScrPrintButtons[TG_BTN_CNT_SCREEN_PRINT];
 extern TG_SCREEN		tguiScreenPrint;
+
+
+#define		TG_SCR_CLOCKSET_HOURS_BTN_ID		20
+#define		TG_SCR_CLOCKSET_MINUTES_BTN_ID		21
+#define		TG_SCR_CLOCKSET_DAY_BTN_ID			22
+#define		TG_SCR_CLOCKSET_MONTH_BTN_ID		23
+#define		TG_SCR_CLOCKSET_YEAR_BTN_ID			24
+#define		TG_SCR_CLOCKSET_HOURS_UP_BTN_ID		30
+#define		TG_SCR_CLOCKSET_MINUTES_UP_BTN_ID	31
+#define		TG_SCR_CLOCKSET_DAY_UP_BTN_ID		32
+#define		TG_SCR_CLOCKSET_MONTH_UP_BTN_ID		33
+#define		TG_SCR_CLOCKSET_YEAR_UP_BTN_ID		34
+#define		TG_SCR_CLOCKSET_HOURS_DOWN_BTN_ID	40
+#define		TG_SCR_CLOCKSET_MINUTES_DOWN_BTN_ID	41
+#define		TG_SCR_CLOCKSET_DAY_DOWN_BTN_ID		42
+#define		TG_SCR_CLOCKSET_MONTH_DOWN_BTN_ID	43
+#define		TG_SCR_CLOCKSET_YEAR_DOWN_BTN_ID	44
+
+#define		TG_BTN_CNT_SCREEN_CLOCKSET			17
+extern TG_BUTTON		tguiScrClockSetButtons[TG_BTN_CNT_SCREEN_CLOCKSET];
+extern TG_SCREEN		tguiClockSet;
+
+
+#define		TG_BTN_CNT_SCREENSAVER			1
+extern TG_BUTTON		tguiScreenSaverButtons[TG_BTN_CNT_SCREENSAVER];
+extern TG_SCREEN		tguiScreenSaver;
 
 
 

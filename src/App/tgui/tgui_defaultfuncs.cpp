@@ -62,44 +62,41 @@ void		_tgui_ScreenTimePaint(void *tguiobj, void *param)
 	DATETIME_STRUCT dt;
 	DTIME_GetCurrentDatetime(&dt);
 	
-	char *mshortname;
+	char *mshortname = LANG_GetString(LSTR_SHORT_JANUARY);
 	switch (dt.month)
 	{
 		case 2:
-			mshortname = LANG_GetString(LSTR_FEBRUARY);
+			mshortname = LANG_GetString(LSTR_SHORT_FEBRUARY);
 			break;
 		case 3:
-			mshortname = LANG_GetString(LSTR_MARCH);
+			mshortname = LANG_GetString(LSTR_SHORT_MARCH);
 			break;
 		case 4:
-			mshortname = LANG_GetString(LSTR_APRIL);
+			mshortname = LANG_GetString(LSTR_SHORT_APRIL);
 			break;
 		case 5:
-			mshortname = LANG_GetString(LSTR_MAY);
+			mshortname = LANG_GetString(LSTR_SHORT_MAY);
 			break;
 		case 6:
-			mshortname = LANG_GetString(LSTR_JUNE);
+			mshortname = LANG_GetString(LSTR_SHORT_JUNE);
 			break;
 		case 7:
-			mshortname = LANG_GetString(LSTR_JULY);
+			mshortname = LANG_GetString(LSTR_SHORT_JULY);
 			break;
 		case 8:
-			mshortname = LANG_GetString(LSTR_AUGUST);
+			mshortname = LANG_GetString(LSTR_SHORT_AUGUST);
 			break;
 		case 9:
-			mshortname = LANG_GetString(LSTR_SEPTEMBER);
+			mshortname = LANG_GetString(LSTR_SHORT_SEPTEMBER);
 			break;
 		case 10:
-			mshortname = LANG_GetString(LSTR_OCTOBER);
+			mshortname = LANG_GetString(LSTR_SHORT_OCTOBER);
 			break;
 		case 11:
-			mshortname = LANG_GetString(LSTR_NOVEMBER);
+			mshortname = LANG_GetString(LSTR_SHORT_NOVEMBER);
 			break;
 		case 12:
-			mshortname = LANG_GetString(LSTR_DECEMBER);
-			break;
-		default:
-			mshortname = LANG_GetString(LSTR_JANUARY);
+			mshortname = LANG_GetString(LSTR_SHORT_DECEMBER);
 			break;
 	}
 	

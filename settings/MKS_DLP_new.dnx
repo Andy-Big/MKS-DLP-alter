@@ -16,7 +16,7 @@
         <LeaveTargetRunning>_ 0</LeaveTargetRunning>
     </StLinkDriver>
     <DebugChecksum>
-        <Checksum>2634049698</Checksum>
+        <Checksum>1591110763</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -101,16 +101,17 @@
         <Fmt13>{W}1:t1	4	0</Fmt13>
         <Fmt14>{W}1:t2	5	0</Fmt14>
         <Fmt15>{W}1:tgb-&gt;text	4	0</Fmt15>
-        <Fmt16>{W}1:thisbtn-&gt;text	4	0</Fmt16>
-        <Fmt17>{W}1:time	1	0</Fmt17>
-        <Fmt18>{W}1:towritepage	4	0</Fmt18>
-        <Fmt19>{W}1:towritesect	4	0</Fmt19>
-        <Fmt20>{W}1:uchar	4	0</Fmt20>
-        <Fmt21>{W}1:unicode_char	4	0</Fmt21>
-        <Fmt22>{W}1:unistr[uinilen]	5	0</Fmt22>
-        <Fmt23>{W}1:utfchar	4	0</Fmt23>
-        <Fmt24>{W}1:vavg	3	0</Fmt24>
-        <Fmt25>{W}1:vcurr	4	0</Fmt25>
+        <Fmt16>{W}1:thisbtn-&gt;button_id	3	0</Fmt16>
+        <Fmt17>{W}1:thisbtn-&gt;text	4	0</Fmt17>
+        <Fmt18>{W}1:time	1	0</Fmt18>
+        <Fmt19>{W}1:towritepage	4	0</Fmt19>
+        <Fmt20>{W}1:towritesect	4	0</Fmt20>
+        <Fmt21>{W}1:uchar	4	0</Fmt21>
+        <Fmt22>{W}1:unicode_char	4	0</Fmt22>
+        <Fmt23>{W}1:unistr[uinilen]	5	0</Fmt23>
+        <Fmt24>{W}1:utfchar	4	0</Fmt24>
+        <Fmt25>{W}1:vavg	3	0</Fmt25>
+        <Fmt26>{W}1:vcurr	4	0</Fmt26>
     </watch_formats>
     <Trace1>
         <Enabled>0</Enabled>

@@ -68,6 +68,19 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 
 **To do in the near future:**
 1. Support for anti-aliasing.
-1. Setting through the time and date interface.
+1. Setting the time and date.
+1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
+1. Support for .photons files.
+
+## 18.09.2020 Updates
+**Added/changed:**
++ Setting the time and date.
++ Screensaver with a LCD-like digital clock.
++ Motor disable after inactivity timeout.
++ Parameter in config file for setting the time for the screensaver to turn on.
++ Parameter in config file for setting the time for the motor disable.
+
+**To do in the near future:**
+1. Support for anti-aliasing.
 1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
 1. Support for .photons files.

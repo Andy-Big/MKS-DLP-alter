@@ -9,6 +9,7 @@
 
 
 extern uint8_t			zHoldTimer;
+extern uint8_t			zDisTimer;
 
 
 
@@ -240,6 +241,7 @@ void			ZMOTOR_StartHoming()
 	
 	ZMOTOR_SetFullCurrent();
 	SYSTIMER_SetCountDown(zHoldTimer, 0);
+	SYSTIMER_SetCountDown(zDisTimer, 0);
 	
 	ZMOTOR_EnableEndstops();
 

@@ -9,10 +9,11 @@
 
 #define TOUCH_PRESSED()		(touch_point.xc || touch_point.yc)
 
+extern uint8_t				tguiScreenTimer;
 
-extern uint8_t		touch_buff[TOUCH_BUFF_SIZE];
-TOUCH_INFO		touch_info;
-TOUCH_POINT		touch_point;
+extern uint8_t				touch_buff[TOUCH_BUFF_SIZE];
+TOUCH_INFO					touch_info;
+TOUCH_POINT					touch_point;
 
 
 
@@ -146,6 +147,7 @@ void		_touch_RefreshState()
 				if (touch_info.time > 1)
 				{
 					touch_info.state = TS_SPRESSED;
+					SYSTIMER_SetCountDown(tguiScreenTimer, cfgConfig.screensaver_time);
 				}
 				else
 					touch_info.time++;

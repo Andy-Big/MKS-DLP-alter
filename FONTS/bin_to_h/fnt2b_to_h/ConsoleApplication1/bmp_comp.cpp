@@ -104,7 +104,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			fliprows = 1;
 		}
 
-		if (bwidth > 1920 || bheight > 1080)
+		if (bwidth > 2560 || bheight > 2560)
 		{
 			printf("Image size is too big: %ux%u pix\r\n", bwidth, bheight);
 			goto getnextfile;

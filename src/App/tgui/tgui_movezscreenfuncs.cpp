@@ -12,6 +12,7 @@
 
 
 extern uint8_t			zHoldTimer;
+extern uint8_t			zDisTimer;
 
 float					fMoveStep = 0.2;
 
@@ -46,8 +47,8 @@ void		_tgui_MovezStopButtonPress(void *tguiobj, void *param)
 	ZMOTOR_SetPosition(systemInfo.target_position);
 	
 	systemInfo.printer_state = PST_IDLE;
-	SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time * 1000);
-
+	SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time);
+	SYSTIMER_SetCountDown(zDisTimer, cfgzMotor.off_time);
 }
 //==============================================================================
 
@@ -118,6 +119,7 @@ void		_tgui_MovezUpButtonPress(void *tguiobj, void *param)
 	
 	ZMOTOR_SetFullCurrent();
 	SYSTIMER_SetCountDown(zHoldTimer, 0);
+	SYSTIMER_SetCountDown(zDisTimer, 0);
 
 	float feedrate = cfgzMotor.travel_feedrate;
 	// if not homed then decrease speed | decrease speed below 30 mm
@@ -159,6 +161,7 @@ void		_tgui_MovezDownButtonPress(void *tguiobj, void *param)
 	
 	ZMOTOR_SetFullCurrent();
 	SYSTIMER_SetCountDown(zHoldTimer, 0);
+	SYSTIMER_SetCountDown(zDisTimer, 0);
 
 	float feedrate = cfgzMotor.travel_feedrate;
 	if (ZMOTOR_IsMoving() == 0)

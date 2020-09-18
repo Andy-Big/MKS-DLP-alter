@@ -16,6 +16,8 @@
 #include "tgui_numenterscreenfuncs.h"
 #include "tgui_fileviewscreenfuncs.h"
 #include "tgui_printscreenfuncs.h"
+#include "tgui_clocksetscreenfuncs.h"
+#include "tgui_screensaverfuncs.h"
 
 
 __no_init uint8_t 		tguiDBuff[UIDBUFF_SIZE];
@@ -58,6 +60,12 @@ TG_SCREEN		tguiScreenFileview;
 
 TG_BUTTON		tguiScrPrintButtons[TG_BTN_CNT_SCREEN_PRINT];
 TG_SCREEN		tguiScreenPrint;
+
+TG_BUTTON		tguiScrClockSetButtons[TG_BTN_CNT_SCREEN_CLOCKSET];
+TG_SCREEN		tguiClockSet;
+
+TG_BUTTON		tguiScreenSaverButtons[TG_BTN_CNT_SCREENSAVER];
+TG_SCREEN		tguiScreenSaver;
 
 
 
@@ -1482,17 +1490,43 @@ void		TGUI_Init()
 
 	tgb->funcs._call_press = _tgui_SettingsSaveButtonPress;
 
-	// Item1 button - Lift on pause
+	// Clock
 	tgb = &(tguiScrSettingsButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->position = {8, 57, 387, 104};
 
-	tgb->button_id = TG_SCR_SETTINGS_LIFTPAUSE_ID;
+	tgb->button_id = TG_SCR_SETTINGS_CLOCK_ID;
+
+	tgb->font = LCDUI_FONT_H24;
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 	tgb->textcolor_act = tgc->btntextcolor_en;
 	tgb->textposition = {13, 57, 382, 104};
+	tgb->text = LSTR_CLOCK;
+
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_SETTINGS_ITEM1_EN;
+	tgb->bgimagename_press = FNAME_BTN_SETTINGS_ITEM1_PRESS;
+
+	tgb->options.disabled = 0;
+
+	tgb->funcs._call_paint = _tgui_SettingsItem1ButtonPaint;
+	tgb->funcs._call_press = _tgui_SettingsClockButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	
+	// Lift on pause
+	tgb = &(tguiScrSettingsButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, 108, 387, 155};
+
+	tgb->button_id = TG_SCR_SETTINGS_LIFTPAUSE_ID;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, 108, 382, 155};
 	tgb->text = LSTR_LIFT_ON_PAUSE;
 
 	tgb->options.bgpaint = BGP_IMAGE;
@@ -1506,17 +1540,17 @@ void		TGUI_Init()
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 	
 	
-	// Item2 button - Buzzer
+	// Buzzer
 	tgb = &(tguiScrSettingsButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {8, 108, 387, 155};
+	tgb->position = {8, 159, 387, 206};
 
 	tgb->button_id = TG_SCR_SETTINGS_BUZZER_ID;
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 	tgb->textcolor_act = tgc->btntextcolor_en;
-	tgb->textposition = {13, 108, 382, 155};
+	tgb->textposition = {13, 159, 382, 206};
 	tgb->text = LSTR_BUZZER;
 
 	tgb->options.bgpaint = BGP_IMAGE;
@@ -2204,6 +2238,315 @@ void		TGUI_Init()
 	tgs->funcs._process = _tgui_PrintScreenProcess;
 	
 }
+
+
+	// -------------------- ClockSet Screen elements -----------------------
+	id = 1;
+{
+	bi = 0;
+	// BACK button
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memset((void*)tgb, 0, sizeof(TG_BUTTON));
+	
+	tgb->position = {4, 4, 167, 49};
+
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->text = LSTR_BACK;
+	tgb->textposition = {54, 6, 165, 47};
+	tgb->font = tgc->btnfont;
+	tgb->textcolor_en = LCDUI_RGB(0x074B19);
+	tgb->textcolor_press = tgc->btntextcolor_press;
+	tgb->textcolor_dis = tgc->btntextcolor_dis;
+	tgb->backcolor_en = tgc->btnbackcolor_en;
+	tgb->backcolor_press = tgc->btnbackcolor_press;
+	tgb->backcolor_dis = tgc->btnbackcolor_dis;
+	
+	tgb->options.disabled = 0;
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.repaintonpress = 1;
+	
+	tgb->textoptions.textalign_h = HTA_CENTER;
+	tgb->textoptions.textalign_v = VTA_CENTER;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = (pressfunc)BTNA_GOPREVSCR;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+	tgb->parentscreen = &tguiClockSet;
+	tgb->childscreen = NULL;
+
+	// OK button
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->position = {386, 65, 469, 148};
+	tgb->textposition = {386, 65, 469, 148};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LSTR____;
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_CLOCKSET_OK_EN;
+	tgb->bgimagename_press = FNAME_BTN_CLOCKSET_OK_PRESS;
+	
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	tgb->funcs._call_press = _tgui_ClockSetOkButtonPress;
+	
+	// Hours UP button
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+
+	tgb->button_id = TG_SCR_CLOCKSET_HOURS_UP_BTN_ID;
+
+	tgb->position = {82, 65, 153, 114};
+	tgb->textposition = {82, 65, 153, 114};
+	
+	tgb->textcolor_en = LCDUI_RGB(0xD0D0D0);
+
+	tgb->bgimagename_en = FNAME_BTN_CLOCKSET_UP_EN;
+	tgb->bgimagename_press = FNAME_BTN_CLOCKSET_UP_PRESS;
+
+	tgb->funcs._call_press = _tgui_ClockSetUpButtonPress;
+
+	// Minutes UP button
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_MINUTES_UP_BTN_ID;
+
+	tgb->position = {237, 65, 308, 114};
+	tgb->textposition = {237, 65, 308, 114};
+	
+	tgb->funcs._call_press = _tgui_ClockSetUpButtonPress;
+
+	// Day UP button
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_DAY_UP_BTN_ID;
+
+	tgb->position = {82, 183, 153, 232};
+	tgb->textposition = {82, 183, 153, 232};
+	
+	tgb->funcs._call_press = _tgui_ClockSetUpButtonPress;
+
+	// Month UP button
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_MONTH_UP_BTN_ID;
+
+	tgb->position = {237, 183, 308, 232};
+	tgb->textposition = {237, 183, 308, 232};
+	
+	tgb->funcs._call_press = _tgui_ClockSetUpButtonPress;
+
+	// Year UP button
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_YEAR_UP_BTN_ID;
+
+	tgb->position = {398, 183, 469, 232};
+	tgb->textposition = {398, 183, 469, 232};
+	
+	tgb->funcs._call_press = _tgui_ClockSetUpButtonPress;
+
+	// Hours DOWN button
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {82, 119, 153, 168};
+	tgb->textposition = {82, 119, 153, 168};
+	
+	tgb->button_id = TG_SCR_CLOCKSET_HOURS_DOWN_BTN_ID;
+
+	tgb->bgimagename_en = FNAME_BTN_CLOCKSET_DOWN_EN;
+	tgb->bgimagename_press = FNAME_BTN_CLOCKSET_DOWN_PRESS;
+
+	tgb->funcs._call_press = _tgui_ClockSetDownButtonPress;
+
+	// Minutes DOWN button
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_MINUTES_DOWN_BTN_ID;
+
+	tgb->position = {237, 119, 308, 168};
+	tgb->textposition = {237, 119, 308, 168};
+	
+	tgb->funcs._call_press = _tgui_ClockSetDownButtonPress;
+
+	// Day DOWN button
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_DAY_DOWN_BTN_ID;
+
+	tgb->position = {82, 237, 153, 286};
+	tgb->textposition = {82, 237, 153, 286};
+	
+	tgb->funcs._call_press = _tgui_ClockSetDownButtonPress;
+
+	// Month DOWN button
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_MONTH_DOWN_BTN_ID;
+
+	tgb->position = {237, 237, 308, 286};
+	tgb->textposition = {237, 237, 308, 286};
+	
+	tgb->funcs._call_press = _tgui_ClockSetDownButtonPress;
+
+	// Year DOWN button
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_YEAR_DOWN_BTN_ID;
+
+	tgb->position = {398, 237, 469, 286};
+	tgb->textposition = {398, 237, 469, 286};
+	
+	tgb->funcs._call_press = _tgui_ClockSetDownButtonPress;
+
+	// Hours field
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_HOURS_BTN_ID;
+	
+	tgb->position = {8, 90, 77, 143};
+	tgb->textposition = {10, 92, 73, 141};
+
+	tgb->textcolor_en = LCDUI_RGB(0x000000);
+	tgb->backcolor_en = LCDUI_RGB(0xE9E9E9);
+	tgb->textcolor_dis = LCDUI_RGB(0x000000);
+	tgb->backcolor_dis = LCDUI_RGB(0x000000);
+	
+	tgb->font = LCDUI_FONT_H36NUM;
+
+	tgb->text = LSTR____;
+	
+	tgb->options.disabled = 1;
+	
+	tgb->options.bgpaint = BGP_FILL;
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	
+	tgb->funcs._call_paint = _tgui_ClockSetItemPaint;
+	tgb->funcs._call_process = NULL;
+	tgb->funcs._call_press = NULL;
+
+	// Minutes field
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_MINUTES_BTN_ID;
+	
+	tgb->position = {163, 90, 232, 143};
+	tgb->textposition = {165, 92, 228, 141};
+
+	tgb->funcs._call_paint = _tgui_ClockSetItemPaint;
+
+	// Day field
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_DAY_BTN_ID;
+	
+	tgb->position = {8, 208, 77, 261};
+	tgb->textposition = {10, 210, 73, 259};
+
+	tgb->funcs._call_paint = _tgui_ClockSetItemPaint;
+
+	// Month field
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_MONTH_BTN_ID;
+	
+	tgb->position = {163, 208, 232, 261};
+	tgb->textposition = {165, 210, 228, 259};
+
+	tgb->funcs._call_paint = _tgui_ClockSetItemPaint;
+
+	// Day field
+	tgb = &(tguiScrClockSetButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrClockSetButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_CLOCKSET_YEAR_BTN_ID;
+	
+	tgb->position = {324, 208, 393, 261};
+	tgb->textposition = {326, 210, 389, 259};
+
+	tgb->funcs._call_paint = _tgui_ClockSetItemPaint;
+
+
+	// CLOCKSET SCREEN
+	tgs = &tguiClockSet;
+	memset((void*)tgs, 0, sizeof(TG_SCREEN));
+	
+	tgs->bgimagename = FNAME_BKGR_CLOCKSET;
+	tgs->prevscreen = &tguiScreenService;
+
+	tgs->name = LSTR_CLOCKSET_CAPTION;
+	tgs->nameposition = {205, 3, 475, 30};
+	tgs->nameoptions.textalign_h = HTA_CENTER;
+	tgs->nameoptions.textalign_v = VTA_CENTER;
+
+	tgs->btns_count = TG_BTN_CNT_SCREEN_CLOCKSET;
+	tgs->buttons = tguiScrClockSetButtons;
+
+	tgs->font = LCDUI_FONT_H24;
+	tgs->namefont = tgc->scrnamefont;
+	tgs->textcolor = LCDUI_RGB(0xD0D0D0);
+	tgs->nametextcolor = tgc->scrnametextcolor;
+	tgs->backcolor = tgc->scrbackcolor;
+
+	tgs->funcs._callpaint = _tgui_ClockSetScreenPaint;
+	tgs->funcs._process = _tgui_DefaultScreenProcess;
+	
+}
+
+
+	// -------------------- ScreenSaver elements -----------------------
+	id = 1;
+{
+	bi = 0;
+	// No buttons
+	tgb = &(tguiScreenSaverButtons[bi++]);
+	memset((void*)tgb, 0, sizeof(TG_BUTTON));
+
+
+	// CLOCKSET SCREEN
+	tgs = &tguiScreenSaver;
+	memset((void*)tgs, 0, sizeof(TG_SCREEN));
+	
+	tgs->bgimagename = NULL;
+	tgs->prevscreen = NULL;
+
+	tgs->name = LSTR____;
+
+	tgs->btns_count = TG_BTN_CNT_SCREENSAVER;
+	tgs->buttons = tguiScreenSaverButtons;
+
+	tgs->font = LCDUI_FONT_H36;
+	tgs->textcolor = LCDUI_RGB(0xD6D6D6);
+	tgs->nametextcolor = LCDUI_RGB(0xD3BA89);
+	tgs->backcolor = LCDUI_RGB(0x000000);
+
+	tgs->funcs._callpaint = _tgui_ScreenSaverPaint;
+	tgs->funcs._process = _tgui_ScreenSaverProcess;
+	
+}
+
 
 
 }
