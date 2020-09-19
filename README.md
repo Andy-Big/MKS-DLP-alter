@@ -73,6 +73,7 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 1. Support for .photons files.
 
 ## 18.09.2020 Updates
+![Printing screen](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/screensaver_clock.jpg)
 **Added/changed:**
 + Setting the time and date.
 + Screensaver with a LCD-like digital clock.
