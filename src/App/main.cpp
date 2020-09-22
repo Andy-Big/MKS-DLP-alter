@@ -89,6 +89,8 @@ FRESULT							fres;
 DIR								dir = {0};
 FILINFO							finfo = {0};
 
+extern FPWS_LAYERSINFO			l_info;
+
 
 void		SystemClock_Config(void);
 
@@ -612,12 +614,17 @@ int main()
 					}
 					if (systemInfo.print_is_homing)
 					{
+						// TODO - file read error processing!
+						PRINT_ReadLayerInfo();
+
 						systemInfo.print_is_homing = 0;
 						systemInfo.print_is_printing = 1;
 						systemInfo.printer_state = PST_PRINT_MOVETOLAYER;
 						systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.feedrate);
 						FAN_LED_On();
+
+						// TODO - file read error processing!
 						PRINT_ReadLayerBegin();
 					}
 					else
@@ -641,16 +648,8 @@ int main()
 				if (UVPAUSE_TimerState() == 0)
 				{
 					systemInfo.printer_state = PST_PRINT_LIGHT;
-					if (systemInfo.print_current_layer < PFILE_GetBottomLayers())
-					{
-						UVLED_TimerOn((uint32_t)(PFILE_GetLightBottom() * 1000) / PFILE_GetAntialiasing());
-						systemInfo.print_light_time_total += PFILE_GetLightBottom() / PFILE_GetAntialiasing();
-					}
-					else
-					{
-						UVLED_TimerOn((uint32_t)(PFILE_GetLightLayer() * 1000) / PFILE_GetAntialiasing());
-						systemInfo.print_light_time_total += PFILE_GetLightLayer() / PFILE_GetAntialiasing();
-					}
+					UVLED_TimerOn((uint32_t)(l_info.light_time * 1000) / PFILE_GetAntialiasing());
+					systemInfo.print_light_time_total += l_info.light_time / PFILE_GetAntialiasing();
 					PRINT_DrawLayerPreview();
 				}
 				break;
@@ -664,64 +663,43 @@ int main()
 						if (PFILE_GetAntialiasing() > systemInfo.print_current_sublayer)
 						{
 							PRINT_ClearLayerPreview();
-							PRINT_ReadLayerBegin();
-							if (systemInfo.print_current_layer < PFILE_GetBottomLayers())
-							{
-								UVLED_TimerOn((uint32_t)(PFILE_GetLightBottom() * 1000) / PFILE_GetAntialiasing());
-								systemInfo.print_light_time_total += PFILE_GetLightBottom() / PFILE_GetAntialiasing();
-							}
-							else
-							{
-								UVLED_TimerOn((uint32_t)(PFILE_GetLightLayer() * 1000) / PFILE_GetAntialiasing());
-								systemInfo.print_light_time_total += PFILE_GetLightLayer() / PFILE_GetAntialiasing();
-							}
+							// TODO - file read error processing!
+							PRINT_ReadSublayerContinue();
+							UVLED_TimerOn((uint32_t)(l_info.light_time * 1000) / PFILE_GetAntialiasing());
+							systemInfo.print_light_time_total += l_info.light_time / PFILE_GetAntialiasing();
 							PRINT_DrawLayerPreview();
 							break;
 						}
 					}
 					
 					systemInfo.print_current_sublayer = 0;
+					systemInfo.print_current_layer++;
+					// TODO - file read error processing!
+					PRINT_ReadLayerInfo();
 					systemInfo.printer_state = PST_PRINT_LIFT;
 					systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
-					if (systemInfo.print_current_layer < PFILE_GetBottomLayers())
-					{
-						systemInfo.target_position += PFILE_GetLiftBottom();
-						ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetLiftSpeedBottom());
-					}
-					else
-					{
-						systemInfo.target_position += PFILE_GetLiftHeight();
-						ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetLiftSpeed());
-					}
-					// check max height
-					if (systemInfo.target_position > cfgzMotor.max_pos)
-					{
-						systemInfo.target_position = cfgzMotor.max_pos;
-					}
-					else
-					// check pause
-					{
-						if (systemInfo.print_is_paused && (systemInfo.print_current_layer + 1) < PFILE_GetTotalLayers())
-						{
-							systemInfo.printer_state = PST_PRINT_PAUSELIFT;
-							systemInfo.target_position += cfgConfig.pause_lift;
-							if (systemInfo.target_position > cfgzMotor.max_pos)
-								systemInfo.target_position = cfgzMotor.max_pos;
-							ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
-						}
-					}
-					PRINT_ClearLayerPreview();
-
-					systemInfo.print_current_layer++;
-					if (systemInfo.print_current_layer >= PFILE_GetTotalLayers() || systemInfo.target_position == cfgzMotor.max_pos)
+					systemInfo.target_position += l_info.lift_height;
+					if (systemInfo.print_current_layer >= PFILE_GetTotalLayers() || systemInfo.target_position > cfgzMotor.max_pos)
 					{
 						systemInfo.print_current_layer--;
 						PRINT_Complete();
+						break;
 					}
-					else
+
+					ZMOTOR_MoveAbsolute(systemInfo.target_position, l_info.lift_speed);
+					// check pause
+					if (systemInfo.print_is_paused)
 					{
-						PRINT_ReadLayerBegin();
+						systemInfo.printer_state = PST_PRINT_PAUSELIFT;
+						systemInfo.target_position += cfgConfig.pause_lift;
+						if (systemInfo.target_position > cfgzMotor.max_pos)
+							systemInfo.target_position = cfgzMotor.max_pos;
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
 					}
+					PRINT_ClearLayerPreview();
+					// TODO - file read error processing!
+					PRINT_ReadLayerBegin();
+
 				}
 				break;
 
@@ -747,10 +725,7 @@ int main()
 				{
 					systemInfo.printer_state = PST_PRINT_DROP;
 					systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
-					if (systemInfo.print_current_layer < PFILE_GetBottomLayers())
-						systemInfo.target_position += PFILE_GetLiftBottom();
-					else
-						systemInfo.target_position += PFILE_GetLiftHeight();
+					systemInfo.target_position += l_info.lift_height;
 					ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
 					systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
 					ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetDropSpeed());

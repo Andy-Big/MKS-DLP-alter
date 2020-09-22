@@ -28,7 +28,10 @@ typedef struct
 uint8_t		PRINT_Init();
 uint8_t		PRINT_Complete();
 
+uint8_t		PRINT_ReadLayerInfo();
+uint8_t		PRINT_ReadRLEDecode();
 uint8_t		PRINT_ReadLayerBegin();
+uint8_t		PRINT_ReadSublayerContinue();
 void		PRINT_ClearLayerPreview();
 void		PRINT_DrawLayerPreview();
 

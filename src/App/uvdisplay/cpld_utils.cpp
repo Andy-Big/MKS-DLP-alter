@@ -153,7 +153,6 @@ uint8_t		_cpld_reTransmission()
 
 void		_cpld_line_gen_data(uint16_t line, uint8_t bank_used_id)
 {
-	uint8_t		pixel_sum = 0;
 	uint8_t		*p, *q;
 	uint8_t		i, j;
 	

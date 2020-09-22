@@ -20,6 +20,8 @@ extern TCHAR			fv_tfilename[512];
 
 PRINT_STATE				prtState;
 
+FPWS_LAYERSINFO			l_info;
+
 uint8_t 				prtLBuff[LAYERBUFF_SIZE];
 uint32_t				ldata_offset_begin = 0;
 uint32_t				ldata_offset_current = 0;
@@ -51,6 +53,8 @@ uint8_t		PRINT_Init()
 	systemInfo.print_is_printing = 0;
 	systemInfo.print_is_canceled = 0;
 	systemInfo.print_pause_time = 0;
+
+	memset(&l_info, 0, sizeof(FPWS_LAYERSINFO));
 
 	for (uint8_t i = 0; i < tguiScreenPrint.btns_count; i++)
 	{
@@ -125,29 +129,43 @@ uint8_t		PRINT_Complete()
 
 
 
-uint8_t		PRINT_ReadLayerBegin()
+uint8_t		PRINT_ReadLayerInfo()
 {
-//	UVLED_On();
-	_cpld_bank2disp_enable(WORK_USED_BANK, 0, 0);
-
 	switch (fv_filetype)
 	{
 		case FTYPE_PWS:
 		{
-			FPWS_LAYERSINFO		l_info;
 			memset(&l_info, 0, sizeof(FPWS_LAYERSINFO));
+			// TODO - file read error processing!
 			if (FPWS_GetLayerInfo(systemInfo.print_current_layer, &l_info) == 0)
 				return 0;
-			ldata_offset_begin = l_info.data_point;
-			ldata_length = l_info.data_length;
-			ldata_offset_current = 0;
-			resX = PFILE_GetResolutionX();
-			resY = PFILE_GetResolutionY();
+			if (FPWS_GetIndLayerSettings() == 0)
+			{
+				if (systemInfo.print_current_layer < PFILE_GetBottomLayers())
+				{
+					l_info.lift_height = FPWS_GetLiftHeight();
+					l_info.lift_speed = PFILE_GetLiftSpeedBottom();
+					l_info.light_time = PFILE_GetLightBottom();
+				}
+				else
+				{
+					l_info.lift_height = FPWS_GetLiftHeight();
+					l_info.lift_speed = PFILE_GetLiftSpeed();
+					l_info.light_time = PFILE_GetLightLayer();
+				}
+			}
+		}
+	}
+	
+	return 1;
+}
+//==============================================================================
 
-			if (f_lseek(&ufile, ldata_offset_begin) != FR_OK)
-				return 0;
-			uint32_t			rd = 0;
 
+
+uint8_t		PRINT_ReadRLEDecode(uint8_t preview)
+{
+	_cpld_bank2disp_enable(WORK_USED_BANK, 0, 0);
 
 			// original method
 /*
@@ -206,160 +224,171 @@ uint8_t		PRINT_ReadLayerBegin()
 /*/
 			// modified original method
 
-{
-			uint8_t		color;
-			uint16_t	length;
-			uint16_t	curpoint;
-			uint8_t		*p;
-			uint8_t		remaining;
-			BYTE		sd_char;
-			uint32_t	i = 0;
-			uint32_t	prevcolumn = 0;
-			uint8_t		pbyte = 0;
-			uint8_t		poffset = 0;
-			uint8_t		*pimage = previmage;
+	uint8_t		color;
+	uint16_t	length;
+	uint16_t	curpoint;
+	uint8_t		*p;
+	uint8_t		remaining;
+	BYTE		sd_char;
+	uint32_t	i = 0;
+	uint32_t	prevcolumn = 0;
+	uint8_t		pbyte = 0;
+	uint8_t		poffset = 0;
+	uint8_t		*pimage = previmage;
+	uint32_t	rd = 0;
 
-			cpld_bmp.current_line = 0;
-			p = Line_Pixel;
-			curpoint = 0;
-			while(i++ < ldata_length && cpld_bmp.current_line < resY)
+	cpld_bmp.current_line = 0;
+	p = Line_Pixel;
+	curpoint = 0;
+	while(i++ < ldata_length && cpld_bmp.current_line < resY)
+	{
+		while (curpoint < CPLD_Y_RATIO / 2)
+		{
+			if (f_read(&ufile, &sd_char, 1, &rd) != FR_OK || rd != 1)
+				return 0;
+			color = (sd_char & 0x80) >> 7;
+			length = sd_char & 0x7f;
+			
+			if (curpoint + length > CPLD_Y_RATIO / 2)
 			{
-				while (curpoint < CPLD_Y_RATIO / 2)
-				{
-					f_read(&ufile, &sd_char, 1, &rd);
-					color = (sd_char & 0x80) >> 7;
-					length = sd_char & 0x7f;
-					
-					if (curpoint + length > CPLD_Y_RATIO / 2)
-					{
-						uint32_t length1 = CPLD_Y_RATIO / 2 - curpoint;
-						remaining = length - length1;
-						length = length1;
-					}
-					memset(p, color, length);
-					curpoint += length;
-					p += length;
-				}
-				memset(p, 0, CPLD_FILLCODE);
-				p += CPLD_FILLCODE;
-				memset(p, color, remaining);
-				p += remaining;
-				curpoint = remaining;
-				remaining = 0;
-				while (curpoint < CPLD_Y_RATIO / 2)
-				{
-					f_read(&ufile, &sd_char, 1, &rd);
-					color = (sd_char & 0x80) >> 7;
-					length = sd_char & 0x7f;
-					
-					if (curpoint + length > CPLD_Y_RATIO / 2)
-					{
-						uint32_t length1 = CPLD_Y_RATIO / 2 - curpoint;
-						remaining = length - length1;
-						length = length1;
-					}
-					memset(p, color, length);
-					curpoint += length;
-					p += length;
-				}
-				memset(p, 0, CPLD_FILLCODE);
-				_cpld_line_gen_data(cpld_bmp.current_line, WORK_USED_BANK);
-				
-				// preview image
-				pimage = previmage + prevcolumn * prevheightbytes;
-				pbyte = 0;
-				poffset = 0;
-				if ((cpld_bmp.current_line % PRT_PREV_SCALE) == 0)
-				{
-					p = &Line_Pixel[0];
-					curpoint = 0;
-					while (curpoint < prevheight / 2)
-					{
-						pbyte |= *p & 0x01;
-						if (poffset == 8)
-						{
-							*pimage = pbyte;
-							pbyte = 0;
-							poffset = 0;
-							pimage++;
-						}
-						pbyte <<= 1;
-						poffset++;
-						curpoint++;
-						p += PRT_PREV_SCALE;
-					}
-					p += CPLD_FILLCODE;
-					while (curpoint < prevheight)
-					{
-						pbyte |= *p & 0x01;
-						if (poffset == 8)
-						{
-							*pimage = pbyte;
-							pbyte = 0;
-							poffset = 0;
-							pimage++;
-						}
-						pbyte <<= 1;
-						poffset++;
-						curpoint++;
-						p += PRT_PREV_SCALE;
-					}
-					if (poffset)
-						*pimage = pbyte;
-					prevcolumn++;
-				}
-				cpld_bmp.current_line++;
+				uint32_t length1 = CPLD_Y_RATIO / 2 - curpoint;
+				remaining = length - length1;
+				length = length1;
+			}
+			memset(p, color, length);
+			curpoint += length;
+			p += length;
+		}
+		memset(p, 0, CPLD_FILLCODE);
+		p += CPLD_FILLCODE;
+		memset(p, color, remaining);
+		p += remaining;
+		curpoint = remaining;
+		remaining = 0;
+		while (curpoint < CPLD_Y_RATIO / 2)
+		{
+			if (f_read(&ufile, &sd_char, 1, &rd) != FR_OK || rd != 1)
+				return 0;
+			color = (sd_char & 0x80) >> 7;
+			length = sd_char & 0x7f;
+			
+			if (curpoint + length > CPLD_Y_RATIO / 2)
+			{
+				uint32_t length1 = CPLD_Y_RATIO / 2 - curpoint;
+				remaining = length - length1;
+				length = length1;
+			}
+			memset(p, color, length);
+			curpoint += length;
+			p += length;
+		}
+		memset(p, 0, CPLD_FILLCODE);
+		_cpld_line_gen_data(cpld_bmp.current_line, WORK_USED_BANK);
+		
+		// preview image
+		if (preview)
+		{
+			pimage = previmage + prevcolumn * prevheightbytes;
+			pbyte = 0;
+			poffset = 0;
+			if ((cpld_bmp.current_line % PRT_PREV_SCALE) == 0)
+			{
 				p = &Line_Pixel[0];
-				memset(p, color, remaining);
-				p += remaining;
-				curpoint = remaining;
-				remaining = 0;
-			}
-}
-/**/
-/*
-			while (ldata_offset_current < ldata_length)
-			{
-				toread = LAYERBUFF_SIZE;
-				rd = 0;
-				if (toread > (ldata_length - ldata_offset_current))
-					toread = ldata_length - ldata_offset_current;
-				if (f_read(&ufile, &prtLBuff, toread, &rd) != FR_OK || rd != toread)
-					return 0;
-				uint8_t		*buff = prtLBuff;
-				uint8_t		val = 0, count = 0;
-				for(uint32_t buff_pos = 0; buff_pos < toread; buff_pos++)
+				curpoint = 0;
+				while (curpoint < prevheight / 2)
 				{
-					val = *buff >> 7;
-					count = *buff & 0x7F;
+					pbyte |= *p & 0x01;
+					if (poffset == 8)
+					{
+						*pimage = pbyte;
+						pbyte = 0;
+						poffset = 0;
+						pimage++;
+					}
+					pbyte <<= 1;
+					poffset++;
+					curpoint++;
+					p += PRT_PREV_SCALE;
 				}
-				
-				ldata_offset_current += toread;
+				p += CPLD_FILLCODE;
+				while (curpoint < prevheight)
+				{
+					pbyte |= *p & 0x01;
+					if (poffset == 8)
+					{
+						*pimage = pbyte;
+						pbyte = 0;
+						poffset = 0;
+						pimage++;
+					}
+					pbyte <<= 1;
+					poffset++;
+					curpoint++;
+					p += PRT_PREV_SCALE;
+				}
+				if (poffset)
+					*pimage = pbyte;
+				prevcolumn++;
 			}
+		}
+		cpld_bmp.current_line++;
+		p = &Line_Pixel[0];
+		memset(p, color, remaining);
+		p += remaining;
+		curpoint = remaining;
+		remaining = 0;
+	}
 
+	_cpld_bank2disp_enable(WORK_USED_BANK, 1, 1);
+
+	return 1;
+}
+//==============================================================================
+
+
+
+uint8_t		PRINT_ReadLayerBegin()
+{
+	uint8_t		res = 0;
+	switch (fv_filetype)
+	{
+		case FTYPE_PWS:
+		{
+			ldata_offset_begin = l_info.data_point;
+			ldata_length = l_info.data_length;
 			ldata_offset_current = 0;
-			while (ldata_offset_current < ldata_length)
-			{
-				if (f_read(&ufile, &prtLBuff, 1, &rd) != FR_OK || rd != 1)
-					return 0;
-				uint8_t		*buff = prtLBuff;
-				uint8_t		val = 0, count = 0;
-				for(uint32_t buff_pos = 0; buff_pos < 1; buff_pos++)
-				{
-					val = *buff >> 7;
-					count = *buff & 0x7F;
-				}
-				
-				ldata_offset_current++;
-			}
-*/
-			_cpld_bank2disp_enable(WORK_USED_BANK, 1, 1);
+			resX = PFILE_GetResolutionX();
+			resY = PFILE_GetResolutionY();
+
+			if (f_lseek(&ufile, ldata_offset_begin) != FR_OK)
+				return 0;
+
+			res = PRINT_ReadRLEDecode(1);
 		}
 		break;
 	}
 
 
-	return 1;
+	return res;
+}
+//==============================================================================
+
+
+
+uint8_t		PRINT_ReadSublayerContinue()
+{
+	uint8_t		res = 0;
+	switch (fv_filetype)
+	{
+		case FTYPE_PWS:
+		{
+			res = PRINT_ReadRLEDecode(0);
+		}
+		break;
+	}
+
+
+	return res;
 }
 //==============================================================================
 
