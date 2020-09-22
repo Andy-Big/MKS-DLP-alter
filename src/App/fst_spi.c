@@ -371,7 +371,7 @@ uint8_t		FLASH_SPIWriteReadByte(uint8_t txval)
 {
 	uint16_t res = 0;
 
-	while ((_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0);
+	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || (_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0);
 	hFlashSpi.Instance->DR = txval;
 	while ((_flash_SPIGetFlags() & SPI_FLAG_RXNE) ==  0);
 	res = hFlashSpi.Instance->DR;

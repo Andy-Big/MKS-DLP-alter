@@ -25,31 +25,31 @@ void		HAL_IncTick(void)
 
 	for (uint8_t i = 0; i < TIMER_MAXTIMERS; i++)
 	{
-		if (Timers[i].active && Timers[i].msecs)
+		if (Timers[i].active && Timers[i].msecs && Timers[i].msecs != TIMER_DISABLE)
 			Timers[i].msecs--;
 		
 	}
 
-	if (buzz_timer)
+	if (buzz_timer && buzz_timer != TIMER_DISABLE)
 	{
 		buzz_timer--;
 		if (buzz_timer == 0)
 			BUZZER_Off();
 	}
 
-	if (uvled_timer)
+	if (uvled_timer && uvled_timer != TIMER_DISABLE)
 	{
 		uvled_timer--;
 		if (uvled_timer == 0)
 			UVLED_Off();
 	}
 
-	if (uvpause_timer)
+	if (uvpause_timer && uvpause_timer != TIMER_DISABLE)
 	{
 		uvpause_timer--;
 	}
 
-	if (uvfan_timer)
+	if (uvfan_timer && uvfan_timer != TIMER_DISABLE)
 	{
 		uvfan_timer--;
 		if (uvfan_timer == 0)

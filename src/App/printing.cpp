@@ -4,6 +4,8 @@
 #include "uvdisplay.h"
 #include "tgui.h"
 #include "tgui_printscreenfuncs.h"
+#include "motor.h"
+#include "z_endstops.h"
 
 
 
@@ -78,11 +80,44 @@ uint8_t		PRINT_Init()
 
 uint8_t		PRINT_Complete()
 {
+	systemInfo.printer_state = PST_PRINT_LASTLAYERLIFT;
+	if (systemInfo.position_known)
+	{
+
+		// prelifting
+		systemInfo.target_position += PFILE_GetLiftHeight();
+		if (systemInfo.target_position > cfgzMotor.max_pos)
+			systemInfo.target_position = cfgzMotor.max_pos;
+		ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetLiftSpeed());
+
+		// main lifting
+		systemInfo.print_is_printing = 0;
+
+		if (systemInfo.target_position < 30)
+		{
+			systemInfo.target_position = 30;
+			ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
+		}
+		systemInfo.target_position = cfgzMotor.max_pos - 5;
+		ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate);
+
+	}
+
+	UVLED_Off();
+	UVD_Sleep();
+	_cpld_bank2disp_enable(CLEAN_USED_BANK,0,0);
+	UVFAN_TimerOn(10000);
+	cfgTimers.led_time += (uint32_t)systemInfo.print_light_time_total;
+	cfgTimers.fan_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
+	cfgTimers.total_print_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
+	CFG_SaveTimers();
+
+	systemInfo.print_is_printing = 0;
+
 	if (f_close(&ufile) != FR_OK)
 	{
 		return 0;
 	}
-
 
 	return 1;
 }

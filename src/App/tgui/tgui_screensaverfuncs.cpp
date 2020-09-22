@@ -9,6 +9,7 @@
 #include "tgui_numenterscreenfuncs.h"
 #include "config.h"
 #include "datetime.h"
+#include "printing.h"
 
 
 extern TG_SCREEN				*tguiActiveScreen;
@@ -16,6 +17,7 @@ extern char						msg[512];
 
 extern DATETIME_STRUCT			datetime;
 DATETIME_STRUCT					old_datetime;
+uint32_t						old_prtlayer;
 
 
 
@@ -24,6 +26,8 @@ void		TGUI_ScreenSaverShow()
 	tguiScreenSaver.prevscreen = tguiActiveScreen;
 	DTIME_GetCurrentDatetime(&datetime);
 	memcpy(&old_datetime, &datetime, sizeof(DATETIME_STRUCT));
+	if (systemInfo.print_is_printing > 0)
+		old_prtlayer = systemInfo.print_current_layer;
 	tguiActiveScreen = &tguiScreenSaver;
 	TGUI_ForceRepaint();
 }
@@ -40,6 +44,11 @@ void		_tgui_ScreenSaverPaint(void *tguiobj, void *param)
 	
 	_tgui_ScreenSaverTimePaint();
 	_tgui_ScreenSaverDatePaint();
+	
+	if (systemInfo.print_is_printing > 0)
+	{
+		_tgui_ScreenSaverProgressPaint();
+	}
 }
 //==============================================================================
 
@@ -73,7 +82,7 @@ void		_tgui_ScreenSaverDatePaint()
 	uint16_t	oldbackcolor = LCDUI_SetBackColor(tguiScreenSaver.backcolor);
 	LCDUI_FONT_TYPE oldfont = LCDUI_SetFont(LCDUI_FONT_H36);
 
-	LCDUI_FillRect(46, 240, 370, 54);
+	LCDUI_FillRect(46, 210, 370, 54);
 
 	LCDUI_SetColor(tguiScreenSaver.textcolor);
 	LNG_STRING_ID	str_id = LSTR_SHORT_JANUARY;
@@ -114,7 +123,7 @@ void		_tgui_ScreenSaverDatePaint()
 			break;
 	}
 	sprintf(msg, (char*)"%u %s %u", datetime.date, LANG_GetString(str_id), datetime.year + 2000);
-	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, 0, 252, 300);
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, 0, 222, 310);
 
 	LCDUI_SetColor(tguiScreenSaver.nametextcolor);
 	str_id = LSTR_SHORT_SUNDAY;
@@ -139,8 +148,38 @@ void		_tgui_ScreenSaverDatePaint()
 			str_id = LSTR_SHORT_SATURDAY;
 			break;
 	}
-	LCDUI_DrawText(LANG_GetString(str_id), 0, 320, 252);
+	LCDUI_DrawText(LANG_GetString(str_id), 0, 330, 222);
 	
+	LCDUI_SetColor(oldcolor);
+	LCDUI_SetBackColor(oldbackcolor);
+	LCDUI_SetFont(oldfont);
+}
+//==============================================================================
+
+
+
+
+void		_tgui_ScreenSaverProgressPaint()
+{
+	uint16_t	oldcolor = LCDUI_SetColor(tguiScreenSaver.textcolor);
+	uint16_t	oldbackcolor = LCDUI_SetBackColor(tguiScreenSaver.backcolor);
+	LCDUI_FONT_TYPE oldfont = LCDUI_SetFont(LCDUI_FONT_H36);
+
+	LCDUI_SetColor(tguiScreenSaver.backcolor);
+	LCDUI_FillRect(381, 277, 97, 36);
+	LCDUI_SetColor(LCDUI_RGB(0x89C8D3));
+
+	LCDUI_DrawRect(5, 275, 375, 40);
+	
+	float		f_proc = ((float)(systemInfo.print_current_layer + 1) / (float)PFILE_GetTotalLayers()) * 100;
+	uint32_t	proc = (uint32_t)f_proc;
+	f_proc = (369.0 / 100.0) * f_proc;
+	uint32_t		pb_width = (uint32_t)f_proc;
+	LCDUI_FillRect(8, 278, pb_width, 34);
+
+	sprintf(msg, (char*)"%u%%", proc);
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, 380, 282, 479, -1);
+
 	LCDUI_SetColor(oldcolor);
 	LCDUI_SetBackColor(oldbackcolor);
 	LCDUI_SetFont(oldfont);
@@ -171,6 +210,11 @@ void		_tgui_ScreenSaverProcess(void *tguiobj, void *param)
 			_tgui_ScreenSaverDatePaint();
 		}
 		memcpy(&old_datetime, &datetime, sizeof(DATETIME_STRUCT));
+	}
+	if (systemInfo.print_is_printing > 0 && old_prtlayer != systemInfo.print_current_layer)
+	{
+		_tgui_ScreenSaverProgressPaint();
+		old_prtlayer = systemInfo.print_current_layer;
 	}
 }
 //==============================================================================

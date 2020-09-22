@@ -545,9 +545,9 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							sprintf(msg, string, numstr);
 							break;
 						}
-						if (pval.uint_val < 1)
-							pval.uint_val = 1;
-						if (pval.uint_val > 100000)
+						if (pval.uint_val == 0)
+							pval.uint_val = TIMER_DISABLE;
+						else if (pval.uint_val > 100000)
 							pval.uint_val = 100000;
 						cfgzMotor.hold_time = pval.uint_val * 1000;
 						rdstate = CFGR_ZMOTOR;
@@ -696,8 +696,10 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.uint_val > 100000)
 							pval.uint_val = 100000;
-						if (pval.uint_val < cfgzMotor.hold_time)
+						else if (pval.uint_val < cfgzMotor.hold_time)
 							pval.uint_val = cfgzMotor.hold_time + 1000;
+						else if (pval.uint_val == 0)
+							pval.uint_val = TIMER_DISABLE;
 						cfgzMotor.off_time = pval.int_val * 60000;
 						rdstate = CFGR_ZMOTOR;
 						break;
@@ -828,13 +830,11 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							break;
 						}
 						if (pval.uint_val > 15000)
-						{
 							cfgConfig.screensaver_time = 15000 * 60000;
-						}
+						else if (pval.uint_val == 0)
+							pval.uint_val = TIMER_DISABLE;
 						else
-						{
 							cfgConfig.screensaver_time = pval.uint_val * 60000;
-						}
 						rdstate = CFGR_GENERAL;
 						break;
 					}

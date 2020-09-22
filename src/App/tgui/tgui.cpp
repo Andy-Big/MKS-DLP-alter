@@ -2105,6 +2105,7 @@ void		TGUI_Init()
 	tgb->bgimagename_en = FNAME_BTN_PRINT_PAUSE_EN;
 	tgb->bgimagename_press = FNAME_BTN_PRINT_PAUSE_PRESS;
 	tgb->bgimagename_act = FNAME_BTN_PRINT_PAUSE_ACT;
+	tgb->bgimagename_dis = FNAME_BTN_PRINT_PAUSE_PRESS;
 
 	tgb->text = LSTR____;
 	tgb->textposition = {334, 38, 468, 95};
@@ -2144,6 +2145,7 @@ void		TGUI_Init()
 	tgb->bgimagename_en = FNAME_BTN_PRINT_SETT_EN;
 	tgb->bgimagename_press = FNAME_BTN_PRINT_SETT_PRESS;
 	tgb->bgimagename_act = NULL;
+	tgb->bgimagename_dis = FNAME_BTN_PRINT_SETT_EN;
 
 	tgb->funcs._call_press = NULL;
 
@@ -2157,6 +2159,7 @@ void		TGUI_Init()
 	
 	tgb->bgimagename_en = FNAME_BTN_PRINT_STOP_EN;
 	tgb->bgimagename_press = FNAME_BTN_PRINT_STOP_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_PRINT_STOP_EN;
 
 	tgb->funcs._call_press = _tgui_PrintScreenStopPress;
 

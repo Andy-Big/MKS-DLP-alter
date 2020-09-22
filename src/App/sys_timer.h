@@ -22,6 +22,7 @@ extern "C"
 
 #define TIMER_MAXTIMERS		(uint8_t)32
 #define INVALID_TIMER		(uint8_t)0xFF
+#define TIMER_DISABLE		(uint32_t)0xFFFFFFFF
 
 typedef struct
 {

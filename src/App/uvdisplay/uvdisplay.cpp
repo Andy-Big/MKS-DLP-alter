@@ -18,10 +18,10 @@ uint8_t					Line_Pixel[CPLD_Y_RATIO + CPLD_FILLCODE * 2];
 
 
 
-void		UVD_Init()
+uint8_t		UVD_Init()
 {
 	CPLD_Init();
-	SSD_Init();
+	return SSD_Init();
 //	ssd.init();
 }
 //==============================================================================

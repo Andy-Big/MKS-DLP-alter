@@ -123,7 +123,7 @@ void		_cpld_fill_lines_zero(char flag, uint16_t line, uint8_t bank_used_id)
 		CPLD_CS_On();
 		memcpy(&cpld_bmp.line.d_frame_bakup[0], &cpld_bmp.line.d_frame.mark1, CPLD_TXDATA_LEN);
 		FLASH_SPIWriteBuffDMA(CPLD_TXDATA_LEN, &cpld_bmp.line.d_frame_bakup[0]);
-		CPLD_CS_Off();
+//		CPLD_CS_Off();
 		//hspi1.hdmatx.Instance.CR |= DMA_IT_TC | DMA_IT_TE | DMA_IT_DME;
 //		*spi1_hdmatx_CR &= 0xFFFFFFF7;
 	}
@@ -139,7 +139,7 @@ uint8_t		_cpld_reTransmission()
 		reTransmission_all_cnt++;
 		CPLD_CS_On();
 		FLASH_SPIWriteBuffDMA(CPLD_TXDATA_LEN, &cpld_bmp.line.d_frame_bakup[0]);
-		CPLD_CS_Off();
+//		CPLD_CS_Off();
 		for(volatile uint8_t k=0; k<10; k++);	
 		cpld_bmp.line.crc_status = CPLD_Get_CRC();
 		if(cpld_bmp.line.crc_status == 1)

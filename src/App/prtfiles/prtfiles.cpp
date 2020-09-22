@@ -184,8 +184,12 @@ uint32_t	PFILE_GetPrintTime()
 	// total move time for all layers
 	total_time *= total_layers;
 	
+	// if antialiasing - add time for reading sublayers, about 0.8 sec per sublayer
+	if (PFILE_GetAntialiasing() > 1)
+		total_time += total_layers * (PFILE_GetAntialiasing()) * 0.8;
+	
 	// correction
-	total_time *= 0.937;
+//	total_time *= 0.937;
 	
 	// add bottom light time
 	total_time += PFILE_GetBottomLayers() * PFILE_GetLightBottom();

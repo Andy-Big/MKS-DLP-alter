@@ -68,10 +68,8 @@ void		TGUI_PrintScreenShow(void *tguiobj, void *param)
 
 void		TGUI_PrintScreenExit(void *tguiobj, void *param)
 {
-	PRINT_Complete();
 	disp_locked = 0;
 	tguiActiveScreen = (TG_SCREEN*)tguiScreenFileview.prevscreen;
-	TGUI_ForceRepaint();
 }
 //==============================================================================
 
@@ -149,37 +147,9 @@ void		_tgui_PrintScreenStopping(void *tguiobj, void *param)
 		
 	if (systemInfo.print_is_paused)
 		systemInfo.print_is_paused = 0;
-	UVLED_Off();
 
-	systemInfo.printer_state = PST_PRINT_LASTLAYERLIFT;
 	systemInfo.print_is_canceled = 1;
-	if (systemInfo.position_known)
-	{
-		// prelifting
-		systemInfo.target_position += PFILE_GetLiftHeight();
-		if (systemInfo.target_position > cfgzMotor.max_pos)
-			systemInfo.target_position = cfgzMotor.max_pos;
-		ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetLiftSpeed());
-
-		// main lifting
-		systemInfo.print_is_printing = 0;
-		
-		if (systemInfo.target_position < 30)
-		{
-			systemInfo.target_position = 30;
-			ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
-		}
-		systemInfo.target_position = cfgzMotor.max_pos - 5;
-		ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate);
-	}
 	
-	UVFAN_TimerOn(10000);
-	cfgTimers.led_time += (uint32_t)systemInfo.print_light_time_total;
-	cfgTimers.fan_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
-	cfgTimers.total_print_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
-	CFG_SaveTimers();
-
-	systemInfo.print_is_printing = 0;
 	PRINT_Complete();
 }
 //==============================================================================

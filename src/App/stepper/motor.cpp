@@ -240,8 +240,8 @@ void			ZMOTOR_StartHoming()
 		ZMOTOR_MotorEnable();
 	
 	ZMOTOR_SetFullCurrent();
-	SYSTIMER_SetCountDown(zHoldTimer, 0);
-	SYSTIMER_SetCountDown(zDisTimer, 0);
+	SYSTIMER_SetCountDown(zHoldTimer, TIMER_DISABLE);
+	SYSTIMER_SetCountDown(zDisTimer, TIMER_DISABLE);
 	
 	ZMOTOR_EnableEndstops();
 

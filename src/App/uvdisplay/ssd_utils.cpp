@@ -271,25 +271,25 @@ uint8_t		SSD_Init()
 
 	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_128);	
 
-	_cpld_bank2disp_enable(TEST_USED_BANK,1,0);
+	_cpld_bank2disp_enable(WORK_USED_BANK,1,0);
 	HAL_Delay(50);
 
 	_ssd_cfg(SSD_DEV1);
-	HAL_Delay(50);
+	HAL_Delay(200);
 	_ssd_ls055r1sx04_cfg(SSD_DEV1);
-	HAL_Delay(100);
+	HAL_Delay(200);
 
 	_ssd_cfg(SSD_DEV2);
-	HAL_Delay(50);
+	HAL_Delay(100);
 	_ssd_ls055r1sx04_cfg(SSD_DEV2);
 	HAL_Delay(100);
 
 	SSD_SleepIn();
 	HAL_Delay(10);
-	_cpld_bank2disp_enable(TEST_USED_BANK, 0, 0);
+	_cpld_bank2disp_enable(WORK_USED_BANK, 0, 0);
 	HAL_Delay(20);
 
-	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_4);	
+	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_8);	
 
 	return 1;
 }
@@ -335,12 +335,23 @@ void		SSD_SleepOut()
 
 void		MIPI_Off()
 {
+/*
+	CPLD_RST_On();
+	HAL_Delay(5);
+*/
+/*
+	MIPI_Ce_Off();
+	HAL_Delay(50);
+	MIPI_PwrEn_Off();
+	HAL_Delay(50);
+*/
+	//original
 	CPLD_RST_On();
 	HAL_Delay(5);
 	MIPI_PwrEn_Off();
-	HAL_Delay(50);
+	HAL_Delay(200);
 	MIPI_Ce_Off();
-	HAL_Delay(50);
+	HAL_Delay(100);
 }
 //==============================================================================
 
@@ -348,6 +359,7 @@ void		MIPI_Off()
 
 void		MIPI_On()
 {
+/*
 	HAL_Delay(50);
 	MIPI_Ce_On();
 	HAL_Delay(50);
@@ -355,6 +367,29 @@ void		MIPI_On()
 	HAL_Delay(50);
 	CPLD_RST_Off();
 	HAL_Delay(50);
+*/
+/*
+	HAL_Delay(50);
+	MIPI_PwrEn_On();
+	HAL_Delay(50);
+	CPLD_RST_On();
+	HAL_Delay(50);
+	CPLD_RST_Off();
+	HAL_Delay(50);
+	MIPI_Ce_On();
+	HAL_Delay(50);
+*/
+
+	// original
+	CPLD_RST_On();
+ 
+	HAL_Delay(200);
+	MIPI_Ce_On();
+	HAL_Delay(200);
+	MIPI_PwrEn_On();
+	HAL_Delay(50);
+	CPLD_RST_Off();
+	HAL_Delay(100);
 }
 //==============================================================================
 

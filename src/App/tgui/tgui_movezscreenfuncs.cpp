@@ -118,8 +118,8 @@ void		_tgui_MovezUpButtonPress(void *tguiobj, void *param)
 		ZMOTOR_MotorEnable();
 	
 	ZMOTOR_SetFullCurrent();
-	SYSTIMER_SetCountDown(zHoldTimer, 0);
-	SYSTIMER_SetCountDown(zDisTimer, 0);
+	SYSTIMER_SetCountDown(zHoldTimer, TIMER_DISABLE);
+	SYSTIMER_SetCountDown(zDisTimer, TIMER_DISABLE);
 
 	float feedrate = cfgzMotor.travel_feedrate;
 	// if not homed then decrease speed | decrease speed below 30 mm
@@ -160,8 +160,8 @@ void		_tgui_MovezDownButtonPress(void *tguiobj, void *param)
 		ZMOTOR_MotorEnable();
 	
 	ZMOTOR_SetFullCurrent();
-	SYSTIMER_SetCountDown(zHoldTimer, 0);
-	SYSTIMER_SetCountDown(zDisTimer, 0);
+	SYSTIMER_SetCountDown(zHoldTimer, TIMER_DISABLE);
+	SYSTIMER_SetCountDown(zDisTimer, TIMER_DISABLE);
 
 	float feedrate = cfgzMotor.travel_feedrate;
 	if (ZMOTOR_IsMoving() == 0)
