@@ -1402,6 +1402,9 @@
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_settingsscreenfuncs.cpp</name>
             </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_uvtestscreenfuncs.cpp</name>
+            </file>
         </group>
         <group>
             <name>UV_DISPLAY</name>

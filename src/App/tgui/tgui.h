@@ -241,6 +241,7 @@ typedef struct
 #define	FNAME_BKGR_FILEVIEW			(char*)"scr_fileview.cimg"
 #define	FNAME_BKGR_PRINT			(char*)"scr_print.cimg"
 #define	FNAME_BKGR_CLOCKSET			(char*)"scr_clockset.cimg"
+#define	FNAME_BKGR_UVTEST			(char*)"scr_uvtest.cimg"
 
 #define	FNAME_BTN_MOVEZ_UP_EN		(char*)"btn_movez_up_en.cimg"
 #define	FNAME_BTN_MOVEZ_UP_PRESS	(char*)"btn_movez_up_press.cimg"
@@ -308,6 +309,17 @@ typedef struct
 #define	FNAME_BTN_CLOCKSET_UP_PRESS		(char*)"btn_clockset_up_press.cimg"
 #define	FNAME_BTN_CLOCKSET_DOWN_EN		(char*)"btn_clockset_down_en.cimg"
 #define	FNAME_BTN_CLOCKSET_DOWN_PRESS	(char*)"btn_clockset_down_press.cimg"
+
+#define	FNAME_BTN_UVTEST_LIGHT_EN		(char*)"btn_uvtest_light_en.cimg"
+#define	FNAME_BTN_UVTEST_LIGHT_PRESS	(char*)"btn_uvtest_light_press.cimg"
+#define	FNAME_BTN_UVTEST_DISP_EN		(char*)"btn_uvtest_disp_en.cimg"
+#define	FNAME_BTN_UVTEST_DISP_PRESS		(char*)"btn_uvtest_disp_press.cimg"
+#define	FNAME_BTN_UVTEST_IMAGE1_EN		(char*)"btn_uvtest_img1_en.cimg"
+#define	FNAME_BTN_UVTEST_IMAGE1_PRESS	(char*)"btn_uvtest_img1_press.cimg"
+#define	FNAME_BTN_UVTEST_IMAGE2_EN		(char*)"btn_uvtest_img2_en.cimg"
+#define	FNAME_BTN_UVTEST_IMAGE2_PRESS	(char*)"btn_uvtest_img2_press.cimg"
+#define	FNAME_BTN_UVTEST_IMAGE3_EN		(char*)"btn_uvtest_img3_en.cimg"
+#define	FNAME_BTN_UVTEST_IMAGE3_PRESS	(char*)"btn_uvtest_img3_press.cimg"
 
 #define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn_files_dir.cimg"
 #define	FNAME_ICN_FILES_IMAGE		(char*)"icn_files_image.cimg"
@@ -435,12 +447,22 @@ extern TG_SCREEN		tguiScreenPrint;
 
 #define		TG_BTN_CNT_SCREEN_CLOCKSET			17
 extern TG_BUTTON		tguiScrClockSetButtons[TG_BTN_CNT_SCREEN_CLOCKSET];
-extern TG_SCREEN		tguiClockSet;
+extern TG_SCREEN		tguiScreenClockSet;
 
 
 #define		TG_BTN_CNT_SCREENSAVER			1
 extern TG_BUTTON		tguiScreenSaverButtons[TG_BTN_CNT_SCREENSAVER];
 extern TG_SCREEN		tguiScreenSaver;
+
+
+#define		TG_SCR_UVTEST_IMG_GROUP_ID		1
+#define		TG_SCR_UVTEST_IMG1_BTN_ID		20
+#define		TG_SCR_UVTEST_IMG2_BTN_ID		21
+#define		TG_SCR_UVTEST_IMG3_BTN_ID		22
+
+#define		TG_BTN_CNT_SCREEN_UVTEST		6
+extern TG_BUTTON		tguiScrUVTestButtons[TG_BTN_CNT_SCREEN_CLOCKSET];
+extern TG_SCREEN		tguiScreenUVTest;
 
 
 

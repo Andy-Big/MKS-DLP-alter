@@ -16,6 +16,9 @@ extern "C"
 #define UVLED_On()				LED_UV_GPIO_Port->BSRR = LED_UV_Pin						// Set pin
 #define UVLED_Off()				LED_UV_GPIO_Port->BSRR = (uint32_t)LED_UV_Pin << 16U	// Reset pin
 
+#define UVFAN_On()				FAN_LED_GPIO_Port->BSRR = FAN_LED_Pin					// Set pin
+#define UVFAN_Off()				FAN_LED_GPIO_Port->BSRR = (uint32_t)FAN_LED_Pin << 16U	// Reset pin
+
 
 
 	

@@ -30,7 +30,7 @@ uint32_t				resX = 0, resY = 0;
 
 #define PRT_PREV_SCALE	8
 TG_RECT					prev_position;
-const uint16_t			prevcolors[2] = {0, 0xFFFF};
+const uint16_t			prevcolors[2] = {LCDUI_RGB(0x000000), LCDUI_RGB(0xEFEFEF)};
 const uint32_t			prevheight = CPLD_Y_RATIO / PRT_PREV_SCALE;
 const uint32_t			prevwidth = CPLD_X_RATIO / PRT_PREV_SCALE;
 const uint32_t			prevheightbytes = prevheight / 8 + 1;
@@ -38,7 +38,6 @@ uint8_t					previmage[prevheightbytes * prevwidth];
 
 
 extern uint8_t			Line_Pixel[CPLD_Y_RATIO + CPLD_FILLCODE * 2];
-
 extern DLP_BMP			cpld_bmp;
 
 

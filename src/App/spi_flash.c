@@ -209,6 +209,7 @@ void		SPIFL_ReadBuff(uint32_t addr, uint32_t dlen, uint8_t *dbuff)
 	if (dlen == 0 || dbuff == 0)
 		return;
 	
+	while (FLASH_IsDMAReady() == 0);
 	_spifl_WaitBusy();
 	___spifl_wait_cs();
 

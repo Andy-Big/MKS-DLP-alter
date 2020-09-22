@@ -18,6 +18,7 @@
 #include "tgui_printscreenfuncs.h"
 #include "tgui_clocksetscreenfuncs.h"
 #include "tgui_screensaverfuncs.h"
+#include "tgui_uvtestscreenfuncs.h"
 
 
 __no_init uint8_t 		tguiDBuff[UIDBUFF_SIZE];
@@ -62,10 +63,13 @@ TG_BUTTON		tguiScrPrintButtons[TG_BTN_CNT_SCREEN_PRINT];
 TG_SCREEN		tguiScreenPrint;
 
 TG_BUTTON		tguiScrClockSetButtons[TG_BTN_CNT_SCREEN_CLOCKSET];
-TG_SCREEN		tguiClockSet;
+TG_SCREEN		tguiScreenClockSet;
 
 TG_BUTTON		tguiScreenSaverButtons[TG_BTN_CNT_SCREENSAVER];
 TG_SCREEN		tguiScreenSaver;
+
+TG_BUTTON		tguiScrUVTestButtons[TG_BTN_CNT_SCREEN_CLOCKSET];
+TG_SCREEN		tguiScreenUVTest;
 
 
 
@@ -409,9 +413,9 @@ void		TGUI_Init()
 	tgb->text = LSTR_UVTEST;
 	tgb->textposition = {80, 142, 230, 201};
 
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
 
-	tgb->childscreen = NULL;
+	tgb->childscreen = &tguiScreenUVTest;
 	
 	// SETTINGS button
 	tgb = &(tguiScrServiceButtons[bi++]);
@@ -2278,7 +2282,7 @@ void		TGUI_Init()
 	tgb->funcs._call_press = (pressfunc)BTNA_GOPREVSCR;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 
-	tgb->parentscreen = &tguiClockSet;
+	tgb->parentscreen = &tguiScreenClockSet;
 	tgb->childscreen = NULL;
 
 	// OK button
@@ -2493,7 +2497,7 @@ void		TGUI_Init()
 
 
 	// CLOCKSET SCREEN
-	tgs = &tguiClockSet;
+	tgs = &tguiScreenClockSet;
 	memset((void*)tgs, 0, sizeof(TG_SCREEN));
 	
 	tgs->bgimagename = FNAME_BKGR_CLOCKSET;
@@ -2547,6 +2551,164 @@ void		TGUI_Init()
 
 	tgs->funcs._callpaint = _tgui_ScreenSaverPaint;
 	tgs->funcs._process = _tgui_ScreenSaverProcess;
+	
+}
+
+
+
+	// -------------------- UV Test Screen elements -----------------------
+{
+	bi = 0;
+	// BACK button
+	tgb = &(tguiScrUVTestButtons[bi++]);
+	memset((void*)tgb, 0, sizeof(TG_BUTTON));
+	
+	tgb->position = {4, 4, 167, 49};
+
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->text = LSTR_BACK;
+	tgb->textposition = {54, 6, 165, 47};
+	tgb->font = tgc->btnfont;
+	tgb->textcolor_en = LCDUI_RGB(0x074B19);
+	tgb->textcolor_press = tgc->btntextcolor_press;
+	tgb->textcolor_dis = tgc->btntextcolor_dis;
+	tgb->backcolor_en = tgc->btnbackcolor_en;
+	tgb->backcolor_press = tgc->btnbackcolor_press;
+	tgb->backcolor_dis = tgc->btnbackcolor_dis;
+	
+	tgb->options.disabled = 0;
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.repaintonpress = 1;
+	
+	tgb->textoptions.textalign_h = HTA_CENTER;
+	tgb->textoptions.textalign_v = VTA_CENTER;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = _tgui_UVTestBackButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+	tgb->parentscreen = &tguiScreenUVTest;
+	tgb->childscreen = NULL;
+
+	// Image1 button
+	tgb = &(tguiScrUVTestButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrUVTestButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = TG_SCR_UVTEST_IMG_GROUP_ID;
+	tgb->button_id = TG_SCR_UVTEST_IMG1_BTN_ID;
+	
+	tgb->position = {10, 60, 159, 139};
+
+	tgb->text = LSTR____;
+	tgb->textposition = {10, 60, 159, 139};
+
+	tgb->options.active = 1;
+
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_UVTEST_IMAGE1_EN;
+	tgb->bgimagename_press = FNAME_BTN_UVTEST_IMAGE1_PRESS;
+	tgb->bgimagename_act = FNAME_BTN_UVTEST_IMAGE1_PRESS;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = _tgui_UVTestImgSelectButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+	// Image2 button
+	tgb = &(tguiScrUVTestButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrUVTestButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_UVTEST_IMG2_BTN_ID;
+	
+	tgb->position = {165, 60, 314, 139};
+
+	tgb->textposition = {165, 60, 314, 139};
+
+	tgb->options.active = 0;
+
+	tgb->bgimagename_en = FNAME_BTN_UVTEST_IMAGE2_EN;
+	tgb->bgimagename_press = FNAME_BTN_UVTEST_IMAGE2_PRESS;
+	tgb->bgimagename_act = FNAME_BTN_UVTEST_IMAGE2_PRESS;
+
+	// Image3 button
+	tgb = &(tguiScrUVTestButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrUVTestButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->button_id = TG_SCR_UVTEST_IMG3_BTN_ID;
+
+	tgb->position = {320, 60, 469, 139};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->textposition = {320, 60, 469, 139};
+
+	tgb->bgimagename_en = FNAME_BTN_UVTEST_IMAGE3_EN;
+	tgb->bgimagename_press = FNAME_BTN_UVTEST_IMAGE3_PRESS;
+	tgb->bgimagename_act = FNAME_BTN_UVTEST_IMAGE3_PRESS;
+
+	// LIGHT button
+	tgb = &(tguiScrUVTestButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrUVTestButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->button_id = 0;
+	
+	tgb->position = {75, 167, 394, 221};
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LSTR____;
+	tgb->textposition = {155, 167, 394, 221};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_UVTEST_LIGHT_EN;
+	tgb->bgimagename_press = FNAME_BTN_UVTEST_LIGHT_PRESS;
+
+	tgb->funcs._call_paint = _tgui_UVTestLightButtonPaint;
+	tgb->funcs._call_press = _tgui_UVTestLightButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	// DISP button
+	tgb = &(tguiScrUVTestButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrUVTestButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {75, 231, 394, 285};
+
+	tgb->textposition = {155, 231, 394, 285};
+	
+	tgb->bgimagename_en = FNAME_BTN_UVTEST_DISP_EN;
+	tgb->bgimagename_press = FNAME_BTN_UVTEST_DISP_PRESS;
+
+	tgb->funcs._call_paint = _tgui_UVTestDispButtonPaint;
+	tgb->funcs._call_press = _tgui_UVTestDispButtonPress;
+	
+	
+	// UVTEST SCREEN
+	tgs = &tguiScreenUVTest;
+	memset((void*)tgs, 0, sizeof(TG_SCREEN));
+	
+	tgs->bgimagename = FNAME_BKGR_UVTEST;
+	tgs->prevscreen = &tguiScreenService;
+
+	tgs->name = LSTR_UVTEST;
+	tgs->nameposition = {205, 3, 475, 30};
+	tgs->nameoptions.textalign_h = HTA_CENTER;
+	tgs->nameoptions.textalign_v = VTA_CENTER;
+
+	tgs->btns_count = TG_BTN_CNT_SCREEN_UVTEST;
+	tgs->buttons = tguiScrUVTestButtons;
+
+	tgs->font = tgc->scrfont;
+	tgs->namefont = tgc->scrnamefont;
+	tgs->textcolor = tgc->scrtextcolor;
+	tgs->nametextcolor = tgc->scrnametextcolor;
+	tgs->backcolor = tgc->scrbackcolor;
+
+	tgs->funcs._callpaint = _tgui_DefaultScreenPaint;
+	tgs->funcs._process = _tgui_DefaultScreenProcess;
+//	tgs->funcs._process = _tgui_MovezScreenProcess;
 	
 }
 

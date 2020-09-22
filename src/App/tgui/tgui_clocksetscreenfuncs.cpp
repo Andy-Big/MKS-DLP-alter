@@ -22,9 +22,9 @@ DATETIME_STRUCT					datetime;
 
 void		TGUI_ClockSetScreenShow()
 {
-	tguiClockSet.prevscreen = tguiActiveScreen;
+	tguiScreenClockSet.prevscreen = tguiActiveScreen;
 	DTIME_GetCurrentDatetime(&datetime);
-	tguiActiveScreen = &tguiClockSet;
+	tguiActiveScreen = &tguiScreenClockSet;
 	TGUI_ForceRepaint();
 }
 //==============================================================================
@@ -34,10 +34,10 @@ void		TGUI_ClockSetScreenShow()
 
 void		_tgui_ClockSetUpdateItem(uint32_t item_id)
 {
-	for (uint8_t i = 0; i < tguiClockSet.btns_count; i++)
+	for (uint8_t i = 0; i < tguiScreenClockSet.btns_count; i++)
 	{
-		if (tguiClockSet.buttons[i].button_id == item_id)
-			_tgui_ClockSetItemPaint((void*)&tguiClockSet.buttons[i], NULL);
+		if (tguiScreenClockSet.buttons[i].button_id == item_id)
+			_tgui_ClockSetItemPaint((void*)&tguiScreenClockSet.buttons[i], NULL);
 	}
 }
 //==============================================================================
@@ -47,24 +47,24 @@ void		_tgui_ClockSetUpdateItem(uint32_t item_id)
 
 void		_tgui_ClockSetScreenPaint(void *tguiobj, void *param)
 {
-	_tgui_DefaultScreenPaint((void*)&tguiClockSet, NULL);
+	_tgui_DefaultScreenPaint((void*)&tguiScreenClockSet, NULL);
 	
-	uint16_t	oldcolor = LCDUI_SetColor(tguiClockSet.textcolor);
-	LCDUI_FONT_TYPE oldfont = LCDUI_SetFont(tguiClockSet.font);
+	uint16_t	oldcolor = LCDUI_SetColor(tguiScreenClockSet.textcolor);
+	LCDUI_FONT_TYPE oldfont = LCDUI_SetFont(tguiScreenClockSet.font);
 
 	uint16_t	ty = LCDUI_GetCurrentFontHeight() + 1;
-	for (uint8_t i = 0; i < tguiClockSet.btns_count; i++)
+	for (uint8_t i = 0; i < tguiScreenClockSet.btns_count; i++)
 	{
-		if (tguiClockSet.buttons[i].button_id == TG_SCR_CLOCKSET_HOURS_BTN_ID)
-			LCDUI_DrawText(LANG_GetString(LSTR_CLOCK_HOURS_NAME), LCDUI_TEXT_ALIGN_CENTER | LCDUI_TEXT_TRANSBACK, tguiClockSet.buttons[i].position.left, tguiClockSet.buttons[i].textposition.top - ty, tguiClockSet.buttons[i].position.right);
-		else if (tguiClockSet.buttons[i].button_id == TG_SCR_CLOCKSET_MINUTES_BTN_ID)
-			LCDUI_DrawText(LANG_GetString(LSTR_CLOCK_MINUTES_NAME), LCDUI_TEXT_ALIGN_CENTER | LCDUI_TEXT_TRANSBACK, tguiClockSet.buttons[i].position.left, tguiClockSet.buttons[i].textposition.top - ty, tguiClockSet.buttons[i].position.right);
-		else if (tguiClockSet.buttons[i].button_id == TG_SCR_CLOCKSET_DAY_BTN_ID)
-			LCDUI_DrawText(LANG_GetString(LSTR_CLOCK_DAY_NAME), LCDUI_TEXT_ALIGN_CENTER | LCDUI_TEXT_TRANSBACK, tguiClockSet.buttons[i].position.left, tguiClockSet.buttons[i].textposition.top - ty, tguiClockSet.buttons[i].position.right);
-		else if (tguiClockSet.buttons[i].button_id == TG_SCR_CLOCKSET_MONTH_BTN_ID)
-			LCDUI_DrawText(LANG_GetString(LSTR_CLOCK_MONTH_NAME), LCDUI_TEXT_ALIGN_CENTER | LCDUI_TEXT_TRANSBACK, tguiClockSet.buttons[i].position.left, tguiClockSet.buttons[i].textposition.top - ty, tguiClockSet.buttons[i].position.right);
-		else if (tguiClockSet.buttons[i].button_id == TG_SCR_CLOCKSET_YEAR_BTN_ID)
-			LCDUI_DrawText(LANG_GetString(LSTR_CLOCK_YEAR_NAME), LCDUI_TEXT_ALIGN_CENTER | LCDUI_TEXT_TRANSBACK, tguiClockSet.buttons[i].position.left, tguiClockSet.buttons[i].textposition.top - ty, tguiClockSet.buttons[i].position.right);
+		if (tguiScreenClockSet.buttons[i].button_id == TG_SCR_CLOCKSET_HOURS_BTN_ID)
+			LCDUI_DrawText(LANG_GetString(LSTR_CLOCK_HOURS_NAME), LCDUI_TEXT_ALIGN_CENTER | LCDUI_TEXT_TRANSBACK, tguiScreenClockSet.buttons[i].position.left, tguiScreenClockSet.buttons[i].textposition.top - ty, tguiScreenClockSet.buttons[i].position.right);
+		else if (tguiScreenClockSet.buttons[i].button_id == TG_SCR_CLOCKSET_MINUTES_BTN_ID)
+			LCDUI_DrawText(LANG_GetString(LSTR_CLOCK_MINUTES_NAME), LCDUI_TEXT_ALIGN_CENTER | LCDUI_TEXT_TRANSBACK, tguiScreenClockSet.buttons[i].position.left, tguiScreenClockSet.buttons[i].textposition.top - ty, tguiScreenClockSet.buttons[i].position.right);
+		else if (tguiScreenClockSet.buttons[i].button_id == TG_SCR_CLOCKSET_DAY_BTN_ID)
+			LCDUI_DrawText(LANG_GetString(LSTR_CLOCK_DAY_NAME), LCDUI_TEXT_ALIGN_CENTER | LCDUI_TEXT_TRANSBACK, tguiScreenClockSet.buttons[i].position.left, tguiScreenClockSet.buttons[i].textposition.top - ty, tguiScreenClockSet.buttons[i].position.right);
+		else if (tguiScreenClockSet.buttons[i].button_id == TG_SCR_CLOCKSET_MONTH_BTN_ID)
+			LCDUI_DrawText(LANG_GetString(LSTR_CLOCK_MONTH_NAME), LCDUI_TEXT_ALIGN_CENTER | LCDUI_TEXT_TRANSBACK, tguiScreenClockSet.buttons[i].position.left, tguiScreenClockSet.buttons[i].textposition.top - ty, tguiScreenClockSet.buttons[i].position.right);
+		else if (tguiScreenClockSet.buttons[i].button_id == TG_SCR_CLOCKSET_YEAR_BTN_ID)
+			LCDUI_DrawText(LANG_GetString(LSTR_CLOCK_YEAR_NAME), LCDUI_TEXT_ALIGN_CENTER | LCDUI_TEXT_TRANSBACK, tguiScreenClockSet.buttons[i].position.left, tguiScreenClockSet.buttons[i].textposition.top - ty, tguiScreenClockSet.buttons[i].position.right);
 	}
 
 	LCDUI_SetColor(oldcolor);
@@ -314,7 +314,7 @@ void		_tgui_ClockSetOkButtonPress(void *tguiobj, void *param)
 	DTIME_SetWeekDay(&datetime);
 	DTIME_SetCurrentDatetime(&datetime);
 	
-	tguiActiveScreen = (TG_SCREEN*)tguiClockSet.prevscreen;
+	tguiActiveScreen = (TG_SCREEN*)tguiScreenClockSet.prevscreen;
 	TGUI_ForceRepaint();
 }
 //==============================================================================

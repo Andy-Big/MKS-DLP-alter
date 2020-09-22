@@ -53,7 +53,7 @@ void		HAL_IncTick(void)
 	{
 		uvfan_timer--;
 		if (uvfan_timer == 0)
-			FAN_LED_Off();
+			UVFAN_Off();
 	}
 }
 
@@ -179,7 +179,7 @@ uint32_t	UVPAUSE_TimerState()
 
 void		UVFAN_TimerOn(uint32_t time)
 {
-	FAN_LED_On();
+	UVFAN_On();
 	uvfan_timer = time;
 }
 //==============================================================================	

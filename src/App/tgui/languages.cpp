@@ -38,6 +38,9 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"KB",
 		(char*)"MB",
 		
+		(char*)"ON",
+		(char*)"OFF",
+
 		(char*)"BACK",
 		(char*)"MAIN MENU",
 		(char*)"FILES",
@@ -143,6 +146,11 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Mon",
 		(char*)"Year",
 
+// UV Test screen
+		(char*)"Light: ",
+		(char*)"Display: ",
+		(char*)"Loading image...",
+
 	};
 
 constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
@@ -180,6 +188,9 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"мм/сек2",
 		(char*)"КБ",
 		(char*)"МБ",
+
+		(char*)"ВКЛ",
+		(char*)"ВЫКЛ",
 
 		(char*)"НАЗАД",
 		(char*)"ГЛАВНОЕ МЕНЮ",
@@ -285,6 +296,11 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"День",
 		(char*)"Мес",
 		(char*)"Год",
+
+// UV Test screen
+		(char*)"Засветка: ",
+		(char*)"Дисплей: ",
+		(char*)"Загружается изображение...",
 
 	};
 

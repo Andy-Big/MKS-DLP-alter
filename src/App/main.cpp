@@ -42,6 +42,7 @@
 #include "tgui_printscreenfuncs.h"
 #include "tgui_screensaverfuncs.h"
 #include "printing.h"
+#include "tgui_uvtestscreenfuncs.h"
 
 
 #define	SDIR_IMAGES			(char*)"alterupd\\images"
@@ -269,7 +270,8 @@ int main()
 */
 	UVD_Sleep();
 	_cpld_bank2disp_enable(CLEAN_USED_BANK,0,0);
-
+	_tgui_UVTestReadImage(0);
+	
 	// Disable USB power line
 	USB_HOST_VbusFS(1);
 
@@ -622,7 +624,7 @@ int main()
 						systemInfo.printer_state = PST_PRINT_MOVETOLAYER;
 						systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.feedrate);
-						FAN_LED_On();
+						UVFAN_On();
 
 						// TODO - file read error processing!
 						PRINT_ReadLayerBegin();

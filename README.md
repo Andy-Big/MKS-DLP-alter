@@ -102,10 +102,10 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 **Added/changed:**
 + Complete antialiasing support.
 + Added processing of individual layer parameters.
++ UV test function completed.
 
 **To do in the near future:**
 1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
 1. Support for .photons files.
-1. Add UV-test screen.
 1. Upgradeable bootloader and firmware.
 
