@@ -224,6 +224,7 @@
                 </option>
                 <option>
                     <name>CCDefines</name>
+                    <state>__DEBUG__</state>
                     <state>USE_HAL_DRIVER</state>
                     <state>STM32F407xx</state>
                     <state>USE_HAL_SPI_REGISTER_CALLBACKS=1U</state>

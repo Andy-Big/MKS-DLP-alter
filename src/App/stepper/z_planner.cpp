@@ -1176,7 +1176,7 @@ void Planner::refresh_positioning()
 
 void Planner::set_max_acceleration(float targetValue)
 {
-	settings.max_acceleration_mm_per_s2 = (uint32_t)targetValue;
+	settings.max_acceleration_mm_per_s2 = targetValue;
 	
 	// Update steps per s2 to agree with the units per s2 (since they are used in the planner)
 	reset_acceleration_rates();

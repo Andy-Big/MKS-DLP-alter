@@ -128,6 +128,7 @@ typedef struct
 	uint32_t		print_pause_time;
 	uint32_t		print_current_layer;
 	uint32_t		print_current_sublayer;
+	float			print_current_height;
 	float			print_light_time_total;
 } SYSTEM_INFO;
 

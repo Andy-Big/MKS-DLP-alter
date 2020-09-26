@@ -332,7 +332,7 @@ extern uint8_t 			tguiDBuff[UIDBUFF_SIZE];
 #define UIFBUFF_SIZE		512
 extern uint8_t 			tguiFBuff[UIFBUFF_SIZE];
 
-extern FIL				tguiFile @ "CCMRAM";
+extern FIL				tguiFile;
 extern TCHAR			tfname[512] @ "CCMRAM";
 
 

@@ -213,13 +213,13 @@ void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param)
 	sprintf(msg, (char*)"%02u:%02u:%02u/%02u:%02u:%02u", pass_h, pass_m, pass_time % 60, est_h, est_m, est_time % 60);
 	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 100, thisbtn->position.top + 28, thisbtn->position.right - 196, -1);
 	
-	// layers
+	// layers + height
 	LCDUI_SetFont(LCDUI_FONT_H18BOLD);
 	LCDUI_SetColor(LCDUI_RGB(0x000000));
 	LCDUI_DrawText(LANG_GetString(LSTR_LAYERS), 0, thisbtn->position.left + 5, thisbtn->position.top + 48, thisbtn->position.right - 366, -1);
 	LCDUI_SetFont(LCDUI_FONT_H18);
 	LCDUI_SetColor(LCDUI_RGB(0x00496C));
-	sprintf(msg, (char*)"%u/%u", systemInfo.print_current_layer + 1, PFILE_GetTotalLayers());
+	sprintf(msg, (char*)"%u/%u (%0.3f %s)", systemInfo.print_current_layer + 1, PFILE_GetTotalLayers(), systemInfo.print_current_height, LANG_GetString(LSTR_SHORTMILLIMETERS));
 	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 100, thisbtn->position.top + 48, thisbtn->position.right - 196, -1);
 
 	// progress bar
@@ -302,11 +302,11 @@ void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param)
 		
 	}
 	
-	// layers
 	if (old_layer != systemInfo.print_current_layer)
 	{
+		// layers
 		LCDUI_SetColor(LCDUI_RGB(0x00496C));
-		sprintf(msg, (char*)"%u/%u", systemInfo.print_current_layer + 1, PFILE_GetTotalLayers());
+		sprintf(msg, (char*)"%u/%u (%0.2f %s)", systemInfo.print_current_layer + 1, PFILE_GetTotalLayers(), systemInfo.print_current_height, LANG_GetString(LSTR_SHORTMILLIMETERS));
 		LCDUI_SetColor(LCDUI_RGB(0xDDDDDD));
 		LCDUI_FillRect(thisbtn->position.left + 86, thisbtn->position.top + 48, 190, 18);
 		LCDUI_FillRect(thisbtn->position.left + 386, thisbtn->position.top + 70, 72, 18);

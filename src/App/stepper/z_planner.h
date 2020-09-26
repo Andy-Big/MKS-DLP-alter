@@ -164,7 +164,7 @@ typedef struct block_t {
 #define BLOCK_MOD(n) ((n)&(BLOCK_BUFFER_SIZE-1))
 
 typedef struct {
-   uint32_t		max_acceleration_mm_per_s2;		// (mm/s^2) M201 XYZE
+   float		max_acceleration_mm_per_s2;		// (mm/s^2) M201 XYZE
    uint32_t		min_segment_time_us;			// (µs) M205 B
    float		axis_steps_per_mm;				// (steps) M92 XYZE - Steps per millimeter
    float		max_feedrate_mm_s;				// (mm/s) M203 XYZE - Max speeds

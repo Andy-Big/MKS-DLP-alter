@@ -81,7 +81,7 @@ __no_init uint8_t 				fbuff[16384] @ "CCMRAM";
 		
 		
 __no_init FIL					ufile @ "CCMRAM";
-__no_init FIL					sfile @ "CCMRAM";
+__no_init FIL					sfile;
 TCHAR							u_tfname[512];
 TCHAR							s_tfname[512];
 char							cfname[1024];
@@ -623,6 +623,7 @@ int main()
 						systemInfo.print_is_printing = 1;
 						systemInfo.printer_state = PST_PRINT_MOVETOLAYER;
 						systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
+						systemInfo.print_current_height = systemInfo.target_position - cfgConfig.zero_pos;
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.feedrate);
 						UVFAN_On();
 
@@ -680,6 +681,7 @@ int main()
 					PRINT_ReadLayerInfo();
 					systemInfo.printer_state = PST_PRINT_LIFT;
 					systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
+					systemInfo.print_current_height = systemInfo.target_position - cfgConfig.zero_pos;
 					systemInfo.target_position += l_info.lift_height;
 					if (systemInfo.print_current_layer >= PFILE_GetTotalLayers() || systemInfo.target_position > cfgzMotor.max_pos)
 					{
