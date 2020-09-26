@@ -231,21 +231,28 @@ void		_tgui_ScreenSaverProcess(void *tguiobj, void *param)
 		Touch_SetWorked(TS_SPRESSED);
 		tguiActiveScreen = (TG_SCREEN*)tguiScreenSaver.prevscreen;
 
-		// System Ticks (1000 Hz)
-		HAL_SYSTICK_Config(SystemCoreClock / (1000U / HAL_TICK_FREQ_1KHZ));
+		if (systemInfo.print_is_printing == 0)
+		{
+			// System Ticks (1000 Hz)
+			HAL_SYSTICK_Config(SystemCoreClock / (1000U / HAL_TICK_FREQ_1KHZ));
 
-		// System Clock
-		__HAL_RCC_SYSCLK_CONFIG(RCC_SYSCLKSOURCE_PLLCLK);
-		while (__HAL_RCC_GET_SYSCLK_SOURCE() != (RCC_SYSCLKSOURCE_PLLCLK << RCC_CFGR_SWS_Pos));
+			// System Clock
+			__HAL_RCC_SYSCLK_CONFIG(RCC_SYSCLKSOURCE_PLLCLK);
+			while (__HAL_RCC_GET_SYSCLK_SOURCE() != (RCC_SYSCLKSOURCE_PLLCLK << RCC_CFGR_SWS_Pos));
 
-		TGUI_ForceRepaint();
+			TGUI_ForceRepaint();
 
-		// UV LCD
-		UVD_Init();
+			// UV LCD
+			UVD_Init();
 
-		// USB
-		USB_HOST_Init();
-		USB_HOST_VbusFS(0);
+			// USB
+			USB_HOST_Init();
+			USB_HOST_VbusFS(0);
+		}
+		else
+		{
+			TGUI_ForceRepaint();
+		}
 		
 		return;
 	}

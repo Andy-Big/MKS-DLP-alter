@@ -115,6 +115,11 @@ uint8_t		PRINT_Complete()
 	cfgTimers.total_print_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
 	CFG_SaveTimers();
 
+	if (tguiActiveScreen == &tguiScreenSaver)
+	{
+		tguiActiveScreen = (TG_SCREEN*)tguiScreenSaver.prevscreen;
+		TGUI_ForceRepaint();
+	}
 	systemInfo.print_is_printing = 0;
 
 	if (f_close(&ufile) != FR_OK)
