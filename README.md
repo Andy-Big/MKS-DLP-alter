@@ -114,6 +114,7 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 **Added/changed:**
 + Add current height in printing progress.
 * Fixed UV-LCD initialization.
+* Now, when switching to a screensaver, power consumption is reduced as much as possible, to less than 0.8 watts.
 
 **To do in the near future:**
 1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.

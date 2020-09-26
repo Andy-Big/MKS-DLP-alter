@@ -70,6 +70,7 @@ typedef enum {
 
 /** @brief USB Host initialization function. */
 void USB_HOST_Init(void);
+void USB_HOST_DeInit(void);
 
 void USB_HOST_Process(void);
 

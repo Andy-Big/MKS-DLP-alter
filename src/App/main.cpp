@@ -860,6 +860,20 @@ void SystemClock_Config(void)
 
 
 
+void SystemClock_SwitchToLow()
+{
+}
+//==============================================================================
+
+
+
+void SystemClock_SwitchToHigh()
+{
+}
+//==============================================================================
+
+
+
 void Error_Handler(void)
 {
 }

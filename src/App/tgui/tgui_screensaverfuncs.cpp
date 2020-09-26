@@ -10,10 +10,18 @@
 #include "config.h"
 #include "datetime.h"
 #include "printing.h"
+#include "fatfs.h"
+#include "usbh_platform.h"
+#include "uvdisplay.h"
 
 
 extern TG_SCREEN				*tguiActiveScreen;
 extern char						msg[512];
+
+extern uint8_t					UsbMounted;
+extern FATFS					UsbFS;    /* File system object for USBH logical drive */
+
+extern uint32_t 				SystemCoreClock;
 
 extern DATETIME_STRUCT			datetime;
 DATETIME_STRUCT					old_datetime;
@@ -27,9 +35,34 @@ void		TGUI_ScreenSaverShow()
 	DTIME_GetCurrentDatetime(&datetime);
 	memcpy(&old_datetime, &datetime, sizeof(DATETIME_STRUCT));
 	if (systemInfo.print_is_printing > 0)
+	{
 		old_prtlayer = systemInfo.print_current_layer;
+	}
 	tguiActiveScreen = &tguiScreenSaver;
 	TGUI_ForceRepaint();
+
+	if (systemInfo.print_is_printing == 0)
+	{
+		// USB
+		if (UsbMounted)
+		{
+			f_mount(NULL, UsbPath, 1);
+			memset(&UsbFS, 0, sizeof(FATFS));
+			UsbMounted = 0;
+		}
+		USB_HOST_VbusFS(1);
+		USB_HOST_DeInit();
+		
+		// UV LCD
+		UVD_Off();
+
+		// System Ticks (500 Hz)
+		HAL_SYSTICK_Config(32000);
+
+		// System Clock
+		__HAL_RCC_SYSCLK_CONFIG(RCC_SYSCLKSOURCE_HSI);
+		while (__HAL_RCC_GET_SYSCLK_SOURCE() != (RCC_SYSCLKSOURCE_HSI << RCC_CFGR_SWS_Pos));
+	}
 }
 //==============================================================================
 
@@ -197,7 +230,23 @@ void		_tgui_ScreenSaverProcess(void *tguiobj, void *param)
 	{
 		Touch_SetWorked(TS_SPRESSED);
 		tguiActiveScreen = (TG_SCREEN*)tguiScreenSaver.prevscreen;
+
+		// System Ticks (1000 Hz)
+		HAL_SYSTICK_Config(SystemCoreClock / (1000U / HAL_TICK_FREQ_1KHZ));
+
+		// System Clock
+		__HAL_RCC_SYSCLK_CONFIG(RCC_SYSCLKSOURCE_PLLCLK);
+		while (__HAL_RCC_GET_SYSCLK_SOURCE() != (RCC_SYSCLKSOURCE_PLLCLK << RCC_CFGR_SWS_Pos));
+
 		TGUI_ForceRepaint();
+
+		// UV LCD
+		UVD_Init();
+
+		// USB
+		USB_HOST_Init();
+		USB_HOST_VbusFS(0);
+		
 		return;
 	}
 

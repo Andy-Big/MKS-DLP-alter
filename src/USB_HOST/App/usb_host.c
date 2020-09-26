@@ -1,4 +1,3 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file            : usb_host.c
@@ -17,7 +16,6 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
 
@@ -25,53 +23,15 @@
 #include "usbh_core.h"
 #include "usbh_msc.h"
 
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
-
-/* USER CODE BEGIN PV */
-/* Private variables ---------------------------------------------------------*/
-
-/* USER CODE END PV */
-
-/* USER CODE BEGIN PFP */
-/* Private function prototypes -----------------------------------------------*/
-
-/* USER CODE END PFP */
-
 /* USB Host core handle declaration */
 USBH_HandleTypeDef hUsbHost;
 ApplicationTypeDef Appli_state = APPLICATION_IDLE;
 
-/*
- * -- Insert your variables declaration here --
- */
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
-/*
- * user callback declaration
- */
 static void USBH_UserProcess(USBH_HandleTypeDef *phost, uint8_t id);
 
-/*
- * -- Insert your external function declaration here --
- */
-/* USER CODE BEGIN 1 */
 
-/* USER CODE END 1 */
-
-/**
-  * Init USB host library, add supported class and start the library
-  * @retval None
-  */
 void USB_HOST_Init(void)
 {
-  /* USER CODE BEGIN USB_HOST_Init_PreTreatment */
-  
-  /* USER CODE END USB_HOST_Init_PreTreatment */
-  
   /* Init host Library, add supported class and start the library. */
   if (USBH_Init(&hUsbHost, USBH_UserProcess, HOST_FS) != USBH_OK)
   {
@@ -85,25 +45,22 @@ void USB_HOST_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN USB_HOST_Init_PostTreatment */
-  
-  /* USER CODE END USB_HOST_Init_PostTreatment */
 }
 
-/*
- * Background task
- */
+void USB_HOST_DeInit(void)
+{
+  /* DeInit host Library */
+  USBH_DeInit(&hUsbHost);
+}
+
 void USB_HOST_Process(void)
 {
   /* USB Host Background task */
   USBH_Process(&hUsbHost);
 }
-/*
- * user callback definition
- */
+
 static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 {
-	/* USER CODE BEGIN CALL_BACK_1 */
 	switch(id)
 	{
 		case HOST_USER_SELECT_CONFIGURATION:
@@ -130,15 +87,7 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 		default:
 		break;
 	}
-	/* USER CODE END CALL_BACK_1 */
 }
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

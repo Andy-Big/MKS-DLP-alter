@@ -1076,7 +1076,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 559 640 179 575 666 220 203 248 378 699 282 574 637 475 569 551 199 673 730 288 304 140 536 670 567 621 527 556 213 192 403 478 496 316 642 459 718 266 342 106 563 652 113 188 184 685 127 470 482 418 492 260 461 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 144 471 379 265 169 446 388 516 409 512 211 643 270 395 214 491 295 237 227 129 724 414 474 352 189 383 391 332 197 249 358 235 667 362 623 727 656 645 693 123</file>
+                    <file> 559 640 179 288 567 220 203 270 623 378 699 282 574 637 575 475 569 551 199 673 730 304 140 227 358 362 248 527 556 213 192 403 478 496 316 642 459 235 106 563 652 113 188 184 685 127 470 482 418 492 260 461 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 342 144 471 379 265 169 446 388 516 409 512 211 643 383 391 332 197 249 667 414 474 352 189 536 395 718 214 491 266 295 670 666 237 621 129 724 727 656 645 693 123</file>
                 </tool>
             </inputs>
         </file>
@@ -1166,7 +1166,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 559 567 220 203 640 527 379 575 670 621 730 248 383 475 491 637 288 656 666 113 569 391 169 459 727 342 645 192 260 282 227 265 266 496 316 304 179 140 188 470 295 237 129 724 693 699 214 403 482 123 270 536 395 718 642 332 446 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 144 471 388 516 409 512 211 643 213 127 378 197 249 358 235 667 362 199 623 461 189</file>
+                    <file> 559 567 220 203 640 527 379 575 670 621 248 383 475 491 637 288 656 666 113 569 391 169 459 727 342 645 192 260 282 227 730 265 266 496 316 304 179 140 188 470 295 237 129 724 693 699 214 403 482 123 270 536 395 718 642 332 446 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 144 471 388 516 409 512 211 643 213 127 378 197 249 358 235 667 362 199 623 461 189</file>
                 </tool>
             </inputs>
         </file>
@@ -1459,7 +1459,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 233 640 249 358 569 379 113 240 383 699 248 192 200 342 559 718 288 266 239 214 311 194 405 187 471 409 512 536 475 575 282 127 188 197 730 667 567 199 527 260 461 482 18 208 349 357 327 508 257 515 564 340 619 144 265 169 446 388 516 211 643 270 395 491 213 378 235 496 362 623 637 203 316 642 459 304 179 140 227 391 332 693 220 656 727 470 295 670 666 237 621 129 724 123</file>
+                    <file> 640 316 727 666 569 693 496 559 248 113 192 730 567 342 239 214 475 642 575 459 227 288 699 656 670 621 527 260 461 482 637 203 304 179 140 383 391 332 446 220 188 470 295 237 129 724 282 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 144 471 379 265 169 388 516 409 512 211 643 270 536 395 718 491 266 213 127 378 197 249 358 235 667 362 199 623 123</file>
                 </tool>
             </inputs>
         </file>
@@ -1678,7 +1678,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 266 227 288 730 342 559 727 666 640 438 575 265 475 248 236 477 213 496 316 304 567 699 382 673 519 574 127 383 391 379 491 637 203 169 459 670 621 113 693 239 96 120 407 504 260 478 188 656 270 536 395 718 214 642 332 446 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 144 471 388 516 409 179 140 470 295 237 129 724 569 220 512 211 643 378 197 249 358 235 667 362 199 623 282</file>
+                    <file> 266 227 699 288 730 342 559 378 235 248 438 575 265 475 496 113 236 477 213 316 304 211 640 382 673 519 574 127 383 391 379 491 637 203 169 459 643 358 270 362 567 623 693 569 239 96 120 407 504 260 478 188 656 536 395 718 214 642 332 446 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 144 471 388 516 409 512 197 249 667 199 282 179 140 727 470 295 670 666 237 621 129 724 220</file>
                 </tool>
             </inputs>
         </file>
@@ -1755,7 +1755,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 475 213 730 304 666 559 640 575 496 316 140 470 295 248 237 567 220 227 265 288 266 342 179 129 724 239 699 127 383 391 379 491 637 203 169 459 727 670 621 113 519 282 693 188 656 270 536 395 718 214 642 332 446 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 144 471 388 516 409 512 211 643 378 197 249 358 235 667 362 199 623 569 120</file>
+                    <file> 475 213 730 304 666 559 248 575 496 316 140 470 640 295 237 567 220 227 265 288 266 342 179 129 724 239 699 127 383 391 379 491 637 203 169 459 727 670 621 693 519 282 113 188 656 270 536 395 718 214 642 332 446 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 144 471 388 516 409 512 211 643 378 197 249 358 235 667 362 199 623 120 569</file>
                 </tool>
             </inputs>
         </file>
@@ -1912,11 +1912,11 @@
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 478 113 640 270 475 575 642 379 265 288 383 332 536 227 491 395 391 446 266 718 730 18 208 559 496 340 619 342 144 471 169 316 203 564 637 187 233 349 388 311 516 357 200 409 459 327 304 194 179 508 140 240 512 257 405 211 515 643 214 248 213 727 378 470 188 699 249 567 666 235 237 667 621 358 362 129 295 724 197 670 199 623 127 656 239 504 220 123 461 260 693 569 282 527</file>
+                    <file> 478 113 640 270 475 575 642 379 265 288 383 332 536 227 491 395 391 446 266 718 730 18 208 559 496 340 619 342 144 471 169 316 203 564 637 187 233 349 388 311 516 357 200 409 459 327 304 194 179 508 140 240 512 257 405 211 515 643 214 248 213 727 378 470 188 699 249 567 666 235 237 667 621 358 362 129 295 724 197 670 199 623 127 656 239 504 220 123 461 260 693 569 282 527 556 403 189 645</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 227 266 730 693 113 127 288 342 559 129 724 123 640 575 265 475 179 567 504 213 496 316 304 140 470 295 248 237 666 699 220 239 461 188 656 383 391 379 491 637 203 169 459 727 670 621 478 270 536 395 718 214 642 332 446 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 144 471 388 516 409 512 211 643 378 197 249 358 235 667 362 199 623 260 569 282 527</file>
+                    <file> 567 169 342 248 403 640 391 559 459 220 123 575 727 666 693 504 188 113 127 383 379 475 491 637 203 288 670 621 699 730 239 461 556 213 227 265 266 496 316 304 179 140 470 295 237 129 724 645 478 656 270 536 395 718 214 642 332 446 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 144 471 388 516 409 512 211 643 378 197 249 358 235 667 362 199 623 260 569 282 527 189</file>
                 </tool>
             </inputs>
         </file>
@@ -1993,7 +1993,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 699 536 240 378 235 248 656 475 233 559 496 640 693 718 642 200 342 446 388 211 220 188 270 395 214 288 332 575 311 194 405 187 471 516 643 358 362 567 623 239 282 260 113 569 213 127 383 227 391 730 18 208 349 357 327 508 257 515 564 340 619 144 409 512 197 249 667 199 519 379 265 491 266 637 203 316 169 459 304 179 140 727 470 295 670 666 237 621 129 724</file>
+                    <file> 140 295 567 536 496 470 237 699 656 475 316 640 248 730 693 718 575 559 304 666 220 188 270 395 214 288 265 266 342 179 227 129 724 239 282 260 113 569 213 127 383 391 379 491 637 203 169 459 727 670 621 519 642 332 446 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 144 471 388 516 409 512 211 643 378 197 249 358 235 667 362 199 623</file>
                 </tool>
             </inputs>
         </file>
@@ -2364,7 +2364,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 203 349 237 475 257 227 575 496 730 327 187 559 288 567 358 471 208 357 508 515 564 248 332 266 129 340 619 342 144 316 18 233 311 200 194 240 405 459 304 179 140 666 621 491 383 391 282 642 379 265 169 446 637 388 516 409 512 211 643 235 667 270 640 536 395 718 214 362</file>
+                    <file> 619 349 237 475 257 227 575 496 327 187 559 288 567 358 340 342 471 208 357 508 515 564 248 332 730 266 129 203 144 316 18 233 311 200 194 240 405 459 304 179 140 666 621 491 383 391 282 642 379 265 169 446 637 388 516 409 512 211 643 235 667 270 640 536 395 718 214 362</file>
                 </tool>
             </inputs>
         </file>
@@ -2742,7 +2742,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 559 575 265 248 475 496 395 237 288 332 666 621 227 730 642 379 491 637 203 342 270 214 640 556 235 667 383 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 169 446 459 304 179 140 536 718 567 144 471 316 388 516 409 512 211 643 391 266 282</file>
+                    <file> 559 666 265 248 475 496 316 391 282 237 288 575 332 388 516 621 227 730 642 379 491 637 203 144 409 383 556 235 667 270 640 18 208 233 349 311 357 200 327 194 508 240 257 405 515 187 564 340 619 342 471 512 211 643 266 567 169 446 459 304 179 140 536 395 718 214</file>
                 </tool>
             </inputs>
         </file>
@@ -3676,39 +3676,7 @@
             <tool>C-STAT</tool>
         </forcedrebuild>
         <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_pwr_ex.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
             <name>$PROJ_DIR$\src\App\uvdisplay\orig\ssd2828.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_exti.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_i2c.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_pwr.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_dma.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_hcd.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\uvdisplay\cpld_utils.cpp</name>
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
@@ -3720,22 +3688,6 @@
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\uvdisplay\uvdisplay.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\fst_spi.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\main.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\fsmc.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
             <name>$PROJ_DIR$\src\App\uvdisplay\orig\_main.cpp</name>
             <tool>ICCARM</tool>
         </forcedrebuild>
@@ -3744,103 +3696,11 @@
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_cortex.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\printing.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\gpio.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_dma_ex.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\System\system_stm32f4xx.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\uvdisplay\ssd_utils.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_flash.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_flash_ex.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_flash_ramfunc.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_gpio.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_langscreenfuncs.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\datetime.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_printscreenfuncs.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_settingsscreenfuncs.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_uvtestscreenfuncs.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
             <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\MarlinCore.cpp</name>
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\spi_flash.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\stepper\motor.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
             <name>$PROJ_DIR$\src\App\stepper\endstops.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\stepper\z_endstops.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\sys_timer.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_defaultfuncs.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\stepper\z_stepper.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_filesscreenfuncs.cpp</name>
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
@@ -3852,39 +3712,7 @@
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_clocksetscreenfuncs.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_infoscreenfuncs.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
             <name>$PROJ_DIR$\src\App\stepper\planner.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_mainscreenfuncs.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_movezscreenfuncs.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_screensaverfuncs.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\languages.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\stepper\z_planner.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_fileviewscreenfuncs.cpp</name>
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
@@ -3892,131 +3720,7 @@
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\rtc.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tim.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_messagebox.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tgui\tgui_numenterscreenfuncs.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Middlewares\Third_Party\FatFs\src\ff.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Middlewares\ST\STM32_USB_Host_Library\Core\Src\usbh_pipes.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\USB_HOST\Target\usbh_platform.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\System\stm32f4xx_hal_msp.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rcc_ex.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\System\stm32f4xx_it.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Middlewares\Third_Party\FatFs\src\diskio.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_fsmc.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\USB_HOST\App\usb_host.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Middlewares\ST\STM32_USB_Host_Library\Class\MSC\Src\usbh_msc_scsi.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rcc.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim_ex.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Middlewares\Third_Party\FatFs\src\ffsystem.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Middlewares\ST\STM32_USB_Host_Library\Core\Src\usbh_core.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Middlewares\ST\STM32_USB_Host_Library\Core\Src\usbh_ctlreq.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_usb.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_sram.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rtc_ex.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
             <name>$PROJ_DIR$\src\Middlewares\Third_Party\FatFs\src\option\ccsbcs.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rtc.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Middlewares\Third_Party\FatFs\src\ff_gen_drv.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Middlewares\Third_Party\FatFs\src\ffunicode.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\USB_HOST\Target\usbh_conf.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Middlewares\ST\STM32_USB_Host_Library\Core\Src\usbh_ioreq.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Middlewares\ST\STM32_USB_Host_Library\Class\MSC\Src\usbh_msc.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Middlewares\ST\STM32_USB_Host_Library\Class\MSC\Src\usbh_msc_bot.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim.c</name>
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
@@ -4024,35 +3728,7 @@
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tft\fonts\fnt12.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tft\fonts\fnt170num_lcd.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tft\fonts\fnt18bold.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tft\fonts\fnt24bold.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tft\fonts\fnt36.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tft\lcd_ui.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
             <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\mks_dlp_main.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tft\touch.c</name>
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
@@ -4060,27 +3736,7 @@
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
-            <name>$PROJ_DIR$\src\FATFS\Target\spifl_diskio.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\config.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
             <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\spi.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tft\fonts\fnt18.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tft\fonts\fnt24.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tft\lcd_low.c</name>
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
@@ -4088,43 +3744,11 @@
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tft\fonts\fnt36num.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\unicode_utils.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\prtfiles\files_pws.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\prtfiles\prtfiles.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\eeprom.cpp</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
             <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\w25qxx\spi_flash.c</name>
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
-            <name>$PROJ_DIR$\src\FATFS\App\fatfs.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\FATFS\Target\usbh_diskio.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
             <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\cpld.c</name>
-            <tool>ICCARM</tool>
-        </forcedrebuild>
-        <forcedrebuild>
-            <name>$PROJ_DIR$\src\App\tft\fonts\fnt12bold.c</name>
             <tool>ICCARM</tool>
         </forcedrebuild>
         <forcedrebuild>
