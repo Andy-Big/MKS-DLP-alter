@@ -18,6 +18,8 @@ extern char				fv_dirname[256];
 extern FILES_TYPE		fv_filetype;
 extern TCHAR			fv_tfilename[512];
 
+extern uint8_t			tguiScreenTimer;
+
 PRINT_STATE				prtState;
 
 FPWS_LAYERSINFO			l_info;
@@ -119,6 +121,13 @@ uint8_t		PRINT_Complete()
 	{
 		tguiActiveScreen = (TG_SCREEN*)tguiScreenSaver.prevscreen;
 		TGUI_ForceRepaint();
+		if (cfgConfig.screensaver_time != TIMER_DISABLE)
+		{
+			if (cfgConfig.screensaver_time < 120000)
+				SYSTIMER_SetCountDown(tguiScreenTimer, 120000);
+			else
+				SYSTIMER_SetCountDown(tguiScreenTimer, cfgConfig.screensaver_time);
+		}
 	}
 	systemInfo.print_is_printing = 0;
 
