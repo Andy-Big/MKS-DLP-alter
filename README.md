@@ -113,6 +113,7 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 ## 22.09.2020 Updates
 **Added/changed:**
 + Add current height in printing progress.
++ Automatic exit from screensaver mode at the end of printing.
 * Fixed UV-LCD initialization.
 * Now, when switching to a screensaver, power consumption is reduced as much as possible, to less than 0.8 watts.
 
