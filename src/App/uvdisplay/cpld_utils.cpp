@@ -21,11 +21,11 @@ uint8_t		_cpld_bank2disp_enable(uint8_t bank_used_id, uint8_t scan_en, uint8_t r
 	cpld_cmd.data2 = ((scan_en << 7) | (rd_sdram_en << 6) | (bank_used_id << 4)) & 0xF0;
 	for(uint8_t i=0; i < MAX_RETRAN_TIMES; i++)
 	{
-		CPLD_CS_On();
+		_cpld_CS_Enable();
 		FLASH_SPIWriteReadByte(cpld_cmd.mark);
 		FLASH_SPIWriteReadByte(cpld_cmd.data1);
 		FLASH_SPIWriteReadByte(cpld_cmd.data2);
-		CPLD_CS_Off();
+		_cpld_CS_Disable();
 
 		if(cpld_cmd.data2 == (_cpld_bank2disp_read() & 0xF0))
 			return 1;
@@ -42,11 +42,11 @@ uint8_t		_cpld_bank2disp_read()
 	volatile uint8_t data1=0;
 	uint8_t data2=0;
 
-	CPLD_CS_On();
+	_cpld_CS_Enable();
 	mark  = FLASH_SPIWriteReadByte(0x80);
 	data1 = FLASH_SPIWriteReadByte(0xFF);
 	data2 = FLASH_SPIWriteReadByte(0xFF);
-	CPLD_CS_Off();
+	_cpld_CS_Disable();
 
 	return data2;
 }
@@ -120,10 +120,10 @@ void		_cpld_fill_lines_zero(char flag, uint16_t line, uint8_t bank_used_id)
 			reTransmission_zero_cnt++;
 		}
 
-		CPLD_CS_On();
+		_cpld_CS_Enable();
 		memcpy(&cpld_bmp.line.d_frame_bakup[0], &cpld_bmp.line.d_frame.mark1, CPLD_TXDATA_LEN);
 		FLASH_SPIWriteBuffDMA(CPLD_TXDATA_LEN, &cpld_bmp.line.d_frame_bakup[0]);
-//		CPLD_CS_Off();
+//		_cpld_CS_Disable();
 		//hspi1.hdmatx.Instance.CR |= DMA_IT_TC | DMA_IT_TE | DMA_IT_DME;
 //		*spi1_hdmatx_CR &= 0xFFFFFFF7;
 	}
@@ -137,9 +137,9 @@ uint8_t		_cpld_reTransmission()
 	for(uint8_t i=0; i < MAX_RETRAN_TIMES; i++)		
 	{
 		reTransmission_all_cnt++;
-		CPLD_CS_On();
+		_cpld_CS_Enable();
 		FLASH_SPIWriteBuffDMA(CPLD_TXDATA_LEN, &cpld_bmp.line.d_frame_bakup[0]);
-//		CPLD_CS_Off();
+//		_cpld_CS_Disable();
 		for(volatile uint8_t k=0; k<10; k++);	
 		cpld_bmp.line.crc_status = CPLD_Get_CRC();
 		if(cpld_bmp.line.crc_status == 1)
@@ -187,10 +187,10 @@ void		_cpld_line_gen_data(uint16_t line, uint8_t bank_used_id)
 		reTransmission_data_cnt++;
 	}
 	
-	CPLD_CS_On();
+	_cpld_CS_Enable();
 	memcpy(&cpld_bmp.line.d_frame_bakup[0], &cpld_bmp.line.d_frame.mark1, CPLD_TXDATA_LEN);
 	FLASH_SPIWriteBuffDMA(CPLD_TXDATA_LEN, &cpld_bmp.line.d_frame_bakup[0]);   //Начать передачу DMA
-//	CPLD_CS_Off();
+//	_cpld_CS_Disable();
 
 }
 //==============================================================================

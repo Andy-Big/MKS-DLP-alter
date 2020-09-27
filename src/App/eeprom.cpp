@@ -29,12 +29,12 @@ void		EEPROM_Init(void)
 	HAL_I2C_Init(&hI2C);
 
 	__HAL_RCC_GPIOB_CLK_ENABLE();
-	GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
+	GPIO_InitStruct.Pin = EEPROM_SCL_Pin | EEPROM_SDA_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
-	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	HAL_GPIO_Init(EEPROM_GPIO_Port, &GPIO_InitStruct);
 
 	__HAL_I2C_ENABLE(&hI2C);
 	

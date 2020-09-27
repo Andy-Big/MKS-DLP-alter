@@ -46,7 +46,7 @@ void 		HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
 void		TOUCH_SPIInit(void)
 {
 	
-	hTouchSpi.Instance = SPI2;
+	hTouchSpi.Instance = TOUCH_SPI;
 	hTouchSpi.Init.Mode = SPI_MODE_MASTER;
 	hTouchSpi.Init.Direction = SPI_DIRECTION_2LINES;
 	hTouchSpi.Init.DataSize = SPI_DATASIZE_8BIT;
@@ -58,9 +58,9 @@ void		TOUCH_SPIInit(void)
 	hTouchSpi.Init.TIMode = SPI_TIMODE_DISABLE;
 	hTouchSpi.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
 	hTouchSpi.Init.CRCPolynomial = 10;
-	__HAL_RCC_SPI2_CLK_ENABLE();
+	TOUCH_SPI_CLK_ENABLE();
 	HAL_SPI_Init(&hTouchSpi);
-	__HAL_RCC_SPI2_CLK_DISABLE();
+	TOUCH_SPI_CLK_DISABLE();
 }
 //==============================================================================
 
@@ -70,35 +70,29 @@ void		TOUCH_SPIInit(void)
 void		TOUCH_SPIEnable()
 {
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
-	__HAL_RCC_SPI2_CLK_ENABLE();
+	TOUCH_SPI_CLK_ENABLE();
 
-	__HAL_RCC_GPIOB_CLK_ENABLE();
-	// SPI2 GPIO Configuration    
-	// PB10     ------> SPI2_SCK
-	// PB14     ------> SPI2_MISO
-	// PB15     ------> SPI2_MOSI 
-	GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_14|GPIO_PIN_15;
+	// TOUCH_SPI GPIO Configuration    
+	GPIO_InitStruct.Pin = TOUCH_SPI_MISO_Pin | TOUCH_SPI_MOSI_Pin | TOUCH_SPI_SCK_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
-	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	GPIO_InitStruct.Alternate = TOUCH_SPI_GPIO_ALTERNATE;
+	HAL_GPIO_Init(TOUCH_SPI_GPIO_Port, &GPIO_InitStruct);
 
 	// Touch CS
-	// Configure GPIO pin : PD11
-	__HAL_RCC_GPIOD_CLK_ENABLE();
 	_touch_CS_Disable();
-	GPIO_InitStruct.Pin = GPIO_PIN_11;
+	GPIO_InitStruct.Pin = TOUCH_CS_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+	HAL_GPIO_Init(TOUCH_CS_GPIO_Port, &GPIO_InitStruct);
 
 	// DMA
-	__HAL_RCC_DMA1_CLK_ENABLE();
+	TOUCH_SPI_DMA_CLK_ENABLE();
     
-	hTouchSpiDmaRx.Instance = DMA1_Stream3;
-    hTouchSpiDmaRx.Init.Channel = DMA_CHANNEL_0;
+	hTouchSpiDmaRx.Instance = TOUCH_SPI_DMA_STREAM1;
+    hTouchSpiDmaRx.Init.Channel = TOUCH_SPI_DMA_CHANNEL1;
     hTouchSpiDmaRx.Init.Direction = DMA_PERIPH_TO_MEMORY;
     hTouchSpiDmaRx.Init.PeriphInc = DMA_PINC_DISABLE;
     hTouchSpiDmaRx.Init.MemInc = DMA_MINC_ENABLE;
@@ -110,8 +104,8 @@ void		TOUCH_SPIEnable()
 	HAL_DMA_Init(&hTouchSpiDmaRx);   
     __HAL_LINKDMA(&hTouchSpi, hdmarx, hTouchSpiDmaRx);
 
-    hTouchSpiDmaTx.Instance = DMA1_Stream4;
-    hTouchSpiDmaTx.Init.Channel = DMA_CHANNEL_0;
+    hTouchSpiDmaTx.Instance = TOUCH_SPI_DMA_STREAM2;
+    hTouchSpiDmaTx.Init.Channel = TOUCH_SPI_DMA_CHANNEL2;
     hTouchSpiDmaTx.Init.Direction = DMA_MEMORY_TO_PERIPH;
     hTouchSpiDmaTx.Init.PeriphInc = DMA_PINC_DISABLE;
     hTouchSpiDmaTx.Init.MemInc = DMA_MINC_ENABLE;
@@ -125,12 +119,12 @@ void		TOUCH_SPIEnable()
 
 	// DMA interrupt init
 	// DMA1_Stream3_IRQn interrupt configuration
-	HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 0, 0);
-	HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+	HAL_NVIC_SetPriority(TOUCH_SPI_DMA_STREAM1_IRQ, 0, 0);
+	HAL_NVIC_EnableIRQ(TOUCH_SPI_DMA_STREAM1_IRQ);
 	
 	// DMA1_Stream4_IRQn interrupt configuration
-	HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 0, 0);
-	HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
+	HAL_NVIC_SetPriority(TOUCH_SPI_DMA_STREAM2_IRQ, 0, 0);
+	HAL_NVIC_EnableIRQ(TOUCH_SPI_DMA_STREAM2_IRQ);
 
 	hTouchSpi.Instance->CR1 |= SPI_CR1_SPE;
 }
@@ -143,15 +137,11 @@ void		TOUCH_SPIDisable()
 {
 	hTouchSpi.Instance->CR1 &= ~SPI_CR1_SPE;
 	// Peripheral clock disable
-	__HAL_RCC_SPI2_CLK_DISABLE();
+	TOUCH_SPI_CLK_DISABLE();
 
 	// SPI2 GPIO Configuration    
-	// PB10     ------> SPI2_SCK
-	// PB14     ------> SPI2_MISO
-	// PB15     ------> SPI2_MOSI
-	// PD11     ------> SPI2_CS
-	HAL_GPIO_DeInit(GPIOB, GPIO_PIN_10|GPIO_PIN_14|GPIO_PIN_15);
-	HAL_GPIO_DeInit(GPIOD, GPIO_PIN_11);
+	HAL_GPIO_DeInit(TOUCH_SPI_GPIO_Port, TOUCH_SPI_MISO_Pin | TOUCH_SPI_MOSI_Pin | TOUCH_SPI_SCK_Pin);
+	HAL_GPIO_DeInit(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin);
 
     HAL_DMA_DeInit(hTouchSpi.hdmarx);
     HAL_DMA_DeInit(hTouchSpi.hdmatx);
@@ -213,7 +203,7 @@ uint16_t	_flash_SPIGetFlags()
 void		FLASH_SPIInit(void)
 {
 	
-	hFlashSpi.Instance = SPI1;
+	hFlashSpi.Instance = FST_SPI;
 	hFlashSpi.Init.Mode = SPI_MODE_MASTER;
 	hFlashSpi.Init.Direction = SPI_DIRECTION_2LINES;
 	hFlashSpi.Init.DataSize = SPI_DATASIZE_8BIT;
@@ -225,9 +215,9 @@ void		FLASH_SPIInit(void)
 	hFlashSpi.Init.TIMode = SPI_TIMODE_DISABLE;
 	hFlashSpi.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
 	hFlashSpi.Init.CRCPolynomial = 10;
-	__HAL_RCC_SPI1_CLK_ENABLE();
+	FST_SPI_CLK_ENABLE();
 	HAL_SPI_Init(&hFlashSpi);
-	__HAL_RCC_SPI1_CLK_DISABLE();
+	FST_SPI_CLK_DISABLE();
 }
 //==============================================================================
 
@@ -238,45 +228,51 @@ void		FLASH_SPIEnable()
 {
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-	__HAL_RCC_SPI1_CLK_ENABLE();
+	FST_SPI_CLK_ENABLE();
 
-	__HAL_RCC_GPIOB_CLK_ENABLE();
 	// SPI1 GPIO Configuration    
-	// PB3     ------> SPI1_SCK
-	// PB4     ------> SPI1_MISO
-	// PB5     ------> SPI1_MOSI 
-	GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5;
+	GPIO_InitStruct.Pin = FST_SPI_MISO_Pin | FST_SPI_MOSI_Pin | FST_SPI_SCK_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
-	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	GPIO_InitStruct.Alternate = FST_SPI_GPIO_ALTERNATE;
+	HAL_GPIO_Init(FST_SPI_GPIO_Port, &GPIO_InitStruct);
 
-	// PA15    ------> FLASH CS
-	// PA3     ------> SSD_B CS
-	// PA7     ------> CPLD CS
-	__HAL_RCC_GPIOA_CLK_ENABLE();
 	_flash_CS_Disable();
+	_ssda_CS_Disable();
 	_ssdb_CS_Disable();
-	_ssdb_CS_Disable();
-	GPIO_InitStruct.Pin = GPIO_PIN_15 | GPIO_PIN_3 | GPIO_PIN_7;
+	_cpld_CS_Disable();
+	
+	GPIO_InitStruct.Pin = FST_SPI_CS_CPLD_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	HAL_GPIO_Init(FST_SPI_CS_CPLD_GPIO_Port, &GPIO_InitStruct);
 
-	// PC3     ------> SSD_A CS
-	__HAL_RCC_GPIOC_CLK_ENABLE();
-	_ssda_CS_Disable();
-	GPIO_InitStruct.Pin = GPIO_PIN_3;
-	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = FST_SPI_CS_SSDA_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(FST_SPI_CS_SSDA_GPIO_Port, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = FST_SPI_CS_SSDB_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(FST_SPI_CS_SSDB_GPIO_Port, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = FST_SPI_CS_FLASH_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(FST_SPI_CS_FLASH_GPIO_Port, &GPIO_InitStruct);
 
 	// DMA
-	__HAL_RCC_DMA2_CLK_ENABLE();
+	FST_SPI_DMA_CLK_ENABLE();
 	
 	// SPI1_RX Init
-	hFlashSpiDmaRx.Instance = DMA2_Stream2;
-	hFlashSpiDmaRx.Init.Channel = DMA_CHANNEL_3;
+	hFlashSpiDmaRx.Instance = FST_SPI_DMA_STREAM1;
+	hFlashSpiDmaRx.Init.Channel = FST_SPI_DMA_CHANNEL1;
 	hFlashSpiDmaRx.Init.Direction = DMA_PERIPH_TO_MEMORY;
 	hFlashSpiDmaRx.Init.PeriphInc = DMA_PINC_DISABLE;
 	hFlashSpiDmaRx.Init.MemInc = DMA_MINC_ENABLE;
@@ -289,8 +285,8 @@ void		FLASH_SPIEnable()
 	__HAL_LINKDMA(&hFlashSpi, hdmarx, hFlashSpiDmaRx);
 
 	// SPI1_TX Init
-	hFlashSpiDmaTx.Instance = DMA2_Stream5;
-	hFlashSpiDmaTx.Init.Channel = DMA_CHANNEL_3;
+	hFlashSpiDmaTx.Instance = FST_SPI_DMA_STREAM2;
+	hFlashSpiDmaTx.Init.Channel = FST_SPI_DMA_CHANNEL2;
 	hFlashSpiDmaTx.Init.Direction = DMA_MEMORY_TO_PERIPH;
 	hFlashSpiDmaTx.Init.PeriphInc = DMA_PINC_DISABLE;
 	hFlashSpiDmaTx.Init.MemInc = DMA_MINC_ENABLE;
@@ -304,11 +300,11 @@ void		FLASH_SPIEnable()
 
 	// DMA interrupt init
 	// DMA2_Stream2_IRQn interrupt configuration
-	HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
-	HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+	HAL_NVIC_SetPriority(FST_SPI_DMA_STREAM1_IRQ, 0, 0);
+	HAL_NVIC_EnableIRQ(FST_SPI_DMA_STREAM1_IRQ);
 	// DMA2_Stream5_IRQn interrupt configuration
-	HAL_NVIC_SetPriority(DMA2_Stream5_IRQn, 0, 0);
-	HAL_NVIC_EnableIRQ(DMA2_Stream5_IRQn);
+	HAL_NVIC_SetPriority(FST_SPI_DMA_STREAM2_IRQ, 0, 0);
+	HAL_NVIC_EnableIRQ(FST_SPI_DMA_STREAM2_IRQ);
 
 	hFlashSpi.Instance->CR1 |= SPI_CR1_SPE;
 }
@@ -321,18 +317,9 @@ void		FLASH_SPIDisable()
 {
 	hFlashSpi.Instance->CR1 &= ~SPI_CR1_SPE;
 	// Peripheral clock disable
-	__HAL_RCC_SPI1_CLK_DISABLE();
+	FST_SPI_CLK_DISABLE();
 
-	// PB3     ------> SPI1_SCK
-	// PB4     ------> SPI1_MISO
-	// PB5     ------> SPI1_MOSI 
-	HAL_GPIO_DeInit(GPIOB, GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5);
-	// PA15    ------> FLASH CS
-	// PA3     ------> SSD_B CS
-	// PA7     ------> CPLD CS
-	HAL_GPIO_DeInit(GPIOA, GPIO_PIN_15 | GPIO_PIN_3 | GPIO_PIN_7);
-	// PC3     ------> SSD_A CS
-	HAL_GPIO_DeInit(GPIOC, GPIO_PIN_3);
+	HAL_GPIO_DeInit(FST_SPI_GPIO_Port, FST_SPI_MISO_Pin | FST_SPI_MOSI_Pin | FST_SPI_SCK_Pin);
 
 	/* SPI1 DMA DeInit */
 	HAL_DMA_DeInit(hFlashSpi.hdmarx);

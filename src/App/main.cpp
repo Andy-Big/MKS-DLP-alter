@@ -286,7 +286,6 @@ int main()
 	// ------------------ Service mode -------------------
 	if (!srvMode)
 	{
-		HAL_Delay(500);
 		TGUI_ForceRepaint();
 	}
 	

@@ -61,7 +61,7 @@ void TIM_ZRef_Init(void)
 	TIM_MasterConfigTypeDef sMasterConfig = {0};
 	TIM_OC_InitTypeDef sConfigOC = {0};
 
-	hZRefTim.Instance = TIM5;
+	hZRefTim.Instance = Z_REF_TIMER;
 	hZRefTim.Init.Prescaler = 2;
 	hZRefTim.Init.CounterMode = TIM_COUNTERMODE_UP;
 	hZRefTim.Init.Period = 749;
@@ -110,10 +110,10 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
 		HAL_NVIC_EnableIRQ(TIM2_IRQn);
 	}
 
-	if(tim_baseHandle->Instance==TIM5)
+	if(tim_baseHandle->Instance == Z_REF_TIMER)
 	{
 		/* TIM5 clock enable */
-		__HAL_RCC_TIM5_CLK_ENABLE();
+		Z_REF_TIMER_CLK_ENABLE();
 
 	}
 }
@@ -121,18 +121,17 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
 {
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-	if(timHandle->Instance==TIM5)
+	if(timHandle->Instance == Z_REF_TIMER)
 	{
-		__HAL_RCC_GPIOA_CLK_ENABLE();
 		/**TIM5 GPIO Configuration    
 		PA0-WKUP     ------> TIM5_CH1 
 		*/
-		GPIO_InitStruct.Pin = GPIO_PIN_0;
+		GPIO_InitStruct.Pin = Z_REF_Pin;
 		GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 		GPIO_InitStruct.Pull = GPIO_NOPULL;
 		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-		GPIO_InitStruct.Alternate = GPIO_AF2_TIM5;
-		HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+		GPIO_InitStruct.Alternate = Z_REF_ALTERNATE;
+		HAL_GPIO_Init(Z_REF_Port, &GPIO_InitStruct);
 
 	}
 
@@ -149,13 +148,13 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 		HAL_NVIC_DisableIRQ(TIM2_IRQn);
 	}
 
-	if(tim_baseHandle->Instance==TIM5)
+	if(tim_baseHandle->Instance == Z_REF_TIMER)
 	{
 		/* Peripheral clock disable */
-		__HAL_RCC_TIM5_CLK_DISABLE();
+		Z_REF_TIMER_CLK_DISABLE();
 
 		/* TIM5 interrupt Deinit */
-		HAL_NVIC_DisableIRQ(TIM5_IRQn);
+		HAL_NVIC_DisableIRQ(Z_REF_TIMER_IRQ);
 	}
 } 
 

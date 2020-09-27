@@ -12,14 +12,14 @@
 #define MIPI_Ce_On()				MIPI_CE_GPIO_Port->BSRR = MIPI_CE_Pin
 #define MIPI_Ce_Off()				MIPI_CE_GPIO_Port->BSRR = (uint32_t)MIPI_CE_Pin << 16U
 
-#define MIPI_SDC_Off()				SPI1_SDC_GPIO_Port->BSRR = SPI1_SDC_Pin
-#define MIPI_SDC_On()				SPI1_SDC_GPIO_Port->BSRR = (uint32_t)SPI1_SDC_Pin << 16U
+#define MIPI_SDC_Off()				FST_SPI_SDC_GPIO_Port->BSRR = FST_SPI_SDC_Pin
+#define MIPI_SDC_On()				FST_SPI_SDC_GPIO_Port->BSRR = (uint32_t)FST_SPI_SDC_Pin << 16U
 
-#define MIPI_SsdA_Cs_Off()			SPI1_CS_SSDA_GPIO_Port->BSRR = SPI1_CS_SSDA_Pin
-#define MIPI_SsdA_Cs_On()			SPI1_CS_SSDA_GPIO_Port->BSRR = (uint32_t)SPI1_CS_SSDA_Pin << 16U
+#define MIPI_SsdA_Cs_Off()			FST_SPI_CS_SSDA_GPIO_Port->BSRR = FST_SPI_CS_SSDA_Pin
+#define MIPI_SsdA_Cs_On()			FST_SPI_CS_SSDA_GPIO_Port->BSRR = (uint32_t)FST_SPI_CS_SSDA_Pin << 16U
 
-#define MIPI_SsdB_Cs_Off()			SPI1_CS_SSDB_GPIO_Port->BSRR = SPI1_CS_SSDB_Pin
-#define MIPI_SsdB_Cs_On()			SPI1_CS_SSDB_GPIO_Port->BSRR = (uint32_t)SPI1_CS_SSDB_Pin << 16U
+#define MIPI_SsdB_Cs_Off()			FST_SPI_CS_SSDB_GPIO_Port->BSRR = FST_SPI_CS_SSDB_Pin
+#define MIPI_SsdB_Cs_On()			FST_SPI_CS_SSDB_GPIO_Port->BSRR = (uint32_t)FST_SPI_CS_SSDB_Pin << 16U
 
 
 

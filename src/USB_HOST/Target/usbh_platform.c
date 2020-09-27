@@ -21,6 +21,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbh_platform.h"
+#include "main.h"
 
 /* USER CODE BEGIN INCLUDE */
 
@@ -48,7 +49,7 @@ void USB_HOST_VbusFS(uint8_t state)
     data = GPIO_PIN_RESET;
   }
   /* USER CODE END PREPARE_GPIO_DATA_VBUS_FS */
-  HAL_GPIO_WritePin(GPIOD,GPIO_PIN_3,(GPIO_PinState)data);
+  HAL_GPIO_WritePin(USBH_VBUS_GPIO_Port, USBH_VBUS_Pin, (GPIO_PinState)data);
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

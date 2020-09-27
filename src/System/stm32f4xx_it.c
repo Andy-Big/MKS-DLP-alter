@@ -189,7 +189,7 @@ void TIM2_IRQHandler(void)
   */
 void EXTI0_IRQHandler(void)
 {
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+  HAL_GPIO_EXTI_IRQHandler(ZE_MIN_Pin);
   EndstopsInterrupt();
 }
 
@@ -198,7 +198,7 @@ void EXTI0_IRQHandler(void)
   */
 void EXTI2_IRQHandler(void)
 {
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
+  HAL_GPIO_EXTI_IRQHandler(ZE_MAX_Pin);
   EndstopsInterrupt();
 }
 

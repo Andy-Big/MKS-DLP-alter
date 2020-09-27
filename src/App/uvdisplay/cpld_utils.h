@@ -4,9 +4,6 @@
 #include "stm32f4xx_hal.h"
 #include "main.h"
 	 
-#define CPLD_CS_Off()				SPI1_CS_CPLD_GPIO_Port->BSRR = SPI1_CS_CPLD_Pin						// Set pin
-#define CPLD_CS_On()				SPI1_CS_CPLD_GPIO_Port->BSRR = (uint32_t)SPI1_CS_CPLD_Pin << 16U	// Reset pin
-
 #define CPLD_RST_Off()				CPLD_RST_GPIO_Port->BSRR = CPLD_RST_Pin
 #define CPLD_RST_On()				CPLD_RST_GPIO_Port->BSRR = (uint32_t)CPLD_RST_Pin << 16U
 
