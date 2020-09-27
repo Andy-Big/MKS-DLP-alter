@@ -171,6 +171,8 @@ extern "C"
 #define BUZZER_GPIO_Port		GPIOB
 
 // --------- I2C EEPROM ----------
+#define EEPROM_I2C				I2C1
+
 #define EEPROM_SCL_Pin			GPIO_PIN_6
 #define EEPROM_SDA_Pin			GPIO_PIN_7
 #define EEPROM_GPIO_Port		GPIOB

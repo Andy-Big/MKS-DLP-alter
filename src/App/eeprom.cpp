@@ -17,7 +17,7 @@ void		EEPROM_Init(void)
 
 	__HAL_RCC_I2C1_CLK_ENABLE();
 
-	hI2C.Instance = I2C1;
+	hI2C.Instance = EEPROM_I2C;
 	hI2C.Init.ClockSpeed = 100000;
 	hI2C.Init.DutyCycle = I2C_DUTYCYCLE_2;
 	hI2C.Init.OwnAddress1 = 0;

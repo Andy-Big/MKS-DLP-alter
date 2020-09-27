@@ -78,7 +78,7 @@ void		ZMOTOR_Init()
 	HAL_TIM_Base_Start_IT(&hStepperTim);
 
 	// Set motor current
-	TIM5->CCR1 = cfgzMotor.current_vref < 1000 ? (uint32_t)(cfgzMotor.current_vref * 0.364) : 364;
+	Z_REF_TIMER->CCR1 = cfgzMotor.current_vref < 1000 ? (uint32_t)(cfgzMotor.current_vref * 0.364) : 364;
 	
 	ZMOTOR_MotorDisable();
 	zEndstops.enable();
@@ -91,8 +91,8 @@ void		ZMOTOR_Init()
 
 void			ZMOTOR_MotorEnable()
 {
-	HAL_GPIO_WritePin(Z_ENA_GPIO_Port, Z_ENA_Pin, (GPIO_PinState)0);
-	TIM5->CCR1 = (uint32_t)(cfgzMotor.current_vref * 0.364);
+	Z_ENA_GPIO_Port->BSRR = (uint32_t)Z_ENA_Pin << 16U;
+	Z_REF_TIMER->CCR1 = (uint32_t)(cfgzMotor.current_vref * 0.364);
 	systemInfo.zmotor_enabled = 1;
 }
 //==============================================================================
@@ -102,9 +102,9 @@ void			ZMOTOR_MotorEnable()
 
 void			ZMOTOR_MotorDisable()
 {
-	HAL_GPIO_WritePin(Z_ENA_GPIO_Port, Z_ENA_Pin, (GPIO_PinState)1);
+	Z_ENA_GPIO_Port->BSRR = Z_ENA_Pin;
 	// Set motor current
-	TIM5->CCR1 = 1;
+	Z_REF_TIMER->CCR1 = 1;
 	systemInfo.zmotor_enabled = 0;
 	systemInfo.position_known = 0;
 }
@@ -144,7 +144,7 @@ void			ZMOTOR_SetCurrent(float current)
 	if (current > 1000)
 		current = 1000;
 	cfgzMotor.current_vref = current;
-	TIM5->CCR1 = (uint32_t)(cfgzMotor.current_vref * 0.364);
+	Z_REF_TIMER->CCR1 = (uint32_t)(cfgzMotor.current_vref * 0.364);
 }
 //==============================================================================
 
@@ -153,7 +153,7 @@ void			ZMOTOR_SetCurrent(float current)
 
 void			ZMOTOR_SetFullCurrent()
 {
-	TIM5->CCR1 = (uint32_t)(cfgzMotor.current_vref * 0.364);
+	Z_REF_TIMER->CCR1 = (uint32_t)(cfgzMotor.current_vref * 0.364);
 }
 //==============================================================================
 
@@ -162,7 +162,7 @@ void			ZMOTOR_SetFullCurrent()
 
 void			ZMOTOR_SetHoldCurrent()
 {
-	TIM5->CCR1 = (uint32_t)(cfgzMotor.current_hold_vref * 0.364);
+	Z_REF_TIMER->CCR1 = (uint32_t)(cfgzMotor.current_hold_vref * 0.364);
 }
 //==============================================================================
 

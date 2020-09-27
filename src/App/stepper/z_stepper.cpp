@@ -669,7 +669,7 @@ void Stepper::pulse_phase_isr()
 #endif
 		
 		if (step_needed)
-			HAL_GPIO_WritePin(Z_STEP_GPIO_Port, Z_STEP_Pin, (GPIO_PinState)1);
+			Z_STEP_GPIO_Port->BSRR = Z_STEP_Pin;
 		
 		// TODO: need to deal with MINIMUM_STEPPER_PULSE over i2s
 #ifdef ISR_MULTI_STEPS
@@ -678,7 +678,7 @@ void Stepper::pulse_phase_isr()
 #endif
 		
 		if (step_needed)
-			HAL_GPIO_WritePin(Z_STEP_GPIO_Port, Z_STEP_Pin, (GPIO_PinState)0);
+			Z_STEP_GPIO_Port->BSRR = (uint32_t)Z_STEP_Pin << 16U;
 		
 #ifdef ISR_MULTI_STEPS
 		if (events_to_do)
@@ -893,9 +893,9 @@ void Stepper::init()
 	count_position = 0;
 	
 	// step pin
-	HAL_GPIO_WritePin(Z_STEP_GPIO_Port, Z_STEP_Pin, (GPIO_PinState)0);
+	Z_STEP_GPIO_Port->BSRR = (uint32_t)Z_STEP_Pin << 16U;
 	// enable pin
-	HAL_GPIO_WritePin(Z_ENA_GPIO_Port, Z_ENA_Pin, (GPIO_PinState)1);
+	Z_ENA_GPIO_Port->BSRR = (uint32_t)Z_ENA_Pin;
 	
 	ENABLE_STEPPER_DRIVER_INTERRUPT();
 	wake_up();
