@@ -16,6 +16,9 @@ void		_tgui_FileviewPreviewPaint(void *tguiobj, void *param);
 
 void		_tgui_FileviewPrintPress(void *tguiobj, void *param);
 void		_tgui_FileviewPrintBegin(void *tguiobj, void *param);
+void		_tgui_FileviewDeletePress(void *tguiobj, void *param);
+void		_tgui_FileviewDeleteFile(void *tguiobj, void *param);
+void		_tgui_FileviewFileDeleted(void *tguiobj, void *param);
 
 
 

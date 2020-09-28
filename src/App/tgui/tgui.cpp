@@ -2015,7 +2015,7 @@ void		TGUI_Init()
 	tgb->options.disabled = 0;
 
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
-	tgb->funcs._call_press = NULL;
+	tgb->funcs._call_press = _tgui_FileviewDeletePress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 	
 	// PRINT button

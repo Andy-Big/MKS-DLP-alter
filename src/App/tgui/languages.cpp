@@ -106,6 +106,9 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Finishing printing...",
 		(char*)"User interrupted printing.",
 		(char*)"Model height exceeds the maximum\nplatform lift height. The model\nwill be cropped in height.\nProceed?",
+		(char*)"Are you sure you want to\npermanently delete this file?",
+		(char*)"Error deleting file!",
+		(char*)"File deleted successfully.",
 
 // Settings screen
 		(char*)"Clock/Calendar",
@@ -257,6 +260,9 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Завершение печати...",
 		(char*)"Печать прервана пользователем.",
 		(char*)"Высота модели превышает\nмаксимальную высоту подъема\nплатформы. Модель будет\nобрезана по высоте.\nПродолжить?",
+		(char*)"Вы уверены, что хотите\nбезвозвратно удалить этот файл?",
+		(char*)"Ошибка удаления файла!",
+		(char*)"Файл успешно удален.",
 
 // Settings screen
 		(char*)"Часы/Календарь",

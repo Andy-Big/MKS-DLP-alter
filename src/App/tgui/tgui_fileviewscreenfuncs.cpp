@@ -10,6 +10,7 @@
 #include "usb_host.h"
 #include "ff.h"
 #include "tgui_printscreenfuncs.h"
+#include "tgui_filesscreenfuncs.h"
 
 
 extern TG_SCREEN		*tguiActiveScreen;
@@ -282,6 +283,35 @@ void		_tgui_FileviewPrintBegin(void *tguiobj, void *param)
 }
 //==============================================================================
 
+
+
+
+void		_tgui_FileviewDeletePress(void *tguiobj, void *param)
+{
+	TGUI_MessageBoxOkCancel(LANG_GetString(LSTR_CONFIRM_ACT), LANG_GetString(LSTR_MSG_DELETE_FILE_QUEST), _tgui_FileviewDeleteFile);
+}
+//==============================================================================
+
+
+
+void		_tgui_FileviewDeleteFile(void *tguiobj, void *param)
+{
+	f_close(&ufile);
+	if (f_unlink(fv_tfilename) != FR_OK)
+		TGUI_MessageBoxOk(LANG_GetString(LSTR_ERROR), LANG_GetString(LSTR_MSG_ERROR_DELETING_FILE));
+	else
+		TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LSTR_MSG_FILE_DELETED), _tgui_FileviewFileDeleted);
+}
+//==============================================================================
+
+
+
+void		_tgui_FileviewFileDeleted(void *tguiobj, void *param)
+{
+	tguiActiveScreen = (TG_SCREEN*)(tguiActiveScreen)->prevscreen;
+	_tgui_FilesReadDir();
+}
+//==============================================================================
 
 
 
