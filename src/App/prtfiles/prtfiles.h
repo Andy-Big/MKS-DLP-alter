@@ -17,6 +17,7 @@ typedef enum
 	FTYPE_IMAGE,
 	
 	FTYPE_PWS,
+	FTYPE_PHOTON,
 } FILES_TYPE;
 
 

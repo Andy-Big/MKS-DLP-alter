@@ -1,4 +1,4 @@
-#include "files_pws.h"
+#include "files_photon.h"
 
 
 
@@ -7,68 +7,38 @@ extern __no_init FIL			ufile @ "CCMRAM";
 extern __no_init FIL			sfile @ "CCMRAM";
 
 
-FPWS_HEADER			fpws_header;
-FPWS_INFO			fpws_info;
-FPWS_PREVIEW		fpws_preview;
-FPWS_LAYERSDEF		fpws_layersdata;
+FPHOTON_HEADER			fphoton_header;
+FPHOTON_INFO			fphoton_info;
+FPHOTON_PREVIEW			fphoton_preview;
 
 
 
-uint8_t		FPWS_ReadFileInfo(FIL *file)
+uint8_t		FPHOTON_ReadFileInfo(FIL *file)
 {
 	uint32_t	rd;
 	
-	memset(&fpws_header, 0, sizeof(FPWS_HEADER));
-	memset(&fpws_info, 0, sizeof(FPWS_INFO));
-	memset(&fpws_preview, 0, sizeof(FPWS_PREVIEW));
-	memset(&fpws_layersdata, 0, sizeof(FPWS_LAYERSDEF));
+	memset(&fphoton_header, 0, sizeof(FPHOTON_HEADER));
+	memset(&fphoton_info, 0, sizeof(FPHOTON_INFO));
+	memset(&fphoton_preview, 0, sizeof(FPHOTON_PREVIEW));
 
 	// header
-	if (f_read(file, &fpws_header, sizeof(FPWS_HEADER), &rd) != FR_OK || rd != sizeof(FPWS_HEADER))
+	if (f_read(file, &fphoton_header, sizeof(FPHOTON_HEADER), &rd) != FR_OK || rd != sizeof(FPHOTON_HEADER))
 		return 0;
-	if (strcmp(fpws_header.mark, (char*)"ANYCUBIC") != 0)
+	if (fphoton_header.header != 0x12FD0019)
 		return 0;
-	if (fpws_header.version != 1)
-		return 0;
+	if (fphoton_header.version == 1)
+		fphoton_header.aa_grade = 1;
 	
 	// info
-	if (f_lseek(file, fpws_header.info_offset) != FR_OK)
+	if (f_lseek(file, fphoton_header.print_parameters_offset) != FR_OK)
 		return 0;
-	if (f_read(file, &fpws_info, sizeof(FPWS_INFO), &rd) != FR_OK || rd != sizeof(FPWS_INFO))
-		return 0;
-	if (strcmp(fpws_info.mark, (char*)"HEADER") != 0)
+	if (f_read(file, &fphoton_info, sizeof(FPHOTON_INFO), &rd) != FR_OK || rd != sizeof(FPHOTON_INFO))
 		return 0;
 	
 	// preview
-	if (f_lseek(file, fpws_header.preview_offset) != FR_OK)
+	if (f_lseek(file, fphoton_header.preview_large_offset) != FR_OK)
 		return 0;
-	if (f_read(file, &fpws_preview, sizeof(FPWS_PREVIEW), &rd) != FR_OK || rd != sizeof(FPWS_PREVIEW))
-		return 0;
-	if (strcmp(fpws_preview.mark, (char*)"PREVIEW") != 0)
-		return 0;
-
-	// layers data
-	if (f_lseek(file, fpws_header.layersdef_offset) != FR_OK)
-		return 0;
-	if (f_read(file, &fpws_layersdata, sizeof(FPWS_LAYERSDEF), &rd) != FR_OK || rd != sizeof(FPWS_LAYERSDEF))
-		return 0;
-	if (strcmp(fpws_layersdata.mark, (char*)"LAYERDEF") != 0)
-		return 0;
-
-	
-	return 1;
-}
-//==============================================================================
-
-
-
-
-uint8_t		FPWS_SetPointerToPreview(FIL *file)
-{
-	if (fpws_header.mark[0] == 0)
-		return 0;
-	
-	if (f_lseek(file, fpws_header.preview_offset) != FR_OK)
+	if (f_read(file, &fphoton_preview, sizeof(FPHOTON_PREVIEW), &rd) != FR_OK || rd != sizeof(FPHOTON_PREVIEW))
 		return 0;
 
 	return 1;
@@ -78,39 +48,54 @@ uint8_t		FPWS_SetPointerToPreview(FIL *file)
 
 
 
-uint32_t	FPWS_GetPreviewDataOffset()
+uint8_t		FPHOTON_SetPointerToPreview(FIL *file)
 {
-	if (fpws_header.mark[0] == 0)
+	if (fphoton_header.header != 0x12FD0019)
 		return 0;
 	
-	return fpws_header.preview_offset + sizeof(FPWS_PREVIEW);
+	if (f_lseek(file, fphoton_header.preview_large_offset) != FR_OK)
+		return 0;
+
+	return 1;
 }
 //==============================================================================
 
 
 
 
-uint16_t	FPWS_GetPreviewWidth()
+uint32_t	FPHOTON_GetPreviewDataOffset()
 {
-	return fpws_preview.width;
+	if (fphoton_header.header != 0x12FD0019)
+		return 0;
+	
+	return fphoton_header.preview_large_offset + sizeof(FPHOTON_PREVIEW);
 }
 //==============================================================================
 
 
 
 
-uint16_t	FPWS_GetPreviewHeight()
+uint16_t	FPHOTON_GetPreviewWidth()
 {
-	return fpws_preview.height;
+	return fphoton_preview.width;
 }
 //==============================================================================
 
 
 
 
-uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
+uint16_t	FPHOTON_GetPreviewHeight()
 {
-	if (fpws_header.mark[0] == 0)
+	return fphoton_preview.height;
+}
+//==============================================================================
+
+
+
+
+uint8_t		FPHOTON_DrawPreview(FIL *file, TG_RECT *rect)
+{
+	if (fphoton_header.header != 0x12FD0019)
 		return 0;
 
 	uint16_t		pw = 0, ph = 0, rw = 0, rh = 0, iw = 0, ih = 0, ix = 0, iy = 0;
@@ -118,16 +103,16 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 	uint32_t		cpainted = 0;
 	uint32_t		lpainted = 0;
 	uint32_t		rd = 0;
-	uint16_t		*buff;
-	uint32_t		doffset = FPWS_GetPreviewDataOffset();
+	uint16_t		*buff, *decbuff;
+	uint32_t		doffset = FPHOTON_GetPreviewDataOffset();
 	uint16_t		dbuff[480];
-	uint32_t		bufpos = 0, oldbufpos = 0, oldline = 0, btoread = 0;
+	uint32_t		bufpos = 0, decbufpos = 0, oldbufpos = 0, oldline = 0, btoread = 0;
 
 
-	pw = FPWS_GetPreviewWidth();
-	ph = FPWS_GetPreviewHeight();
+	pw = fphoton_preview.width;
+	ph = fphoton_preview.height;
 	// read by full lines of source preview image
-	btoread = sizeof(fbuff) / ( pw * 2) * pw;
+	btoread = 4096;
 
 	if (pw == 0 || ph == 0)
 		return 0;
@@ -146,6 +131,7 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 	iy = rect->top + (rh - ih) / 2;
 
 	buff = (uint16_t*)fbuff;
+	decbuff = (uint16_t*)(fbuff + 4096);
 
 	LCD_SetWindows(ix, iy, iw, ih);
 	LCD_WriteRAM_Prepare();
@@ -156,6 +142,8 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 		return 0;
 
 	bufpos = (uint32_t)(nextcol);
+	uint16_t	repeat = 1;
+	uint16_t	dot = buff[bufpos]
 	while (lpainted < ih)
 	{
 		while (cpainted < iw)
@@ -197,145 +185,144 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 
 
 
-uint32_t	FPWS_GetTotalLayers()
+uint32_t	FPHOTON_GetTotalLayers()
 {
-	return fpws_layersdata.total_layers;
+	return fphoton_header.total_layers;
 }
 //==============================================================================
 
 
 
 
-uint32_t	FPWS_GetBottomLayers()
+uint32_t	FPHOTON_GetBottomLayers()
 {
-	return (uint32_t)fpws_info.bottom_layers;
+	return (uint32_t)fphoton_info.bottom_layers;
 }
 //==============================================================================
 
 
 
 
-float		FPWS_GetLayerThickness()
+float		FPHOTON_GetLayerThickness()
 {
-	return fpws_info.layers_thickness;
+	return fphoton_header.slicer_layers_thickness;
 }
 //==============================================================================
 
 
 
 
-uint32_t	FPWS_GetAntialiasing()
+uint32_t	FPHOTON_GetAntialiasing()
 {
-	return fpws_info.aa_grade;
+	return fphoton_header.aa_grade;
 }
 //==============================================================================
 
 
 
 
-float		FPWS_GetLightLayer()
+float		FPHOTON_GetLightLayer()
 {
-	return fpws_info.exp_time;
+	return fphoton_header.slicer_exp_time;
 }
 //==============================================================================
 
 
 
 
-float		FPWS_GetLightBottom()
+float		FPHOTON_GetLightBottom()
 {
-	return fpws_info.expbottom_time;
+	return fphoton_header.slicer_expbottom_time;
 }
 //==============================================================================
 
 
 
 
-float		FPWS_GetLightPause()
+float		FPHOTON_GetLightPause()
 {
-	return fpws_info.lightoff_time;
+	return fphoton_header.slicer_lightoff_time;
 }
 //==============================================================================
 
 
 
 
-float		FPWS_GetLiftHeight()
+float		FPHOTON_GetLiftHeight()
 {
-	return fpws_info.lift_height;
+	return fphoton_info.lift_height;
 }
 //==============================================================================
 
 
 
 
-float		FPWS_GetLiftSpeed()
+float		FPHOTON_GetLiftSpeed()
 {
-	return fpws_info.lift_speed;
+	return fphoton_info.lift_speed;
 }
 //==============================================================================
 
 
 
 
-float		FPWS_GetDropSpeed()
+float		FPHOTONFPHOTON_GetDropSpeed()
 {
-	return fpws_info.down_speed;
+	return fphoton_info.down_speed;
 }
 //==============================================================================
 
 
 
 
-float		FPWS_GetResinVolume()
+float		FPHOTONFPHOTON_GetResinVolume()
 {
-	return fpws_info.resin_volume;
+	return fphoton_info.resin_volume;
 }
 //==============================================================================
 
 
 
 
-uint32_t	FPWS_GetIndLayerSettings()
+uint32_t	FPHOTONFPHOTON_GetIndLayerSettings()
 {
-	return fpws_info.use_layer_params;
+	return 1;
 }
 //==============================================================================
 
 
 
 
-uint32_t	FPWS_GetResolutionX()
+uint32_t	FPHOTONFPHOTON_GetResolutionX()
 {
-	return fpws_info.res_x;
+	return fphoton_header.res_x;
 }
 //==============================================================================
 
 
 
 
-uint32_t	FPWS_GetResolutionY()
+uint32_t	FPHOTONFPHOTON_GetResolutionY()
 {
-	return fpws_info.res_y;
+	return fphoton_header.res_y;
 }
 //==============================================================================
 
 
 
 
-uint8_t		FPWS_GetLayerInfo(uint32_t layer_num, FPWS_LAYERSINFO *layer_info)
+uint8_t		FPHOTON_GetLayerInfo(uint32_t layer_num, FPHOTON_LAYERSINFO *layer_info)
 {
-	if (layer_num >= fpws_layersdata.total_layers)
+	if (layer_num >= fphoton_header.total_layers)
 		return 0;
 	
 	uint32_t	rd = 0;
-	uint32_t	data_offset = fpws_header.layersdef_offset;
-	data_offset += sizeof(FPWS_LAYERSDEF);
-	data_offset += sizeof(FPWS_LAYERSINFO) * layer_num;
+	uint32_t	data_offset = fphoton_header.layersdef_offset;
+	data_offset += sizeof(FPHOTON_LAYERSINFO) * layer_num;
 
 	if (f_lseek(&ufile, data_offset) != FR_OK)
 		return 0;
-	if (f_read(&ufile, layer_info, sizeof(FPWS_LAYERSINFO), &rd) != FR_OK || rd != sizeof(FPWS_LAYERSINFO))
+	if (f_read(&ufile, layer_info, sizeof(FPHOTON_LAYERSINFO), &rd) != FR_OK || rd != sizeof(FPHOTON_LAYERSINFO))
 		return 0;
 
 	return 1;

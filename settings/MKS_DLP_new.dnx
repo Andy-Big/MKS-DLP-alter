@@ -16,7 +16,7 @@
         <LeaveTargetRunning>_ 0</LeaveTargetRunning>
     </StLinkDriver>
     <DebugChecksum>
-        <Checksum>1357436182</Checksum>
+        <Checksum>4066042440</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -62,18 +62,19 @@
         <Fmt4>DATETIME_STRUCT-seconds	3	0</Fmt4>
         <Fmt5>DATETIME_STRUCT-weekday	3	0</Fmt5>
         <Fmt6>DATETIME_STRUCT-year	3	0</Fmt6>
-        <Fmt7>FPWS_HEADER-preview_offset	4	0</Fmt7>
-        <Fmt8>MOTOR_CONFIG-cfg_version	4	0</Fmt8>
-        <Fmt9>RTC_DateTypeDef-Date	3	0</Fmt9>
-        <Fmt10>RTC_DateTypeDef-Month	3	0</Fmt10>
-        <Fmt11>RTC_DateTypeDef-WeekDay	3	0</Fmt11>
-        <Fmt12>RTC_DateTypeDef-Year	3	0</Fmt12>
-        <Fmt13>RTC_TimeTypeDef-Hours	3	0</Fmt13>
-        <Fmt14>RTC_TimeTypeDef-Minutes	3	0</Fmt14>
-        <Fmt15>RTC_TimeTypeDef-Seconds	3	0</Fmt15>
-        <Fmt16>RTC_TimeTypeDef-TimeFormat	3	0</Fmt16>
-        <Fmt17>TG_BUTTON-button_id	3	0</Fmt17>
-        <Fmt18>struct CPLD_DATA_FRAME-mark2	3	0</Fmt18>
+        <Fmt7>FPHOTON_HEADER-header	4	0</Fmt7>
+        <Fmt8>FPWS_HEADER-preview_offset	4	0</Fmt8>
+        <Fmt9>MOTOR_CONFIG-cfg_version	4	0</Fmt9>
+        <Fmt10>RTC_DateTypeDef-Date	3	0</Fmt10>
+        <Fmt11>RTC_DateTypeDef-Month	3	0</Fmt11>
+        <Fmt12>RTC_DateTypeDef-WeekDay	3	0</Fmt12>
+        <Fmt13>RTC_DateTypeDef-Year	3	0</Fmt13>
+        <Fmt14>RTC_TimeTypeDef-Hours	3	0</Fmt14>
+        <Fmt15>RTC_TimeTypeDef-Minutes	3	0</Fmt15>
+        <Fmt16>RTC_TimeTypeDef-Seconds	3	0</Fmt16>
+        <Fmt17>RTC_TimeTypeDef-TimeFormat	3	0</Fmt17>
+        <Fmt18>TG_BUTTON-button_id	3	0</Fmt18>
+        <Fmt19>struct CPLD_DATA_FRAME-mark2	3	0</Fmt19>
     </struct_types>
     <array_types>
         <Fmt0>TCHAR[128]	5	0</Fmt0>
@@ -175,7 +176,9 @@
         <mode>0</mode>
     </DisassembleMode>
     <Breakpoints2>
-        <Count>0</Count>
+        <Bp0>_ 1 "EMUL_CODE" "{$PROJ_DIR$\src\App\prtfiles\prtfiles.cpp}.39.4" 0 0 1 "" 0 "" 0</Bp0>
+        <Bp1>_ 1 "EMUL_CODE" "{$PROJ_DIR$\src\App\tgui\tgui_filesscreenfuncs.cpp}.45.2" 0 0 1 "" 0 "" 0</Bp1>
+        <Count>2</Count>
     </Breakpoints2>
     <TermIOLog>
         <LoggingEnabled>_ 0</LoggingEnabled>

@@ -2,6 +2,7 @@
 #include "math.h"
 
 #include "files_pws.h"
+#include "files_photon.h"
 #include "config.h"
 
 
@@ -23,6 +24,19 @@ uint8_t		PFILE_Init(FIL *file, FILES_TYPE ftype)
 	{
 		case FTYPE_PWS:
 			res = FPWS_ReadFileInfo(prt_file);
+			if (res == 0)
+			{
+				pfile_type = FTYPE_NONE;
+				prt_file = NULL;
+			}
+			else
+			{
+				inited = 1;
+			}
+			break;
+		
+		case FTYPE_PHOTON:
+			res = FPHOTON_ReadFileInfo(prt_file);
 			if (res == 0)
 			{
 				pfile_type = FTYPE_NONE;
@@ -58,7 +72,10 @@ uint8_t		PFILE_SetPointerToPreview()
 	{
 		case FTYPE_PWS:
 			return FPWS_SetPointerToPreview(prt_file);
-		
+
+		case FTYPE_PHOTON:
+			return FPHOTON_SetPointerToPreview(prt_file);
+
 	}
 
 	return 0;
@@ -74,7 +91,10 @@ uint16_t	PFILE_GetPreviewWidth()
 	{
 		case FTYPE_PWS:
 			return FPWS_GetPreviewWidth();
-		
+
+		case FTYPE_PHOTON:
+			return FPHOTON_GetPreviewWidth();
+
 	}
 
 	return 0;
@@ -90,7 +110,10 @@ uint16_t	PFILE_GetPreviewHeight()
 	{
 		case FTYPE_PWS:
 			return FPWS_GetPreviewHeight();
-		
+
+		case FTYPE_PHOTON:
+			return FPHOTON_GetPreviewHeight();
+
 	}
 
 	return 0;
@@ -122,7 +145,10 @@ uint8_t		PFILE_DrawPreview(FIL *file, TG_RECT *rect)
 	{
 		case FTYPE_PWS:
 			return FPWS_DrawPreview(file, rect);
-		
+
+		case FTYPE_PHOTON:
+			return FPHOTON_DrawPreview(file, rect);
+
 	}
 
 	return 0;

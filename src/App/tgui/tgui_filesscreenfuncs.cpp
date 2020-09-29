@@ -108,6 +108,12 @@ uint8_t		_tgui_FilesReadDir()
 						ftype = FTYPE_PWS;
 					currfilenum++;
 				}
+				else if (strcmp(fext, (char*)"photon") == 0)
+				{
+					if (currfilenum >= lastfilenum)
+						ftype = FTYPE_PHOTON;
+					currfilenum++;
+				}
 				else if (strcmp(fext, (char*)"cimg") == 0)
 				{
 					if (currfilenum >= lastfilenum)
@@ -292,8 +298,9 @@ void		_tgui_FilesFileButtonPaint(void *tguiobj, void *param)
 		case FTYPE_IMAGE:
 			_tgui_DrawFileCimg(FNAME_ICN_FILES_IMAGE, thisbtn->position.left, thisbtn->position.top);
 			break;
-		// PWS preview
+		// PWS, PHOTON preview
 		case FTYPE_PWS:
+		case FTYPE_PHOTON:
 			rc.left = thisbtn->position.left + 5;
 			rc.right = thisbtn->position.right - 5;
 			rc.top = thisbtn->position.top + 5;

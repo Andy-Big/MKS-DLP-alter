@@ -64,6 +64,7 @@ extern TOUCH_INFO				touchInfo;
 
 extern PRINT_STATE				prtState;
 extern FILES_TYPE				fv_filetype;
+extern FPWS_LAYERSINFO			l_info;
 
 TOUCH_POINT						touchCoord;
 TOUCH_STATES					touchState;
@@ -89,8 +90,6 @@ char							msg[512];
 FRESULT							fres;
 DIR								dir = {0};
 FILINFO							finfo = {0};
-
-extern FPWS_LAYERSINFO			l_info;
 
 
 void		SystemClock_Config(void);
