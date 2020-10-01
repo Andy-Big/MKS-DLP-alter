@@ -84,6 +84,7 @@ typedef struct
 	uint8_t			language;
 	float			zero_pos;
 	float			pause_lift;
+	float			end_lift;
 	uint8_t			buzzer;
 	uint16_t		buzzer_touch;
 	uint16_t		buzzer_msg;
@@ -130,6 +131,7 @@ typedef struct
 	uint32_t		print_current_sublayer;
 	float			print_current_height;
 	float			print_light_time_total;
+	float			print_lift_at_end;
 } SYSTEM_INFO;
 
 

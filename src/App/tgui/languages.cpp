@@ -113,6 +113,7 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 // Settings screen
 		(char*)"Clock/Calendar",
 		(char*)"Lift on pause",
+		(char*)"Lift on completion",
 		(char*)"Buzzer",
 		(char*)"On",
 		(char*)"Off",
@@ -267,6 +268,7 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 // Settings screen
 		(char*)"Часы/Календарь",
 		(char*)"Подъем на паузе",
+		(char*)"Подъем в конце",
 		(char*)"Звук",
 		(char*)"Вкл",
 		(char*)"Выкл",

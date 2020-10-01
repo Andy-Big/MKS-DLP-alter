@@ -14,6 +14,7 @@ void		_tgui_SettingsSaveButtonPress(void *tguiobj, void *param);
 
 void		_tgui_SettingsClockButtonPress(void *tguiobj, void *param);
 void		_tgui_SettingsPauseliftButtonPress(void *tguiobj, void *param);
+void		_tgui_SettingsEndliftButtonPress(void *tguiobj, void *param);
 void		_tgui_SettingsBuzzerButtonPress(void *tguiobj, void *param);
 
 

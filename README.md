@@ -122,3 +122,17 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 1. Support for .photons files.
 1. Upgradeable bootloader and firmware.
 1. Touch panel calibration.
+
+## 01.10.2020 Updates
+**Added/changed:**
++ Added support for .photon and .cbddlp files.
++ Added settings for lift height on completion printing.
++ Added file deleting in file preview screen.
+
+**To do in the near future:**
+1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
+1. Upgradeable bootloader and firmware.
+1. Touch panel calibration.
+1. Total printer on time counter.
+1. Time counters reset.
+

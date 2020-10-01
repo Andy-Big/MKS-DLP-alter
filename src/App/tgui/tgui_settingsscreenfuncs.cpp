@@ -93,6 +93,11 @@ void		_tgui_SettingsItemButtonPaint(void *tguiobj, void *param)
 			meas = LANG_GetString(LSTR_SHORTMILLIMETERS);
 			break;
 
+		case TG_SCR_SETTINGS_LIFTEND_ID:
+			sprintf(msg, (char*)"%0.1f", cfgConfig.end_lift);
+			meas = LANG_GetString(LSTR_SHORTMILLIMETERS);
+			break;
+
 		case TG_SCR_SETTINGS_BUZZER_ID:
 			if (cfgConfig.buzzer == 0)
 				strcpy(msg, LANG_GetString(LSTR_OFF));
@@ -227,6 +232,16 @@ void		_tgui_SettingsPauseliftButtonPress(void *tguiobj, void *param)
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
 	thisbtn->options.pressed = 0;
 	TGUI_NumenterScreenShow(LANG_GetString(LSTR_LIFT_ON_PAUSE), NT_UFLOAT, (void*)&(cfgConfig.pause_lift));
+}
+//==============================================================================
+
+
+
+void		_tgui_SettingsEndliftButtonPress(void *tguiobj, void *param)
+{
+	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
+	thisbtn->options.pressed = 0;
+	TGUI_NumenterScreenShow(LANG_GetString(LSTR_LIFT_ON_COMPLETION), NT_UFLOAT, (void*)&(cfgConfig.end_lift));
 }
 //==============================================================================
 

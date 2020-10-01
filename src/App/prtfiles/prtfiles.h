@@ -18,6 +18,8 @@ typedef enum
 	
 	FTYPE_PWS,
 	FTYPE_PHOTON,
+	FTYPE_CTB,
+	
 } FILES_TYPE;
 
 typedef struct

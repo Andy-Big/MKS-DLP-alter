@@ -114,6 +114,12 @@ uint8_t		_tgui_FilesReadDir()
 						ftype = FTYPE_PHOTON;
 					currfilenum++;
 				}
+				else if (strcmp(fext, (char*)"ctb") == 0)
+				{
+					if (currfilenum >= lastfilenum)
+						ftype = FTYPE_CTB;
+					currfilenum++;
+				}
 				else if (strcmp(fext, (char*)"cimg") == 0)
 				{
 					if (currfilenum >= lastfilenum)
@@ -284,6 +290,10 @@ void		_tgui_FilesFileButtonPaint(void *tguiobj, void *param)
 
 	uint16_t	fh = LCDUI_GetCurrentFontHeight() * 2 + 2;
 	TG_RECT		rc;
+	rc.left = thisbtn->position.left + 5;
+	rc.right = thisbtn->position.right - 5;
+	rc.top = thisbtn->position.top + 5;
+	rc.bottom = thisbtn->position.bottom - fh - 5;
 	switch (files[thisbtn->button_id-1].type)
 	{
 		// directory icon
@@ -301,10 +311,7 @@ void		_tgui_FilesFileButtonPaint(void *tguiobj, void *param)
 		// PWS, PHOTON preview
 		case FTYPE_PWS:
 		case FTYPE_PHOTON:
-			rc.left = thisbtn->position.left + 5;
-			rc.right = thisbtn->position.right - 5;
-			rc.top = thisbtn->position.top + 5;
-			rc.bottom = thisbtn->position.bottom - fh - 5;
+		case FTYPE_CTB:
 			// preview paint
 			_tgui_FilesDrawPreview(&rc, &files[thisbtn->button_id-1]);
 			break;
@@ -643,6 +650,7 @@ void		_tgui_FilesFileButtonPress(void *tguiobj, void *param)
 
 		case FTYPE_PWS:
 		case FTYPE_PHOTON:
+		case FTYPE_CTB:
 			TGUI_FileviewScreenShow(files[thisbtn->button_id-1].fname, currdir, files[thisbtn->button_id-1].type);
 			thisbtn->options.pressed = 0;
 			tguiScreenFileview.prevscreen = tguiActiveScreen;

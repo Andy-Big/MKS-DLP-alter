@@ -196,6 +196,7 @@ void			CFG_SetConfigDefault()
 	cfgConfig.language = 0;		// english default
 	cfgConfig.zero_pos = cfgzMotor.home_pos;
 	cfgConfig.pause_lift = 40.0;
+	cfgConfig.end_lift = 40.0;
 	cfgConfig.buzzer = 1;
 	cfgConfig.buzzer_msg = 800;
 	cfgConfig.buzzer_touch = 50;
@@ -789,6 +790,41 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						if (pval.uint_val > 15000)
 							pval.uint_val = 15000;
 						cfgConfig.buzzer_touch = pval.uint_val;
+						rdstate = CFGR_GENERAL;
+						break;
+					}
+				} else
+				if (*lexem == 'L')
+				{
+					if (strcmp(lexem, (char*)"LIFT_ON_PAUSE") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.float_val < 0.1)
+							pval.float_val = 0.1;
+						if (pval.float_val > 1000)
+							pval.float_val = 1000;
+						cfgConfig.pause_lift = pval.float_val;
+						rdstate = CFGR_GENERAL;
+						break;
+					}
+					if (strcmp(lexem, (char*)"LIFT_ON_COMPLETION") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.float_val < 0.1)
+							pval.float_val = 0.1;
+						if (pval.float_val > 1000)
+							pval.float_val = 1000;
+						cfgConfig.end_lift = pval.float_val;
 						rdstate = CFGR_GENERAL;
 						break;
 					}

@@ -25,7 +25,7 @@ uint8_t		FPHOTON_ReadFileInfo(FIL *file)
 	// header
 	if (f_read(file, &fphoton_header, sizeof(FPHOTON_HEADER), &readed) != FR_OK || readed != sizeof(FPHOTON_HEADER))
 		return 0;
-	if (fphoton_header.header != 0x12FD0019)
+	if (fphoton_header.header != 0x12FD0019 && fphoton_header.header != 0x12FD0086)
 		return 0;
 	// info
 	if (fphoton_header.version == 1)
@@ -78,7 +78,7 @@ uint8_t		FPHOTON_ReadFileInfo(FIL *file)
 
 uint8_t		FPHOTON_SetPointerToPreview(FIL *file, uint8_t small)
 {
-	if (fphoton_header.header != 0x12FD0019)
+	if (fphoton_header.header != 0x12FD0019 && fphoton_header.header != 0x12FD0086)
 		return 0;
 
 	if (small > 0)
@@ -101,7 +101,7 @@ uint8_t		FPHOTON_SetPointerToPreview(FIL *file, uint8_t small)
 
 uint32_t	FPHOTON_GetPreviewDataOffset(uint8_t small)
 {
-	if (fphoton_header.header != 0x12FD0019)
+	if (fphoton_header.header != 0x12FD0019 && fphoton_header.header != 0x12FD0086)
 		return 0;
 	
 	if (small > 0)
@@ -152,7 +152,7 @@ uint16_t	FPHOTON_GetPreviewSize(uint8_t small)
 
 uint8_t		FPHOTON_DrawPreview(FIL *file, TG_RECT *rect, uint8_t small)
 {
-	if (fphoton_header.header != 0x12FD0019)
+	if (fphoton_header.header != 0x12FD0019 && fphoton_header.header != 0x12FD0086)
 		return 0;
 
 	uint16_t		prev_width = 0, prev_height = 0, rect_width = 0, rect_height = 0, image_width = 0, image_height = 0, image_xcoord = 0, image_ycoord = 0;

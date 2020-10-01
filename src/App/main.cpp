@@ -696,7 +696,9 @@ int main()
 						systemInfo.target_position += cfgConfig.pause_lift;
 						if (systemInfo.target_position > cfgzMotor.max_pos)
 							systemInfo.target_position = cfgzMotor.max_pos;
+						systemInfo.print_is_printing = 0;
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
+						systemInfo.print_is_printing = 1;
 					}
 					PRINT_ClearLayerPreview();
 					// TODO - file read error processing!
@@ -728,7 +730,9 @@ int main()
 					systemInfo.printer_state = PST_PRINT_DROP;
 					systemInfo.target_position = cfgConfig.zero_pos + l_info.layer_position;
 					systemInfo.target_position += l_info.lift_height;
+					systemInfo.print_is_printing = 0;
 					ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
+					systemInfo.print_is_printing = 1;
 					systemInfo.target_position = cfgConfig.zero_pos + l_info.layer_position;
 					ZMOTOR_MoveAbsolute(systemInfo.target_position, l_info.drop_speed);
 				}

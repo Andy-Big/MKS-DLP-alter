@@ -122,6 +122,7 @@ typedef enum
 // Settings screen
 	LSTR_CLOCK,
 	LSTR_LIFT_ON_PAUSE,
+	LSTR_LIFT_ON_COMPLETION,
 	LSTR_BUZZER,
 	LSTR_ON,
 	LSTR_OFF,

@@ -56,6 +56,7 @@ uint8_t		PRINT_Init()
 	systemInfo.print_is_printing = 0;
 	systemInfo.print_is_canceled = 0;
 	systemInfo.print_pause_time = 0;
+	systemInfo.print_lift_at_end = cfgConfig.end_lift;
 
 	memset(&l_info, 0, sizeof(LAYER_INFO));
 
@@ -105,7 +106,9 @@ uint8_t		PRINT_Complete()
 			systemInfo.target_position = 30;
 			ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
 		}
-		systemInfo.target_position = cfgzMotor.max_pos - 5;
+		systemInfo.target_position += systemInfo.print_lift_at_end;
+		if (systemInfo.target_position > cfgzMotor.max_pos)
+			systemInfo.target_position = cfgzMotor.max_pos;
 		ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate);
 
 	}

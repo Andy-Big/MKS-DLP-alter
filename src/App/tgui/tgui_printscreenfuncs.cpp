@@ -211,7 +211,7 @@ void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param)
 	uint32_t	pass_h = pass_time / 3600;
 	uint32_t	pass_m = (pass_time - (pass_h * 3600)) / 60;
 	sprintf(msg, (char*)"%02u:%02u:%02u/%02u:%02u:%02u", pass_h, pass_m, pass_time % 60, est_h, est_m, est_time % 60);
-	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 100, thisbtn->position.top + 28, thisbtn->position.right - 196, -1);
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 70, thisbtn->position.top + 28, thisbtn->position.right - 176, -1);
 	
 	// layers + height
 	LCDUI_SetFont(LCDUI_FONT_H18BOLD);
@@ -219,8 +219,8 @@ void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param)
 	LCDUI_DrawText(LANG_GetString(LSTR_LAYERS), 0, thisbtn->position.left + 5, thisbtn->position.top + 48, thisbtn->position.right - 366, -1);
 	LCDUI_SetFont(LCDUI_FONT_H18);
 	LCDUI_SetColor(LCDUI_RGB(0x00496C));
-	sprintf(msg, (char*)"%u/%u (%0.3f %s)", systemInfo.print_current_layer + 1, PFILE_GetTotalLayers(), systemInfo.print_current_height, LANG_GetString(LSTR_SHORTMILLIMETERS));
-	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 100, thisbtn->position.top + 48, thisbtn->position.right - 196, -1);
+	sprintf(msg, (char*)"%u/%u (%0.1f %s)", systemInfo.print_current_layer + 1, PFILE_GetTotalLayers(), systemInfo.print_current_height, LANG_GetString(LSTR_SHORTMILLIMETERS));
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 70, thisbtn->position.top + 48, thisbtn->position.right - 176, -1);
 
 	// progress bar
 	LCDUI_DrawRect(thisbtn->position.left + 5, thisbtn->position.top + 69, 380, 18);
@@ -239,12 +239,12 @@ void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param)
 	if (systemInfo.print_is_paused)
 	{
 		LCDUI_SetColor(LCDUI_RGB(0xA67500));
-		LCDUI_DrawText(LANG_GetString(LSTR_PAUSE_CAPS), LCDUI_TEXT_ALIGN_CENTER, thisbtn->position.left + 272, thisbtn->position.top + 37, thisbtn->position.right - 5, -1);
+		LCDUI_DrawText(LANG_GetString(LSTR_PAUSE_CAPS), LCDUI_TEXT_ALIGN_CENTER, thisbtn->position.left + 285, thisbtn->position.top + 37, thisbtn->position.right - 5, -1);
 	}
 	else
 	{
 		LCDUI_SetColor(LCDUI_RGB(0x009700));
-		LCDUI_DrawText(LANG_GetString(LSTR_PRINTING_CAPS), LCDUI_TEXT_ALIGN_CENTER, thisbtn->position.left + 272, thisbtn->position.top + 37, thisbtn->position.right - 5, -1);
+		LCDUI_DrawText(LANG_GetString(LSTR_PRINTING_CAPS), LCDUI_TEXT_ALIGN_CENTER, thisbtn->position.left + 285, thisbtn->position.top + 37, thisbtn->position.right - 5, -1);
 	}
 
 	LCDUI_SetColor(oldcolor);
@@ -298,7 +298,7 @@ void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param)
 		LCDUI_SetColor(LCDUI_RGB(0xDDDDDD));
 		LCDUI_FillRect(thisbtn->position.left + 86, thisbtn->position.top + 28, 190, 18);
 		LCDUI_SetColor(LCDUI_RGB(0x00496C));
-		LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 100, thisbtn->position.top + 28, thisbtn->position.right - 196, -1);
+		LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 70, thisbtn->position.top + 28, thisbtn->position.right - 176, -1);
 		
 	}
 	
@@ -306,13 +306,13 @@ void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param)
 	{
 		// layers
 		LCDUI_SetColor(LCDUI_RGB(0x00496C));
-		sprintf(msg, (char*)"%u/%u (%0.2f %s)", systemInfo.print_current_layer + 1, PFILE_GetTotalLayers(), systemInfo.print_current_height, LANG_GetString(LSTR_SHORTMILLIMETERS));
+		sprintf(msg, (char*)"%u/%u (%0.1f %s)", systemInfo.print_current_layer + 1, PFILE_GetTotalLayers(), systemInfo.print_current_height, LANG_GetString(LSTR_SHORTMILLIMETERS));
 		LCDUI_SetColor(LCDUI_RGB(0xDDDDDD));
-		LCDUI_FillRect(thisbtn->position.left + 86, thisbtn->position.top + 48, 190, 18);
+		LCDUI_FillRect(thisbtn->position.left + 80, thisbtn->position.top + 48, 210, 18);
 		LCDUI_FillRect(thisbtn->position.left + 386, thisbtn->position.top + 70, 72, 18);
 
 		LCDUI_SetColor(LCDUI_RGB(0x00496C));
-		LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 100, thisbtn->position.top + 48, thisbtn->position.right - 196, -1);
+		LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 70, thisbtn->position.top + 48, thisbtn->position.right - 176, -1);
 
 		// progress bar
 		float		f_proc = ((float)(systemInfo.print_current_layer + 1) / (float)PFILE_GetTotalLayers()) * 100;
@@ -336,12 +336,12 @@ void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param)
 		if (systemInfo.print_is_paused)
 		{
 			LCDUI_SetColor(LCDUI_RGB(0xA67500));
-			LCDUI_DrawText(LANG_GetString(LSTR_PAUSE_CAPS), LCDUI_TEXT_ALIGN_CENTER, thisbtn->position.left + 272, thisbtn->position.top + 37, thisbtn->position.right - 5, -1);
+			LCDUI_DrawText(LANG_GetString(LSTR_PAUSE_CAPS), LCDUI_TEXT_ALIGN_CENTER, thisbtn->position.left + 282, thisbtn->position.top + 37, thisbtn->position.right - 5, -1);
 		}
 		else
 		{
 			LCDUI_SetColor(LCDUI_RGB(0x009700));
-			LCDUI_DrawText(LANG_GetString(LSTR_PRINTING_CAPS), LCDUI_TEXT_ALIGN_CENTER, thisbtn->position.left + 272, thisbtn->position.top + 37, thisbtn->position.right - 5, -1);
+			LCDUI_DrawText(LANG_GetString(LSTR_PRINTING_CAPS), LCDUI_TEXT_ALIGN_CENTER, thisbtn->position.left + 282, thisbtn->position.top + 37, thisbtn->position.right - 5, -1);
 		}
 	}
 

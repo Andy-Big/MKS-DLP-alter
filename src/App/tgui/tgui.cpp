@@ -108,7 +108,7 @@ void		TGUI_Init()
 	
 	uint8_t			bi = 0;
 	uint8_t			id = 0;
-//	int16_t			bx, by, bw, bh;
+	int16_t			by;
 	
 	
 	tguiActiveScreen = &tguiScreenMain;
@@ -1495,6 +1495,7 @@ void		TGUI_Init()
 	tgb->funcs._call_press = _tgui_SettingsSaveButtonPress;
 
 	// Clock
+	by = 51;
 	tgb = &(tguiScrSettingsButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
 	
@@ -1524,13 +1525,13 @@ void		TGUI_Init()
 	tgb = &(tguiScrSettingsButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {8, 108, 387, 155};
+	tgb->position = {8, (int16_t)(tguiScrSettingsButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrSettingsButtons[bi-2].position.bottom + by)};
 
 	tgb->button_id = TG_SCR_SETTINGS_LIFTPAUSE_ID;
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 	tgb->textcolor_act = tgc->btntextcolor_en;
-	tgb->textposition = {13, 108, 382, 155};
+	tgb->textposition = {13, (int16_t)(tguiScrSettingsButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrSettingsButtons[bi-2].position.bottom + by)};
 	tgb->text = LSTR_LIFT_ON_PAUSE;
 
 	tgb->options.bgpaint = BGP_IMAGE;
@@ -1544,17 +1545,41 @@ void		TGUI_Init()
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 	
 	
+	// Lift on end
+	tgb = &(tguiScrSettingsButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, (int16_t)(tguiScrSettingsButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrSettingsButtons[bi-2].position.bottom + by)};
+
+	tgb->button_id = TG_SCR_SETTINGS_LIFTEND_ID;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, (int16_t)(tguiScrSettingsButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrSettingsButtons[bi-2].position.bottom + by)};
+	tgb->text = LSTR_LIFT_ON_COMPLETION;
+
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_SETTINGS_ITEM_EN;
+	tgb->bgimagename_press = FNAME_BTN_SETTINGS_ITEM_PRESS;
+
+	tgb->options.disabled = 0;
+
+	tgb->funcs._call_paint = _tgui_SettingsItemButtonPaint;
+	tgb->funcs._call_press = _tgui_SettingsEndliftButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	
 	// Buzzer
 	tgb = &(tguiScrSettingsButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {8, 159, 387, 206};
+	tgb->position = {8, (int16_t)(tguiScrSettingsButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrSettingsButtons[bi-2].position.bottom + by)};
 
 	tgb->button_id = TG_SCR_SETTINGS_BUZZER_ID;
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 	tgb->textcolor_act = tgc->btntextcolor_en;
-	tgb->textposition = {13, 159, 382, 206};
+	tgb->textposition = {13, (int16_t)(tguiScrSettingsButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrSettingsButtons[bi-2].position.bottom + by)};
 	tgb->text = LSTR_BUZZER;
 
 	tgb->options.bgpaint = BGP_IMAGE;
