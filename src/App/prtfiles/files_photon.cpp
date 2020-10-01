@@ -1,4 +1,5 @@
 #include "files_photon.h"
+#include "config.h"
 
 
 
@@ -318,9 +319,27 @@ float		FPHOTON_GetLightLayer()
 
 
 
+void		FPHOTON_SetLightLayer(float val)
+{
+	fphoton_header.slicer_exp_time = val;
+}
+//==============================================================================
+
+
+
+
 float		FPHOTON_GetLightBottom()
 {
 	return fphoton_header.slicer_expbottom_time;
+}
+//==============================================================================
+
+
+
+
+void		FPHOTON_SetLightBottom(float val)
+{
+	fphoton_header.slicer_expbottom_time = val;
 }
 //==============================================================================
 
@@ -336,9 +355,28 @@ float		FPHOTON_GetLightPause()
 
 
 
+void		FPHOTON_SetLightPause(float val)
+{
+	fphoton_header.slicer_lightoff_time = val;
+}
+//==============================================================================
+
+
+
+
 float		FPHOTON_GetLiftHeight()
 {
 	return fphoton_info.lift_height;
+}
+//==============================================================================
+
+
+
+
+void		FPHOTON_SetLiftHeight(float val)
+{
+	fphoton_info.lift_height = val;
+	fphoton_info.lift_height_bottom = val;
 }
 //==============================================================================
 
@@ -354,9 +392,28 @@ float		FPHOTON_GetLiftSpeed()
 
 
 
+void		FPHOTON_SetLiftSpeed(float val)
+{
+	fphoton_info.lift_speed = val * 60.0;
+	fphoton_info.lift_speed_bottom = val * 60;
+}
+//==============================================================================
+
+
+
+
 float		FPHOTON_GetDropSpeed()
 {
 	return fphoton_info.down_speed / 60.0;
+}
+//==============================================================================
+
+
+
+
+void		FPHOTON_SetDropSpeed(float val)
+{
+	fphoton_info.down_speed = val * 60.0;
 }
 //==============================================================================
 
@@ -418,8 +475,6 @@ uint8_t		FPHOTON_GetLayerInfo(uint32_t layer_num, LAYER_INFO *layer_info)
 	layer_info->data_offset = photon_linfo.data_offset;
 	layer_info->data_length = photon_linfo.data_length;
 	layer_info->layer_position = photon_linfo.layer_position;
-	layer_info->light_time = photon_linfo.light_time;
-	layer_info->lightoff_time = photon_linfo.lightoff_time;
 	layer_info->drop_speed = fphoton_info.down_speed;
 
 	if (layer_num < fphoton_info.bottom_layers)
@@ -431,6 +486,24 @@ uint8_t		FPHOTON_GetLayerInfo(uint32_t layer_num, LAYER_INFO *layer_info)
 	{
 		layer_info->lift_height = fphoton_info.lift_height;
 		layer_info->lift_speed = fphoton_info.lift_speed;
+	}
+
+	if (systemInfo.print_use_ind_params == 0)
+	{
+		layer_info->lightoff_time = fphoton_header.slicer_lightoff_time;
+		if (layer_num < fphoton_info.bottom_layers)
+		{
+			layer_info->light_time = fphoton_header.slicer_expbottom_time;
+		}
+		else
+		{
+			layer_info->light_time = fphoton_header.slicer_exp_time;
+		}
+	}
+	else
+	{
+		layer_info->lightoff_time = photon_linfo.lightoff_time;
+		layer_info->light_time = photon_linfo.light_time;
 	}
 
 	return 1;

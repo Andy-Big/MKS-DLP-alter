@@ -1,4 +1,5 @@
 #include "files_pws.h"
+#include "config.h"
 
 
 
@@ -242,9 +243,27 @@ float		FPWS_GetLightLayer()
 
 
 
+void		FPWS_SetLightLayer(float val)
+{
+	fpws_info.exp_time = val;
+}
+//==============================================================================
+
+
+
+
 float		FPWS_GetLightBottom()
 {
 	return fpws_info.expbottom_time;
+}
+//==============================================================================
+
+
+
+
+void		FPWS_SetLightBottom(float val)
+{
+	fpws_info.expbottom_time = val;
 }
 //==============================================================================
 
@@ -260,9 +279,27 @@ float		FPWS_GetLightPause()
 
 
 
+void		FPWS_SetLightPause(float val)
+{
+	fpws_info.lightoff_time = val;
+}
+//==============================================================================
+
+
+
+
 float		FPWS_GetLiftHeight()
 {
 	return fpws_info.lift_height;
+}
+//==============================================================================
+
+
+
+
+void		FPWS_SetLiftHeight(float val)
+{
+	fpws_info.lift_height = val;
 }
 //==============================================================================
 
@@ -278,9 +315,27 @@ float		FPWS_GetLiftSpeed()
 
 
 
+void		FPWS_SetLiftSpeed(float val)
+{
+	fpws_info.lift_speed = val;
+}
+//==============================================================================
+
+
+
+
 float		FPWS_GetDropSpeed()
 {
 	return fpws_info.down_speed;
+}
+//==============================================================================
+
+
+
+
+void		FPWS_SetDropSpeed(float val)
+{
+	fpws_info.down_speed = val;
 }
 //==============================================================================
 
@@ -347,7 +402,8 @@ uint8_t		FPWS_GetLayerInfo(uint32_t layer_num, LAYER_INFO *layer_info)
 	layer_info->layer_position = (layer_num + 1) * fpws_info.layers_thickness;
 	layer_info->lightoff_time = fpws_info.lightoff_time;
 
-	if (fpws_info.use_layer_params == 0)
+
+	if (fpws_info.use_layer_params == 0 || systemInfo.print_use_ind_params == 0)
 	{
 		layer_info->lift_height = fpws_info.lift_height;
 		layer_info->lift_speed = fpws_info.lift_speed;

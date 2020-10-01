@@ -321,6 +321,21 @@ typedef struct
 #define	FNAME_BTN_UVTEST_IMAGE3_EN		(char*)"btn_uvtest_img3_en.cimg"
 #define	FNAME_BTN_UVTEST_IMAGE3_PRESS	(char*)"btn_uvtest_img3_press.cimg"
 
+#define	FNAME_BTN_PRNPARAMS_UP_EN		(char*)"btn_prnparams_up_en.cimg"
+#define	FNAME_BTN_PRNPARAMS_UP_PRESS	(char*)"btn_prnparams_up_press.cimg"
+#define	FNAME_BTN_PRNPARAMS_UP_DIS		(char*)"btn_prnparams_up_dis.cimg"
+#define	FNAME_BTN_PRNPARAMS_DOWN_EN		(char*)"btn_prnparams_down_en.cimg"
+#define	FNAME_BTN_PRNPARAMS_DOWN_PRESS	(char*)"btn_prnparams_down_press.cimg"
+#define	FNAME_BTN_PRNPARAMS_DOWN_DIS	(char*)"btn_prnparams_down_dis.cimg"
+#define	FNAME_BTN_PRNPARAMS_SAVE_EN		(char*)"btn_prnparams_save_en.cimg"
+#define	FNAME_BTN_PRNPARAMS_SAVE_PRESS	(char*)"btn_prnparams_save_press.cimg"
+#define	FNAME_BTN_PRNPARAMS_SAVE_DIS	(char*)"btn_prnparams_save_dis.cimg"
+#define	FNAME_BTN_PRNPARAMS_OK_EN		(char*)"btn_prnparams_ok_en.cimg"
+#define	FNAME_BTN_PRNPARAMS_OK_PRESS	(char*)"btn_prnparams_ok_press.cimg"
+#define	FNAME_BTN_PRNPARAMS_ITEM_EN		(char*)"btn_prnparams_item_en.cimg"
+#define	FNAME_BTN_PRNPARAMS_ITEM_PRESS	(char*)"btn_prnparams_item_press.cimg"
+#define	FNAME_BTN_PRNPARAMS_ITEM_DIS	(char*)"btn_prnparams_item_dis.cimg"
+
 #define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn_files_dir.cimg"
 #define	FNAME_ICN_FILES_IMAGE		(char*)"icn_files_image.cimg"
 #define	FNAME_ICN_FILES_CONFIG		(char*)"icn_files_config.cimg"
@@ -464,6 +479,23 @@ extern TG_SCREEN		tguiScreenSaver;
 #define		TG_BTN_CNT_SCREEN_UVTEST		6
 extern TG_BUTTON		tguiScrUVTestButtons[TG_BTN_CNT_SCREEN_CLOCKSET];
 extern TG_SCREEN		tguiScreenUVTest;
+
+
+#define		TG_SCR_PRNPARAMS_LIGHTBOTTOM_ID		20
+#define		TG_SCR_PRNPARAMS_LIGHT_ID			21
+#define		TG_SCR_PRNPARAMS_LIGHTPAUSE_ID		22
+#define		TG_SCR_PRNPARAMS_LIFTHEIGHT_ID		23
+#define		TG_SCR_PRNPARAMS_LIFTSPEED_ID		24
+#define		TG_SCR_PRNPARAMS_DROPSPEED_ID		25
+#define		TG_SCR_PRNPARAMS_AA_ID				26
+#define		TG_SCR_PRNPARAMS_INDPARAMS_ID		27
+
+#define		TG_SCR_PRNPARAMS_UP_ID				40
+#define		TG_SCR_PRNPARAMS_DOWN_ID			41
+
+#define		TG_BTN_CNT_SCREEN_PRNPARAMS		13
+extern TG_BUTTON		tguiScrPrnparamsButtons[TG_BTN_CNT_SCREEN_PRNPARAMS];
+extern TG_SCREEN		tguiScreenPrnparams;
 
 
 

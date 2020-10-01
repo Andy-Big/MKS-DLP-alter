@@ -155,6 +155,17 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Display: ",
 		(char*)"Loading image...",
 
+// Printing parameters screen
+		(char*)"Printing parameters",
+		(char*)"Bottom light",
+		(char*)"Light",
+		(char*)"Lift height",
+		(char*)"Lift speed",
+		(char*)"Drop speed",
+		(char*)"Light pause",
+		(char*)"Antialiasing",
+		(char*)"Ind. layers sett.",
+
 	};
 
 constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
@@ -309,6 +320,17 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Засветка: ",
 		(char*)"Дисплей: ",
 		(char*)"Загружается изображение...",
+
+// Printing parameters screen
+		(char*)"Параметры печати",
+		(char*)"Засветка низа",
+		(char*)"Засветка",
+		(char*)"Высота подъема",
+		(char*)"Скорость вверх",
+		(char*)"Скорость вниз",
+		(char*)"Пауза засветки",
+		(char*)"Антиалиасинг",
+		(char*)"Инд. настр. слоев",
 
 	};
 

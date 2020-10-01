@@ -136,3 +136,13 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 1. Total printer on time counter.
 1. Time counters reset.
 
+## 02.10.2020 Updates
+**Added/changed:**
++ Added Changing parameters during printing - exposure time, elevation and lifting speed, etc.
+
+**To do in the near future:**
+1. Upgradeable bootloader and firmware.
+1. Touch panel calibration.
+1. Total printer on time counter.
+1. Time counters reset.
+

@@ -51,6 +51,19 @@ uint8_t		PFILE_Init(FIL *file, FILES_TYPE ftype)
 		
 	}
 
+	if (pfile_type != FTYPE_NONE)
+	{
+		if (PFILE_GetAntialiasing() > 1)
+			systemInfo.print_use_aa_grade = 1;
+		else
+			systemInfo.print_use_aa_grade = 0;
+
+		if (PFILE_GetIndLayerSettings() > 0)
+			systemInfo.print_use_ind_params = 1;
+		else
+			systemInfo.print_use_ind_params = 0;
+	}
+	
 	return res;
 }
 //==============================================================================
@@ -341,6 +354,25 @@ float		PFILE_GetLightLayer()
 
 
 
+void		PFILE_SetLightLayer(float val)
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_SetLightLayer(val);
+
+		case FTYPE_PHOTON:
+		case FTYPE_CTB:
+			return FPHOTON_SetLightLayer(val);
+
+	}
+
+}
+//==============================================================================
+
+
+
+
 float		PFILE_GetLightBottom()
 {
 	switch (pfile_type)
@@ -355,6 +387,25 @@ float		PFILE_GetLightBottom()
 	}
 
 	return 0;
+}
+//==============================================================================
+
+
+
+
+void		PFILE_SetLightBottom(float val)
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_SetLightBottom(val);
+
+		case FTYPE_PHOTON:
+		case FTYPE_CTB:
+			return FPHOTON_SetLightBottom(val);
+
+	}
+
 }
 //==============================================================================
 
@@ -381,6 +432,25 @@ float		PFILE_GetLightPause()
 
 
 
+void		PFILE_SetLightPause(float val)
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_SetLightPause(val);
+
+		case FTYPE_PHOTON:
+		case FTYPE_CTB:
+			return FPHOTON_SetLightPause(val);
+
+	}
+
+}
+//==============================================================================
+
+
+
+
 float		PFILE_GetLiftHeight()
 {
 	switch (pfile_type)
@@ -395,6 +465,25 @@ float		PFILE_GetLiftHeight()
 	}
 
 	return 0;
+}
+//==============================================================================
+
+
+
+
+void		PFILE_SetLiftHeight(float val)
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_SetLiftHeight(val);
+
+		case FTYPE_PHOTON:
+		case FTYPE_CTB:
+			return FPHOTON_SetLiftHeight(val);
+
+	}
+
 }
 //==============================================================================
 
@@ -441,6 +530,25 @@ float		PFILE_GetLiftSpeed()
 
 
 
+void		PFILE_SetLiftSpeed(float val)
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_SetLiftSpeed(val);
+
+		case FTYPE_PHOTON:
+		case FTYPE_CTB:
+			return FPHOTON_SetLiftSpeed(val);
+
+	}
+
+}
+//==============================================================================
+
+
+
+
 float		PFILE_GetLiftSpeedBottom()
 {
 	switch (pfile_type)
@@ -475,6 +583,25 @@ float		PFILE_GetDropSpeed()
 	}
 
 	return 0;
+}
+//==============================================================================
+
+
+
+
+void		PFILE_SetDropSpeed(float val)
+{
+	switch (pfile_type)
+	{
+		case FTYPE_PWS:
+			return FPWS_SetDropSpeed(val);
+
+		case FTYPE_PHOTON:
+		case FTYPE_CTB:
+			return FPHOTON_SetDropSpeed(val);
+
+	}
+
 }
 //==============================================================================
 

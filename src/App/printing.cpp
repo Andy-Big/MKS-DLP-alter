@@ -57,6 +57,8 @@ uint8_t		PRINT_Init()
 	systemInfo.print_is_canceled = 0;
 	systemInfo.print_pause_time = 0;
 	systemInfo.print_lift_at_end = cfgConfig.end_lift;
+	systemInfo.print_use_aa_grade = (PFILE_GetAntialiasing() > 1);
+	systemInfo.print_use_ind_params = PFILE_GetIndLayerSettings();
 
 	memset(&l_info, 0, sizeof(LAYER_INFO));
 
@@ -157,6 +159,7 @@ uint8_t		PRINT_ReadLayerInfo()
 			if (FPWS_GetLayerInfo(systemInfo.print_current_layer, &l_info) == 0)
 				return 0;
 		}
+		break;
 
 		case FTYPE_PHOTON:
 		{
@@ -164,6 +167,7 @@ uint8_t		PRINT_ReadLayerInfo()
 			if (FPHOTON_GetLayerInfo(systemInfo.print_current_layer, &l_info) == 0)
 				return 0;
 		}
+		break;
 	}
 	
 	return 1;

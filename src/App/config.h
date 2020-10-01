@@ -132,6 +132,8 @@ typedef struct
 	float			print_current_height;
 	float			print_light_time_total;
 	float			print_lift_at_end;
+	uint8_t			print_use_aa_grade;
+	uint8_t			print_use_ind_params;
 } SYSTEM_INFO;
 
 

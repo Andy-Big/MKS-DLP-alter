@@ -30,7 +30,7 @@ typedef struct
 	float		lift_height;
 	float		lift_speed;
 	float		drop_speed;
-	
+
 	uint32_t	data_offset;
 	uint32_t	data_length;
 } LAYER_INFO;
@@ -54,13 +54,19 @@ uint32_t	PFILE_GetBottomLayers();
 float		PFILE_GetLayerThickness();
 uint32_t	PFILE_GetAntialiasing();
 float		PFILE_GetLightLayer();
+void		PFILE_SetLightLayer(float val);
 float		PFILE_GetLightBottom();
+void		PFILE_SetLightBottom(float val);
 float		PFILE_GetLightPause();
+void		PFILE_SetLightPause(float val);
 float		PFILE_GetLiftHeight();
+void		PFILE_SetLiftHeight(float val);
 float		PFILE_GetLiftBottom();
 float		PFILE_GetLiftSpeed();
+void		PFILE_SetLiftSpeed(float val);
 float		PFILE_GetLiftSpeedBottom();
 float		PFILE_GetDropSpeed();
+void		PFILE_SetDropSpeed(float val);
 float		PFILE_GetResinVolume();
 uint32_t	PFILE_GetIndLayerSettings();
 uint32_t	PFILE_GetIndLayerSettings();

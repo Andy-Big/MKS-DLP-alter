@@ -1397,6 +1397,9 @@
                 <name>$PROJ_DIR$\src\App\tgui\tgui_printscreenfuncs.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_prnparamsscreenfuncs.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_screensaverfuncs.cpp</name>
             </file>
             <file>
