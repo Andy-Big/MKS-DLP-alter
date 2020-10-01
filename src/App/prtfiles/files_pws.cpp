@@ -323,20 +323,49 @@ uint32_t	FPWS_GetResolutionY()
 
 
 
-uint8_t		FPWS_GetLayerInfo(uint32_t layer_num, FPWS_LAYERSINFO *layer_info)
+uint8_t		FPWS_GetLayerInfo(uint32_t layer_num, LAYER_INFO *layer_info)
 {
 	if (layer_num >= fpws_layersdata.total_layers)
 		return 0;
 	
-	uint32_t	rd = 0;
-	uint32_t	data_offset = fpws_header.layersdef_offset;
+	uint32_t			rd = 0;
+	uint32_t			data_offset = fpws_header.layersdef_offset;
+	FPWS_LAYERSINFO		pws_linfo;
+	
 	data_offset += sizeof(FPWS_LAYERSDEF);
 	data_offset += sizeof(FPWS_LAYERSINFO) * layer_num;
 
 	if (f_lseek(&ufile, data_offset) != FR_OK)
 		return 0;
-	if (f_read(&ufile, layer_info, sizeof(FPWS_LAYERSINFO), &rd) != FR_OK || rd != sizeof(FPWS_LAYERSINFO))
+	if (f_read(&ufile, &pws_linfo, sizeof(FPWS_LAYERSINFO), &rd) != FR_OK || rd != sizeof(FPWS_LAYERSINFO))
 		return 0;
+
+	layer_info->data_offset = pws_linfo.data_point;
+	layer_info->data_length = pws_linfo.data_length;
+
+	layer_info->drop_speed = fpws_info.down_speed;
+	layer_info->layer_position = (layer_num + 1) * fpws_info.layers_thickness;
+	layer_info->lightoff_time = fpws_info.lightoff_time;
+
+	if (fpws_info.use_layer_params == 0)
+	{
+		layer_info->lift_height = fpws_info.lift_height;
+		layer_info->lift_speed = fpws_info.lift_speed;
+		if (layer_num < fpws_info.bottom_layers)
+		{
+			layer_info->light_time = fpws_info.expbottom_time;
+		}
+		else
+		{
+			layer_info->light_time = fpws_info.exp_time;
+		}
+	}
+	else
+	{
+		layer_info->lift_height = pws_linfo.lift_height;
+		layer_info->lift_speed = pws_linfo.lift_speed;
+		layer_info->light_time = pws_linfo.light_time;
+	}
 
 	return 1;
 }

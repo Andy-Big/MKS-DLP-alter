@@ -5,6 +5,7 @@
 #include "main.h"
 #include "ff.h"
 #include "tgui.h"
+#include "prtfiles.h"
 
 
 
@@ -63,6 +64,7 @@ typedef struct
 	uint32_t	height;
 	uint32_t	data_offset;
 	uint32_t	data_length;
+	uint32_t	unknow1[4];
 } FPHOTON_PREVIEW;
 
 typedef struct
@@ -81,11 +83,12 @@ typedef struct
 
 
 uint8_t		FPHOTON_ReadFileInfo(FIL *file);
-uint8_t		FPHOTON_SetPointerToPreview(FIL *file);
-uint32_t	FPHOTON_GetPreviewDataOffset();
-uint16_t	FPHOTON_GetPreviewWidth();
-uint16_t	FPHOTON_GetPreviewHeight();
-uint8_t		FPHOTON_DrawPreview(FIL *file, TG_RECT *rect);
+uint8_t		FPHOTON_SetPointerToPreview(FIL *file, uint8_t small = 0);
+uint32_t	FPHOTON_GetPreviewDataOffset(uint8_t small = 0);
+uint16_t	FPHOTON_GetPreviewWidth(uint8_t small = 0);
+uint16_t	FPHOTON_GetPreviewHeight(uint8_t small = 0);
+uint16_t	FPHOTON_GetPreviewSize(uint8_t small = 0);
+uint8_t		FPHOTON_DrawPreview(FIL *file, TG_RECT *rect, uint8_t small = 0);
 
 uint32_t	FPHOTON_GetTotalLayers();
 uint32_t	FPHOTON_GetBottomLayers();
@@ -102,7 +105,7 @@ uint32_t	FPHOTON_GetIndLayerSettings();
 uint32_t	FPHOTON_GetResolutionX();
 uint32_t	FPHOTON_GetResolutionY();
 
-uint8_t		FPHOTON_GetLayerInfo(uint32_t layer_num, FPHOTON_LAYERSINFO *layer_info);
+uint8_t		FPHOTON_GetLayerInfo(uint32_t layer_num, LAYER_INFO *layer_info);
 
 
 

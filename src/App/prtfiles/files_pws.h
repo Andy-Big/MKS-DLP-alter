@@ -3,6 +3,7 @@
 
 #include "includes.h"
 #include "main.h"
+#include "prtfiles.h"
 #include "ff.h"
 #include "tgui.h"
 
@@ -99,7 +100,7 @@ uint32_t	FPWS_GetIndLayerSettings();
 uint32_t	FPWS_GetResolutionX();
 uint32_t	FPWS_GetResolutionY();
 
-uint8_t		FPWS_GetLayerInfo(uint32_t layer_num, FPWS_LAYERSINFO *layer_info);
+uint8_t		FPWS_GetLayerInfo(uint32_t layer_num, LAYER_INFO *layer_info);
 
 
 

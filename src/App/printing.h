@@ -6,7 +6,6 @@
 #include "tgui.h"
 #include "tgui_printscreenfuncs.h"
 #include "prtfiles.h"
-#include "files_pws.h"
 #include "config.h"
 #include "usb_host.h"
 #include "ff.h"
@@ -21,7 +20,6 @@
 typedef struct
 {
 } PRINT_STATE;
-
 
 
 

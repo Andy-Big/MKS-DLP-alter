@@ -48,7 +48,7 @@ void		_tgui_FilesDrawPreview(TG_RECT *rect, FILES_ITEM *fitem)
 	if (PFILE_Init(&ufile, fitem->type) == 0)
 		goto closeexit;
 
-	PFILE_DrawPreview(&ufile, rect);
+	PFILE_DrawPreview(&ufile, rect, 1);
 	
 closeexit:
 	f_close(&ufile);
@@ -108,7 +108,7 @@ uint8_t		_tgui_FilesReadDir()
 						ftype = FTYPE_PWS;
 					currfilenum++;
 				}
-				else if (strcmp(fext, (char*)"photon") == 0)
+				else if (strcmp(fext, (char*)"photon") == 0 || strcmp(fext, (char*)"cbddlp") == 0)
 				{
 					if (currfilenum >= lastfilenum)
 						ftype = FTYPE_PHOTON;
@@ -642,6 +642,7 @@ void		_tgui_FilesFileButtonPress(void *tguiobj, void *param)
 			break;
 
 		case FTYPE_PWS:
+		case FTYPE_PHOTON:
 			TGUI_FileviewScreenShow(files[thisbtn->button_id-1].fname, currdir, files[thisbtn->button_id-1].type);
 			thisbtn->options.pressed = 0;
 			tguiScreenFileview.prevscreen = tguiActiveScreen;

@@ -242,15 +242,19 @@ void		_tgui_FileviewPreviewPaint(void *tguiobj, void *param)
 	if (f_open(&ufile, fv_tfilename, FA_OPEN_EXISTING | FA_READ) != FR_OK)
 		return;
 
+	rc.left = thisbtn->position.left;
+	rc.right = thisbtn->position.right;
+	rc.top = thisbtn->position.top;
+	rc.bottom = thisbtn->position.bottom;
 	switch (fv_filetype)
 	{
 		// PWS preview
 		case FTYPE_PWS:
-			rc.left = thisbtn->position.left;
-			rc.right = thisbtn->position.right;
-			rc.top = thisbtn->position.top;
-			rc.bottom = thisbtn->position.bottom;
 			FPWS_DrawPreview(&ufile, &rc);
+			break;
+
+		case FTYPE_PHOTON:
+			FPHOTON_DrawPreview(&ufile, &rc, 0);
 			break;
 	}	
 

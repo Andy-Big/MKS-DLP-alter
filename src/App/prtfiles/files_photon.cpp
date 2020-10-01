@@ -9,36 +9,64 @@ extern __no_init FIL			sfile @ "CCMRAM";
 
 FPHOTON_HEADER			fphoton_header;
 FPHOTON_INFO			fphoton_info;
-FPHOTON_PREVIEW			fphoton_preview;
+FPHOTON_PREVIEW			fphoton_preview_big;
+FPHOTON_PREVIEW			fphoton_preview_small;
 
 
 
 uint8_t		FPHOTON_ReadFileInfo(FIL *file)
 {
-	uint32_t	rd;
+	uint32_t	readed;
 	
 	memset(&fphoton_header, 0, sizeof(FPHOTON_HEADER));
 	memset(&fphoton_info, 0, sizeof(FPHOTON_INFO));
-	memset(&fphoton_preview, 0, sizeof(FPHOTON_PREVIEW));
+	memset(&fphoton_preview_big, 0, sizeof(FPHOTON_PREVIEW));
 
 	// header
-	if (f_read(file, &fphoton_header, sizeof(FPHOTON_HEADER), &rd) != FR_OK || rd != sizeof(FPHOTON_HEADER))
+	if (f_read(file, &fphoton_header, sizeof(FPHOTON_HEADER), &readed) != FR_OK || readed != sizeof(FPHOTON_HEADER))
 		return 0;
 	if (fphoton_header.header != 0x12FD0019)
 		return 0;
-	if (fphoton_header.version == 1)
-		fphoton_header.aa_grade = 1;
-	
 	// info
-	if (f_lseek(file, fphoton_header.print_parameters_offset) != FR_OK)
-		return 0;
-	if (f_read(file, &fphoton_info, sizeof(FPHOTON_INFO), &rd) != FR_OK || rd != sizeof(FPHOTON_INFO))
-		return 0;
+	if (fphoton_header.version == 1)
+	{
+		LAYER_INFO		l_info;
+		
+		FPHOTON_GetLayerInfo(0, &l_info);
+		fphoton_info.lift_height_bottom = 5;
+		fphoton_info.lift_speed_bottom = 120;
+		fphoton_info.slicer_lightoff_time_bottom = l_info.lightoff_time;
+
+		FPHOTON_GetLayerInfo(fphoton_header.bottom_layers, &l_info);
+		fphoton_info.down_speed = 120;
+		fphoton_info.lift_height = 5;
+		fphoton_info.lift_speed = 120;
+		fphoton_info.slicer_lightoff_time = l_info.lightoff_time;
+
+		fphoton_header.aa_grade = 1;
+		fphoton_info.bottom_layers = fphoton_header.bottom_layers;
+		fphoton_info.resin_price = 0;
+		fphoton_info.resin_volume = 0;
+		fphoton_info.resin_weight = 0;
+	}
+	else
+	{
+		if (f_lseek(file, fphoton_header.print_parameters_offset) != FR_OK)
+			return 0;
+		if (f_read(file, &fphoton_info, sizeof(FPHOTON_INFO), &readed) != FR_OK || readed != sizeof(FPHOTON_INFO))
+			return 0;
+	}
 	
-	// preview
+	// preview big
 	if (f_lseek(file, fphoton_header.preview_large_offset) != FR_OK)
 		return 0;
-	if (f_read(file, &fphoton_preview, sizeof(FPHOTON_PREVIEW), &rd) != FR_OK || rd != sizeof(FPHOTON_PREVIEW))
+	if (f_read(file, &fphoton_preview_big, sizeof(FPHOTON_PREVIEW), &readed) != FR_OK || readed != sizeof(FPHOTON_PREVIEW))
+		return 0;
+
+	// preview small
+	if (f_lseek(file, fphoton_header.preview_small_offset) != FR_OK)
+		return 0;
+	if (f_read(file, &fphoton_preview_small, sizeof(FPHOTON_PREVIEW), &readed) != FR_OK || readed != sizeof(FPHOTON_PREVIEW))
 		return 0;
 
 	return 1;
@@ -48,13 +76,21 @@ uint8_t		FPHOTON_ReadFileInfo(FIL *file)
 
 
 
-uint8_t		FPHOTON_SetPointerToPreview(FIL *file)
+uint8_t		FPHOTON_SetPointerToPreview(FIL *file, uint8_t small)
 {
 	if (fphoton_header.header != 0x12FD0019)
 		return 0;
-	
-	if (f_lseek(file, fphoton_header.preview_large_offset) != FR_OK)
-		return 0;
+
+	if (small > 0)
+	{
+		if (f_lseek(file, fphoton_header.preview_small_offset) != FR_OK)
+			return 0;
+	}
+	else
+	{
+		if (f_lseek(file, fphoton_header.preview_large_offset) != FR_OK)
+			return 0;
+	}
 
 	return 1;
 }
@@ -63,120 +99,172 @@ uint8_t		FPHOTON_SetPointerToPreview(FIL *file)
 
 
 
-uint32_t	FPHOTON_GetPreviewDataOffset()
+uint32_t	FPHOTON_GetPreviewDataOffset(uint8_t small)
 {
 	if (fphoton_header.header != 0x12FD0019)
 		return 0;
 	
-	return fphoton_header.preview_large_offset + sizeof(FPHOTON_PREVIEW);
+	if (small > 0)
+		return fphoton_header.preview_small_offset + sizeof(FPHOTON_PREVIEW);
+	else
+		return fphoton_header.preview_large_offset + sizeof(FPHOTON_PREVIEW);
 }
 //==============================================================================
 
 
 
 
-uint16_t	FPHOTON_GetPreviewWidth()
+uint16_t	FPHOTON_GetPreviewWidth(uint8_t small)
 {
-	return fphoton_preview.width;
+	if (small > 0)
+		return fphoton_preview_small.width;
+	else
+		return fphoton_preview_big.width;
 }
 //==============================================================================
 
 
 
 
-uint16_t	FPHOTON_GetPreviewHeight()
+uint16_t	FPHOTON_GetPreviewHeight(uint8_t small)
 {
-	return fphoton_preview.height;
+	if (small > 0)
+		return fphoton_preview_small.height;
+	else
+		return fphoton_preview_big.height;
 }
 //==============================================================================
 
 
 
 
-uint8_t		FPHOTON_DrawPreview(FIL *file, TG_RECT *rect)
+uint16_t	FPHOTON_GetPreviewSize(uint8_t small)
+{
+	if (small > 0)
+		return fphoton_preview_small.data_length;
+	else
+		return fphoton_preview_big.data_length;
+}
+//==============================================================================
+
+
+
+
+uint8_t		FPHOTON_DrawPreview(FIL *file, TG_RECT *rect, uint8_t small)
 {
 	if (fphoton_header.header != 0x12FD0019)
 		return 0;
 
-	uint16_t		pw = 0, ph = 0, rw = 0, rh = 0, iw = 0, ih = 0, ix = 0, iy = 0;
-	float			pscale = 0, nextcol = 0, nextline = 0;
-	uint32_t		cpainted = 0;
-	uint32_t		lpainted = 0;
-	uint32_t		rd = 0;
-	uint16_t		*buff, *decbuff;
-	uint32_t		doffset = FPHOTON_GetPreviewDataOffset();
-	uint16_t		dbuff[480];
-	uint32_t		bufpos = 0, decbufpos = 0, oldbufpos = 0, oldline = 0, btoread = 0;
+	uint16_t		prev_width = 0, prev_height = 0, rect_width = 0, rect_height = 0, image_width = 0, image_height = 0, image_xcoord = 0, image_ycoord = 0;
+	uint32_t		prev_datasize = 0;
+	float			pscale = 0;
+	uint16_t		columns_readed = 0, lines_readed = 0, read_col = 0, read_line = 0;
+	uint16_t		paint_col = 0, paint_line = 0;
+	uint32_t		readed = 0;
+	uint16_t		*read_buff;
+	uint32_t		doffset = FPHOTON_GetPreviewDataOffset(small);
+	uint32_t		read_buff_pos = 0, btoread = 0, total_readed = 0;
+	uint16_t		color = 0, repeat = 1;
+	uint16_t		dest_buff[480];
+	uint16_t		dest_buff_pos = 0;
 
 
-	pw = fphoton_preview.width;
-	ph = fphoton_preview.height;
-	// read by full lines of source preview image
+	prev_width = FPHOTON_GetPreviewWidth(small);
+	prev_height = FPHOTON_GetPreviewHeight(small);
+	prev_datasize = FPHOTON_GetPreviewSize(small);
+	
 	btoread = 4096;
+	if (btoread > prev_datasize)
+		btoread = prev_datasize;
 
-	if (pw == 0 || ph == 0)
+	if (prev_width == 0 || prev_height == 0)
 		return 0;
 	
-	rw = rect->right - rect->left + 1;
-	rh = rect->bottom - rect->top + 1;
-	pscale = (float)pw / (float)rw;
-	if ((float)ph / (float)rh > pscale)
-		pscale = (float)ph / (float)rh;
-//	if (pscale < 1)
-//		pscale = 1;
+	rect_width = rect->right - rect->left + 1;
+	rect_height = rect->bottom - rect->top + 1;
+	pscale = (float)prev_width / (float)rect_width;
+	if ((float)prev_height / (float)rect_height > pscale)
+		pscale = (float)prev_height / (float)rect_height;
 	
-	iw = (uint32_t)((float)pw / pscale);
-	ih = (uint32_t)((float)ph / pscale);
-	ix = rect->left + (rw - iw) / 2;
-	iy = rect->top + (rh - ih) / 2;
+	image_width = (uint32_t)((float)prev_width / pscale);
+	image_height = (uint32_t)((float)prev_height / pscale);
+	image_xcoord = rect->left + (rect_width - image_width) / 2;
+	image_ycoord = rect->top + (rect_height - image_height) / 2;
 
-	buff = (uint16_t*)fbuff;
-	decbuff = (uint16_t*)(fbuff + 4096);
+	read_buff = (uint16_t*)fbuff;
 
-	LCD_SetWindows(ix, iy, iw, ih);
+	LCD_SetWindows(image_xcoord, image_ycoord, image_width, image_height);
 	LCD_WriteRAM_Prepare();
 
 	if (f_lseek(file, doffset) != FR_OK)
 		return 0;
-	if (f_read(file, fbuff, btoread, &rd) != FR_OK || rd != btoread)
+	if (f_read(file, fbuff, btoread, &readed) != FR_OK || readed != btoread)
 		return 0;
+	total_readed += btoread;
 
-	bufpos = (uint32_t)(nextcol);
-	uint16_t	repeat = 1;
-	uint16_t	dot = buff[bufpos]
-	while (lpainted < ih)
+	while (1)
 	{
-		while (cpainted < iw)
+		repeat = 1;
+		color = read_buff[read_buff_pos++];
+		if (read_buff_pos >= btoread / 2 && total_readed < prev_datasize)
 		{
-			if (bufpos >= btoread / 2)
-			{
-				if (f_read(file, fbuff, btoread, &rd) != FR_OK)
-					return 0;
-				bufpos = 0;
-				oldbufpos = bufpos;
-				nextcol = 0;
-			}
-			dbuff[cpainted] = buff[bufpos];
-//			LCD_WriteRAM(buff[(uint32_t)(nextcol)]);
-			nextcol += pscale;
-			cpainted++;
-			bufpos = oldbufpos + (uint32_t)(nextcol);
+			btoread = 4096;
+			if (btoread > prev_datasize - total_readed)
+				btoread = prev_datasize - total_readed;
+			if (f_read(file, fbuff, btoread, &readed) != FR_OK)
+				return 0;
+			total_readed += btoread;
+			read_buff_pos = 0;
 		}
-		LCD_WriteRAM_DMA(dbuff, cpainted);
-		nextcol = 0;
-		nextline += pscale;
-		cpainted = 0;
-		lpainted++;
-		if (((uint32_t)nextline - oldline) > 1)
-			bufpos += ((uint32_t)nextline - oldline) * pw;
-		if (((uint32_t)nextline - oldline) == 0)
-			bufpos -= pw;
-		if (bufpos % pw)
-			bufpos -= (bufpos % pw);
-		oldline = (uint32_t)nextline;
-		oldbufpos = bufpos;
-	}
+		
+		if (color & 0x0020)
+		{
+			repeat += (read_buff[read_buff_pos++] & 0x0FFF);
+			if (read_buff_pos >= btoread / 2 && total_readed < prev_datasize)
+			{
+				btoread = 4096;
+				if (btoread > prev_datasize - total_readed)
+					btoread = prev_datasize - total_readed;
+				if (f_read(file, fbuff, btoread, &readed) != FR_OK)
+					return 0;
+				total_readed += btoread;
+				read_buff_pos = 0;
+			}
+		}
+		
+		for (uint32_t i = 0; i < repeat; i++)
+		{
+			while (columns_readed == read_col && lines_readed == read_line)
+			{
+				dest_buff[dest_buff_pos] = color;
+				dest_buff_pos++;
+				paint_col++;
+				if (paint_col >= image_width)
+				{
+					uint16_t	next_read_line = (uint16_t)((float)paint_line * pscale);
+					while (next_read_line == read_line)
+					{
+						LCD_WriteRAM_DMA(dest_buff, dest_buff_pos);
+						paint_line++;
+						next_read_line = (uint16_t)((float)paint_line * pscale);
+					}
+					paint_col = 0;
+					read_line = next_read_line;
+					dest_buff_pos = 0;
+				}
+				read_col = (uint16_t)((float)paint_col * pscale);
+			}
 
+			columns_readed++;
+			if (columns_readed == prev_width)
+			{
+				columns_readed = 0;
+				lines_readed++;
+			}
+		}
+		if ((total_readed >= prev_datasize && read_buff_pos >= btoread / 2))
+			break;
+	}
 
 	return 1;
 }
@@ -259,23 +347,23 @@ float		FPHOTON_GetLiftHeight()
 
 float		FPHOTON_GetLiftSpeed()
 {
-	return fphoton_info.lift_speed;
+	return fphoton_info.lift_speed / 60.0;
 }
 //==============================================================================
 
 
 
 
-float		FPHOTONFPHOTON_GetDropSpeed()
+float		FPHOTON_GetDropSpeed()
 {
-	return fphoton_info.down_speed;
+	return fphoton_info.down_speed / 60.0;
 }
 //==============================================================================
 
 
 
 
-float		FPHOTONFPHOTON_GetResinVolume()
+float		FPHOTON_GetResinVolume()
 {
 	return fphoton_info.resin_volume;
 }
@@ -284,7 +372,7 @@ float		FPHOTONFPHOTON_GetResinVolume()
 
 
 
-uint32_t	FPHOTONFPHOTON_GetIndLayerSettings()
+uint32_t	FPHOTON_GetIndLayerSettings()
 {
 	return 1;
 }
@@ -293,7 +381,7 @@ uint32_t	FPHOTONFPHOTON_GetIndLayerSettings()
 
 
 
-uint32_t	FPHOTONFPHOTON_GetResolutionX()
+uint32_t	FPHOTON_GetResolutionX()
 {
 	return fphoton_header.res_x;
 }
@@ -302,7 +390,7 @@ uint32_t	FPHOTONFPHOTON_GetResolutionX()
 
 
 
-uint32_t	FPHOTONFPHOTON_GetResolutionY()
+uint32_t	FPHOTON_GetResolutionY()
 {
 	return fphoton_header.res_y;
 }
@@ -311,19 +399,39 @@ uint32_t	FPHOTONFPHOTON_GetResolutionY()
 
 
 
-uint8_t		FPHOTON_GetLayerInfo(uint32_t layer_num, FPHOTON_LAYERSINFO *layer_info)
+uint8_t		FPHOTON_GetLayerInfo(uint32_t layer_num, LAYER_INFO *layer_info)
 {
 	if (layer_num >= fphoton_header.total_layers)
 		return 0;
 	
-	uint32_t	rd = 0;
-	uint32_t	data_offset = fphoton_header.layersdef_offset;
+	uint32_t			readed = 0;
+	uint32_t			data_offset = fphoton_header.layersdef_offset;
+	FPHOTON_LAYERSINFO	photon_linfo;
+	
 	data_offset += sizeof(FPHOTON_LAYERSINFO) * layer_num;
 
 	if (f_lseek(&ufile, data_offset) != FR_OK)
 		return 0;
-	if (f_read(&ufile, layer_info, sizeof(FPHOTON_LAYERSINFO), &rd) != FR_OK || rd != sizeof(FPHOTON_LAYERSINFO))
+	if (f_read(&ufile, &photon_linfo, sizeof(FPHOTON_LAYERSINFO), &readed) != FR_OK || readed != sizeof(FPHOTON_LAYERSINFO))
 		return 0;
+
+	layer_info->data_offset = photon_linfo.data_offset;
+	layer_info->data_length = photon_linfo.data_length;
+	layer_info->layer_position = photon_linfo.layer_position;
+	layer_info->light_time = photon_linfo.light_time;
+	layer_info->lightoff_time = photon_linfo.lightoff_time;
+	layer_info->drop_speed = fphoton_info.down_speed;
+
+	if (layer_num < fphoton_info.bottom_layers)
+	{
+		layer_info->lift_height = fphoton_info.lift_height_bottom;
+		layer_info->lift_speed = fphoton_info.lift_speed_bottom;
+	}
+	else
+	{
+		layer_info->lift_height = fphoton_info.lift_height;
+		layer_info->lift_speed = fphoton_info.lift_speed;
+	}
 
 	return 1;
 }

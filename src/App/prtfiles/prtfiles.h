@@ -20,6 +20,18 @@ typedef enum
 	FTYPE_PHOTON,
 } FILES_TYPE;
 
+typedef struct
+{
+	float		layer_position;
+	float		light_time;
+	float		lightoff_time;
+	float		lift_height;
+	float		lift_speed;
+	float		drop_speed;
+	
+	uint32_t	data_offset;
+	uint32_t	data_length;
+} LAYER_INFO;
 
 
 
@@ -27,11 +39,11 @@ typedef enum
 
 uint8_t		PFILE_Init(FIL *file, FILES_TYPE ftype);
 uint8_t		PFILE_IsInited();
-uint8_t		PFILE_SetPointerToPreview();
-uint16_t	PFILE_GetPreviewWidth();
-uint16_t	PFILE_GetPreviewHeight();
+uint8_t		PFILE_SetPointerToPreview(uint8_t small = 0);
+uint16_t	PFILE_GetPreviewWidth(uint8_t small = 0);
+uint16_t	PFILE_GetPreviewHeight(uint8_t small = 0);
 uint8_t		PFILE_GetPreviewBpp();
-uint8_t		PFILE_DrawPreview(FIL *file, TG_RECT *rect);
+uint8_t		PFILE_DrawPreview(FIL *file, TG_RECT *rect, uint8_t small = 0);
 
 uint32_t	PFILE_GetPrintTime();
 

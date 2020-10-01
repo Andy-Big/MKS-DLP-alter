@@ -64,7 +64,7 @@ extern TOUCH_INFO				touchInfo;
 
 extern PRINT_STATE				prtState;
 extern FILES_TYPE				fv_filetype;
-extern FPWS_LAYERSINFO			l_info;
+extern LAYER_INFO				l_info;
 
 TOUCH_POINT						touchCoord;
 TOUCH_STATES					touchState;
@@ -620,7 +620,7 @@ int main()
 						systemInfo.print_is_homing = 0;
 						systemInfo.print_is_printing = 1;
 						systemInfo.printer_state = PST_PRINT_MOVETOLAYER;
-						systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
+						systemInfo.target_position = cfgConfig.zero_pos + l_info.layer_position;
 						systemInfo.print_current_height = systemInfo.target_position - cfgConfig.zero_pos;
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.feedrate);
 						UVFAN_On();
@@ -641,7 +641,7 @@ int main()
 				if (ZMOTOR_IsMoving() == 0)
 				{
 					systemInfo.printer_state = PST_PRINT_LIGHTPAUSE;
-					UVPAUSE_TimerOn((uint32_t)(PFILE_GetLightPause() * 1000));
+					UVPAUSE_TimerOn((uint32_t)(l_info.lightoff_time * 1000));
 				}
 				break;
 
@@ -658,7 +658,7 @@ int main()
 			case PST_PRINT_LIGHT:
 				if (UVLED_TimerState() == 0)
 				{
-					if (fv_filetype == FTYPE_PWS)
+					if (fv_filetype == FTYPE_PWS || fv_filetype == FTYPE_PHOTON)
 					{
 						systemInfo.print_current_sublayer++;
 						if (PFILE_GetAntialiasing() > systemInfo.print_current_sublayer)
@@ -678,7 +678,7 @@ int main()
 					// TODO - file read error processing!
 					PRINT_ReadLayerInfo();
 					systemInfo.printer_state = PST_PRINT_LIFT;
-					systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
+					systemInfo.target_position = cfgConfig.zero_pos + l_info.layer_position;
 					systemInfo.print_current_height = systemInfo.target_position - cfgConfig.zero_pos;
 					systemInfo.target_position += l_info.lift_height;
 					if (systemInfo.print_current_layer >= PFILE_GetTotalLayers() || systemInfo.target_position > cfgzMotor.max_pos)
@@ -717,8 +717,8 @@ int main()
 				if (ZMOTOR_IsMoving() == 0 && systemInfo.print_is_paused == 0)
 				{
 					systemInfo.printer_state = PST_PRINT_DROP;
-					systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
-					ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetDropSpeed());
+					systemInfo.target_position = cfgConfig.zero_pos + l_info.layer_position;
+					ZMOTOR_MoveAbsolute(systemInfo.target_position, l_info.drop_speed);
 				}
 				break;
 
@@ -726,11 +726,11 @@ int main()
 				if (ZMOTOR_IsMoving() == 0 && systemInfo.print_is_paused == 0)
 				{
 					systemInfo.printer_state = PST_PRINT_DROP;
-					systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
+					systemInfo.target_position = cfgConfig.zero_pos + l_info.layer_position;
 					systemInfo.target_position += l_info.lift_height;
 					ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
-					systemInfo.target_position = cfgConfig.zero_pos + (systemInfo.print_current_layer + 1) * PFILE_GetLayerThickness();
-					ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetDropSpeed());
+					systemInfo.target_position = cfgConfig.zero_pos + l_info.layer_position;
+					ZMOTOR_MoveAbsolute(systemInfo.target_position, l_info.drop_speed);
 				}
 				break;
 
@@ -738,7 +738,7 @@ int main()
 				if (ZMOTOR_IsMoving() == 0)
 				{
 					systemInfo.printer_state = PST_PRINT_LIGHTPAUSE;
-					UVPAUSE_TimerOn((uint32_t)(PFILE_GetLightPause() * 1000));
+					UVPAUSE_TimerOn((uint32_t)(l_info.lightoff_time * 1000));
 				}
 				break;
 

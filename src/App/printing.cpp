@@ -6,6 +6,8 @@
 #include "tgui_printscreenfuncs.h"
 #include "motor.h"
 #include "z_endstops.h"
+#include "files_pws.h"
+#include "files_photon.h"
 
 
 
@@ -22,7 +24,7 @@ extern uint8_t			tguiScreenTimer;
 
 PRINT_STATE				prtState;
 
-FPWS_LAYERSINFO			l_info;
+LAYER_INFO				l_info;
 
 uint8_t 				prtLBuff[LAYERBUFF_SIZE];
 uint32_t				ldata_offset_begin = 0;
@@ -55,7 +57,7 @@ uint8_t		PRINT_Init()
 	systemInfo.print_is_canceled = 0;
 	systemInfo.print_pause_time = 0;
 
-	memset(&l_info, 0, sizeof(FPWS_LAYERSINFO));
+	memset(&l_info, 0, sizeof(LAYER_INFO));
 
 	for (uint8_t i = 0; i < tguiScreenPrint.btns_count; i++)
 	{
@@ -148,25 +150,16 @@ uint8_t		PRINT_ReadLayerInfo()
 	{
 		case FTYPE_PWS:
 		{
-			memset(&l_info, 0, sizeof(FPWS_LAYERSINFO));
-			// TODO - file read error processing!
+			memset(&l_info, 0, sizeof(LAYER_INFO));
 			if (FPWS_GetLayerInfo(systemInfo.print_current_layer, &l_info) == 0)
 				return 0;
-			if (FPWS_GetIndLayerSettings() == 0)
-			{
-				if (systemInfo.print_current_layer < PFILE_GetBottomLayers())
-				{
-					l_info.lift_height = FPWS_GetLiftHeight();
-					l_info.lift_speed = PFILE_GetLiftSpeedBottom();
-					l_info.light_time = PFILE_GetLightBottom();
-				}
-				else
-				{
-					l_info.lift_height = FPWS_GetLiftHeight();
-					l_info.lift_speed = PFILE_GetLiftSpeed();
-					l_info.light_time = PFILE_GetLightLayer();
-				}
-			}
+		}
+
+		case FTYPE_PHOTON:
+		{
+			memset(&l_info, 0, sizeof(LAYER_INFO));
+			if (FPHOTON_GetLayerInfo(systemInfo.print_current_layer, &l_info) == 0)
+				return 0;
 		}
 	}
 	
@@ -363,13 +356,14 @@ uint8_t		PRINT_ReadRLEDecode(uint8_t preview)
 uint8_t		PRINT_ReadLayerBegin()
 {
 	uint8_t		res = 0;
+	ldata_offset_begin = l_info.data_offset;
+	ldata_length = l_info.data_length;
+	ldata_offset_current = 0;
 	switch (fv_filetype)
 	{
 		case FTYPE_PWS:
+		case FTYPE_PHOTON:
 		{
-			ldata_offset_begin = l_info.data_point;
-			ldata_length = l_info.data_length;
-			ldata_offset_current = 0;
 			resX = PFILE_GetResolutionX();
 			resY = PFILE_GetResolutionY();
 
@@ -379,6 +373,7 @@ uint8_t		PRINT_ReadLayerBegin()
 			res = PRINT_ReadRLEDecode(1);
 		}
 		break;
+
 	}
 
 
@@ -394,6 +389,7 @@ uint8_t		PRINT_ReadSublayerContinue()
 	switch (fv_filetype)
 	{
 		case FTYPE_PWS:
+		case FTYPE_PHOTON:
 		{
 			res = PRINT_ReadRLEDecode(0);
 		}
