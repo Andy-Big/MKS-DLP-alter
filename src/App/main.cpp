@@ -38,6 +38,7 @@
 #include "z_stepper.h"
 #include "uvdisplay.h"
 #include "eeprom.h"
+#include "tgui_defaultfuncs.h"
 #include "tgui_movezscreenfuncs.h"
 #include "tgui_printscreenfuncs.h"
 #include "tgui_screensaverfuncs.h"
@@ -235,6 +236,10 @@ int main()
 		sprintf(msg, "v %d.%02d", (FW_VERSION >> 8) & 0xFF, FW_VERSION & 0xFF);
 		LCDUI_SetColor(LCDUI_RGB(0x47C7DA));
 		LCDUI_DrawText(msg, LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_RIGHT, 260, 192, 356, -1);
+		LCDUI_SetColor(LCDUI_RGB(0xBCBCBC));
+		LCDUI_SetFont(LCDUI_FONT_H18BOLD);
+		LCDUI_DrawText((char*)"PERIFERY INITIALIZATION...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		HAL_Delay(300);
 	}
 	
 	// Clear CCRAM
@@ -259,19 +264,28 @@ int main()
 	
 	_cpld_bank2disp_enable(CLEAN_USED_BANK,0,0);
 
-	UVD_Init();
-/*
-	UVD_ExposSetCircle();
-	UVD_Wakeup();
-	UVLED_On();
-	HAL_Delay(1000);
-	UVLED_Off();
-*/
-	UVD_Sleep();
-	_cpld_bank2disp_enable(CLEAN_USED_BANK,0,0);
-	_tgui_UVTestReadImage(0);
-	
+	if (srvMode == 0)
+	{
+		_tgui_DrawFileCimg((char*)"logo_string_bg.cimg", 10, 275);
+		LCDUI_DrawText((char*)"UV DISPLAY CONFIGURING...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		UVD_Init();
+
+		_tgui_DrawFileCimg((char*)"logo_string_bg.cimg", 10, 275);
+		LCDUI_DrawText((char*)"UV DISPLAY TO SLEEP...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		UVD_Sleep();
+		_cpld_bank2disp_enable(CLEAN_USED_BANK,0,0);
+
+		_tgui_DrawFileCimg((char*)"logo_string_bg.cimg", 10, 275);
+		LCDUI_DrawText((char*)"UV DISPLAY PREPARING...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		_tgui_UVTestReadImage(0);
+	}
+
 	// Disable USB power line
+	if (srvMode == 0)
+	{
+		_tgui_DrawFileCimg((char*)"logo_string_bg.cimg", 10, 275);
+		LCDUI_DrawText((char*)"USB CONFIGURING...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+	}
 	USB_HOST_VbusFS(1);
 
 	USB_HOST_Init();

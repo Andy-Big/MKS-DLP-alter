@@ -666,11 +666,11 @@
                 </option>
                 <option>
                     <name>OCOutputOverride</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>MKS_DLP_new.bin</state>
+                    <state>mksDLP.bin</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -725,7 +725,7 @@
                 </option>
                 <option>
                     <name>IlinkOutputFile</name>
-                    <state>MKS_DLP_new.out</state>
+                    <state>mksDLP.out</state>
                 </option>
                 <option>
                     <name>IlinkDebugInfoEnable</name>
@@ -1022,7 +1022,7 @@
                 </option>
                 <option>
                     <name>IlinkTrustzoneImportLibraryOut</name>
-                    <state>MKS_DLP_new_import_lib.o</state>
+                    <state>MKSDLP_Alter_import_lib.o</state>
                 </option>
                 <option>
                     <name>OILinkExtraOption</name>

@@ -794,6 +794,24 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						break;
 					}
 				} else
+				if (*lexem == 'G')
+				{
+					if (strcmp(lexem, (char*)"GUI_LANGUAGE") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.uint_val > 1)
+							pval.uint_val = 1;
+						cfgConfig.language = (uint8_t)pval.uint_val;
+						LANG_SetLanguage(cfgConfig.language);
+						rdstate = CFGR_GENERAL;
+						break;
+					}
+				} else
 				if (*lexem == 'L')
 				{
 					if (strcmp(lexem, (char*)"LIFT_ON_PAUSE") == 0)

@@ -66,12 +66,6 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 	1. Enable / disable buzzer.
 + Lock against accidental pressing of the on-screen buttons in print mode.
 
-**To do in the near future:**
-1. Support for anti-aliasing.
-1. Setting the time and date.
-1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
-1. Support for .photons files.
-
 ## 18.09.2020 Updates
 ![Printing screen](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/screensaver_clock.jpg)
 **Added/changed:**
@@ -81,34 +75,17 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 + Parameter in config file for setting the time for the screensaver to turn on.
 + Parameter in config file for setting the time for the motor disable.
 
-**To do in the near future:**
-1. Support for anti-aliasing.
-1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
-1. Support for .photons files.
-
 ## 21.09.2020 Updates
 **Added/changed:**
 + Added print progress to screensaver.
 + The process for printing with antialiasing has been prepared.
 * Fixed initialization of 2k display.
 
-**To do in the near future:**
-1. Complete antialiasing support.
-1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
-1. Support for .photons files.
-1. Upgradeable bootloader and firmware.
-
 ## 22.09.2020 Updates
 **Added/changed:**
 + Complete antialiasing support.
 + Added processing of individual layer parameters.
 + UV test function completed.
-
-**To do in the near future:**
-1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
-1. Support for .photons files.
-1. Upgradeable bootloader and firmware.
-1. Touch panel calibration.
 
 ## 22.09.2020 Updates
 **Added/changed:**
@@ -117,24 +94,11 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 * Fixed UV-LCD initialization.
 * Now, when switching to a screensaver, power consumption is reduced as much as possible, to less than 0.8 watts.
 
-**To do in the near future:**
-1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
-1. Support for .photons files.
-1. Upgradeable bootloader and firmware.
-1. Touch panel calibration.
-
 ## 01.10.2020 Updates
 **Added/changed:**
 + Added support for .photon and .cbddlp files.
 + Added settings for lift height on completion printing.
 + Added file deleting in file preview screen.
-
-**To do in the near future:**
-1. Changing parameters during printing - exposure time, elevation and lifting speed, etc.
-1. Upgradeable bootloader and firmware.
-1. Touch panel calibration.
-1. Total printer on time counter.
-1. Time counters reset.
 
 ## 02.10.2020 Updates
 **Added/changed:**
@@ -145,4 +109,4 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 1. Touch panel calibration.
 1. Total printer on time counter.
 1. Time counters reset.
-
+1.
