@@ -18,11 +18,11 @@ Using IAR 8.32 with ST HAL library.
 https://www.youtube.com/watch?v=ob9bVc12w_o
 
 ## 22.07.2020
-+ UI display works (ili9488)
-+ the touch panel works
-+ USB works, tested on flash drives up to 32 GB, average read speed ~ 700 KB / sec
-+ finished rendering library of proportional fonts with support for texts in UTF-8 encoding
-+ working file system for USB mass storage
++ UI display works (ili9488).
++ The touch panel works.
++ USB works, tested on flash drives up to 32 GB, average read speed ~ 700 KB / sec.
++ Finished rendering library of proportional fonts with support for texts in UTF-8 encoding.
++ Working file system for USB mass storage.
 
 ## 23.07.2020
 + Added images for splash, main and service screens. I'm a designer like a sumo ballerina, so it sucks. But I can't get it any better :(
@@ -57,10 +57,10 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 + All settings can be loaded from the configuration file via the file browser and they are applied immediately. No printer reboot required.
 + File browser with two preview modes - icons with a preview of the model or a list with the date and time of file modification.
 + Work of the file browser with directories.
-+ Work of the file browser with Cyrillic names of files and directories.
++ Work of the file browser with cyrillic names of files and directories.
 + In the preview of the file before printing, detailed information about the printing modes is displayed.
 + Good accuracy in determining the print time of the model.
-+ Counter of hours of operation of the display, illumination, fan and the printer as a whole.
++ Runtime counters of the display, illumination, fan and the printer as a whole.
 + Through the interface in the settings screen, you can configure:
 	1. Height of rise to pause printing.
 	1. Enable / disable buzzer.
@@ -97,16 +97,31 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 ## 01.10.2020 Updates
 **Added/changed:**
 + Added support for .photon and .cbddlp files.
-+ Added settings for lift height on completion printing.
++ Added settings for the platform lifting height at the end of printing (in Settings menu and in config file).
 + Added file deleting in file preview screen.
 
 ## 02.10.2020 Updates
 **Added/changed:**
-+ Added Changing parameters during printing - exposure time, elevation and lifting speed, etc.
++ Added changing parameters during printing - exposure time, elevation and lifting speed, etc.
+
+## 03.10.2020 Updates
+**Added/changed:**
++ Added total printer on time counter.
+* Fixed several errors that appeared when compiling with maximum optimization.
+* Fixed a bug due to which the acceleration settings were not applied without rebooting.
+* Fixed bug in implementation of low-level functions for FatFS in SPI-flash.
+* Fixed work of the firmware together with the original bootloader.
+* Fixed reading of configuration files when they start with an encoding identifier (UTF-8 Big Endian or Little Endian).
+* Runtime counters are saved every 60 minutes.
+
+## 05.10.2020 Updates
+**Added/changed:**
+* Fixed errors with antialiasing in .cbddlp and .photon files with version 3.
 
 **To do in the near future:**
 1. Upgradeable bootloader and firmware.
 1. Touch panel calibration.
-1. Total printer on time counter.
-1. Time counters reset.
-1.
+1. Runtime counters reset.
+1. Lifting platform request after Z=0 setting.
+1. External clock DS3231 support.
+

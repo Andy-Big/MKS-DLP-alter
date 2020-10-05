@@ -39,6 +39,9 @@ void OTG_FS_IRQHandler(void);
 void EXTI0_IRQHandler(void);
 void EXTI2_IRQHandler(void);
 
+void WWDG_IRQHandler(void);
+
+
 #ifdef __cplusplus
 }
 #endif

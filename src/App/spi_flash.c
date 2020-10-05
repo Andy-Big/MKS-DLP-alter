@@ -1,6 +1,8 @@
 #include "spi_flash.h"
 
 
+extern			SPI_HandleTypeDef	hFlashSpi;
+
 uint8_t			sectorbuff[4096];
 SPIFL_INFO		_spifl_info = {0, 0};
 
@@ -92,6 +94,7 @@ void		_spifl_WaitBusy()
 	uint16_t	rxval = 0;
 	_spifl_bust_counts = 0;
 	
+	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || (_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0 || hFlashSpi.State != HAL_SPI_STATE_READY);
 	___spifl_wait_cs();
 
 	_flash_CS_Enable();
@@ -113,6 +116,7 @@ void		_spifl_WaitBusy()
 
 void			_spifl_WriteEnable()
 {
+	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || (_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0 || hFlashSpi.State != HAL_SPI_STATE_READY);
 	_spifl_WaitBusy();
 	___spifl_wait_cs();
 
@@ -182,6 +186,7 @@ uint16_t		SPIFL_ReadID()
 	uint16_t	retval = 0;
 	uint16_t	rxval = 0;
 
+	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || (_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0 || hFlashSpi.State != HAL_SPI_STATE_READY);
 	_spifl_WaitBusy();
 	___spifl_wait_cs();
 
@@ -209,6 +214,7 @@ void		SPIFL_ReadBuff(uint32_t addr, uint32_t dlen, uint8_t *dbuff)
 	if (dlen == 0 || dbuff == 0)
 		return;
 	
+	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || (_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0 || hFlashSpi.State != HAL_SPI_STATE_READY);
 	while (FLASH_IsDMAReady() == 0);
 	_spifl_WaitBusy();
 	___spifl_wait_cs();
@@ -239,6 +245,7 @@ void		SPIFL_ReadBuffDMA(uint32_t addr, uint32_t dlen, uint8_t *dbuff)
 	if (dlen == 0 || dbuff == 0)
 		return;
 	
+	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || (_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0 || hFlashSpi.State != HAL_SPI_STATE_READY);
 	_spifl_WaitBusy();
 	___spifl_wait_cs();
 
@@ -263,6 +270,7 @@ void			SPIFL_EraseSector(uint32_t addr)
 {
 	addr &= ~(_spifl_info.sector_size - 1);
 	
+	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || (_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0 || hFlashSpi.State != HAL_SPI_STATE_READY);
 	_spifl_WriteEnable();	
 	___spifl_wait_cs();
 	
@@ -297,6 +305,7 @@ void		SPIFL_WriteBuff(uint32_t addr, uint32_t dlen, uint8_t *dbuff)
 	// remain data in a page
 	uint32_t	towritepage;
 	
+	while ((_flash_SPIGetFlags() & SPI_FLAG_BSY) || (_flash_SPIGetFlags() & SPI_FLAG_TXE) == 0 || hFlashSpi.State != HAL_SPI_STATE_READY);
 	_spifl_WaitBusy();
 	
 	towritesect = dlen;

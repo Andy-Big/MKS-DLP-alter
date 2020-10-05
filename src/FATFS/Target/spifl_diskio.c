@@ -120,7 +120,7 @@ DRESULT SPIFL_ioctl(BYTE lun, BYTE cmd, void *buff)
 
 		// Get R/W sector size (WORD)
 		case GET_SECTOR_SIZE :
-			*(DWORD*)buff = _spifl_info.sector_size / _SPIFL_SECT_DIVIDER;
+			*(WORD*)buff = _spifl_info.sector_size / _SPIFL_SECT_DIVIDER;
 			res = RES_OK;
 			break;
 

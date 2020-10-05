@@ -21,6 +21,7 @@ extern FILES_TYPE		fv_filetype;
 extern TCHAR			fv_tfilename[512];
 
 extern uint8_t			tguiScreenTimer;
+extern uint8_t			timerWorkTimeTimer;
 
 PRINT_STATE				prtState;
 
@@ -59,6 +60,7 @@ uint8_t		PRINT_Init()
 	systemInfo.print_lift_at_end = cfgConfig.end_lift;
 	systemInfo.print_use_aa_grade = (PFILE_GetAntialiasing() > 1);
 	systemInfo.print_use_ind_params = PFILE_GetIndLayerSettings();
+	systemInfo.print_timer_secs = DTIME_GetCurrentUnixtime();
 
 	memset(&l_info, 0, sizeof(LAYER_INFO));
 
@@ -119,9 +121,17 @@ uint8_t		PRINT_Complete()
 	UVD_Sleep();
 	_cpld_bank2disp_enable(CLEAN_USED_BANK,0,0);
 	UVFAN_TimerOn(10000);
+	
+	// save timers
+	uint32_t	unix_time = DTIME_GetCurrentUnixtime();
 	cfgTimers.led_time += (uint32_t)systemInfo.print_light_time_total;
-	cfgTimers.fan_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
-	cfgTimers.total_print_time += DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
+	cfgTimers.disp_time += (uint32_t)systemInfo.print_light_time_total;
+	cfgTimers.fan_time += unix_time - systemInfo.print_time_begin;
+	cfgTimers.total_print_time += unix_time - systemInfo.print_time_begin;
+	cfgTimers.total_on_time += unix_time - systemInfo.timerWorkTimeSecs;
+	
+	systemInfo.timerWorkTimeSecs = unix_time;
+	SYSTIMER_SetCountDown(timerWorkTimeTimer, TIMERS_SAVE_PERIOD * 1000);
 	CFG_SaveTimers();
 
 	if (tguiActiveScreen == &tguiScreenSaver)
@@ -398,6 +408,13 @@ uint8_t		PRINT_ReadSublayerContinue()
 		case FTYPE_PWS:
 		case FTYPE_PHOTON:
 		{
+			if (FPHOTON_GetVersion() > 2)
+			{
+				uint32_t	rd = 0;
+				FPHOTON_LAYERSINFOEXT	i_infoext;
+				if (f_read(&ufile, &i_infoext, sizeof(FPHOTON_LAYERSINFOEXT), &rd) != FR_OK || rd != sizeof(FPHOTON_LAYERSINFOEXT))
+					return 0;
+			}
 			res = PRINT_ReadRLEDecode(0);
 		}
 		break;

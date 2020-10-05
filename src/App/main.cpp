@@ -46,9 +46,6 @@
 #include "tgui_uvtestscreenfuncs.h"
 
 
-#define	SDIR_IMAGES			(char*)"alterupd\\images"
-
-
 
 
 extern USBH_HandleTypeDef		hUsbHostFS;
@@ -74,6 +71,7 @@ uint8_t							tguiTimer;
 uint8_t							zHoldTimer;
 uint8_t							zDisTimer;
 uint8_t							tguiScreenTimer;
+uint8_t							timerWorkTimeTimer;
 
 uint8_t							srvMode;
 	
@@ -98,9 +96,18 @@ void		SystemClock_Config(void);
 
 int main()
 {
+	for (uint8_t i = 0; i < 8; i++)
+	{
+		NVIC->ICER[i] = 0xFFFFFFFF;
+    	__DSB();
+    	__ISB();
+		NVIC->ICPR[i] = 0xFFFFFFFF;
+	}
+	
+	SCB->VTOR = FLASH_BASE | 0x10000;
+	HAL_PWR_DeInit();
 	HAL_Init();
 	SystemClock_Config();
-	SCB->VTOR = FLASH_BASE | 0x10000;
 
 	GPIO_Init();
 
@@ -116,7 +123,8 @@ int main()
 	zHoldTimer = SYSTIMER_NewCountDown(TIMER_DISABLE);
 	zDisTimer = SYSTIMER_NewCountDown(TIMER_DISABLE);
 	tguiScreenTimer = SYSTIMER_NewCountDown(TIMER_DISABLE);
-	
+	timerWorkTimeTimer = SYSTIMER_NewCountDown(TIMERS_SAVE_PERIOD * 1000);
+
 	EEPROM_Init();
 
 	CFG_Init();
@@ -132,19 +140,24 @@ int main()
 	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_8);
 	// SPI flash logic init
 	SPIFL_Init();
-	_touch_ReadCoords();
-	_touch_ReadCoords();
+//	_touch_ReadCoords();
+//	_touch_ReadCoords();
 
 	LCDUI_SetFont(LCDUI_FONT_H18);
 	LCDUI_SetColor(COLOR_WHITE);
 	LCDUI_SetBackColor(COLOR_BLACK);
 	LCDUI_Clear();
 	TGUI_Init();
+
+	LCD_BackLight(1);
 	
+	srvMode = 0;
+
 	// SPIFlash filesystem mounting
 	if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
 	{
 		LCDUI_DrawText((char*)"> !! Internal filesystem error, try to format...\n");
+		HAL_Delay(10);
 		if (f_mkfs(SpiflPath, 0, fbuff, sizeof(fbuff)) != FR_OK)
 		{
 			LCDUI_DrawText((char*)"> !! Failed to formate internal filesystem\n");
@@ -152,14 +165,15 @@ int main()
 		else
 		{
 			LCDUI_DrawText((char*)"> Internal filesystem format success\n");
+			if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
+			{
+				LCDUI_DrawText((char*)"> Internal filesystem mount error\n");
+			}
 		}
-//		while(1);
+		srvMode = 1;
 	}
 	
-	LCD_BackLight(1);
-	
 	// If touch pressed - service booting with update
-	srvMode = 0;
 	if (Touch_IsPressed())
 	{
 		TOUCH_POINT tp;
@@ -193,7 +207,7 @@ int main()
 				LCDUI_DrawText((char*)"> !! Internal filesystem error, try to format...\n");
 				if (f_mkfs(SpiflPath, 0, fbuff, sizeof(fbuff)) != FR_OK)
 				{
-					LCDUI_DrawText((char*)"> !! Failed to formate internal filesystem\n");
+					LCDUI_DrawText((char*)"> !! Failed to format internal filesystem\n");
 				}
 				else
 				{
@@ -208,26 +222,6 @@ int main()
 			sprintf(msg, "> %u KB total internal filesystem,  %u KB available.\n", tot_sect, fre_sect);
 			LCDUI_DrawText(msg);
 		}
-/*
-		LCDUI_DrawText((char*)"> Formating internal filesystem...\n");
-		f_mount(NULL,  SpiflPath, 1);
-		if (f_mkfs(SpiflPath, 0, fbuff, sizeof(fbuff)) != FR_OK)
-		{
-			LCDUI_DrawText((char*)"> !! Failed to formate internal filesystem\n");
-		}
-		else
-		{
-			LCDUI_DrawText((char*)"> Internal filesystem formated succes\n");
-		}
-		if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
-		{
-			LCDUI_DrawText((char*)"> !! Failed to mount internal filesystem\n");
-		}
-		else
-		{
-			LCDUI_DrawText((char*)"> Internal filesystem mounted succes\n");
-		}
-*/
 	}
 	else
 	{
@@ -252,6 +246,7 @@ int main()
 		
 	RTC_Init();
 	RTC_Enable(&hRTC);
+	systemInfo.timerWorkTimeSecs = DTIME_GetCurrentUnixtime();
 	
 	LANG_SetLanguage(cfgConfig.language);
 
@@ -266,16 +261,16 @@ int main()
 
 	if (srvMode == 0)
 	{
-		_tgui_DrawFileCimg((char*)"logo_string_bg.cimg", 10, 275);
+		_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
 		LCDUI_DrawText((char*)"UV DISPLAY CONFIGURING...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
 		UVD_Init();
 
-		_tgui_DrawFileCimg((char*)"logo_string_bg.cimg", 10, 275);
+		_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
 		LCDUI_DrawText((char*)"UV DISPLAY TO SLEEP...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
 		UVD_Sleep();
 		_cpld_bank2disp_enable(CLEAN_USED_BANK,0,0);
 
-		_tgui_DrawFileCimg((char*)"logo_string_bg.cimg", 10, 275);
+		_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
 		LCDUI_DrawText((char*)"UV DISPLAY PREPARING...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
 		_tgui_UVTestReadImage(0);
 	}
@@ -283,7 +278,7 @@ int main()
 	// Disable USB power line
 	if (srvMode == 0)
 	{
-		_tgui_DrawFileCimg((char*)"logo_string_bg.cimg", 10, 275);
+		_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
 		LCDUI_DrawText((char*)"USB CONFIGURING...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
 	}
 	USB_HOST_VbusFS(1);
@@ -306,6 +301,15 @@ int main()
 
 	while(1)
 	{
+		// save total printer on time
+		if (SYSTIMER_GetCountDown(timerWorkTimeTimer) == 0 && systemInfo.print_is_printing == 0)
+		{
+			SYSTIMER_SetCountDown(timerWorkTimeTimer, TIMERS_SAVE_PERIOD * 1000);
+			cfgTimers.total_on_time += DTIME_GetCurrentUnixtime() - systemInfo.timerWorkTimeSecs;
+			systemInfo.timerWorkTimeSecs = DTIME_GetCurrentUnixtime();
+			CFG_SaveTimers();
+		}
+
 		if (srvMode)
 		{
 			USB_HOST_Process();
@@ -325,56 +329,100 @@ int main()
 						{
 							UsbMounted = 1;
 							LCDUI_DrawText((char*)"> +USB storage mounted\n");
-							// Check for images update on USB disk
-							tstrcpy(u_tfname, UsbPath);
-							tstrcat_utf(u_tfname, SDIR_IMAGES);
-							// Found update directory
 							char *ext;
+
+							// check for deleting all files
+							tstrcpy(u_tfname, UsbPath);
+							tstrcat_utf(u_tfname, SDIR_UPD);
+							tstrcat_utf(u_tfname, (char*)"/formatfilesystem");
+							if (f_stat(u_tfname, NULL) == FR_OK)
+							{
+								LCDUI_DrawText((char*)"> Filesystem format command found\n");
+								LCDUI_DrawText((char*)"> Formating internal filesystem... ");
+								f_mount(NULL,  SpiflPath, 1);
+								if (f_mkfs(SpiflPath, 0, fbuff, sizeof(fbuff)) != FR_OK)
+								{
+									LCDUI_DrawText((char*)"> !! Failed to format internal filesystem\n");
+								}
+								else
+								{
+									LCDUI_DrawText((char*)" success\n");
+								}
+								if (f_mount(&SpiflFS,  SpiflPath, 1) != FR_OK)
+								{
+									LCDUI_DrawText((char*)"> !! Internal filesystem error, try to format...\n");
+									break;
+								}
+								// rename file-command
+								tstrcpy(s_tfname, UsbPath);
+								tstrcat_utf(s_tfname, SDIR_UPD);
+								tstrcat_utf(s_tfname, (char*)"/formatfilesystem.old");
+								f_rename(u_tfname, s_tfname);
+							}
+
+							// ---------- Check for BTN images update on USB disk -----------
+							tstrcpy(u_tfname, UsbPath);
+							tstrcat_utf(u_tfname, SDIR_UPD_IMAGES_BTN);
+							uint8_t		files_copyed = 0;
 							if (f_opendir(&dir, u_tfname) == FR_OK)
 							{
-								LCDUI_DrawText((char*)"> Firmware images directory found\n");
+								LCDUI_DrawText((char*)"> Firmware BTN images directory found\n");
 								while(1)
 								{
 									if (f_readdir(&dir, &finfo) != FR_OK)
 										break;
 									if (finfo.fname[0] == 0)
 										break;
+									// creating directory in internal flash
+									tstrcpy(s_tfname, SpiflPath);
+									tstrcat_utf(s_tfname, (char*)"btn");
+									fres = f_mkdir(s_tfname);
+									if (fres != FR_OK && fres != FR_EXIST)
+									{
+										LCDUI_DrawText((char*)">  !! Error creating BTN directory in internal filesystem\n");
+										HAL_Delay(500);
+										break;
+									}
+									
 									if (!(finfo.fattrib & AM_DIR))
 									{
 										UnicodeToANSI_Str((char*)cfname, finfo.fname, sizeof(cfname));
 										ext = FATFS_GetFileExtension(cfname);
-										if (
-												(strcmp(ext, (char*)"cimg") == 0 && finfo.fsize < 320000) 
-											)
+										if ((strcmp(ext, (char*)"cimg") == 0 && finfo.fsize < 500000))
 										{
 											// Found update file, copying it into SPIFlash filesystem
-											
+											files_copyed = 1;
 											if (LCDUI_GetCurrentCursorY() > (LCD_HEIGHT - LCDUI_GetCurrentFontHeight()))
 											{
 												LCDUI_Clear();
 											}
 											// Open file for read in USB
 											tstrcpy(u_tfname, UsbPath);
-											tstrcat_utf(u_tfname, SDIR_IMAGES);
+											tstrcat_utf(u_tfname, SDIR_UPD_IMAGES_BTN);
 											tstrcat_utf(u_tfname, (char*)"\\");
 											tstrcat(u_tfname, finfo.fname);
 											if (f_open(&ufile, u_tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
 											{
-												LCDUI_DrawText((char*)"> !! Error opening file in USB filesystem\n");
-												break;
+												LCDUI_DrawText((char*)">  !! Error opening file in USB filesystem\n");
+												HAL_Delay(500);
+												continue;
 											}
 													
 											// Open file for write in SPIFlash
 											tstrcpy(s_tfname, SpiflPath);
+											tstrcat_utf(s_tfname, (char*)"btn\\");
 											tstrcat(s_tfname, finfo.fname);
 											if (f_open(&sfile, s_tfname, FA_CREATE_ALWAYS | FA_WRITE) != FR_OK)
 											{
-												LCDUI_DrawText((char*)"> !! Error creating file in internal filesystem\n");
-												break;
+												sprintf(msg, ">  !! Error creating file \"%s\" in internal filesystem\n", cfname);
+												LCDUI_DrawText(msg);
+												f_close(&ufile);
+												HAL_Delay(500);
+												continue;
 											}
 											
 											// Copying
-											sprintf(msg, "> Copying file \"%s\" ", cfname);
+											sprintf(msg, ">  Copying file \"%s\" ", cfname);
 											LCDUI_DrawText(msg);
 											DWORD 		readed = 0, writed = 0;
 											uint8_t		iter = 0;
@@ -382,13 +430,21 @@ int main()
 											{
 												if (f_read(&ufile, fbuff, sizeof(fbuff), &readed) != FR_OK)
 												{
-													LCDUI_DrawText((char*)"> !! Error reading file from USB filesystem\n");
-													break;
+													sprintf(msg, ">  !! Error reading file \"%s\" from USB filesystem\n", cfname);
+													LCDUI_DrawText(msg);
+													f_close(&ufile);
+													f_close(&sfile);
+													HAL_Delay(500);
+													continue;
 												}
 												if (f_write(&sfile, fbuff, readed, &writed) != FR_OK)
 												{
-													LCDUI_DrawText((char*)"> !! Error writing file to internal filesystem\n");
-													break;
+													sprintf(msg, ">  !! Error writing file \"%s\" to internal filesystem\n", cfname);
+													LCDUI_DrawText(msg);
+													f_close(&ufile);
+													f_close(&sfile);
+													HAL_Delay(500);
+													continue;
 												}
 												iter++;
 	//												if ((iter % 2) == 0)
@@ -406,9 +462,211 @@ int main()
 								f_close(&sfile);
 								f_closedir(&dir);
 							}
-							else
+							// ---------- Check for SCR images update on USB disk -----------
+							tstrcpy(u_tfname, UsbPath);
+							tstrcat_utf(u_tfname, SDIR_UPD_IMAGES_SCR);
+							if (f_opendir(&dir, u_tfname) == FR_OK)
 							{
-								LCDUI_DrawText((char*)"> Update directory not found\n", LCDUI_TEXT_TRANSBACK);
+								LCDUI_DrawText((char*)"> Firmware SCR images directory found\n");
+								while(1)
+								{
+									if (f_readdir(&dir, &finfo) != FR_OK)
+										break;
+									if (finfo.fname[0] == 0)
+										break;
+									// creating directory in internal flash
+									tstrcpy(s_tfname, SpiflPath);
+									tstrcat_utf(s_tfname, (char*)"scr");
+									fres = f_mkdir(s_tfname);
+									if (fres != FR_OK && fres != FR_EXIST)
+									{
+										LCDUI_DrawText((char*)">  !! Error creating SCR directory in internal filesystem\n");
+										HAL_Delay(500);
+										break;
+									}
+									
+									if (!(finfo.fattrib & AM_DIR))
+									{
+										UnicodeToANSI_Str((char*)cfname, finfo.fname, sizeof(cfname));
+										ext = FATFS_GetFileExtension(cfname);
+										if ((strcmp(ext, (char*)"cimg") == 0 && finfo.fsize < 500000))
+										{
+											// Found update file, copying it into SPIFlash filesystem
+											files_copyed = 1;
+											if (LCDUI_GetCurrentCursorY() > (LCD_HEIGHT - LCDUI_GetCurrentFontHeight()))
+											{
+												LCDUI_Clear();
+											}
+											// Open file for read in USB
+											tstrcpy(u_tfname, UsbPath);
+											tstrcat_utf(u_tfname, SDIR_UPD_IMAGES_SCR);
+											tstrcat_utf(u_tfname, (char*)"\\");
+											tstrcat(u_tfname, finfo.fname);
+											if (f_open(&ufile, u_tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
+											{
+												LCDUI_DrawText((char*)">  !! Error opening file in USB filesystem\n");
+												HAL_Delay(500);
+												continue;
+											}
+													
+											// Open file for write in SPIFlash
+											tstrcpy(s_tfname, SpiflPath);
+											tstrcat_utf(s_tfname, (char*)"scr\\");
+											tstrcat(s_tfname, finfo.fname);
+											if (f_open(&sfile, s_tfname, FA_CREATE_ALWAYS | FA_WRITE) != FR_OK)
+											{
+												sprintf(msg, ">  !! Error creating file \"%s\" in internal filesystem\n", cfname);
+												LCDUI_DrawText(msg);
+												f_close(&ufile);
+												HAL_Delay(500);
+												continue;
+											}
+											
+											// Copying
+											sprintf(msg, ">  Copying file \"%s\" ", cfname);
+											LCDUI_DrawText(msg);
+											DWORD 		readed = 0, writed = 0;
+											uint8_t		iter = 0;
+											do
+											{
+												if (f_read(&ufile, fbuff, sizeof(fbuff), &readed) != FR_OK)
+												{
+													sprintf(msg, ">  !! Error reading file \"%s\" from USB filesystem\n", cfname);
+													LCDUI_DrawText(msg);
+													f_close(&ufile);
+													f_close(&sfile);
+													HAL_Delay(500);
+													continue;
+												}
+												if (f_write(&sfile, fbuff, readed, &writed) != FR_OK)
+												{
+													sprintf(msg, ">  !! Error writing file \"%s\" to internal filesystem\n", cfname);
+													LCDUI_DrawText(msg);
+													f_close(&ufile);
+													f_close(&sfile);
+													HAL_Delay(500);
+													continue;
+												}
+												iter++;
+	//												if ((iter % 2) == 0)
+													LCDUI_DrawText((char*)".");
+											} while (readed == sizeof(fbuff));
+											f_close(&ufile);
+											f_close(&sfile);
+											LCDUI_DrawText((char*)" success\n");
+											LCDUI_SetCursorCoord(0, -1);
+										}
+									}
+									
+								}
+								f_close(&ufile);
+								f_close(&sfile);
+								f_closedir(&dir);
+							}
+							// ---------- Check for ICN images update on USB disk -----------
+							tstrcpy(u_tfname, UsbPath);
+							tstrcat_utf(u_tfname, SDIR_UPD_IMAGES_ICN);
+							if (f_opendir(&dir, u_tfname) == FR_OK)
+							{
+								LCDUI_DrawText((char*)"> Firmware ICN images directory found\n");
+								while(1)
+								{
+									if (f_readdir(&dir, &finfo) != FR_OK)
+										break;
+									if (finfo.fname[0] == 0)
+										break;
+									// creating directory in internal flash
+									tstrcpy(s_tfname, SpiflPath);
+									tstrcat_utf(s_tfname, (char*)"icn");
+									fres = f_mkdir(s_tfname);
+									if (fres != FR_OK && fres != FR_EXIST)
+									{
+										LCDUI_DrawText((char*)">  !! Error creating ICN directory in internal filesystem\n");
+										HAL_Delay(500);
+										break;
+									}
+									
+									if (!(finfo.fattrib & AM_DIR))
+									{
+										UnicodeToANSI_Str((char*)cfname, finfo.fname, sizeof(cfname));
+										ext = FATFS_GetFileExtension(cfname);
+										if ((strcmp(ext, (char*)"cimg") == 0 && finfo.fsize < 500000))
+										{
+											// Found update file, copying it into SPIFlash filesystem
+											files_copyed = 1;
+											if (LCDUI_GetCurrentCursorY() > (LCD_HEIGHT - LCDUI_GetCurrentFontHeight()))
+											{
+												LCDUI_Clear();
+											}
+											// Open file for read in USB
+											tstrcpy(u_tfname, UsbPath);
+											tstrcat_utf(u_tfname, SDIR_UPD_IMAGES_ICN);
+											tstrcat_utf(u_tfname, (char*)"\\");
+											tstrcat(u_tfname, finfo.fname);
+											if (f_open(&ufile, u_tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
+											{
+												LCDUI_DrawText((char*)">  !! Error opening file in USB filesystem\n");
+												HAL_Delay(500);
+												continue;
+											}
+													
+											// Open file for write in SPIFlash
+											tstrcpy(s_tfname, SpiflPath);
+											tstrcat_utf(s_tfname, (char*)"icn\\");
+											tstrcat(s_tfname, finfo.fname);
+											if (f_open(&sfile, s_tfname, FA_CREATE_ALWAYS | FA_WRITE) != FR_OK)
+											{
+												sprintf(msg, ">  !! Error creating file \"%s\" in internal filesystem\n", cfname);
+												LCDUI_DrawText(msg);
+												f_close(&ufile);
+												HAL_Delay(500);
+												continue;
+											}
+											
+											// Copying
+											sprintf(msg, ">  Copying file \"%s\" ", cfname);
+											LCDUI_DrawText(msg);
+											DWORD 		readed = 0, writed = 0;
+											uint8_t		iter = 0;
+											do
+											{
+												if (f_read(&ufile, fbuff, sizeof(fbuff), &readed) != FR_OK)
+												{
+													sprintf(msg, ">  !! Error reading file \"%s\" from USB filesystem\n", cfname);
+													LCDUI_DrawText(msg);
+													f_close(&ufile);
+													f_close(&sfile);
+													HAL_Delay(500);
+													continue;
+												}
+												if (f_write(&sfile, fbuff, readed, &writed) != FR_OK)
+												{
+													sprintf(msg, ">  !! Error writing file \"%s\" to internal filesystem\n", cfname);
+													LCDUI_DrawText(msg);
+													f_close(&ufile);
+													f_close(&sfile);
+													HAL_Delay(500);
+													continue;
+												}
+												iter++;
+	//												if ((iter % 2) == 0)
+													LCDUI_DrawText((char*)".");
+											} while (readed == sizeof(fbuff));
+											f_close(&ufile);
+											f_close(&sfile);
+											LCDUI_DrawText((char*)" success\n");
+											LCDUI_SetCursorCoord(0, -1);
+										}
+									}
+									
+								}
+								f_close(&ufile);
+								f_close(&sfile);
+								f_closedir(&dir);
+							}
+							if (files_copyed > 0)
+							{
+								LCDUI_DrawText((char*)"> Files copy completed. \n");
 							}
 						}
 						break;
@@ -664,7 +922,6 @@ int main()
 				{
 					systemInfo.printer_state = PST_PRINT_LIGHT;
 					UVLED_TimerOn((uint32_t)(l_info.light_time * 1000) / PFILE_GetAntialiasing());
-					systemInfo.print_light_time_total += l_info.light_time / PFILE_GetAntialiasing();
 					PRINT_DrawLayerPreview();
 				}
 				break;
@@ -672,6 +929,7 @@ int main()
 			case PST_PRINT_LIGHT:
 				if (UVLED_TimerState() == 0)
 				{
+					systemInfo.print_light_time_total += l_info.light_time / PFILE_GetAntialiasing();
 					if (fv_filetype == FTYPE_PWS || fv_filetype == FTYPE_PHOTON)
 					{
 						systemInfo.print_current_sublayer++;
@@ -681,10 +939,25 @@ int main()
 							// TODO - file read error processing!
 							PRINT_ReadSublayerContinue();
 							UVLED_TimerOn((uint32_t)(l_info.light_time * 1000) / PFILE_GetAntialiasing());
-							systemInfo.print_light_time_total += l_info.light_time / PFILE_GetAntialiasing();
 							PRINT_DrawLayerPreview();
 							break;
 						}
+					}
+					
+					// save work timers
+					uint32_t	unix_time = DTIME_GetCurrentUnixtime();
+					if ((unix_time - systemInfo.print_timer_secs) > TIMERS_SAVE_PERIOD)
+					{
+						cfgTimers.led_time += (uint32_t)systemInfo.print_light_time_total;
+						cfgTimers.disp_time += (uint32_t)systemInfo.print_light_time_total;
+						cfgTimers.fan_time += unix_time - systemInfo.print_timer_secs;
+						cfgTimers.total_print_time += unix_time - systemInfo.print_timer_secs;
+						cfgTimers.total_on_time += unix_time - systemInfo.timerWorkTimeSecs;
+
+						systemInfo.print_light_time_total = 0;
+						systemInfo.print_timer_secs = unix_time;
+						systemInfo.timerWorkTimeSecs = unix_time;
+						CFG_SaveTimers();
 					}
 					
 					systemInfo.print_current_sublayer = 0;

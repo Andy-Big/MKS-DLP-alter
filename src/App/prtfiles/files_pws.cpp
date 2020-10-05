@@ -91,7 +91,7 @@ uint32_t	FPWS_GetPreviewDataOffset()
 
 
 
-uint16_t	FPWS_GetPreviewWidth()
+uint32_t	FPWS_GetPreviewWidth()
 {
 	return fpws_preview.width;
 }
@@ -100,9 +100,18 @@ uint16_t	FPWS_GetPreviewWidth()
 
 
 
-uint16_t	FPWS_GetPreviewHeight()
+uint32_t	FPWS_GetPreviewHeight()
 {
 	return fpws_preview.height;
+}
+//==============================================================================
+
+
+
+
+uint32_t	FPWS_GetPreviewSize()
+{
+	return fpws_preview.data_length;
 }
 //==============================================================================
 
@@ -114,7 +123,7 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 	if (fpws_header.mark[0] == 0)
 		return 0;
 
-	uint16_t		pw = 0, ph = 0, rw = 0, rh = 0, iw = 0, ih = 0, ix = 0, iy = 0;
+	uint32_t		pw = 0, ph = 0, rw = 0, rh = 0, iw = 0, ih = 0, ix = 0, iy = 0, prev_datasize = 0;
 	float			pscale = 0, nextcol = 0, nextline = 0;
 	uint32_t		cpainted = 0;
 	uint32_t		lpainted = 0;
@@ -122,13 +131,16 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 	uint16_t		*buff;
 	uint32_t		doffset = FPWS_GetPreviewDataOffset();
 	uint16_t		dbuff[480];
-	uint32_t		bufpos = 0, oldbufpos = 0, oldline = 0, btoread = 0;
+	uint32_t		bufpos = 0, oldbufpos = 0, oldline = 0, btoread = 0, total_readed = 0;
 
 
 	pw = FPWS_GetPreviewWidth();
 	ph = FPWS_GetPreviewHeight();
+	prev_datasize = FPWS_GetPreviewSize();
 	// read by full lines of source preview image
 	btoread = sizeof(fbuff) / ( pw * 2) * pw;
+	if (btoread > prev_datasize)
+		btoread = prev_datasize;
 
 	if (pw == 0 || ph == 0)
 		return 0;
@@ -155,6 +167,7 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 		return 0;
 	if (f_read(file, fbuff, btoread, &rd) != FR_OK || rd != btoread)
 		return 0;
+	total_readed += btoread;
 
 	bufpos = (uint32_t)(nextcol);
 	while (lpainted < ih)
@@ -163,8 +176,12 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 		{
 			if (bufpos >= btoread / 2)
 			{
-				if (f_read(file, fbuff, btoread, &rd) != FR_OK)
+				btoread = sizeof(fbuff) / ( pw * 2) * pw;
+				if (btoread > prev_datasize - total_readed)
+					btoread = prev_datasize - total_readed;
+				if (f_read(file, fbuff, btoread, &rd) != FR_OK || rd != btoread)
 					return 0;
+				total_readed += btoread;
 				bufpos = 0;
 				oldbufpos = bufpos;
 				nextcol = 0;
@@ -188,6 +205,9 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 			bufpos -= (bufpos % pw);
 		oldline = (uint32_t)nextline;
 		oldbufpos = bufpos;
+
+		if ((total_readed >= prev_datasize && bufpos >= btoread / 2))
+			break;
 	}
 
 

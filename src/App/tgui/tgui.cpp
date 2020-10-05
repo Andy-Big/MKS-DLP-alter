@@ -2060,6 +2060,31 @@ void		TGUI_Init()
 
 	tgb->funcs._call_press = _tgui_FileviewPrintPress;
 
+	// FILEINFO region
+	tgb = &(tguiScrFileviewButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrFileviewButtons[bi-2]), sizeof(TG_BUTTON));
+
+	tgb->position = {7, 235, 246, 311};
+
+	tgb->textposition = {7, 235, 246, 311};
+
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+
+	tgb->funcs._call_paint = _tgui_FileviewFileinfoPaint;
+
+	// PRINTINFO region
+	tgb = &(tguiScrFileviewButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrFileviewButtons[bi-2]), sizeof(TG_BUTTON));
+
+	tgb->position = {248, 54, 472, 233};
+
+	tgb->textposition = {248, 54, 472, 233};
+
+	tgb->funcs._call_process = NULL;
+	tgb->funcs._call_paint = _tgui_FileviewPrintinfoPaint;
+
 	// PREVIEW image
 	tgb = &(tguiScrFileviewButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrFileviewButtons[bi-2]), sizeof(TG_BUTTON));
@@ -2068,35 +2093,9 @@ void		TGUI_Init()
 
 	tgb->textposition = {7, 54, 246, 233};
 	
-	tgb->options.bgpaint = BGP_NONE;
-	tgb->bgimagename_en = NULL;
-	tgb->bgimagename_press = NULL;
-	
 	tgb->funcs._call_process = NULL;
 	tgb->funcs._call_paint = _tgui_FileviewPreviewPaint;
-	
-	// FILEINFO region
-	tgb = &(tguiScrFileviewButtons[bi++]);
-	memcpy((void*)tgb, (void*)(&tguiScrFileviewButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {7, 235, 246, 311};
 
-	tgb->textposition = {7, 235, 246, 311};
-	
-	tgb->funcs._call_paint = _tgui_FileviewFileinfoPaint;
-	
-	// PRINTINFO region
-	tgb = &(tguiScrFileviewButtons[bi++]);
-	memcpy((void*)tgb, (void*)(&tguiScrFileviewButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {248, 54, 472, 233};
-
-	tgb->textposition = {248, 54, 472, 233};
-	
-	tgb->funcs._call_process = NULL;
-	tgb->funcs._call_paint = _tgui_FileviewPrintinfoPaint;
-	
-	
 	// FILEVIEW SCREEN
 	tgs = &tguiScreenFileview;
 	memset((void*)tgs, 0, sizeof(TG_SCREEN));
@@ -2960,6 +2959,8 @@ void		TGUI_Init()
 	tgb->textcolor_act = tgc->btntextcolor_en;
 	tgb->textposition = {13, 57, 382, 104};
 	tgb->text = LSTR_PP_LIGHT_PAUSE;
+
+	tgb->options.disabled = 1;
 
 	tgb->funcs._call_press = _tgui_PrnparamsItemButtonPress;
 

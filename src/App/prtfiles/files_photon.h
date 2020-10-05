@@ -77,6 +77,24 @@ typedef struct
 	float		unknown1[4];
 } FPHOTON_LAYERSINFO;
 
+typedef struct
+{
+	float		layer_position;
+	float		light_time;
+	float		lightoff_time;
+	uint32_t	data_offset;
+	uint32_t	data_length;
+	float		unknown1[4];
+
+	uint32_t	total_size;
+	float		lift_height;
+	float		lift_speed;
+	float		unknown2[2];
+	float		drop_speed;
+	uint32_t	unknown3[5];
+	float		light_pwm;
+} FPHOTON_LAYERSINFOEXT;
+
 #pragma pack()
 
 
@@ -85,9 +103,9 @@ typedef struct
 uint8_t		FPHOTON_ReadFileInfo(FIL *file);
 uint8_t		FPHOTON_SetPointerToPreview(FIL *file, uint8_t small = 0);
 uint32_t	FPHOTON_GetPreviewDataOffset(uint8_t small = 0);
-uint16_t	FPHOTON_GetPreviewWidth(uint8_t small = 0);
-uint16_t	FPHOTON_GetPreviewHeight(uint8_t small = 0);
-uint16_t	FPHOTON_GetPreviewSize(uint8_t small = 0);
+uint32_t	FPHOTON_GetPreviewWidth(uint8_t small = 0);
+uint32_t	FPHOTON_GetPreviewHeight(uint8_t small = 0);
+uint32_t	FPHOTON_GetPreviewSize(uint8_t small = 0);
 uint8_t		FPHOTON_DrawPreview(FIL *file, TG_RECT *rect, uint8_t small = 0);
 
 uint32_t	FPHOTON_GetTotalLayers();
@@ -110,6 +128,7 @@ float		FPHOTON_GetResinVolume();
 uint32_t	FPHOTON_GetIndLayerSettings();
 uint32_t	FPHOTON_GetResolutionX();
 uint32_t	FPHOTON_GetResolutionY();
+uint32_t	FPHOTON_GetVersion();
 
 uint8_t		FPHOTON_GetLayerInfo(uint32_t layer_num, LAYER_INFO *layer_info);
 

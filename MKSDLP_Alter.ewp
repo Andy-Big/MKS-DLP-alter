@@ -224,7 +224,7 @@
                 </option>
                 <option>
                     <name>CCDefines</name>
-                    <state>__DEBUG__</state>
+                    <state>__DEBUG1__</state>
                     <state>USE_HAL_DRIVER</state>
                     <state>STM32F407xx</state>
                     <state>USE_HAL_SPI_REGISTER_CALLBACKS=1U</state>
@@ -289,11 +289,11 @@
                 <option>
                     <name>CCAllowList</name>
                     <version>1</version>
-                    <state>00000000</state>
+                    <state>11111110</state>
                 </option>
                 <option>
                     <name>CCDebugInfo</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>IEndianMode</name>
@@ -386,7 +386,7 @@
                 </option>
                 <option>
                     <name>CCOptLevel</name>
-                    <state>1</state>
+                    <state>3</state>
                 </option>
                 <option>
                     <name>CCOptStrategy</name>
@@ -395,7 +395,7 @@
                 </option>
                 <option>
                     <name>CCOptLevelSlave</name>
-                    <state>1</state>
+                    <state>3</state>
                 </option>
                 <option>
                     <name>CompilerMisraRules98</name>
@@ -729,7 +729,7 @@
                 </option>
                 <option>
                     <name>IlinkDebugInfoEnable</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>IlinkKeepSymbols</name>
@@ -1058,39 +1058,6 @@
         </settings>
     </configuration>
     <group>
-        <name>__ORIGINAL_SOURCES__</name>
-        <excluded>
-            <configuration>MKSDLP_Alter_debug</configuration>
-        </excluded>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\cpld.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\mks_dlp_main.cpp</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\mks_reprint.cpp</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\spi.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\w25qxx\spi_flash.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\w25qxx\spi_flash.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\SSD2828\ssd2828.cpp</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\SSD2828\ssd2828.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\w25qxx\w25qxx.c</name>
-        </file>
-    </group>
-    <group>
         <name>Application</name>
         <group>
             <name>CONFIG</name>
@@ -1181,48 +1148,6 @@
         </group>
         <group>
             <name>STEPPER</name>
-            <group>
-                <name>_orig</name>
-                <excluded>
-                    <configuration>MKSDLP_Alter_debug</configuration>
-                </excluded>
-                <file>
-                    <name>$PROJ_DIR$\src\App\stepper\endstops.cpp</name>
-                    <excluded>
-                        <configuration>MKSDLP_Alter_debug</configuration>
-                    </excluded>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\gcode\motion\G0_G1.cpp</name>
-                    <excluded>
-                        <configuration>MKSDLP_Alter_debug</configuration>
-                    </excluded>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\MarlinCore.cpp</name>
-                    <excluded>
-                        <configuration>MKSDLP_Alter_debug</configuration>
-                    </excluded>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\module\motion.cpp</name>
-                    <excluded>
-                        <configuration>MKSDLP_Alter_debug</configuration>
-                    </excluded>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\src\App\stepper\planner.cpp</name>
-                    <excluded>
-                        <configuration>MKSDLP_Alter_debug</configuration>
-                    </excluded>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\src\App\stepper\stepper.cpp</name>
-                    <excluded>
-                        <configuration>MKSDLP_Alter_debug</configuration>
-                    </excluded>
-                </file>
-            </group>
             <file>
                 <name>$PROJ_DIR$\src\App\stepper\motor.cpp</name>
             </file>
@@ -1462,6 +1387,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim_ex.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_wwdg.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_fsmc.c</name>

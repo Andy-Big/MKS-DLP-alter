@@ -104,6 +104,7 @@ typedef struct
 	uint32_t		disp_time;
 	uint32_t		fan_time;
 	uint32_t		total_print_time;
+	uint32_t		total_on_time;
 
 	uint16_t		cfg_crc;
 } WORK_TIME;
@@ -120,7 +121,7 @@ typedef struct
 	float			target_position;
 	uint8_t			position_known;
 	uint8_t			zmotor_enabled;
-	
+	uint32_t		timerWorkTimeSecs;
 	uint8_t			print_is_homing;
 	uint8_t			print_is_printing;
 	uint8_t			print_is_paused;
@@ -134,6 +135,7 @@ typedef struct
 	float			print_lift_at_end;
 	uint8_t			print_use_aa_grade;
 	uint8_t			print_use_ind_params;
+	uint32_t		print_timer_secs;
 } SYSTEM_INFO;
 
 

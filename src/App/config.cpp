@@ -2,6 +2,9 @@
 #include "eeprom.h"
 #include "languages.h"
 #include "tgui_messagebox.h"
+#include "z_planner.h"
+#include "z_endstops.h"
+#include "z_stepper.h"
 
 
 
@@ -151,8 +154,8 @@ void			CFG_SetMotorDefault()
 	cfgzMotor.max_jerk = 0.05;
 	cfgzMotor.current_vref = 800;
 	cfgzMotor.current_hold_vref = 300;
-	cfgzMotor.hold_time = 10000;
-	cfgzMotor.off_time = 60000;
+	cfgzMotor.hold_time = 30000;
+	cfgzMotor.off_time = 1800000;
 	
 	for (uint16_t i = 0; i < sizeof(MOTOR_CONFIG) - 2; i++)
 	{
@@ -200,7 +203,7 @@ void			CFG_SetConfigDefault()
 	cfgConfig.buzzer = 1;
 	cfgConfig.buzzer_msg = 800;
 	cfgConfig.buzzer_touch = 50;
-	cfgConfig.screensaver_time = 60000;
+	cfgConfig.screensaver_time = 600000;
 	cfgConfig.screensaver_type = 1;
 	
 	cfgConfig.display_rotate = 0;
@@ -283,7 +286,7 @@ void			_cfg_GetParamName(char *src, char *dest, uint16_t maxlen)
 	
 	char *string = src;
 	// skip spaces
-	while (*string != 0 && maxlen > 0 && (*string == ' ' || *string == '\t' || *string == '\r'))
+	while (*string != 0 && maxlen > 0 && (*string == ' ' || *string == '\t' || *string == '\r' || *string > 126))
 	{
 		string++;
 		maxlen--;
@@ -418,15 +421,15 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 				continue;
 		}
 		
-		// skip comments
-		if (*string == '#')
-			continue;
-		
 		// upper all letters
 		strupper_utf(string);
 		
 		// get parameter name
 		_cfg_GetParamName(string, lexem, sizeof(lexem));
+		
+		// skip comments
+		if (*lexem == '#')
+			continue;
 		
 		// check if here section name
 		if (*lexem == '[')
@@ -477,7 +480,10 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.float_val < 0.1)
 							pval.float_val = 0.1;
+						if (pval.float_val > cfgzMotor.max_acceleration)
+							pval.float_val = cfgzMotor.max_acceleration;
 						cfgzMotor.acceleration = pval.float_val;
+						zPlanner.settings.acceleration = cfgzMotor.acceleration;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -529,8 +535,8 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.float_val < 0.1)
 							pval.float_val = 0.1;
-						if (pval.float_val > 40)
-							pval.float_val = 40;
+						if (pval.float_val > cfgzMotor.max_feedrate)
+							pval.float_val = cfgzMotor.max_feedrate;
 						cfgzMotor.feedrate = pval.float_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
@@ -721,6 +727,8 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						if (pval.uint_val > 200000)
 							pval.uint_val = 200000;
 						cfgzMotor.steps_per_mm = pval.uint_val;
+						zPlanner.settings.axis_steps_per_mm = cfgzMotor.steps_per_mm;
+						zPlanner.refresh_positioning();
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -737,7 +745,10 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.float_val < 0.1)
 							pval.float_val = 0.1;
+						if (pval.float_val > cfgzMotor.max_acceleration)
+							pval.float_val = cfgzMotor.max_acceleration;
 						cfgzMotor.travel_acceleration = pval.float_val;
+						zPlanner.settings.travel_acceleration = cfgzMotor.travel_acceleration;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -751,6 +762,8 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.float_val < 0.1)
 							pval.float_val = 0.1;
+						if (pval.float_val > cfgzMotor.max_feedrate)
+							pval.float_val = cfgzMotor.max_feedrate;
 						cfgzMotor.travel_feedrate = pval.float_val;
 						rdstate = CFGR_ZMOTOR;
 						break;

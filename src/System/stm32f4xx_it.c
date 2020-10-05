@@ -23,21 +23,22 @@
 #include "stm32f4xx_it.h"
 
 /* External variables --------------------------------------------------------*/
-extern HCD_HandleTypeDef 	hhcd_USB_OTG_FS;
 
-extern DMA_HandleTypeDef	hTouchSpiDmaRx;
-extern DMA_HandleTypeDef	hTouchSpiDmaTx;
+extern HCD_HandleTypeDef 		hhcd_USB_OTG_FS;
 
-extern DMA_HandleTypeDef	hLcdDma;
+extern DMA_HandleTypeDef		hTouchSpiDmaRx;
+extern DMA_HandleTypeDef		hTouchSpiDmaTx;
 
-extern DMA_HandleTypeDef	hFlashSpiDmaRx;
-extern DMA_HandleTypeDef	hFlashSpiDmaTx;
+extern DMA_HandleTypeDef		hLcdDma;
 
-extern TIM_HandleTypeDef	hStepperTim;
+extern DMA_HandleTypeDef		hFlashSpiDmaRx;
+extern DMA_HandleTypeDef		hFlashSpiDmaTx;
 
-extern void 				IsrStepperHandler();
+extern TIM_HandleTypeDef		hStepperTim;
 
-extern void					EndstopsInterrupt();
+extern void 					IsrStepperHandler();
+
+extern void						EndstopsInterrupt();
 //extern void (*IsrStepperHandler)();
 
 /******************************************************************************/
@@ -201,5 +202,12 @@ void EXTI2_IRQHandler(void)
   HAL_GPIO_EXTI_IRQHandler(ZE_MAX_Pin);
   EndstopsInterrupt();
 }
+
+
+void WWDG_IRQHandler(void)
+{
+}
+
+
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

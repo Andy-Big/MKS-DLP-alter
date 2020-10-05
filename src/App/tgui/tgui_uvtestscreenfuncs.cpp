@@ -94,13 +94,13 @@ void		_tgui_UVTestReadImage(uint8_t imgnum)
 	switch (imgnum)
 	{
 		case 1:
-			tstrcat_utf(tfname, (char*)"uvtest_image2.cimg");
+			tstrcat_utf(tfname, (char*)"icn/uvtest_image2.cimg");
 			break;
 		case 2:
-			tstrcat_utf(tfname, (char*)"uvtest_image3.cimg");
+			tstrcat_utf(tfname, (char*)"icn/uvtest_image3.cimg");
 			break;
 		default:
-			tstrcat_utf(tfname, (char*)"uvtest_image1.cimg");
+			tstrcat_utf(tfname, (char*)"icn/uvtest_image1.cimg");
 			break;
 	}
 	

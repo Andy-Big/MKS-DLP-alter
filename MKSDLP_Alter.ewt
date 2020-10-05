@@ -1186,36 +1186,6 @@
         </settings>
     </configuration>
     <group>
-        <name>__ORIGINAL_SOURCES__</name>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\cpld.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\mks_dlp_main.cpp</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\mks_reprint.cpp</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Src\spi.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\w25qxx\spi_flash.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\w25qxx\spi_flash.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\SSD2828\ssd2828.cpp</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\SSD2828\ssd2828.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\MKS-DLP-FIRMWARE-master\Drivers\BSP\Components\w25qxx\w25qxx.c</name>
-        </file>
-    </group>
-    <group>
         <name>Application</name>
         <group>
             <name>CONFIG</name>
@@ -1306,27 +1276,6 @@
         </group>
         <group>
             <name>STEPPER</name>
-            <group>
-                <name>_orig</name>
-                <file>
-                    <name>$PROJ_DIR$\src\App\stepper\endstops.cpp</name>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\gcode\motion\G0_G1.cpp</name>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\MarlinCore.cpp</name>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\..\..\MARLIN_NEW\Marlin-2.0.x\Marlin\src\module\motion.cpp</name>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\src\App\stepper\planner.cpp</name>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\src\App\stepper\stepper.cpp</name>
-                </file>
-            </group>
             <file>
                 <name>$PROJ_DIR$\src\App\stepper\motor.cpp</name>
             </file>
@@ -1548,6 +1497,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim_ex.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_wwdg.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\src\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_fsmc.c</name>

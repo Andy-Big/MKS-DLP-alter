@@ -81,8 +81,9 @@ typedef struct
 uint8_t		FPWS_ReadFileInfo(FIL *file);
 uint8_t		FPWS_SetPointerToPreview(FIL *file);
 uint32_t	FPWS_GetPreviewDataOffset();
-uint16_t	FPWS_GetPreviewWidth();
-uint16_t	FPWS_GetPreviewHeight();
+uint32_t	FPWS_GetPreviewWidth();
+uint32_t	FPWS_GetPreviewHeight();
+uint32_t	FPWS_GetPreviewSize();
 uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect);
 
 uint32_t	FPWS_GetTotalLayers();

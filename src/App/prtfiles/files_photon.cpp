@@ -115,7 +115,7 @@ uint32_t	FPHOTON_GetPreviewDataOffset(uint8_t small)
 
 
 
-uint16_t	FPHOTON_GetPreviewWidth(uint8_t small)
+uint32_t	FPHOTON_GetPreviewWidth(uint8_t small)
 {
 	if (small > 0)
 		return fphoton_preview_small.width;
@@ -127,7 +127,7 @@ uint16_t	FPHOTON_GetPreviewWidth(uint8_t small)
 
 
 
-uint16_t	FPHOTON_GetPreviewHeight(uint8_t small)
+uint32_t	FPHOTON_GetPreviewHeight(uint8_t small)
 {
 	if (small > 0)
 		return fphoton_preview_small.height;
@@ -139,7 +139,7 @@ uint16_t	FPHOTON_GetPreviewHeight(uint8_t small)
 
 
 
-uint16_t	FPHOTON_GetPreviewSize(uint8_t small)
+uint32_t	FPHOTON_GetPreviewSize(uint8_t small)
 {
 	if (small > 0)
 		return fphoton_preview_small.data_length;
@@ -156,7 +156,7 @@ uint8_t		FPHOTON_DrawPreview(FIL *file, TG_RECT *rect, uint8_t small)
 	if (fphoton_header.header != 0x12FD0019 && fphoton_header.header != 0x12FD0086)
 		return 0;
 
-	uint16_t		prev_width = 0, prev_height = 0, rect_width = 0, rect_height = 0, image_width = 0, image_height = 0, image_xcoord = 0, image_ycoord = 0;
+	uint32_t		prev_width = 0, prev_height = 0, rect_width = 0, rect_height = 0, image_width = 0, image_height = 0, image_xcoord = 0, image_ycoord = 0;
 	uint32_t		prev_datasize = 0;
 	float			pscale = 0;
 	uint16_t		columns_readed = 0, lines_readed = 0, read_col = 0, read_line = 0;
@@ -212,7 +212,7 @@ uint8_t		FPHOTON_DrawPreview(FIL *file, TG_RECT *rect, uint8_t small)
 			btoread = 4096;
 			if (btoread > prev_datasize - total_readed)
 				btoread = prev_datasize - total_readed;
-			if (f_read(file, fbuff, btoread, &readed) != FR_OK)
+			if (f_read(file, fbuff, btoread, &readed) != FR_OK || readed != btoread)
 				return 0;
 			total_readed += btoread;
 			read_buff_pos = 0;
@@ -226,7 +226,7 @@ uint8_t		FPHOTON_DrawPreview(FIL *file, TG_RECT *rect, uint8_t small)
 				btoread = 4096;
 				if (btoread > prev_datasize - total_readed)
 					btoread = prev_datasize - total_readed;
-				if (f_read(file, fbuff, btoread, &readed) != FR_OK)
+				if (f_read(file, fbuff, btoread, &readed) != FR_OK || readed != btoread)
 					return 0;
 				total_readed += btoread;
 				read_buff_pos = 0;
@@ -450,6 +450,15 @@ uint32_t	FPHOTON_GetResolutionX()
 uint32_t	FPHOTON_GetResolutionY()
 {
 	return fphoton_header.res_y;
+}
+//==============================================================================
+
+
+
+
+uint32_t	FPHOTON_GetVersion()
+{
+	return fphoton_header.version;
 }
 //==============================================================================
 

@@ -28,6 +28,16 @@ extern "C"
 #include "includes.h"
 
 
+
+#define	SDIR_UPD					(char*)"alterupd"
+#define	SDIR_UPD_IMAGES_BTN			(char*)"alterupd\\images\\btn"
+#define	SDIR_UPD_IMAGES_SCR			(char*)"alterupd\\images\\scr"
+#define	SDIR_UPD_IMAGES_ICN			(char*)"alterupd\\images\\icn"
+#define TIMERS_SAVE_PERIOD			3600		// in seconds
+
+
+
+
 // --------- FSMC (TFT) ----------
 #define FSMC_Pins1				GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_12 | GPIO_PIN_14 | GPIO_PIN_15
 #define FSMC_GPIO_Port1			GPIOD
