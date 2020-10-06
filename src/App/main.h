@@ -187,10 +187,28 @@ extern "C"
 #define EEPROM_SDA_Pin			GPIO_PIN_7
 #define EEPROM_GPIO_Port		GPIOB
 
+#define EEPROM_CLK_ENABLE()		__HAL_RCC_I2C1_CLK_ENABLE()
+#define EEPROM_CLK_DISABLE()	__HAL_RCC_I2C1_CLK_DISABLE()
+
+// --------- I2C DS3231 ----------
+#define DS3231_I2C				I2C1
+
+#define DS3231_I2C_SCL_Pin		GPIO_PIN_8
+#define DS3231_I2C_SDA_Pin		GPIO_PIN_9
+#define DS3231_I2C_GPIO_Port	GPIOB
+
+#define DS3231_CLK_ENABLE()		__HAL_RCC_I2C1_CLK_ENABLE()
+#define DS3231_CLK_DISABLE()	__HAL_RCC_I2C1_CLK_DISABLE()
+
 // --------- I2C EXTENSION PORT ----------
-#define EXT_SCL_Pin				GPIO_PIN_8
-#define EXT_SDA_Pin				GPIO_PIN_9
-#define EXT_GPIO_Port			GPIOB
+#define EXT_I2C					I2C1
+
+#define EXT_I2C_SCL_Pin			GPIO_PIN_8
+#define EXT_I2C_SDA_Pin			GPIO_PIN_9
+#define EXT_I2C_GPIO_Port		GPIOB
+
+#define EXT_I2C_CLK_ENABLE()	__HAL_RCC_I2C1_CLK_ENABLE()
+#define EXT_I2C_CLK_DISABLE()	__HAL_RCC_I2C1_CLK_DISABLE()
 
 
 

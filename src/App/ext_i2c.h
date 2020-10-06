@@ -1,11 +1,11 @@
-#ifndef __eeprom_H
-#define __eeprom_H
+#ifndef __ext_i2c_H
+#define __ext_i2c_H
 
 #include "includes.h"
 #include "main.h"
 
 
-extern I2C_HandleTypeDef		hI2C;
+extern I2C_HandleTypeDef		hExtI2C;
 
 // SR2
 #define _I2C_FLAG_DUALF                  ((uint32_t)0x00800000)
@@ -41,39 +41,36 @@ extern I2C_HandleTypeDef		hI2C;
 
 
 
-void		EEPROM_Init(void);
-void		EEPROM_Deinit(void);
+void		EXTI2C_Init(void);
+void		EXTI2C_Deinit(void);
+uint32_t 	_EXTI2C_get_flag_status(uint32_t flag);
+uint32_t 	_EXTI2C_check_errors();
+uint8_t		_EXTI2C_CheckEvent(uint32_t I2C_EVENT);
+void		_EXTI2C_Send7bitAddress(uint8_t Address, uint8_t I2C_Direction);
 
-uint32_t 	_EEPROM_get_flag_status(uint32_t flag);
-uint32_t 	_EEPROM_check_errors();
-uint8_t		_EEPROM_CheckEvent(uint32_t I2C_EVENT);
-void		_EEPROM_Send7bitAddress(uint8_t Address, uint8_t I2C_Direction);
+void 		_EXTI2C_abort();
+uint8_t 	_EXTI2C_generate_start();
+uint8_t 	_EXTI2C_generate_stop();
 
-void 		_EEPROM_abort();
-uint8_t 	_EEPROM_generate_start();
-uint8_t 	_EEPROM_generate_stop();
+uint8_t 	_EXTI2C_send_addr_send(uint8_t addr);
+uint8_t 	_EXTI2C_send_addr_receive(uint8_t addr);
+uint8_t 	_EXTI2C_send_memaddr_send(uint16_t addr);
+uint8_t 	_EXTI2C_send_memaddr_receive(uint16_t addr);
 
-uint8_t 	_EEPROM_send_addr_send(uint8_t addr);
-uint8_t 	_EEPROM_send_addr_receive(uint8_t addr);
-uint8_t 	_EEPROM_send_memaddr_send(uint16_t addr);
-uint8_t 	_EEPROM_send_memaddr_receive(uint16_t addr);
+uint8_t 	_EXTI2C_send_data(uint8_t addr, uint8_t reg);
 
-uint8_t 	_EEPROM_send_data(uint8_t addr, uint8_t reg);
+uint8_t 	EXTI2C_CheckRead(uint8_t addr, uint8_t reg, uint8_t *result = 0);
 
-uint8_t 	EEPROM_CheckRead(uint8_t addr, uint8_t reg, uint8_t *result = 0);
+uint8_t		EXTI2C_ChangeSpeed(uint32_t spd);
 
-uint8_t		EEPROM_ChangeSpeed(uint32_t spd);
+uint8_t		EXTI2C_WriteReg(uint8_t addr, uint8_t reg, uint8_t value);
+uint8_t 	EXTI2C_ReadReg(uint8_t addr, uint8_t reg);
 
-uint8_t		EEPROM_WriteReg(uint8_t addr, uint8_t reg, uint8_t value);
-uint8_t 	EEPROM_ReadReg(uint8_t addr, uint8_t reg);
-
-uint8_t		EEPROM_ReadBuff(uint8_t addr, uint8_t reg, uint8_t *buff, uint16_t count);
-uint8_t		EEPROM_WriteBuff(uint8_t addr, uint8_t reg, uint8_t *buff, uint16_t count);
-uint8_t		EEPROM_ReadMemBuff(uint16_t addr, uint8_t *buff, uint16_t count);
-uint8_t		EEPROM_WriteMemBuff(uint16_t addr, uint8_t *buff, uint16_t count);
+uint8_t		EXTI2C_ReadBuff(uint8_t addr, uint8_t reg, uint8_t *buff, uint16_t count);
+uint8_t		EXTI2C_WriteBuff(uint8_t addr, uint8_t reg, uint8_t *buff, uint16_t count);
 
 
 	
 
-#endif /*__eeprom_H */
+#endif /*__ext_i2c_H */
 

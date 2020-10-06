@@ -109,6 +109,7 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Are you sure you want to\npermanently delete this file?",
 		(char*)"Error deleting file!",
 		(char*)"File deleted successfully.",
+		(char*)"External clock setting error!",
 
 // Settings screen
 		(char*)"Clock/Calendar",
@@ -275,6 +276,7 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Вы уверены, что хотите\nбезвозвратно удалить этот файл?",
 		(char*)"Ошибка удаления файла!",
 		(char*)"Файл успешно удален.",
+		(char*)"Ошибка установки внешних часов!",
 
 // Settings screen
 		(char*)"Часы/Календарь",

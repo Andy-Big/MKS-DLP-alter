@@ -1069,6 +1069,12 @@
             </file>
         </group>
         <group>
+            <name>EXT_I2C</name>
+            <file>
+                <name>$PROJ_DIR$\src\App\ext_i2c.cpp</name>
+            </file>
+        </group>
+        <group>
             <name>FATFS</name>
             <group>
                 <name>App</name>
@@ -1165,6 +1171,9 @@
             <name>TIMERS</name>
             <file>
                 <name>$PROJ_DIR$\src\App\datetime.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\ds3231.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\rtc.c</name>

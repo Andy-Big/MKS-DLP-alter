@@ -9,6 +9,8 @@
 #include "tgui_numenterscreenfuncs.h"
 #include "config.h"
 #include "datetime.h"
+#include "eeprom.h"
+#include "ds3231.h"
 
 
 extern TG_SCREEN				*tguiActiveScreen;
@@ -310,10 +312,44 @@ void		_tgui_ClockSetDownButtonPress(void *tguiobj, void *param)
 
 void		_tgui_ClockSetOkButtonPress(void *tguiobj, void *param)
 {
+	uint8_t			ds_state = 0;
 	datetime.seconds = 0;
 	DTIME_SetWeekDay(&datetime);
 	DTIME_SetCurrentDatetime(&datetime);
-	
+	if (cfgConfig.use_ext_clock)
+	{
+		EEPROM_Deinit();
+		if ((ds_state = DS3231_Init()) == 0)
+		{
+			TGUI_MessageBoxOk(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_MSG_EXT_CLOCK_ERROR), _tgui_ClockSetClose);
+		} else
+		if (ds_state == 2)
+		{
+			if (DS3231_StartOsc() == 0)
+			{
+				TGUI_MessageBoxOk(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_MSG_EXT_CLOCK_ERROR), _tgui_ClockSetClose);
+				ds_state = 0;
+			}
+		} else
+		if (DS3231_SetTime(&datetime, 0) == 0)
+		{
+			TGUI_MessageBoxOk(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_MSG_EXT_CLOCK_ERROR), _tgui_ClockSetClose);
+			ds_state = 0;
+		}
+		DS3231_Deinit();
+		EEPROM_Init();
+		if (ds_state == 0)
+			return;
+	}
+
+	_tgui_ClockSetClose(tguiobj, param);
+}
+//==============================================================================
+
+
+
+void		_tgui_ClockSetClose(void *tguiobj, void *param)
+{
 	tguiActiveScreen = (TG_SCREEN*)tguiScreenClockSet.prevscreen;
 	TGUI_ForceRepaint();
 }

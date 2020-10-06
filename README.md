@@ -118,10 +118,14 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 **Added/changed:**
 * Fixed errors with antialiasing in .cbddlp and .photon files with version 3.
 
+## v0.02
+## 05.10.2020 Updates
+**Added/changed:**
++ Added the ability to connect an external clock DS3231. The firmware uses this clock to get the current time and date. You can enable or disable the use of an external clock in the configuration file.
+
 **To do in the near future:**
 1. Upgradeable bootloader and firmware.
 1. Touch panel calibration.
 1. Runtime counters reset.
 1. Lifting platform request after Z=0 setting.
-1. External clock DS3231 support.
 

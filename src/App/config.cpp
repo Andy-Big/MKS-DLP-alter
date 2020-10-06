@@ -44,19 +44,28 @@ void			CFG_Init()
 	else
 	{
 		// calculate crc
-		crc = 0;
-		for (uint16_t i = 0; i < sizeof(MOTOR_CONFIG) - 2; i++)
-		{
-			crc += data[i];
-		}
-		if (cfgzMotor.cfg_version != FW_VERSION || crc != cfgzMotor.cfg_crc)
+		crc = CFG_MotorCalculateCRC();
+		// check version
+		if (cfgzMotor.cfg_version != FW_VERSION)
 		{
 			switch (cfgzMotor.cfg_version)
 			{
-				
+				case 0x0001:
+					if (crc != cfgzMotor.cfg_crc)
+						CFG_SetMotorDefault();
+					else
+						CFG_RefreshMotor();
+					break;
+
 				default:
 					CFG_SetMotorDefault();
 			}
+			CFG_SaveMotor();
+		} else
+		// check crc
+		if (crc != cfgzMotor.cfg_crc)
+		{
+			CFG_SetMotorDefault();
 			CFG_SaveMotor();
 		}
 	}
@@ -71,19 +80,33 @@ void			CFG_Init()
 	else
 	{
 		// calculate crc
-		crc = 0;
-		for (uint16_t i = 0; i < sizeof(GLOBAL_CONFIG) - 2; i++)
-		{
-			crc += data[i];
-		}
-		if (cfgConfig.cfg_version != FW_VERSION || crc != cfgConfig.cfg_crc)
+		crc = CFG_ConfigCalculateCRC();
+		// check version
+		if (cfgConfig.cfg_version != FW_VERSION)
 		{
 			switch (cfgConfig.cfg_version)
 			{
-				
+				case 0x0001:
+					if (crc != cfgConfig.cfg_crc)
+					{
+						CFG_SetConfigDefault();
+					}
+					else
+					{
+						cfgConfig.use_ext_clock = 0;
+						CFG_RefreshConfig();
+					}
+					break;
+
 				default:
 					CFG_SetConfigDefault();
 			}
+			CFG_SaveConfig();
+		} else
+		// check crc
+		if (crc != cfgConfig.cfg_crc)
+		{
+			CFG_SetConfigDefault();
 			CFG_SaveConfig();
 		}
 	}
@@ -98,19 +121,28 @@ void			CFG_Init()
 	else
 	{
 		// calculate crc
-		crc = 0;
-		for (uint16_t i = 0; i < sizeof(WORK_TIME) - 2; i++)
-		{
-			crc += data[i];
-		}
-		if (cfgTimers.cfg_version != FW_VERSION || crc != cfgTimers.cfg_crc)
+		crc = CFG_TimersCalculateCRC();
+		// check version
+		if (cfgTimers.cfg_version != FW_VERSION)
 		{
 			switch (cfgTimers.cfg_version)
 			{
-				
+				case 0x0001:
+					if (crc != cfgTimers.cfg_crc)
+						CFG_SetTimersDefault();
+					else
+						CFG_RefreshTimers();
+					break;
+
 				default:
 					CFG_SetTimersDefault();
 			}
+			CFG_SaveTimers();
+		} else
+		// check crc
+		if (crc != cfgTimers.cfg_crc)
+		{
+			CFG_SetTimersDefault();
 			CFG_SaveTimers();
 		}
 	}
@@ -121,13 +153,54 @@ void			CFG_Init()
 
 
 
+uint16_t		CFG_MotorCalculateCRC()
+{
+	uint8_t 	*data = (uint8_t*)&cfgzMotor;
+	uint16_t	crc = 0;
+	for (uint16_t i = 2; i < sizeof(MOTOR_CONFIG); i++)
+	{
+		crc += data[i];
+	}
+	return crc;
+}
+//==============================================================================
+
+
+
+
+uint16_t		CFG_ConfigCalculateCRC()
+{
+	uint8_t 	*data = (uint8_t*)&cfgConfig;
+	uint16_t	crc = 0;
+	for (uint16_t i = 2; i < sizeof(GLOBAL_CONFIG); i++)
+	{
+		crc += data[i];
+	}
+	return crc;
+}
+//==============================================================================
+
+
+
+
+uint16_t		CFG_TimersCalculateCRC()
+{
+	uint8_t 	*data = (uint8_t*)&cfgTimers;
+	uint16_t	crc = 0;
+	for (uint16_t i = 2; i < sizeof(WORK_TIME); i++)
+	{
+		crc += data[i];
+	}
+	return crc;
+}
+//==============================================================================
+
+
+
+
 void			CFG_SetMotorDefault()
 {
-	uint16_t	crc = 0;
-	uint8_t		*data;
-	data = (uint8_t*)&cfgzMotor;
-	
-	memset(data, 0, sizeof(MOTOR_CONFIG));
+	memset(&cfgzMotor, 0, sizeof(MOTOR_CONFIG));
 
 	cfgzMotor.cfg_version = FW_VERSION;
 	
@@ -157,11 +230,18 @@ void			CFG_SetMotorDefault()
 	cfgzMotor.hold_time = 30000;
 	cfgzMotor.off_time = 1800000;
 	
-	for (uint16_t i = 0; i < sizeof(MOTOR_CONFIG) - 2; i++)
-	{
-		crc += data[i];
-	}
-	cfgzMotor.cfg_crc = crc;
+	cfgzMotor.cfg_crc = CFG_MotorCalculateCRC();
+}
+//==============================================================================
+
+
+
+
+void			CFG_RefreshMotor()
+{
+	cfgzMotor.cfg_version = FW_VERSION;
+	
+	cfgzMotor.cfg_crc = CFG_MotorCalculateCRC();
 }
 //==============================================================================
 
@@ -170,15 +250,7 @@ void			CFG_SetMotorDefault()
 
 void			CFG_SaveMotor()
 {
-	uint16_t	crc = 0;
-	uint8_t		*data;
-	data = (uint8_t*)&cfgzMotor;
-	
-	for (uint16_t i = 0; i < sizeof(MOTOR_CONFIG) - 2; i++)
-	{
-		crc += data[i];
-	}
-	cfgzMotor.cfg_crc = crc;
+	cfgzMotor.cfg_crc = CFG_MotorCalculateCRC();
 	
 	EEPROM_WriteMemBuff(EEPR_ADDR_MOTORCONFIG, (uint8_t*)&cfgzMotor, sizeof(MOTOR_CONFIG));
 	
@@ -190,11 +262,7 @@ void			CFG_SaveMotor()
 
 void			CFG_SetConfigDefault()
 {
-	uint16_t	crc = 0;
-	uint8_t		*data;
-	data = (uint8_t*)&cfgConfig;
-
-	memset(data, 0, sizeof(GLOBAL_CONFIG));
+	memset(&cfgConfig, 0, sizeof(GLOBAL_CONFIG));
 	cfgConfig.cfg_version = FW_VERSION;
 	cfgConfig.language = 0;		// english default
 	cfgConfig.zero_pos = cfgzMotor.home_pos;
@@ -205,14 +273,21 @@ void			CFG_SetConfigDefault()
 	cfgConfig.buzzer_touch = 50;
 	cfgConfig.screensaver_time = 600000;
 	cfgConfig.screensaver_type = 1;
-	
 	cfgConfig.display_rotate = 0;
+	cfgConfig.use_ext_clock = 0;
+	
+	cfgConfig.cfg_crc = CFG_ConfigCalculateCRC();
+}
+//==============================================================================
 
-	for (uint16_t i = 0; i < sizeof(GLOBAL_CONFIG) - 2; i++)
-	{
-		crc += data[i];
-	}
-	cfgConfig.cfg_crc = crc;
+
+
+
+void			CFG_RefreshConfig()
+{
+	cfgConfig.cfg_version = FW_VERSION;
+
+	cfgConfig.cfg_crc = CFG_ConfigCalculateCRC();
 }
 //==============================================================================
 
@@ -221,15 +296,7 @@ void			CFG_SetConfigDefault()
 
 void			CFG_SaveConfig()
 {
-	uint16_t	crc = 0;
-	uint8_t		*data;
-	data = (uint8_t*)&cfgConfig;
-	
-	for (uint16_t i = 0; i < sizeof(GLOBAL_CONFIG) - 2; i++)
-	{
-		crc += data[i];
-	}
-	cfgConfig.cfg_crc = crc;
+	cfgConfig.cfg_crc = CFG_ConfigCalculateCRC();
 	
 	EEPROM_WriteMemBuff(EEPR_ADDR_GLOBALCONFIG, (uint8_t*)&cfgConfig, sizeof(GLOBAL_CONFIG));
 	
@@ -241,18 +308,21 @@ void			CFG_SaveConfig()
 
 void			CFG_SetTimersDefault()
 {
-	uint16_t	crc = 0;
-	uint8_t		*data;
-	data = (uint8_t*)&cfgTimers;
-
 	memset(&cfgTimers, 0, sizeof(WORK_TIME));
 	cfgTimers.cfg_version = FW_VERSION;
 
-	for (uint16_t i = 0; i < sizeof(WORK_TIME) - 2; i++)
-	{
-		crc += data[i];
-	}
-	cfgTimers.cfg_crc = crc;
+	cfgTimers.cfg_crc = CFG_TimersCalculateCRC();
+}
+//==============================================================================
+
+
+
+
+void			CFG_RefreshTimers()
+{
+	cfgTimers.cfg_version = FW_VERSION;
+
+	cfgTimers.cfg_crc = CFG_TimersCalculateCRC();
 }
 //==============================================================================
 
@@ -261,15 +331,7 @@ void			CFG_SetTimersDefault()
 
 void			CFG_SaveTimers()
 {
-	uint16_t	crc = 0;
-	uint8_t		*data;
-	data = (uint8_t*)&cfgTimers;
-	
-	for (uint16_t i = 0; i < sizeof(WORK_TIME) - 2; i++)
-	{
-		crc += data[i];
-	}
-	cfgTimers.cfg_crc = crc;
+	cfgTimers.cfg_crc = CFG_TimersCalculateCRC();
 	
 	EEPROM_WriteMemBuff(EEPR_ADDR_WORKTIME, (uint8_t*)&cfgTimers, sizeof(WORK_TIME));
 	
@@ -902,6 +964,24 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							pval.uint_val = TIMER_DISABLE;
 						else
 							cfgConfig.screensaver_time = pval.uint_val * 60000;
+						rdstate = CFGR_GENERAL;
+						break;
+					}
+				} else
+				if (*lexem == 'U')
+				{
+					if (strcmp(lexem, (char*)"USE_EXTERNAL_CLOCK") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.uint_val > 0)
+							cfgConfig.use_ext_clock = 1;
+						else
+							cfgConfig.use_ext_clock = 0;
 						rdstate = CFGR_GENERAL;
 						break;
 					}

@@ -45,6 +45,7 @@ typedef enum
 #pragma pack(1)
 typedef struct
 {
+	uint16_t		cfg_crc;
 	uint16_t		cfg_version;
 
 	uint8_t			invert_dir;
@@ -74,11 +75,11 @@ typedef struct
 	uint32_t		hold_time;		// time after the last movement until the motor current decreases by half, in msec
 	uint32_t		off_time;
 
-	uint16_t		cfg_crc;
 } MOTOR_CONFIG;
 
 typedef struct
 {
+	uint16_t		cfg_crc;
 	uint16_t		cfg_version;
 
 	uint8_t			language;
@@ -90,14 +91,14 @@ typedef struct
 	uint16_t		buzzer_msg;
 	uint32_t		screensaver_time;
 	uint8_t			screensaver_type;
-
 	uint8_t			display_rotate;
+	uint8_t			use_ext_clock;
 
-	uint16_t		cfg_crc;
 } GLOBAL_CONFIG;
 
 typedef struct
 {
+	uint16_t		cfg_crc;
 	uint32_t		cfg_version;
 
 	uint32_t		led_time;
@@ -106,7 +107,6 @@ typedef struct
 	uint32_t		total_print_time;
 	uint32_t		total_on_time;
 
-	uint16_t		cfg_crc;
 } WORK_TIME;
 
 #pragma pack()
@@ -176,11 +176,21 @@ extern TCHAR				cfgTFileName[512];
 
 
 void			CFG_Init();
+
+uint16_t		CFG_MotorCalculateCRC();
+uint16_t		CFG_ConfigCalculateCRC();
+uint16_t		CFG_TimersCalculateCRC();
+
 void			CFG_SetMotorDefault();
+void			CFG_RefreshMotor();
 void			CFG_SaveMotor();
+
 void			CFG_SetConfigDefault();
+void			CFG_RefreshConfig();
 void			CFG_SaveConfig();
+
 void			CFG_SetTimersDefault();
+void			CFG_RefreshTimers();
 void			CFG_SaveTimers();
 
 void			_cfg_GetParamName(char *src, char *dest, uint16_t maxlen);

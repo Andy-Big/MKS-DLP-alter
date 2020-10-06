@@ -17,6 +17,7 @@ void		_tgui_ClockSetItemPaint(void *tguiobj, void *param);
 void		_tgui_ClockSetUpButtonPress(void *tguiobj, void *param);
 void		_tgui_ClockSetDownButtonPress(void *tguiobj, void *param);
 void		_tgui_ClockSetOkButtonPress(void *tguiobj, void *param);
+void		_tgui_ClockSetClose(void *tguiobj, void *param);
 
 
 

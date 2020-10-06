@@ -35,6 +35,8 @@
 #include "motor.h"
 #include "z_endstops.h"
 #include "config.h"
+#include "ext_i2c.h"
+#include "ds3231.h"
 #include "z_stepper.h"
 #include "uvdisplay.h"
 #include "eeprom.h"
@@ -108,6 +110,7 @@ int main()
 	HAL_PWR_DeInit();
 	HAL_Init();
 	SystemClock_Config();
+
 
 	GPIO_Init();
 
@@ -246,6 +249,63 @@ int main()
 		
 	RTC_Init();
 	RTC_Enable(&hRTC);
+	
+	// external clock
+	while (cfgConfig.use_ext_clock)
+	{
+		uint8_t				ds_state;
+		DATETIME_STRUCT 	dtime;
+		memset(&dtime, 0, sizeof(DATETIME_STRUCT));
+
+		// disable EEPROM pins
+		EEPROM_Deinit();
+		_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
+		LCDUI_DrawText((char*)"EXTERNAL CLOCK INIT...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		if ((ds_state = DS3231_Init()) == 0)
+		{
+			_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
+			LCDUI_DrawText((char*)"EXTERNAL CLOCK NOT FOUND", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+			HAL_Delay(1000);
+			break;
+		}
+		_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
+		LCDUI_DrawText((char*)"DATA READING FROM EXTERNAL CLOCK...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		// if clock has stoped
+		if (ds_state == 2)
+		{
+			if (DS3231_StartOsc() == 0)
+			{
+				_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
+				LCDUI_DrawText((char*)"EXTERNAL CLOCK ERROR...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+				HAL_Delay(1000);
+				break;
+			}
+		}
+
+		// read time
+		if (DS3231_GetTime(&dtime) == 0)
+		{
+			_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
+			LCDUI_DrawText((char*)"EXTERNAL CLOCK READ TIME ERROR...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+			HAL_Delay(1000);
+			break;
+		}
+
+		// set time in internal RTC
+		DTIME_SetCurrentDatetime(&dtime);
+
+		// disable external I2C pins
+		DS3231_Deinit();
+		// enable EEPROM pins
+		EEPROM_Init();
+		_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
+		if (ds_state == 2)
+			LCDUI_DrawText((char*)"EXTERNAL CLOCK MAY BE INCORRECT TIME", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		else
+			LCDUI_DrawText((char*)"EXTERNAL CLOCK READED SUCCESS", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		HAL_Delay(1000);
+		break;
+	}
 	systemInfo.timerWorkTimeSecs = DTIME_GetCurrentUnixtime();
 	
 	LANG_SetLanguage(cfgConfig.language);

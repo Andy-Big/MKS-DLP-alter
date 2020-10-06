@@ -15,7 +15,7 @@ void		EEPROM_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-	__HAL_RCC_I2C1_CLK_ENABLE();
+	EEPROM_CLK_ENABLE();
 
 	hI2C.Instance = EEPROM_I2C;
 	hI2C.Init.ClockSpeed = 100000;
@@ -28,10 +28,9 @@ void		EEPROM_Init(void)
 	hI2C.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
 	HAL_I2C_Init(&hI2C);
 
-	__HAL_RCC_GPIOB_CLK_ENABLE();
 	GPIO_InitStruct.Pin = EEPROM_SCL_Pin | EEPROM_SDA_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
 	HAL_GPIO_Init(EEPROM_GPIO_Port, &GPIO_InitStruct);
@@ -39,6 +38,23 @@ void		EEPROM_Init(void)
 	__HAL_I2C_ENABLE(&hI2C);
 	
 	i2c_timer = SYSTIMER_NewCountDown(0);
+}
+//==============================================================================
+
+
+
+
+void		EEPROM_Deinit(void)
+{
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+	__HAL_I2C_DISABLE(&hI2C);
+	HAL_I2C_DeInit(&hI2C);
+
+	GPIO_InitStruct.Pin = EEPROM_SCL_Pin | EEPROM_SDA_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(EEPROM_GPIO_Port, &GPIO_InitStruct);
 }
 //==============================================================================
 
