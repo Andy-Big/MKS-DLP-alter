@@ -122,6 +122,7 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 ## 05.10.2020 Updates
 **Added/changed:**
 + Added the ability to connect an external clock DS3231. The firmware uses this clock to get the current time and date. You can enable or disable the use of an external clock in the configuration file.
+![Printing screen](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/ds3231_connect.jpg)
 
 **To do in the near future:**
 1. Upgradeable bootloader and firmware.
