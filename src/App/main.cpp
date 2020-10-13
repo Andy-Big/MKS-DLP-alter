@@ -181,10 +181,17 @@ int main()
 	if (Touch_IsPressed())
 	{
 		TOUCH_POINT tp;
-		Touch_GetLastCoords(&tp);
+		Touch_GetCurrentCoordsRaw(&tp);
 		if ( tp.xc > 430 && tp.yc < 50)
 		{
 			srvMode = 1;
+		}
+		if ( tp.xc < 50 && tp.yc < 50)
+		{
+			cfgConfig.touch_cal[0] = cfgConfig.touch_cal[4] = 1;
+			cfgConfig.touch_cal[1] = cfgConfig.touch_cal[2] = cfgConfig.touch_cal[3] = cfgConfig.touch_cal[5] = 0;
+			CFG_SaveConfig();
+			srvMode = 2;
 		}
 	}
 	
@@ -193,6 +200,11 @@ int main()
 	{
 		LCDUI_SetColor(COLOR_GREEN);
 		LCDUI_DrawText((char*)"> Service mode\n");
+		if (srvMode == 2)
+		{
+			srvMode = 1;
+			LCDUI_DrawText((char*)"> Touch calibrating are reset to default.\n");
+		}
 
 
 		FATFS *fs;

@@ -48,7 +48,6 @@ void		_touch_ReadCoords()
 			touch_point.xc = LCD_WIDTH - (vavg - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
 		else
 			touch_point.xc = (vavg - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
-		touch_info.xc = touch_point.xc;
 	}
 
 	// Calculate Y coord
@@ -73,7 +72,6 @@ void		_touch_ReadCoords()
 			touch_point.yc = (vavg - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
 		else
 			touch_point.yc = LCD_HEIGHT - (vavg - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
-		touch_info.yc = touch_point.yc;
 	}
 	
 	
@@ -111,6 +109,8 @@ void		_touch_RefreshState()
 						if (touch_info.time > 100)
 						{
 							touch_info.state = TS_LPRESSED;
+							touch_info.xc = touch_point.xc;
+							touch_info.yc = touch_point.yc;
 						}
 						else
 							touch_info.time++;
@@ -148,6 +148,8 @@ void		_touch_RefreshState()
 				if (touch_info.time > 1)
 				{
 					touch_info.state = TS_SPRESSED;
+					touch_info.xc = touch_point.xc;
+					touch_info.yc = touch_point.yc;
 					SYSTIMER_SetCountDown(tguiScreenTimer, cfgConfig.screensaver_time);
 				}
 				else
@@ -165,6 +167,8 @@ void		_touch_RefreshState()
 				if (touch_info.time > 50)
 				{
 					touch_info.state = TS_LPRESSED;
+					touch_info.xc = touch_point.xc;
+					touch_info.yc = touch_point.yc;
 				}
 				else
 					touch_info.time++;
@@ -263,6 +267,16 @@ void		Touch_SetWorked(TOUCH_STATES state)
 
 void		Touch_GetCurrentCoords(TOUCH_POINT *pt)
 {
+	pt->xc = (uint16_t)(cfgConfig.touch_cal[0] * touch_point.xc + cfgConfig.touch_cal[1] * touch_point.yc + cfgConfig.touch_cal[2]);
+	pt->yc = (uint16_t)(cfgConfig.touch_cal[3] * touch_point.xc + cfgConfig.touch_cal[4] * touch_point.yc + cfgConfig.touch_cal[5]);
+}
+//==============================================================================
+
+
+
+
+void		Touch_GetCurrentCoordsRaw(TOUCH_POINT *pt)
+{
 	pt->xc = touch_point.xc;
 	pt->yc = touch_point.yc;
 }
@@ -272,6 +286,16 @@ void		Touch_GetCurrentCoords(TOUCH_POINT *pt)
 
 
 void		Touch_GetLastCoords(TOUCH_POINT *pt)
+{
+	pt->xc = (uint16_t)(cfgConfig.touch_cal[0] * touch_info.xc + cfgConfig.touch_cal[1] * touch_info.yc + cfgConfig.touch_cal[2]);
+	pt->yc = (uint16_t)(cfgConfig.touch_cal[3] * touch_info.xc + cfgConfig.touch_cal[4] * touch_info.yc + cfgConfig.touch_cal[5]);
+}
+//==============================================================================
+
+
+
+
+void		Touch_GetLastCoordsRaw(TOUCH_POINT *pt)
 {
 	pt->xc = touch_info.xc;
 	pt->yc = touch_info.yc;

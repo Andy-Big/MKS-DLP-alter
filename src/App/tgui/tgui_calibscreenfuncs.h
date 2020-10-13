@@ -6,6 +6,7 @@
 
 
 
+void		_tgui_CalibButtonProcess(void *tguiobj, void *param);
 void		_tgui_CalibScreenPaint(void *tguiobj, void *param);
 void		_tgui_CalibButtonPress(void *tguiobj, void *param);
 void		_tgui_CalibButtonLongPress(void *tguiobj, void *param);

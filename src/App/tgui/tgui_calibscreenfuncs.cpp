@@ -13,16 +13,84 @@
 #define CALIB_TARGET_SIZE_Y			(uint16_t)36
 #define CALIB_TARGET_IMAGE_FILE		(char*)"icn/icn_calib_target.cimg"
 
-#define CALIB_XD1					(LCD_WIDTH * 50) / 100
-#define CALIB_YD1					(LCD_HEIGHT * 10) / 100
-#define CALIB_XD2					(LCD_WIDTH * 90) / 100
-#define CALIB_YD2					(LCD_HEIGHT * 50) / 100
+#define CALIB_XD1					(LCD_WIDTH * 90) / 100
+#define CALIB_YD1					(LCD_HEIGHT * 50) / 100
+#define CALIB_XD2					(LCD_WIDTH * 50) / 100
+#define CALIB_YD2					(LCD_HEIGHT * 90) / 100
 #define CALIB_XD3					(LCD_WIDTH * 10) / 100
-#define CALIB_YD3					(LCD_HEIGHT * 90) / 100
+#define CALIB_YD3					(LCD_HEIGHT * 10) / 100
 
 
 uint8_t							calib_screen_state = 0;
 uint16_t						calib_x[3], calib_y[3];
+
+
+void		_tgui_CalibButtonProcess(void *tguiobj, void *param)
+{
+	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
+	TOUCH_STATES	*ts = (TOUCH_STATES*)param;;
+	TOUCH_POINT		tp;
+	
+	if (*ts > TS_PREPRESSED)
+	{
+		Touch_GetLastCoordsRaw(&tp);
+		switch (*ts)
+		{
+			case TS_SPRESSED:
+				if (thisbtn->options.disabled == 0 && thisbtn->options.pressed == 0)
+				{
+					if (TGUI_PointInRect(&tp, &thisbtn->position) == 1)
+					{
+						BUZZ_TimerOn(cfgConfig.buzzer_touch);
+						thisbtn->options.pressed = 1;
+						Touch_SetWorked(TS_SPRESSED);
+					}
+				}
+				break;
+
+			case TS_LPRESSED:
+				if (thisbtn->options.disabled == 0 && thisbtn->options.pressed == 1)
+				{
+					// call linked function
+					if (thisbtn->funcs._call_longpress != NULL)
+					{
+						// call linked function
+						BUZZ_TimerOn(cfgConfig.buzzer_touch);
+						thisbtn->funcs._call_longpress((void*)thisbtn, NULL);
+					}
+					
+					Touch_SetWorked(TS_LPRESSED);
+				}
+				break;
+
+			case TS_SRELEASED:
+				if (thisbtn->options.disabled == 0 && thisbtn->options.pressed == 1)
+				{
+					thisbtn->options.pressed = 0;
+					// call linked function or predefined action
+					if (thisbtn->funcs._call_press != NULL)
+					{
+						// call linked function or predefined action
+						thisbtn->funcs._call_press((void*)thisbtn, NULL);
+					}
+					
+					Touch_SetWorked(TS_SRELEASED);
+				}
+				break;
+
+			case TS_LRELEASED:
+				if (thisbtn->options.disabled == 0 && thisbtn->options.pressed == 1)
+				{
+					thisbtn->options.pressed = 0;
+					Touch_SetWorked(TS_LRELEASED);
+				}
+				break;
+		}
+	}
+}
+//==============================================================================
+
+
 
 
 void		_tgui_CalibScreenPaint(void *tguiobj, void *param)
@@ -105,7 +173,7 @@ void		_tgui_CalibButtonPress(void *tguiobj, void *param)
 	float			temp1, temp2;
 	TOUCH_POINT		pt;
 	
-	Touch_GetLastCoords(&pt);
+	Touch_GetLastCoordsRaw(&pt);
 	switch(calib_screen_state)
 	{
 		case 0:

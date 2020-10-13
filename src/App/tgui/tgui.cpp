@@ -3118,7 +3118,7 @@ void		TGUI_Init()
 
 	tgb->funcs._call_longpress = _tgui_CalibButtonLongPress;
 	tgb->funcs._call_press = _tgui_CalibButtonPress;
-	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	tgb->funcs._call_process = _tgui_CalibButtonProcess;
 
 
 	// TOUCH CALIBRATION
