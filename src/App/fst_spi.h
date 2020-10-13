@@ -34,6 +34,9 @@ extern "C" {
 #define 	_cpld_CS_Disable()	FST_SPI_CS_CPLD_GPIO_Port->BSRR = FST_SPI_CS_CPLD_Pin	
 
 
+extern SPI_HandleTypeDef		hFlashSpi;
+
+
 
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi);
 
@@ -59,7 +62,8 @@ void		FLASH_SPIReadBuff(uint32_t dlen, uint8_t *dbuff);
 void		FLASH_SPIWriteBuff(uint32_t dlen, uint8_t *dbuff);
 void		FLASH_SPIReadBuffDMA(uint32_t dlen, uint8_t *dbuff);
 void		FLASH_SPIWriteBuffDMA(uint32_t dlen, uint8_t *dbuff);
-uint8_t		FLASH_IsDMAReady();
+inline uint8_t		FLASH_IsDMAReady() { return (hFlashSpi.State == HAL_SPI_STATE_READY); }
+
 
 
 

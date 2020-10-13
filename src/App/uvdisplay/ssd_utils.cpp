@@ -269,6 +269,7 @@ uint8_t		SSD_Init()
 		return 0;
 	}
 
+	uint32_t	spi_speed = FLASH_SPIGetSpeed();
 	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_128);	
 
 	_cpld_bank2disp_enable(WORK_USED_BANK,1,0);
@@ -289,7 +290,7 @@ uint8_t		SSD_Init()
 	_cpld_bank2disp_enable(WORK_USED_BANK, 0, 0);
 	HAL_Delay(20);
 
-	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_8);	
+	FLASH_SPISetSpeed(spi_speed);	
 
 	return 1;
 }

@@ -233,9 +233,9 @@ uint32_t	PFILE_GetPrintTime()
 	// if antialiasing - add time for reading sublayers, about 0.8 sec per sublayer in debug mode and about 0.53 sec in release with max optimization
 	if (PFILE_GetAntialiasing() > 1)
 #ifdef __DEBUG__
-		total_time += total_layers * (PFILE_GetAntialiasing() - 1) * 0.8;
+		total_time += total_layers * (PFILE_GetAntialiasing() - 1) * 0.666;
 #else
-		total_time += total_layers * (PFILE_GetAntialiasing() - 1) * 0.5;
+		total_time += total_layers * (PFILE_GetAntialiasing() - 1) * 0.362;
 #endif	
 	// correction
 //	total_time *= 0.937;

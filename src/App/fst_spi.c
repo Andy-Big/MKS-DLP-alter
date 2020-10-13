@@ -210,7 +210,7 @@ void		FLASH_SPIInit(void)
 	hFlashSpi.Init.CLKPolarity = SPI_POLARITY_HIGH;
 	hFlashSpi.Init.CLKPhase = SPI_PHASE_2EDGE;
 	hFlashSpi.Init.NSS = SPI_NSS_SOFT;
-	hFlashSpi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
+	hFlashSpi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
 	hFlashSpi.Init.FirstBit = SPI_FIRSTBIT_MSB;
 	hFlashSpi.Init.TIMode = SPI_TIMODE_DISABLE;
 	hFlashSpi.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -443,13 +443,13 @@ void		FLASH_SPIWriteBuffDMA(uint32_t dlen, uint8_t *dbuff)
 
 
 
-
-uint8_t		FLASH_IsDMAReady()
+/*
+inline uint8_t		FLASH_IsDMAReady()
 {
 	return (hFlashSpi.State == HAL_SPI_STATE_READY);
 }
 //==============================================================================
-
+*/
 
 
 

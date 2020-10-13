@@ -129,6 +129,7 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 **Added/changed:**
 + Added three-point touch sensor calibration.
 * Changed "Service" menu.
+* The read and display time of the layer is optimized from 0.51 to 0.36 sec.
 
 **To do in the near future:**
 1. Upgradeable bootloader and firmware.

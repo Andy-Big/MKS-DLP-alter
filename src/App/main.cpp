@@ -141,7 +141,7 @@ int main()
 	// SPI flash interface init
 	FLASH_SPIInit();
 	FLASH_SPIEnable();
-	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_8);
+	FLASH_SPISetSpeed(SPI_BAUDRATEPRESCALER_4);
 	// SPI flash logic init
 	SPIFL_Init();
 //	_touch_ReadCoords();
