@@ -94,6 +94,26 @@ typedef struct
 	uint8_t			display_rotate;
 	uint8_t			use_ext_clock;
 
+} GLOBAL_CONFIG_V002;
+
+typedef struct
+{
+	uint16_t		cfg_crc;
+	uint16_t		cfg_version;
+
+	uint8_t			language;
+	float			zero_pos;
+	float			pause_lift;
+	float			end_lift;
+	uint8_t			buzzer;
+	uint16_t		buzzer_touch;
+	uint16_t		buzzer_msg;
+	uint32_t		screensaver_time;
+	uint8_t			screensaver_type;
+	uint8_t			display_rotate;
+	uint8_t			use_ext_clock;
+	float			touch_cal[6];
+
 } GLOBAL_CONFIG;
 
 typedef struct

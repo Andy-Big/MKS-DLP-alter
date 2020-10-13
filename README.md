@@ -124,9 +124,14 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 + Added the ability to connect an external clock DS3231. The firmware uses this clock to get the current time and date. You can enable or disable the use of an external clock in the configuration file.
 ![Printing screen](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/ds3231_connect.jpg)
 
+## 13.10.2020 Updates
+### v0.03
+**Added/changed:**
+ + Added three-point touch sensor calibration.
+ *Changed "Service" menu.
+
 **To do in the near future:**
 1. Upgradeable bootloader and firmware.
-1. Touch panel calibration.
 1. Runtime counters reset.
 1. Lifting platform request after Z=0 setting.
 

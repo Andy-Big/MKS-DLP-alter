@@ -229,7 +229,7 @@ void		_tgui_MsgBoxButtonProcess(void *tguiobj, void *param)
 	
 	if (*ts > TS_PREPRESSED)
 	{
-		Touch_GetCoords(&tp);
+		Touch_GetLastCoords(&tp);
 		switch (*ts)
 		{
 			case TS_SPRESSED:

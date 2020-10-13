@@ -1322,6 +1322,9 @@
                 <name>$PROJ_DIR$\src\App\tgui\tgui.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_calibscreenfuncs.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_clocksetscreenfuncs.cpp</name>
             </file>
             <file>
@@ -1359,6 +1362,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_screensaverfuncs.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_servicescreenfuncs.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_settingsscreenfuncs.cpp</name>
@@ -1411,6 +1417,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\src\App\gpio.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\src\App\includes.h</name>
         </file>
         <file>
             <name>$PROJ_DIR$\src\App\main.cpp</name>

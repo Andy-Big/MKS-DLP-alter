@@ -116,9 +116,6 @@ int main()
 
 	// FatFS init
 	FATFS_Init();
-	// Touch interface init
-	Touch_Init();
-	Touch_Enable();
 
 	SYSTIMER_Init();
 
@@ -131,7 +128,11 @@ int main()
 	EEPROM_Init();
 
 	CFG_Init();
-	
+
+	// Touch interface init
+	Touch_Init();
+	Touch_Enable();
+
 	LANG_SetLanguage(0);
 	
 	// LCD init
@@ -180,7 +181,7 @@ int main()
 	if (Touch_IsPressed())
 	{
 		TOUCH_POINT tp;
-		Touch_GetCoords(&tp);
+		Touch_GetLastCoords(&tp);
 		if ( tp.xc > 430 && tp.yc < 50)
 		{
 			srvMode = 1;
@@ -195,7 +196,9 @@ int main()
 
 
 		FATFS *fs;
-		DWORD fre_clust, fre_sect, tot_sect;
+		DWORD fre_clust, fre_sect, tot_sect = 0x1234;
+		asm("rbit %0, %1" : "=r" (tot_sect) : "r" (tot_sect) );
+		tot_sect++;
 
 		if (f_getfree(SpiflPath, &fre_clust, &fs) != FR_OK)
 		{
@@ -259,25 +262,45 @@ int main()
 
 		// disable EEPROM pins
 		EEPROM_Deinit();
-		_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
-		LCDUI_DrawText((char*)"EXTERNAL CLOCK INIT...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
-		if ((ds_state = DS3231_Init()) == 0)
+		if (!srvMode)
 		{
 			_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
-			LCDUI_DrawText((char*)"EXTERNAL CLOCK NOT FOUND", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
-			HAL_Delay(1000);
+			LCDUI_DrawText((char*)"EXTERNAL CLOCK INIT...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		}
+		if ((ds_state = DS3231_Init()) == 0)
+		{
+			if (srvMode)
+			{
+				LCDUI_DrawText((char*)"> External clock not found\n");
+			}
+			else
+			{
+				_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
+				LCDUI_DrawText((char*)"EXTERNAL CLOCK NOT FOUND", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+				HAL_Delay(1000);
+			}
 			break;
 		}
-		_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
-		LCDUI_DrawText((char*)"DATA READING FROM EXTERNAL CLOCK...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		if (!srvMode)
+		{
+			_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
+			LCDUI_DrawText((char*)"DATA READING FROM EXTERNAL CLOCK...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		}
 		// if clock has stoped
 		if (ds_state == 2)
 		{
 			if (DS3231_StartOsc() == 0)
 			{
-				_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
-				LCDUI_DrawText((char*)"EXTERNAL CLOCK ERROR...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
-				HAL_Delay(1000);
+				if (srvMode)
+				{
+					LCDUI_DrawText((char*)"> External clock starting error\n");
+				}
+				else
+				{
+					_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
+					LCDUI_DrawText((char*)"EXTERNAL CLOCK ERROR...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+					HAL_Delay(1000);
+				}
 				break;
 			}
 		}
@@ -285,8 +308,15 @@ int main()
 		// read time
 		if (DS3231_GetTime(&dtime) == 0)
 		{
-			_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
-			LCDUI_DrawText((char*)"EXTERNAL CLOCK READ TIME ERROR...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+			if (srvMode)
+			{
+				LCDUI_DrawText((char*)"> External clock reading error\n");
+			}
+			else
+			{
+				_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
+				LCDUI_DrawText((char*)"EXTERNAL CLOCK READ TIME ERROR...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+			}
 			HAL_Delay(1000);
 			break;
 		}
@@ -298,11 +328,30 @@ int main()
 		DS3231_Deinit();
 		// enable EEPROM pins
 		EEPROM_Init();
-		_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
 		if (ds_state == 2)
-			LCDUI_DrawText((char*)"EXTERNAL CLOCK MAY BE INCORRECT TIME", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		{
+			if (srvMode)
+			{
+				LCDUI_DrawText((char*)"> External clock may be incorrect time\n");
+			}
+			else
+			{
+				_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
+				LCDUI_DrawText((char*)"EXTERNAL CLOCK MAY BE INCORRECT TIME", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+			}
+		}
 		else
-			LCDUI_DrawText((char*)"EXTERNAL CLOCK READED SUCCESS", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+		{
+			if (srvMode)
+			{
+				LCDUI_DrawText((char*)"> External clock readed success\n");
+			}
+			else
+			{
+				_tgui_DrawFileCimg(FNAME_LOGO_STRING_BG, 10, 275);
+				LCDUI_DrawText((char*)"EXTERNAL CLOCK READED SUCCESS", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
+			}
+		}
 		HAL_Delay(1000);
 		break;
 	}

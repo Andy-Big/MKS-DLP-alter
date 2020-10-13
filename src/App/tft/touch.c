@@ -6,7 +6,6 @@
 
 
 
-
 #define TOUCH_PRESSED()		(touch_point.xc || touch_point.yc)
 
 extern uint8_t				tguiScreenTimer;
@@ -49,6 +48,7 @@ void		_touch_ReadCoords()
 			touch_point.xc = LCD_WIDTH - (vavg - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
 		else
 			touch_point.xc = (vavg - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
+		touch_info.xc = touch_point.xc;
 	}
 
 	// Calculate Y coord
@@ -73,6 +73,7 @@ void		_touch_ReadCoords()
 			touch_point.yc = (vavg - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
 		else
 			touch_point.yc = LCD_HEIGHT - (vavg - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
+		touch_info.yc = touch_point.yc;
 	}
 	
 	
@@ -208,6 +209,8 @@ void		Touch_Init(void)
 	touch_info.y_max = 31200;
 	touch_info.state = TS_FREE;
 	touch_info.time = 0;
+	touch_info.xc = 0;
+	touch_info.yc = 0;
 
 	touch_point.xc = 0;
 	touch_point.yc = 0;
@@ -258,10 +261,20 @@ void		Touch_SetWorked(TOUCH_STATES state)
 
 
 
-void		Touch_GetCoords(TOUCH_POINT *pt)
+void		Touch_GetCurrentCoords(TOUCH_POINT *pt)
 {
 	pt->xc = touch_point.xc;
 	pt->yc = touch_point.yc;
+}
+//==============================================================================
+
+
+
+
+void		Touch_GetLastCoords(TOUCH_POINT *pt)
+{
+	pt->xc = touch_info.xc;
+	pt->yc = touch_info.yc;
 }
 //==============================================================================
 

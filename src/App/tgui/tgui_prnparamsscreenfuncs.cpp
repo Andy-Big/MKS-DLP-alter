@@ -19,7 +19,7 @@ extern char						msg[512];
 
 PRNPARAMS_VALUES				prnparams;
 
-uint8_t							current_screen = 0;
+uint8_t							pp_current_screen = 0;
 
 
 void		_tgui_PrnparamsScreenShow(void *tguiobj, void *param)
@@ -114,7 +114,7 @@ void		_tgui_PrnparamsItemButtonPaint(void *tguiobj, void *param)
 	msg[0] = 0;
 	char	*meas = NULL;
 	
-	if (current_screen == 0)
+	if (pp_current_screen == 0)
 	{
 		switch (thisbtn->button_id)
 		{
@@ -145,7 +145,7 @@ void		_tgui_PrnparamsItemButtonPaint(void *tguiobj, void *param)
 
 		}
 	} else
-	if (current_screen == 1)
+	if (pp_current_screen == 1)
 	{
 		switch (thisbtn->button_id)
 		{
@@ -226,9 +226,9 @@ void		_tgui_PrnparamsItemButtonPaint(void *tguiobj, void *param)
 
 void		_tgui_PrnparamsDownButtonPress(void *tguiobj, void *param)
 {
-	if (current_screen < PP_SCREENS_COUNT - 1)
+	if (pp_current_screen < PP_SCREENS_COUNT - 1)
 	{
-		current_screen++;
+		pp_current_screen++;
 		for (uint8_t i = 0; i < tguiScreenPrnparams.btns_count; i++)
 		{
 			switch (tguiScreenPrnparams.buttons[i].button_id)
@@ -238,7 +238,7 @@ void		_tgui_PrnparamsDownButtonPress(void *tguiobj, void *param)
 					break;
 
 				case TG_SCR_PRNPARAMS_DOWN_ID:
-					if (current_screen < PP_SCREENS_COUNT - 1)
+					if (pp_current_screen < PP_SCREENS_COUNT - 1)
 						tguiScreenPrnparams.buttons[i].options.disabled = 0;
 					else
 						tguiScreenPrnparams.buttons[i].options.disabled = 1;
@@ -249,28 +249,28 @@ void		_tgui_PrnparamsDownButtonPress(void *tguiobj, void *param)
 				case TG_SCR_PRNPARAMS_LIFTHEIGHT_ID:
 				case TG_SCR_PRNPARAMS_LIFTSPEED_ID:
 				case TG_SCR_PRNPARAMS_DROPSPEED_ID:
-					if (current_screen == 0)
+					if (pp_current_screen == 0)
 						tguiScreenPrnparams.buttons[i].options.disabled = 0;
 					else
 						tguiScreenPrnparams.buttons[i].options.disabled = 1;
 					break;
 
 				case TG_SCR_PRNPARAMS_LIGHTPAUSE_ID:
-					if (current_screen == 1)
+					if (pp_current_screen == 1)
 						tguiScreenPrnparams.buttons[i].options.disabled = 0;
 					else
 						tguiScreenPrnparams.buttons[i].options.disabled = 1;
 					break;
 
 				case TG_SCR_PRNPARAMS_AA_ID:
-					if (current_screen == 1 && PFILE_GetAntialiasing() > 1)
+					if (pp_current_screen == 1 && PFILE_GetAntialiasing() > 1)
 						tguiScreenPrnparams.buttons[i].options.disabled = 0;
 					else
 						tguiScreenPrnparams.buttons[i].options.disabled = 1;
 					break;
 
 				case TG_SCR_PRNPARAMS_INDPARAMS_ID:
-					if (current_screen == 1 && PFILE_GetIndLayerSettings() > 0)
+					if (pp_current_screen == 1 && PFILE_GetIndLayerSettings() > 0)
 						tguiScreenPrnparams.buttons[i].options.disabled = 0;
 					else
 						tguiScreenPrnparams.buttons[i].options.disabled = 1;
@@ -286,15 +286,15 @@ void		_tgui_PrnparamsDownButtonPress(void *tguiobj, void *param)
 
 void		_tgui_PrnparamsUpButtonPress(void *tguiobj, void *param)
 {
-	if (current_screen > 0)
+	if (pp_current_screen > 0)
 	{
-		current_screen--;
+		pp_current_screen--;
 		for (uint8_t i = 0; i < tguiScreenPrnparams.btns_count; i++)
 		{
 			switch (tguiScreenPrnparams.buttons[i].button_id)
 			{
 				case TG_SCR_PRNPARAMS_UP_ID:
-					if (current_screen > 0)
+					if (pp_current_screen > 0)
 						tguiScreenPrnparams.buttons[i].options.disabled = 0;
 					else
 						tguiScreenPrnparams.buttons[i].options.disabled = 1;
@@ -309,28 +309,28 @@ void		_tgui_PrnparamsUpButtonPress(void *tguiobj, void *param)
 				case TG_SCR_PRNPARAMS_LIFTHEIGHT_ID:
 				case TG_SCR_PRNPARAMS_LIFTSPEED_ID:
 				case TG_SCR_PRNPARAMS_DROPSPEED_ID:
-					if (current_screen == 0)
+					if (pp_current_screen == 0)
 						tguiScreenPrnparams.buttons[i].options.disabled = 0;
 					else
 						tguiScreenPrnparams.buttons[i].options.disabled = 1;
 					break;
 
 				case TG_SCR_PRNPARAMS_LIGHTPAUSE_ID:
-					if (current_screen == 1)
+					if (pp_current_screen == 1)
 						tguiScreenPrnparams.buttons[i].options.disabled = 0;
 					else
 						tguiScreenPrnparams.buttons[i].options.disabled = 1;
 					break;
 
 				case TG_SCR_PRNPARAMS_AA_ID:
-					if (current_screen == 1 && PFILE_GetAntialiasing() > 1)
+					if (pp_current_screen == 1 && PFILE_GetAntialiasing() > 1)
 						tguiScreenPrnparams.buttons[i].options.disabled = 0;
 					else
 						tguiScreenPrnparams.buttons[i].options.disabled = 1;
 					break;
 
 				case TG_SCR_PRNPARAMS_INDPARAMS_ID:
-					if (current_screen == 1 && PFILE_GetIndLayerSettings() > 0)
+					if (pp_current_screen == 1 && PFILE_GetIndLayerSettings() > 0)
 						tguiScreenPrnparams.buttons[i].options.disabled = 0;
 					else
 						tguiScreenPrnparams.buttons[i].options.disabled = 1;

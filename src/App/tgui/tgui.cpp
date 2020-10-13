@@ -9,6 +9,7 @@
 #include "tgui_langscreenfuncs.h"
 #include "tgui_infoscreenfuncs.h"
 #include "tgui_mainscreenfuncs.h"
+#include "tgui_servicescreenfuncs.h"
 #include "tgui_filesscreenfuncs.h"
 #include "tgui_movezscreenfuncs.h"
 #include "tgui_messagebox.h"
@@ -20,6 +21,7 @@
 #include "tgui_screensaverfuncs.h"
 #include "tgui_uvtestscreenfuncs.h"
 #include "tgui_prnparamsscreenfuncs.h"
+#include "tgui_calibscreenfuncs.h"
 
 
 __no_init uint8_t 		tguiDBuff[UIDBUFF_SIZE];
@@ -74,6 +76,9 @@ TG_SCREEN		tguiScreenUVTest;
 
 TG_BUTTON		tguiScrPrnparamsButtons[TG_BTN_CNT_SCREEN_PRNPARAMS];
 TG_SCREEN		tguiScreenPrnparams;
+
+TG_BUTTON		tguiScrCalibButtons[TG_BTN_CNT_SCREEN_CALIB];
+TG_SCREEN		tguiScreenCalib;
 
 
 
@@ -375,73 +380,152 @@ void		TGUI_Init()
 	tgb->parentscreen = &tguiScreenService;
 	tgb->childscreen = NULL;
 
-	// LANGUAGE button
+	// UP button
 	tgb = &(tguiScrServiceButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrServiceButtons[0]), sizeof(TG_BUTTON));
+
+	tgb->button_id = TG_SCR_SERVICE_UP_ID;
+	tgb->text = LSTR____;
+
+	tgb->position = {403, 58, 468, 117};
+
+	tgb->bgimagename_en = FNAME_BTN_SERVICE_UP_EN;
+	tgb->bgimagename_press = FNAME_BTN_SERVICE_UP_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_SERVICE_UP_DIS;
 	
-	tgb->position = {15, 65, 235, 130};
+	tgb->options.disabled = 1;
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->options.repaintonpress = 1;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = _tgui_ServiceUpButtonPress;
+
+	// DOWN button
+	tgb = &(tguiScrServiceButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrServiceButtons[bi-2]), sizeof(TG_BUTTON));
+
+	tgb->button_id = TG_SCR_SERVICE_DOWN_ID;
+
+	tgb->position = {403, 250, 468, 309};
+
+	tgb->bgimagename_en = FNAME_BTN_SERVICE_DN_EN;
+	tgb->bgimagename_press = FNAME_BTN_SERVICE_DN_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_SERVICE_DN_DIS;
+
+	tgb->options.disabled = 0;
+
+	tgb->funcs._call_press = _tgui_ServiceDownButtonPress;
+
+	// LANGUAGE button
+	tgb = &(tguiScrServiceButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrServiceButtons[bi-2]), sizeof(TG_BUTTON));
+
+	tgb->button_id = TG_SCR_SERVICE_LANG_ID;
+
+	tgb->position = {15, 58, 394, 117};
+	tgb->textposition = {90, 63, 388, 112};
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
 	tgb->text = LSTR_LANGUAGE;
-	tgb->textposition = {80, 67, 230, 128};
 
+	tgb->bgimagename_en = FNAME_BTN_SERVICE_LANG_EN;
+	tgb->bgimagename_press = FNAME_BTN_SERVICE_LANG_PRESS;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->options.disabled = 0;
+
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->options.repaintonpress = 1;
+
+	tgb->funcs._call_paint = _tgui_ServiceItemButtonPaint;
 	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
 
 	tgb->childscreen = &tguiScreenLanguage;
-	
+
+	// SETTINGS button
+	tgb = &(tguiScrServiceButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrServiceButtons[bi-2]), sizeof(TG_BUTTON));
+
+	tgb->button_id = TG_SCR_SERVICE_SET_ID;
+
+	tgb->position = {15, 122, 394, 181};
+	tgb->textposition = {90, 127, 388, 176};
+
+	tgb->text = LSTR_SETTINGS_FULL;
+
+	tgb->bgimagename_en = FNAME_BTN_SERVICE_SET_EN;
+	tgb->bgimagename_press = FNAME_BTN_SERVICE_SET_PRESS;
+
+	tgb->options.disabled = 0;
+
+	tgb->childscreen = &tguiScreenSettings;
 	
 	// MOVEZ button
 	tgb = &(tguiScrServiceButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrServiceButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {245, 65, 464, 130};
 
-	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->button_id = TG_SCR_SERVICE_ZMOVE_ID;
+
+	tgb->position = {15, 186, 394, 245};
+	tgb->textposition = {90, 191, 388, 240};
 
 	tgb->text = LSTR_MOVEZ;
-	tgb->textposition = {316, 67, 462, 128};
 
-	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
+	tgb->bgimagename_en = FNAME_BTN_SERVICE_ZMOVE_EN;
+	tgb->bgimagename_press = FNAME_BTN_SERVICE_ZMOVE_PRESS;
+
+	tgb->options.disabled = 0;
 
 	tgb->childscreen = &tguiScreenMovez;
 	
 	// UVTEST button
 	tgb = &(tguiScrServiceButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrServiceButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {15, 139, 234, 204};
 
-	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->button_id = TG_SCR_SERVICE_UVTEST_ID;
+
+	tgb->position = {15, 250, 394, 309};
+	tgb->textposition = {90, 255, 388, 304};
 
 	tgb->text = LSTR_UVTEST;
-	tgb->textposition = {80, 142, 230, 201};
 
-	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
+	tgb->bgimagename_en = FNAME_BTN_SERVICE_UVTEST_EN;
+	tgb->bgimagename_press = FNAME_BTN_SERVICE_UVTEST_PRESS;
+
+	tgb->options.disabled = 0;
 
 	tgb->childscreen = &tguiScreenUVTest;
 	
-	// SETTINGS button
+	// CALIB button
 	tgb = &(tguiScrServiceButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrServiceButtons[bi-2]), sizeof(TG_BUTTON));
-	
-	tgb->position = {245, 139, 464, 204};
+
+	tgb->button_id = TG_SCR_SERVICE_CALIB_ID;
+
+	tgb->position = {15, 58, 394, 117};
+	tgb->textposition = {90, 63, 388, 112};
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
-	tgb->text = LSTR_SETTINGS_SHORT;
-	tgb->textposition = {316, 142, 462, 201};
+	tgb->text = LSTR_TOUCH_CALIBRATION;
+
+	tgb->bgimagename_en = FNAME_BTN_SERVICE_CALIB_EN;
+	tgb->bgimagename_press = FNAME_BTN_SERVICE_CALIB_PRESS;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->options.disabled = 1;
 
 	tgb->funcs._call_press = (pressfunc)BTNA_GOCHILDSCR;
 
-	tgb->childscreen = &tguiScreenSettings;
-	
+	tgb->childscreen = &tguiScreenCalib;
+
 	
 	// SERVICE SCREEN
 	tgs = &tguiScreenService;
 	memset((void*)tgs, 0, sizeof(TG_SCREEN));
 	
-	tgs->bgimagename = FNAME_BKGR_SERVICE;
+	tgs->bgimagename = FNAME_BKGR_EMPTY;
 	tgs->prevscreen = &tguiScreenMain;
 
 	tgs->name = LSTR_SERVICE;
@@ -3018,6 +3102,42 @@ void		TGUI_Init()
 	tgs->backcolor = tgc->scrbackcolor;
 
 	tgs->funcs._callpaint = _tgui_PrnparamsScreenPaint;
+	tgs->funcs._process = _tgui_DefaultScreenProcess;
+	
+}
+
+
+	// -------------------- Touch calibration elements -----------------------
+	id = 1;
+{
+	bi = 0;
+	// No buttons
+	tgb = &(tguiScrCalibButtons[bi++]);
+	memset((void*)tgb, 0, sizeof(TG_BUTTON));
+	tgb->position = {0, 0, 479, 319};
+
+	tgb->funcs._call_longpress = _tgui_CalibButtonLongPress;
+	tgb->funcs._call_press = _tgui_CalibButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+
+	// TOUCH CALIBRATION
+	tgs = &tguiScreenCalib;
+	memset((void*)tgs, 0, sizeof(TG_SCREEN));
+	
+	tgs->bgimagename = NULL;
+	tgs->prevscreen = &tguiScreenService;
+
+	tgs->name = LSTR____;
+
+	tgs->btns_count = TG_BTN_CNT_SCREEN_CALIB;
+	tgs->buttons = tguiScrCalibButtons;
+
+	tgs->font = LCDUI_FONT_H18;
+	tgs->textcolor = LCDUI_RGB(0xA6BFCB);
+	tgs->backcolor = LCDUI_RGB(0x000000);
+
+	tgs->funcs._callpaint = _tgui_CalibScreenPaint;
 	tgs->funcs._process = _tgui_DefaultScreenProcess;
 	
 }

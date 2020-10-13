@@ -354,7 +354,17 @@ void	LCDUI_FillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r)
 
 
 
-/*
+void	LCDUI_FillCircle(int16_t x0, int16_t y0, int16_t r)
+{
+	LCDUI_DrawFastVLine(x0, y0-r, 2*r);
+	_lcdui_FillCircle_helper(x0, y0, r, 3, 0);
+}
+//==============================================================================
+
+
+
+
+
 void	LCDUI_DrawCircle(uint16_t x0, uint16_t y0, uint16_t r)
 {
 	int16_t f = r;
@@ -394,7 +404,7 @@ void	LCDUI_DrawCircle(uint16_t x0, uint16_t y0, uint16_t r)
 
 
 
-
+/*
 void	LCDUI_FillRect(int16_t x, int16_t y, int16_t w, int16_t h)
 {
 	if((x >= lcdui_width) || (y >= lcdui_height))
@@ -413,17 +423,6 @@ void	LCDUI_FillRect(int16_t x, int16_t y, int16_t w, int16_t h)
 	}
 	LCDUI_write_data_close();
 	LCDUI_set_window(0, 0, lcdui_width-1, lcdui_height-1);
-}
-//==============================================================================
-
-
-
-
-
-void	LCDUI_FillCircle(int16_t x0, int16_t y0, int16_t r)
-{
-	LCDUI_DrawFastVLine(x0, y0-r, 2*r);
-	LCDUI_fill_circle_helper(x0, y0, r, 3, 0);
 }
 //==============================================================================
 

@@ -231,7 +231,6 @@ typedef struct
 #define	FNAME_LOGO					(char*)"scr/logo.cimg"
 #define	FNAME_LOGO_STRING_BG		(char*)"scr/logo_string_bg.cimg"
 #define	FNAME_BKGR_MAIN				(char*)"scr/scr_main.cimg"
-#define	FNAME_BKGR_SERVICE			(char*)"scr/scr_service.cimg"
 #define	FNAME_BKGR_LANGUAGE			(char*)"scr/scr_language.cimg"
 #define	FNAME_BKGR_INFO				(char*)"scr/scr_info.cimg"
 #define	FNAME_BKGR_MOVEZ			(char*)"scr/scr_movez.cimg"
@@ -269,13 +268,30 @@ typedef struct
 #define	FNAME_BTN_MSGBOX_EN			(char*)"btn/btn_msgbox_en.cimg"
 #define	FNAME_BTN_MSGBOX_PRESS		(char*)"btn/btn_msgbox_press.cimg"
 
-#define	FNAME_BTN_SETTINGS_UP_DIS	(char*)"btn/btn_settings_up_dis.cimg"
-#define	FNAME_BTN_SETTINGS_UP_EN	(char*)"btn/btn_settings_up_en.cimg"
-#define	FNAME_BTN_SETTINGS_UP_PRESS	(char*)"btn/btn_settings_up_press.cimg"
-#define	FNAME_BTN_SETTINGS_DN_DIS	(char*)"btn/btn_settings_down_dis.cimg"
-#define	FNAME_BTN_SETTINGS_DN_EN	(char*)"btn/btn_settings_down_en.cimg"
-#define	FNAME_BTN_SETTINGS_DN_PRESS	(char*)"btn/btn_settings_down_press.cimg"
-#define	FNAME_BTN_SETTINGS_SAVE_EN	(char*)"btn/btn_settings_save_en.cimg"
+#define	FNAME_BTN_SERVICE_UP_DIS		(char*)"btn/btn_service_up_dis.cimg"
+#define	FNAME_BTN_SERVICE_UP_EN			(char*)"btn/btn_service_up_en.cimg"
+#define	FNAME_BTN_SERVICE_UP_PRESS		(char*)"btn/btn_service_up_press.cimg"
+#define	FNAME_BTN_SERVICE_DN_DIS		(char*)"btn/btn_service_down_dis.cimg"
+#define	FNAME_BTN_SERVICE_DN_EN			(char*)"btn/btn_service_down_en.cimg"
+#define	FNAME_BTN_SERVICE_DN_PRESS		(char*)"btn/btn_service_down_press.cimg"
+#define	FNAME_BTN_SERVICE_LANG_EN		(char*)"btn/btn_service_lang_en.cimg"
+#define	FNAME_BTN_SERVICE_LANG_PRESS	(char*)"btn/btn_service_lang_press.cimg"
+#define	FNAME_BTN_SERVICE_CALIB_EN		(char*)"btn/btn_service_calib_en.cimg"
+#define	FNAME_BTN_SERVICE_CALIB_PRESS	(char*)"btn/btn_service_calib_press.cimg"
+#define	FNAME_BTN_SERVICE_SET_EN		(char*)"btn/btn_service_set_en.cimg"
+#define	FNAME_BTN_SERVICE_SET_PRESS		(char*)"btn/btn_service_set_press.cimg"
+#define	FNAME_BTN_SERVICE_ZMOVE_EN		(char*)"btn/btn_service_zmove_en.cimg"
+#define	FNAME_BTN_SERVICE_ZMOVE_PRESS	(char*)"btn/btn_service_zmove_press.cimg"
+#define	FNAME_BTN_SERVICE_UVTEST_EN		(char*)"btn/btn_service_uvtest_en.cimg"
+#define	FNAME_BTN_SERVICE_UVTEST_PRESS	(char*)"btn/btn_service_uvtest_press.cimg"
+
+#define	FNAME_BTN_SETTINGS_UP_DIS		(char*)"btn/btn_settings_up_dis.cimg"
+#define	FNAME_BTN_SETTINGS_UP_EN		(char*)"btn/btn_settings_up_en.cimg"
+#define	FNAME_BTN_SETTINGS_UP_PRESS		(char*)"btn/btn_settings_up_press.cimg"
+#define	FNAME_BTN_SETTINGS_DN_DIS		(char*)"btn/btn_settings_down_dis.cimg"
+#define	FNAME_BTN_SETTINGS_DN_EN		(char*)"btn/btn_settings_down_en.cimg"
+#define	FNAME_BTN_SETTINGS_DN_PRESS		(char*)"btn/btn_settings_down_press.cimg"
+#define	FNAME_BTN_SETTINGS_SAVE_EN		(char*)"btn/btn_settings_save_en.cimg"
 #define	FNAME_BTN_SETTINGS_SAVE_PRESS	(char*)"btn/btn_settings_save_press.cimg"
 #define	FNAME_BTN_SETTINGS_ITEM_EN		(char*)"btn/btn_settings_item_en.cimg"
 #define	FNAME_BTN_SETTINGS_ITEM_PRESS	(char*)"btn/btn_settings_item_press.cimg"
@@ -368,7 +384,16 @@ extern TG_BUTTON		tguiScrMainButtons[TG_BTN_CNT_SCREEN_MAIN];
 extern TG_SCREEN		tguiScreenMain;
 
 
-#define		TG_BTN_CNT_SCREEN_SERVICE		5
+#define		TG_SCR_SERVICE_UP_ID			10
+#define		TG_SCR_SERVICE_DOWN_ID			11
+
+#define		TG_SCR_SERVICE_LANG_ID			20
+#define		TG_SCR_SERVICE_SET_ID			21
+#define		TG_SCR_SERVICE_ZMOVE_ID			22
+#define		TG_SCR_SERVICE_UVTEST_ID		23
+#define		TG_SCR_SERVICE_CALIB_ID			24
+
+#define		TG_BTN_CNT_SCREEN_SERVICE		8
 extern TG_BUTTON		tguiScrServiceButtons[TG_BTN_CNT_SCREEN_SERVICE];
 extern TG_SCREEN		tguiScreenService;
 
@@ -494,9 +519,14 @@ extern TG_SCREEN		tguiScreenUVTest;
 #define		TG_SCR_PRNPARAMS_UP_ID				40
 #define		TG_SCR_PRNPARAMS_DOWN_ID			41
 
-#define		TG_BTN_CNT_SCREEN_PRNPARAMS		13
+#define		TG_BTN_CNT_SCREEN_PRNPARAMS			13
 extern TG_BUTTON		tguiScrPrnparamsButtons[TG_BTN_CNT_SCREEN_PRNPARAMS];
 extern TG_SCREEN		tguiScreenPrnparams;
+
+
+#define		TG_BTN_CNT_SCREEN_CALIB				13
+extern TG_BUTTON		tguiScrCalibButtons[TG_BTN_CNT_SCREEN_CALIB];
+extern TG_SCREEN		tguiScreenCalib;
 
 
 

@@ -53,6 +53,7 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"FILE VIEW",
 		(char*)"PRINTING",
 		(char*)"CLOCK/CALENDAR",
+		(char*)"TOUCH CALIBRATION",
 
 		(char*)"SETTINGS",
 
@@ -110,6 +111,7 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Error deleting file!",
 		(char*)"File deleted successfully.",
 		(char*)"External clock setting error!",
+		(char*)"Sensor calibration completed.",
 
 // Settings screen
 		(char*)"Clock/Calendar",
@@ -167,6 +169,9 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Antialiasing",
 		(char*)"Ind. layers sett.",
 
+// Touch calibration screen
+		(char*)"Press the circle, trying to get to its center.\nLong press - exit without saving the results.",
+
 	};
 
 constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
@@ -220,6 +225,7 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"ПРОСМОТР",
 		(char*)"ПЕЧАТЬ",
 		(char*)"ЧАСЫ/КАЛЕНДАРЬ",
+		(char*)"КАЛИБРОВКА ТАЧ",
 
 		(char*)"НАСТР.",
 
@@ -277,6 +283,7 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Ошибка удаления файла!",
 		(char*)"Файл успешно удален.",
 		(char*)"Ошибка установки внешних часов!",
+		(char*)"Калибровка сенсора завершена.",
 
 // Settings screen
 		(char*)"Часы/Календарь",
@@ -333,6 +340,9 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Пауза засветки",
 		(char*)"Антиалиасинг",
 		(char*)"Инд. настр. слоев",
+
+// Touch calibration screen
+		(char*)"Нажмите кружок, стараясь попасть в его центр.\nДлительное нажатие - выход без сохранения результатов.",
 
 	};
 

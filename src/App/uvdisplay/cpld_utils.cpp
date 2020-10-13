@@ -38,8 +38,8 @@ uint8_t		_cpld_bank2disp_enable(uint8_t bank_used_id, uint8_t scan_en, uint8_t r
 
 uint8_t		_cpld_bank2disp_read()
 {
-	volatile uint8_t mark=0;
-	volatile uint8_t data1=0;
+	volatile uint8_t mark = 0;
+	volatile uint8_t data1 = 0;
 	uint8_t data2=0;
 
 	_cpld_CS_Enable();

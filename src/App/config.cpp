@@ -57,6 +57,13 @@ void			CFG_Init()
 						CFG_RefreshMotor();
 					break;
 
+				case 0x0002:
+					if (crc != cfgzMotor.cfg_crc)
+						CFG_SetMotorDefault();
+					else
+						CFG_RefreshMotor();
+					break;
+
 				default:
 					CFG_SetMotorDefault();
 			}
@@ -98,6 +105,24 @@ void			CFG_Init()
 					}
 					break;
 
+				case 0x0002:
+					if (crc != cfgConfig.cfg_crc)
+					{
+						CFG_SetConfigDefault();
+					}
+					else
+					{
+						cfgConfig.touch_cal[0] = 1;
+						cfgConfig.touch_cal[1] = 0;
+						cfgConfig.touch_cal[2] = 0;
+						cfgConfig.touch_cal[3] = 0;
+						cfgConfig.touch_cal[4] = 1;
+						cfgConfig.touch_cal[5] = 0;
+						CFG_RefreshConfig();
+
+					}
+					break;
+
 				default:
 					CFG_SetConfigDefault();
 			}
@@ -128,6 +153,13 @@ void			CFG_Init()
 			switch (cfgTimers.cfg_version)
 			{
 				case 0x0001:
+					if (crc != cfgTimers.cfg_crc)
+						CFG_SetTimersDefault();
+					else
+						CFG_RefreshTimers();
+					break;
+
+				case 0x0002:
 					if (crc != cfgTimers.cfg_crc)
 						CFG_SetTimersDefault();
 					else
@@ -172,7 +204,13 @@ uint16_t		CFG_ConfigCalculateCRC()
 {
 	uint8_t 	*data = (uint8_t*)&cfgConfig;
 	uint16_t	crc = 0;
-	for (uint16_t i = 2; i < sizeof(GLOBAL_CONFIG); i++)
+	uint32_t	dlen = sizeof(GLOBAL_CONFIG);
+	switch(cfgConfig.cfg_version)
+	{
+		case 0x0002:
+			dlen = sizeof(GLOBAL_CONFIG_V002);
+	}
+	for (uint16_t i = 2; i < dlen; i++)
 	{
 		crc += data[i];
 	}
@@ -275,7 +313,14 @@ void			CFG_SetConfigDefault()
 	cfgConfig.screensaver_type = 1;
 	cfgConfig.display_rotate = 0;
 	cfgConfig.use_ext_clock = 0;
-	
+
+	cfgConfig.touch_cal[0] = 1;
+	cfgConfig.touch_cal[1] = 0;
+	cfgConfig.touch_cal[2] = 0;
+	cfgConfig.touch_cal[3] = 0;
+	cfgConfig.touch_cal[4] = 1;
+	cfgConfig.touch_cal[5] = 0;
+
 	cfgConfig.cfg_crc = CFG_ConfigCalculateCRC();
 }
 //==============================================================================

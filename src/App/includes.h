@@ -3,7 +3,7 @@
 
 
 
-#define	FW_VERSION			(unsigned short)0x0002
+#define	FW_VERSION			(unsigned short)0x0003
 #define FW_DATE				(char*)__DATE__
 
 

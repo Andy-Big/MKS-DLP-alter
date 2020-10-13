@@ -289,11 +289,11 @@
                 <option>
                     <name>CCAllowList</name>
                     <version>1</version>
-                    <state>11111110</state>
+                    <state>00000000</state>
                 </option>
                 <option>
                     <name>CCDebugInfo</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IEndianMode</name>
@@ -386,7 +386,7 @@
                 </option>
                 <option>
                     <name>CCOptLevel</name>
-                    <state>3</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>CCOptStrategy</name>
@@ -395,7 +395,7 @@
                 </option>
                 <option>
                     <name>CCOptLevelSlave</name>
-                    <state>3</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>CompilerMisraRules98</name>
@@ -729,7 +729,7 @@
                 </option>
                 <option>
                     <name>IlinkDebugInfoEnable</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkKeepSymbols</name>
@@ -1194,6 +1194,9 @@
                 <name>$PROJ_DIR$\src\App\tgui\tgui.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_calibscreenfuncs.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_clocksetscreenfuncs.cpp</name>
             </file>
             <file>
@@ -1231,6 +1234,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_screensaverfuncs.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\src\App\tgui\tgui_servicescreenfuncs.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\src\App\tgui\tgui_settingsscreenfuncs.cpp</name>
@@ -1289,6 +1295,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\src\App\gpio.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\src\App\includes.h</name>
         </file>
         <file>
             <name>$PROJ_DIR$\src\App\main.cpp</name>
