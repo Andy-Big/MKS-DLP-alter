@@ -128,7 +128,7 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 ### v0.03
 **Added/changed:**
 + Added three-point touch sensor calibration.
-- Changed "Service" menu.
+** Changed "Service" menu.
 
 **To do in the near future:**
 1. Upgradeable bootloader and firmware.
