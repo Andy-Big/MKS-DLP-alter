@@ -27,6 +27,12 @@ extern "C"
 #include "stm32f4xx_hal.h"
 #include "includes.h"
 
+#if defined(__GNUC__)
+  #define PLACE_TO_CCMRAM __attribute__((section(".ccm")))
+  #define __no_init
+#else
+  #define PLACE_TO_CCMRAM @ "CCMRAM"
+#endif
 
 
 #define	SDIR_UPD					(char*)"alterupd"

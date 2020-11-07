@@ -15,7 +15,7 @@
 
 extern TG_SCREEN		*tguiActiveScreen;
 extern char				msg[512];
-extern __no_init FIL	ufile @ "CCMRAM";
+extern __no_init FIL	ufile PLACE_TO_CCMRAM;
 
 
 char					fv_filename[256];

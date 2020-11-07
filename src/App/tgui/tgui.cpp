@@ -27,7 +27,7 @@
 __no_init uint8_t 		tguiDBuff[UIDBUFF_SIZE];
 __no_init uint8_t		tguiFBuff[UIFBUFF_SIZE];
 __no_init FIL			tguiFile;
-__no_init TCHAR			tfname[512] @ "CCMRAM";
+__no_init TCHAR			tfname[512] PLACE_TO_CCMRAM;
 
 TG_CONFIG		tguiDefaultConfig;
 

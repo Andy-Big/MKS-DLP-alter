@@ -7,7 +7,7 @@
 char	UTF8toANSI(char *utfchar)
 {
 	// Latin
-	if (*utfchar < 128)
+	if ((*utfchar & 0x80) == 0)
 		return utfchar[0];
 	
 	uint32_t	t1 = 0, t2 = 32;
@@ -42,7 +42,7 @@ char	UTF8toANSI(char *utfchar)
 TCHAR		UTF8toUnicode(char *utfchar)
 {
 	// Latin
-	if (*utfchar < 128)
+	if ((*utfchar & 0x80) == 0)
 		return utfchar[0];
 	
 	uint16_t	t1 = 0, t2 = 0;

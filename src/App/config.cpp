@@ -483,7 +483,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 	}
 
 	uint16_t		cnt = 0;
-	uint32_t		readed = 0, totalreaded = 0;
+	UINT		readed = 0, totalreaded = 0;
 	char			*string = msg;
 	char			lexem[128];
 	PARAM_VALUE		pval;

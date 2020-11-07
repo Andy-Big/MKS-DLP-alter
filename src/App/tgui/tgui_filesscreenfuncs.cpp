@@ -13,9 +13,9 @@
 
 extern uint8_t					UsbMounted;
 
-extern __no_init uint8_t 		fbuff[8192] @ "CCMRAM";
-extern __no_init FIL			ufile @ "CCMRAM";
-extern __no_init FIL			sfile @ "CCMRAM";
+extern __no_init uint8_t 		fbuff[8192] PLACE_TO_CCMRAM;
+extern __no_init FIL			ufile PLACE_TO_CCMRAM;
+extern __no_init FIL			sfile PLACE_TO_CCMRAM;
 
 extern TG_SCREEN				*tguiActiveScreen;
 

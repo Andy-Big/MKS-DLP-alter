@@ -12,7 +12,9 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <limits.h>
+#if !defined(__GNUC__)
 #include <intrinsics.h>
+#endif
 #include <assert.h>
 
 

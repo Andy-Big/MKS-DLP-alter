@@ -12,7 +12,7 @@
 
 
 extern char				msg[512];
-extern FIL				sfile @ "CCMRAM";
+extern FIL				sfile PLACE_TO_CCMRAM;
 extern TCHAR			s_tfname[512];
 
 extern uint8_t			Line_Pixel[CPLD_Y_RATIO + CPLD_FILLCODE * 2];
@@ -88,7 +88,7 @@ void		_tgui_UVTestReadImage(uint8_t imgnum)
 	uint16_t	curpoint;
 	uint8_t		*p;
 	uint8_t		remaining;
-	uint32_t	rd = 0;
+	UINT	rd = 0;
 
 	tstrcpy(tfname, SpiflPath);
 	switch (imgnum)

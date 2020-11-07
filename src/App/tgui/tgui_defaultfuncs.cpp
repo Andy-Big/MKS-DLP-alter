@@ -153,7 +153,7 @@ void		_tgui_DrawStringInRect(char *str, TG_RECT *rect, TG_TEXTOPTIONS *opt)
 
 void		_tgui_DrawFileBmpBackground(char* file)
 {
-	DWORD		readed = 0;
+	UINT		readed = 0;
 	uint32_t	bwidth = 0;
 	uint32_t	bheight = 0;
 	uint8_t		fliprows = 0;
@@ -255,7 +255,7 @@ closeexit:
 void		_tgui_DrawFileRawImg(FIL *file, int16_t x, int16_t y, uint16_t bwidth, uint16_t bheight, uint32_t imgbase, uint8_t fliprows)
 {
 	DWORD		freaded = imgbase;
-	DWORD		readed = 0;
+	UINT		readed = 0;
 	uint16_t	bufinpos = UIFBUFF_SIZE;
 	uint16_t	bufoutpos = 0;
 	uint8_t		len = 0;
@@ -666,7 +666,7 @@ closeexit:
 
 void		_tgui_DrawFileCimgBackground(char* file)
 {
-	uint32_t	readed = 0;
+	UINT	readed = 0;
 	uint32_t	bwidth = 0;
 	uint32_t	bheight = 0;
 	uint8_t		fliprows = 0;
@@ -724,7 +724,7 @@ closeexit:
 
 void		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y)
 {
-	uint32_t	readed = 0;
+	UINT	readed = 0;
 	uint32_t	bwidth = 0;
 	uint32_t	bheight = 0;
 	uint8_t		fliprows = 0;

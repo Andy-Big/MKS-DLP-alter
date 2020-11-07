@@ -79,10 +79,10 @@ uint8_t							srvMode;
 	
 
 
-__no_init uint8_t 				fbuff[16384] @ "CCMRAM";
+__no_init uint8_t 				fbuff[16384] PLACE_TO_CCMRAM;
 		
 		
-__no_init FIL					ufile @ "CCMRAM";
+__no_init FIL					ufile PLACE_TO_CCMRAM;
 __no_init FIL					sfile;
 TCHAR							u_tfname[512];
 TCHAR							s_tfname[512];
@@ -545,7 +545,7 @@ int main()
 											// Copying
 											sprintf(msg, ">  Copying file \"%s\" ", cfname);
 											LCDUI_DrawText(msg);
-											DWORD 		readed = 0, writed = 0;
+											UINT 		readed = 0, writed = 0;
 											uint8_t		iter = 0;
 											do
 											{
@@ -646,7 +646,7 @@ int main()
 											// Copying
 											sprintf(msg, ">  Copying file \"%s\" ", cfname);
 											LCDUI_DrawText(msg);
-											DWORD 		readed = 0, writed = 0;
+											UINT 		readed = 0, writed = 0;
 											uint8_t		iter = 0;
 											do
 											{
@@ -747,7 +747,7 @@ int main()
 											// Copying
 											sprintf(msg, ">  Copying file \"%s\" ", cfname);
 											LCDUI_DrawText(msg);
-											DWORD 		readed = 0, writed = 0;
+											UINT 		readed = 0, writed = 0;
 											uint8_t		iter = 0;
 											do
 											{
