@@ -1,11 +1,21 @@
 # Stepper motor Z axis settings
 [ZMotor]
 
+	# Changes the direction of movement of the platform.
+	# Valid values: 0 or 1. Default: 1.
+	# Change this parameter if the platform is moving in the wrong direction.
+	#---
 	# Изменяет направление движения платформы.
 	# Допустимые значения: 0 или 1. По умолчанию: 1.
 	# Измените этот параметр если платформа двигается в неверном направлении.
 	invert_dir = 0
 
+	# The direction of movement of the platform when looking for a home position.
+	# Valid values ​​are -1 or 1. Default: -1.
+	# If this parameter is -1, then when searching for the home position, the platform
+	# will move down to the lower limit switch. With a value of 1, the platform will
+	# move to the upper limit switch.
+	#---
 	# Направление движения платформы при поиске домашней позиции.
 	# Допустимые значения: -1 или 1. По умолчанию: -1.
 	# Если этот параметр равен -1, то при поиске домашней позиции
@@ -13,10 +23,19 @@
 	# платформа будет двигаться к верхнему концевику.
 	home_direction = -1
 
+	# Z-axis value after finding home position. As a rule, for the lower home limit
+	# switch it is 0, for the upper one it is the maximum axis height.
+	#---
 	# Значение оси Z после поиска домашней позиции. Как правило, для нижнего
 	# домашнего концевика это 0, для верхнего - максимальная высота оси.
 	home_pos = 0.0
 
+	# Limit on the minimum permissible bottom position of the platform in millimeters.
+	# Valid values ​​are a number in the range -32000.0 to 32000.0.
+	# Default: -3.0
+	# This restriction only applies after finding the home position. If the search for
+	# the home position was not performed, then the movement is limited by limit switches.
+	#---
 	# Ограничение на минимальную допустимую нижнюю позицию платформы в миллиметрах.
 	# Допустимые значения: число в диапазоне от -32000.0 до 32000.0.
 	# По умолчанию: -3.0
@@ -24,6 +43,12 @@
 	# поиск домашней позиции не производился, то движение ограничивается концевиками.
 	min_pos = -3.0
 
+	# Limit on the maximum permissible upper platform position in millimeters.
+	# Valid values ​​are a number in the range -32000.0 to 32000.0.
+	# Default: 180.0
+	# This restriction only applies after finding the home position. If the search for
+	# the home position was not performed, then the movement is limited by limit switches.
+	#---
 	# Ограничение на максимальную допустимую верхнюю позицию платформы в миллиметрах.
 	# Допустимые значения: число в диапазоне от -32000.0 до 32000.0.
 	# По умолчанию: 180.0
@@ -31,56 +56,99 @@
 	# поиск домашней позиции не производился, то движение ограничивается концевиками.
 	max_pos = 180.0
 
+	# Work of the lower limit switch.
+	# Valid values: 0 or 1. Default: 1.
+	# If, when the limit switch is triggered, the voltage at its output disappears,
+	# then set the value to 1, if vice versa, set 0.
+	#---
 	# Работа нижнего концевика.
 	# Допустимые значения: 0 или 1. По умолчанию: 1.
 	# Если при срабатывании концевика напряжение на его выходе пропадает, то поставьте
 	# значение 1, если наоборот - поставьте 0.
 	min_endstop_inverting = 1
 
+	# Work of the upper limit switch.
+	# Valid values: 0 or 1. Default: 1.
+	# If, when the limit switch is triggered, the voltage at its output disappears,
+	# then set the value to 1, if vice versa, set 0.
+	#---
 	# Работа верхнего концевика.
 	# Допустимые значения: 0 или 1. По умолчанию: 1.
 	# Если при срабатывании концевика напряжение на его выходе пропадает, то поставьте
 	# значение 1, если наоборот - поставьте 0.
 	max_endstop_inverting = 1
 
+	# The number of motor steps per 1 mm of platform movement.
+	#---
 	# Количество шагов двигателя на 1 мм движения платформы.
 	steps_per_mm = 1600
 
+	# Speed ​​of the first, fast movement to the limit switch when searching
+	# for the home position, mm / sec. Default: 6.0.
+	#---
 	# Скорость первого, быстрого движения к концевику при поиске домашней
 	# позиции, мм/сек. По умолчанию: 6.0.
 	homing_feedrate_fast = 6.0
 
+	# Speed ​​of the second, slow movement to the limit switch when searching
+	# for the home position, mm / sec. Default: 1.0.
+	#---
 	# Скорость второго, медленного движения к концевику при поиске домашней
 	# позиции, мм/сек. По умолчанию: 1.0.
 	homing_feedrate_slow = 1.0
 
+	# Platform acceleration in print mode, mm / sec2.
+	#---
 	# Ускорение платформы в режиме печати, мм/сек2.
 	acceleration = 0.7
 
+	# Platform movement speed in printing mode, mm / sec.
+	#---
 	# Скорость движения платформы в режиме печати, мм/сек.
 	feedrate = 5.0
 
+	# Acceleration of the platform in free movement mode (movement by buttons
+	# from the interface, lifting at the end of printing, etc.), mm / sec2.
+	#---
 	# Ускорение платформы в режиме свободного движения (движение кнопками из интерфейса,
 	# подъем по окончании печати и т.п.), мм/сек2.
 	travel_acceleration = 25.0
 
-	# Ускорение платформы в режиме свободного движения (движение кнопками из интерфейса,
+	# Platform speed in free movement mode (movement by buttons from the interface,
+	# lifting at the end of printing, etc.), mm / sec. At a height of less than 30 mm,
+	# the platform moves three times slower than the speed set in this parameter,
+	# but not less than 5 mm / s.
+	#---
+	# Скорость платформы в режиме свободного движения (движение кнопками из интерфейса,
 	# подъем по окончании печати и т.п.), мм/сек. На высоте менее 30 мм платформа
 	# двигается в три раза медленнее заданной в этом параметре скорости, но не менее
 	# 5 мм/сек.
 	travel_feedrate = 25.0
 
+	# Motor current for the driver integrated into the board, mA.
+	#---
 	# Ток двигателя для интегрированного в плату драйвера, мА.
 	current_vref = 800.0
 
+	# Motor current for the driver integrated into the board in hold mode, mA.
+	#---
 	# Ток двигателя для интегрированного в плату драйвера в режиме удержания, мА.
 	current_hold_vref = 300.0
 
+	# The time since the last movement of the motor, after which the hold mode
+	# with reduced current is activated. It is set in seconds. A value of 0 disables
+	# undercurrent hold.
+	#---
 	# Время с момента последнего движения двигателя, после которого включается режим
 	# удержания с пониженным током. Задается в секундах. Значение 0 отключает режим
 	# удержания с пониженным током.
 	hold_time = 30.0
 
+	# Time since the last movement of the engine, after which the motor is completely
+	# switched off. It is set in seconds. The value of this parameter must be at least
+	# equal to the value of the hold_time parameter. A value of 0 disables this mode.
+	# Note that when the motor is switched off, the home position is lost.
+	#---
 	# Время с момента последнего движения двигателя, после которого мотор полностью
 	# отключается. Задается в секундах. Значение этого параметра должно быть не меньше
 	# значения параметра hold_time. Значение 0 отключает этот режим.
@@ -92,44 +160,87 @@
 # General settings
 [General]
 
+	# Interface language identifier.
+	# Valid values:
+	#		0 - English
+	#		1 - Russian
+	#---
 	# Идентификатор языка интерфейса.
 	# Допустимые значения:
-	#	0 - English
-	#	1 - Русский
+	#		0 - English
+	#		1 - Русский
 	gui_language = 1
 
+	# Platform lift height when printing is paused, in mm.
+	#---
 	# Высота подъема платформы при постановке печати на паузу, в мм.
 	lift_on_pause = 40
 
+	# Height of platform lifting after the end of printing, in mm.
+	#---
 	# Высота подъема платформы после окончания печати, в мм.
 	lift_on_completion = 50
 
+	# The duration of the buzzer sound in milliseconds (0.001 sec)
+	# at the end of printing or when displaying error messages.
+	# Valid values: from 0 to 15000. Default: 700 (0.7 sec).
+	#---
 	# Длительность звука зуммера в миллисекундах (0.001 сек) при окончании печати
 	# или при выводе сообщений об ошибках.
 	# Допустимые значения: от 0 до 15000. По умолчанию: 700 (0.7 сек).
 	buzzer_msg_duration = 700
 
+	# The duration of the buzzer sound in milliseconds (0.001 sec) when
+	# you press an active area of ​​the touch display, for example, a button.
+	# Valid values: from 0 to 15000. Default: 70 (0.07 sec).
+	#---
 	# Длительность звука зуммера в миллисекундах (0.001 сек) при нажатии
 	# на активную зону сенсорного дисплея, например на кнопку.
 	# Допустимые значения: от 0 до 15000. По умолчанию: 70 (0.07 сек).
 	buzzer_touch_duration = 70
 
+	# Flips the interface display 180 degrees.
+	# Serves for the possibility of flipping the display in the printer for
+	# more convenient placement.
+	# Valid values: 0 or 1. Default: 0.
+	#---
 	# Переворачивает изображение на интерфейсном дисплее на 180 градусов.
-	# Служит для возможности переворота дисплея в принтере для более удобного его размещения.
+	# Служит для возможности переворота дисплея в принтере для более удобного
+	# его размещения.
 	# Допустимые значения: 0 или 1. По умолчанию: 0.
 	rotate_display = 0
 
-	# Время перехода дисплея в режим скринсейвера с отображением времени и даты, задается в минутах.
-	# Скринсейвер эмулирует настольные LCD-часы. Переход обратно в рабочий режим - нажатие в любом
-	# месте дисплея.
-	# Допустимые значения: от 0 до 15000. По умолчанию: 10. Значение 0 отключает режим скринсейвера.
+	# Time of transition of the display into screensaver mode with display of
+	# time and date, set in minutes. Screensaver emulates a desktop LCD clock.
+	# Switching back to operating mode - pressing anywhere on the display.
+	# Valid values: from 0 to 15000. Default: 10. A value of 0 disables
+	# the screensaver mode.
+	#---
+	# Время перехода дисплея в режим скринсейвера с отображением времени и даты,
+	# задается в минутах. Скринсейвер эмулирует настольные LCD-часы. Переход
+	# обратно в рабочий режим - нажатие в любом месте дисплея.
+	# Допустимые значения: от 0 до 15000. По умолчанию: 10. Значение 0 отключает
+	# режим скринсейвера.
 	screensaver_time = 10
 
-	# Этот параметр включает возможность использования внешних часов DS3231. Если модуль этих часов
-	# подключен к порту расширения, то прошивка при старте берет из них текущие дату и время.
-	# При установке даты и времени через настройки новые значения так же сохраняются во внешние часы.
-	# Допустимые значения:	0 - внешние часы не подключены
-	#						1 - внешние часы подключены, использовать их как источник времени и даты
+	# This parameter enables the use of an external DS3231 clock. If the module of
+	# this clock is connected to the expansion port, then the firmware takes
+	# the current date and time from it at startup.
+	# When setting the date and time through the settings, the new values ​​are
+	# also saved in the external clock.
+	# Valid values:
+	#		0 - external clock is not connected
+	# 		1 - external clock is connected, use it as a source of time and date
+	# Default: 0.
+	#---
+	# Этот параметр включает возможность использования внешних часов DS3231.
+	# Если модуль этих часов подключен к порту расширения, то прошивка при старте
+	# берет из них текущие дату и время.
+	# При установке даты и времени через настройки новые значения так же
+	# сохраняются во внешние часы.
+	# Допустимые значения:
+	#		0 - внешние часы не подключены
+	#		1 - внешние часы подключены, использовать их как источник времени и даты
 	# По умолчанию: 0.
 	use_external_clock = 0
 
