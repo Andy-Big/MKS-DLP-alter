@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.1.169/W32 for ARM                  30/Nov/2020  12:30:16
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  30/Nov/2020  18:46:32
 # Copyright 2007-2018 IAR Systems AB.
 #
 #    Output file  =  
@@ -8,7 +8,7 @@
 #    Map file     =  
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\List\mksDLP.map
 #    Command line =  
-#        -f C:\Temp\EW3DC3.tmp
+#        -f C:\Temp\EWB8BE.tmp
 #        (D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\config.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\cpld_utils.o
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\datetime.o
@@ -236,33 +236,32 @@ initialize by copy { rw };
   .text                  ro code   0x802'8090    0x2c0  gpio.o [1]
   .text                  ro code   0x802'8350    0x600  eeprom.o [1]
   .text                  ro code   0x802'8950   0x11d4  config.o [1]
-  .text                  ro code   0x802'9b24    0x374  spi_flash.o [1]
-  .text                  ro code   0x802'9e98     0xc8  rtc.o [1]
-  .text                  ro code   0x802'9f60    0x2ae  ds3231.o [1]
-  .text                  ro code   0x802'a210    0x2c8  motor.o [1]
-  .text                  ro code   0x802'a4d8    0x1e6  cpld_utils.o [1]
-  .text                  ro code   0x802'a6c0     0x24  uvdisplay.o [1]
-  .text                  ro code   0x802'a6e4    0x488  tgui_uvtestscreenfuncs.o [1]
-  .text                  ro code   0x802'ab6c     0x20  usbh_platform.o [1]
-  .text                  ro code   0x802'ab8c     0x94  usb_host.o [1]
-  .text                  ro code   0x802'ac20     0x12  strcmp.o [5]
-  .text                  ro code   0x802'ac34    0x484  tgui_screensaverfuncs.o [1]
-  .text                  ro code   0x802'b0b8     0x48  FltToDbl.o [4]
-  .text                  ro code   0x802'b100     0x68  DblToFlt.o [4]
-  .text                  ro code   0x802'b168    0x524  tgui_movezscreenfuncs.o [1]
-  .text                  ro code   0x802'b68c    0x758  printing.o [1]
-  .text                  ro code   0x802'bde4    0x5c0  prtfiles.o [1]
-  .text                  ro code   0x802'c3a4    0x3b4  stm32f4xx_hal_rcc.o [1]
-  .text                  ro code   0x802'c758    0x1f4  stm32f4xx_hal_rcc.o [1]
-  .text                  ro code   0x802'c94c    0x150  stm32f4xx_hal_rcc_ex.o [1]
-  .text                  ro code   0x802'ca9c     0x14  exit.o [6]
-  .text                  ro code   0x802'cab0     0x4c  stm32f4xx_hal.o [1]
-  .text                  ro code   0x802'cafc     0x40  stm32f4xx_hal_msp.o [1]
-  .text                  ro code   0x802'cb3c    0x22e  stm32f4xx_hal_i2c.o [1]
-  .text                  ro code   0x802'cd6c      0xe  math_wrappers64.o [4]
-  .text                  ro code   0x802'cd7c    0x152  iar_Stoulx.o [2]
-  .text                  ro code   0x802'ced0    0xe30  z_planner.o [1]
-  .text                  ro code   0x802'dd00     0x20  spi_flash.o [1]
+  .text                  ro code   0x802'9b24    0x394  spi_flash.o [1]
+  .text                  ro code   0x802'9eb8     0xc8  rtc.o [1]
+  .text                  ro code   0x802'9f80    0x2ae  ds3231.o [1]
+  .text                  ro code   0x802'a230    0x2c8  motor.o [1]
+  .text                  ro code   0x802'a4f8    0x1e6  cpld_utils.o [1]
+  .text                  ro code   0x802'a6e0     0x24  uvdisplay.o [1]
+  .text                  ro code   0x802'a704    0x488  tgui_uvtestscreenfuncs.o [1]
+  .text                  ro code   0x802'ab8c     0x20  usbh_platform.o [1]
+  .text                  ro code   0x802'abac     0x94  usb_host.o [1]
+  .text                  ro code   0x802'ac40     0x12  strcmp.o [5]
+  .text                  ro code   0x802'ac54    0x484  tgui_screensaverfuncs.o [1]
+  .text                  ro code   0x802'b0d8     0x48  FltToDbl.o [4]
+  .text                  ro code   0x802'b120     0x68  DblToFlt.o [4]
+  .text                  ro code   0x802'b188    0x524  tgui_movezscreenfuncs.o [1]
+  .text                  ro code   0x802'b6ac    0x758  printing.o [1]
+  .text                  ro code   0x802'be04    0x5c0  prtfiles.o [1]
+  .text                  ro code   0x802'c3c4    0x3b4  stm32f4xx_hal_rcc.o [1]
+  .text                  ro code   0x802'c778    0x1f4  stm32f4xx_hal_rcc.o [1]
+  .text                  ro code   0x802'c96c    0x150  stm32f4xx_hal_rcc_ex.o [1]
+  .text                  ro code   0x802'cabc     0x14  exit.o [6]
+  .text                  ro code   0x802'cad0     0x4c  stm32f4xx_hal.o [1]
+  .text                  ro code   0x802'cb1c     0x40  stm32f4xx_hal_msp.o [1]
+  .text                  ro code   0x802'cb5c    0x22e  stm32f4xx_hal_i2c.o [1]
+  .text                  ro code   0x802'cd8c      0xe  math_wrappers64.o [4]
+  .text                  ro code   0x802'cd9c    0x152  iar_Stoulx.o [2]
+  .text                  ro code   0x802'cef0    0xe30  z_planner.o [1]
   .text                  ro code   0x802'dd20     0x18  tgui_uvtestscreenfuncs.o [1]
   .text                  ro code   0x802'dd38    0x7bc  ext_i2c.o [1]
   .text                  ro code   0x802'e4f4     0xe4  z_endstops.o [1]
@@ -1549,7 +1548,7 @@ CFG_SetMotorDefault()    0x802'8b91    0x90  Code  Gb  config.o [1]
 CFG_SetTimersDefault()   0x802'8d0f    0x1e  Code  Gb  config.o [1]
 CFG_TimersCalculateCRC()
                          0x802'8b71    0x20  Code  Gb  config.o [1]
-CPLD_Init()              0x802'a6bd     0x2  Code  Gb  cpld_utils.o [1]
+CPLD_Init()              0x802'a6dd     0x2  Code  Gb  cpld_utils.o [1]
 CSTACK$$Base            0x2000'd5c0           --   Gb  - Linker created -
 CSTACK$$Limit           0x2001'25c0           --   Gb  - Linker created -
 CacheMore                0x802'46ad    0x24  Code  Lc  xlocale_c.o [2]
@@ -1570,14 +1569,14 @@ DMA_CalcBaseAndBitshift::flagBitshiftOffset
                          0x804'bc30     0x8  Data  Lc  stm32f4xx_hal_dma.o [1]
 DMA_CheckFifoParam       0x802'3c35    0x88  Code  Lc  stm32f4xx_hal_dma.o [1]
 DMA_SetConfig            0x802'3bc9    0x2e  Code  Lc  stm32f4xx_hal_dma.o [1]
-DS3231_Deinit()          0x802'9f8d     0x8  Code  Gb  ds3231.o [1]
+DS3231_Deinit()          0x802'9fad     0x8  Code  Gb  ds3231.o [1]
 DS3231_GetTime(DATETIME_STRUCT *)
-                         0x802'9fed   0x104  Code  Gb  ds3231.o [1]
-DS3231_Init()            0x802'9f61    0x28  Code  Gb  ds3231.o [1]
+                         0x802'a00d   0x104  Code  Gb  ds3231.o [1]
+DS3231_Init()            0x802'9f81    0x28  Code  Gb  ds3231.o [1]
 DS3231_SetTime(DATETIME_STRUCT *, unsigned char)
-                         0x802'a0f1   0x11e  Code  Gb  ds3231.o [1]
+                         0x802'a111   0x11e  Code  Gb  ds3231.o [1]
 DS3231_StartOsc(unsigned char)
-                         0x802'9f95    0x58  Code  Gb  ds3231.o [1]
+                         0x802'9fb5    0x58  Code  Gb  ds3231.o [1]
 DTIME_DatetimeToUnixtime(DATETIME_STRUCT *)
                          0x801'd993    0x6a  Code  Gb  datetime.o [1]
 DTIME_GetCurrentDatetime(DATETIME_STRUCT *)
@@ -1783,25 +1782,25 @@ HAL_HCD_ResetPort        0x803'2cb9     0xa  Code  Gb  stm32f4xx_hal_hcd.o [1]
 HAL_HCD_SOF_Callback     0x803'19a7     0xc  Code  Gb  usbh_conf.o [1]
 HAL_HCD_Start            0x803'2c65    0x2e  Code  Gb  stm32f4xx_hal_hcd.o [1]
 HAL_HCD_Stop             0x803'2c93    0x26  Code  Gb  stm32f4xx_hal_hcd.o [1]
-HAL_I2C_DeInit           0x802'cd0d    0x42  Code  Gb  stm32f4xx_hal_i2c.o [1]
-HAL_I2C_Init             0x802'cb3d   0x1d0  Code  Gb  stm32f4xx_hal_i2c.o [1]
+HAL_I2C_DeInit           0x802'cd2d    0x42  Code  Gb  stm32f4xx_hal_i2c.o [1]
+HAL_I2C_Init             0x802'cb5d   0x1d0  Code  Gb  stm32f4xx_hal_i2c.o [1]
 HAL_IncTick              0x801'd611    0xe8  Code  Gb  sys_timer.o [1]
 HAL_Init                 0x802'805d    0x30  Code  Gb  stm32f4xx_hal.o [1]
-HAL_InitTick             0x802'cab1    0x4c  Code  Wk  stm32f4xx_hal.o [1]
-HAL_MspInit              0x802'cafd    0x40  Code  Gb  stm32f4xx_hal_msp.o [1]
+HAL_InitTick             0x802'cad1    0x4c  Code  Wk  stm32f4xx_hal.o [1]
+HAL_MspInit              0x802'cb1d    0x40  Code  Gb  stm32f4xx_hal_msp.o [1]
 HAL_NVIC_EnableIRQ       0x802'3db5     0xa  Code  Gb  stm32f4xx_hal_cortex.o [1]
 HAL_NVIC_SetPriority     0x802'3d93    0x22  Code  Gb  stm32f4xx_hal_cortex.o [1]
 HAL_NVIC_SetPriorityGrouping
                          0x802'3d8b     0x8  Code  Gb  stm32f4xx_hal_cortex.o [1]
 HAL_PWR_DeInit           0x802'8045    0x14  Code  Gb  stm32f4xx_hal_pwr.o [1]
 HAL_RCCEx_PeriphCLKConfig
-                         0x802'c94d   0x12c  Code  Gb  stm32f4xx_hal_rcc_ex.o [1]
-HAL_RCC_ClockConfig      0x802'c759   0x13a  Code  Gb  stm32f4xx_hal_rcc.o [1]
-HAL_RCC_GetHCLKFreq      0x802'c893     0x6  Code  Gb  stm32f4xx_hal_rcc.o [1]
-HAL_RCC_GetPCLK1Freq     0x802'c899    0x16  Code  Gb  stm32f4xx_hal_rcc.o [1]
+                         0x802'c96d   0x12c  Code  Gb  stm32f4xx_hal_rcc_ex.o [1]
+HAL_RCC_ClockConfig      0x802'c779   0x13a  Code  Gb  stm32f4xx_hal_rcc.o [1]
+HAL_RCC_GetHCLKFreq      0x802'c8b3     0x6  Code  Gb  stm32f4xx_hal_rcc.o [1]
+HAL_RCC_GetPCLK1Freq     0x802'c8b9    0x16  Code  Gb  stm32f4xx_hal_rcc.o [1]
 HAL_RCC_GetSysClockFreq
-                         0x802'c8cd    0x80  Code  Wk  stm32f4xx_hal_rcc.o [1]
-HAL_RCC_OscConfig        0x802'c3a5   0x3b4  Code  Wk  stm32f4xx_hal_rcc.o [1]
+                         0x802'c8ed    0x80  Code  Wk  stm32f4xx_hal_rcc.o [1]
+HAL_RCC_OscConfig        0x802'c3c5   0x3b4  Code  Wk  stm32f4xx_hal_rcc.o [1]
 HAL_RTC_GetDate          0x802'26bb    0x4e  Code  Gb  stm32f4xx_hal_rtc.o [1]
 HAL_RTC_GetTime          0x802'2573    0x62  Code  Gb  stm32f4xx_hal_rtc.o [1]
 HAL_RTC_Init             0x802'23a1    0xcc  Code  Gb  stm32f4xx_hal_rtc.o [1]
@@ -1918,59 +1917,59 @@ NMI_Handler              0x804'8891     0x2  Code  Gb  stm32f4xx_it.o [1]
 NVIC_EncodePriority      0x802'3d21    0x3c  Code  Lc  stm32f4xx_hal_cortex.o [1]
 OTG_FS_IRQHandler        0x804'88bd     0xa  Code  Gb  stm32f4xx_it.o [1]
 PFILE_DrawPreview(FIL *, TG_RECT *, unsigned char)
-                         0x802'be99    0x26  Code  Gb  prtfiles.o [1]
+                         0x802'beb9    0x26  Code  Gb  prtfiles.o [1]
 PFILE_GetAntialiasing()
-                         0x802'c133    0x22  Code  Gb  prtfiles.o [1]
+                         0x802'c153    0x22  Code  Gb  prtfiles.o [1]
 PFILE_GetBottomLayers()
-                         0x802'c0e7    0x24  Code  Gb  prtfiles.o [1]
-PFILE_GetDropSpeed()     0x802'c2ad    0x24  Code  Gb  prtfiles.o [1]
+                         0x802'c107    0x24  Code  Gb  prtfiles.o [1]
+PFILE_GetDropSpeed()     0x802'c2cd    0x24  Code  Gb  prtfiles.o [1]
 PFILE_GetIndLayerSettings()
-                         0x802'c319    0x22  Code  Gb  prtfiles.o [1]
+                         0x802'c339    0x22  Code  Gb  prtfiles.o [1]
 PFILE_GetLayerThickness()
-                         0x802'c10d    0x26  Code  Gb  prtfiles.o [1]
-PFILE_GetLiftHeight()    0x802'c225    0x24  Code  Gb  prtfiles.o [1]
-PFILE_GetLiftSpeed()     0x802'c269    0x24  Code  Gb  prtfiles.o [1]
-PFILE_GetLightBottom()   0x802'c199    0x24  Code  Gb  prtfiles.o [1]
-PFILE_GetLightLayer()    0x802'c155    0x24  Code  Gb  prtfiles.o [1]
-PFILE_GetLightPause()    0x802'c1dd    0x24  Code  Gb  prtfiles.o [1]
-PFILE_GetPrintTime()     0x802'bec1   0x202  Code  Gb  prtfiles.o [1]
-PFILE_GetResinVolume()   0x802'c2f1    0x24  Code  Gb  prtfiles.o [1]
-PFILE_GetResolutionX()   0x802'c33b    0x22  Code  Gb  prtfiles.o [1]
-PFILE_GetResolutionY()   0x802'c35d    0x22  Code  Gb  prtfiles.o [1]
-PFILE_GetTotalLayers()   0x802'c0c3    0x24  Code  Gb  prtfiles.o [1]
+                         0x802'c12d    0x26  Code  Gb  prtfiles.o [1]
+PFILE_GetLiftHeight()    0x802'c245    0x24  Code  Gb  prtfiles.o [1]
+PFILE_GetLiftSpeed()     0x802'c289    0x24  Code  Gb  prtfiles.o [1]
+PFILE_GetLightBottom()   0x802'c1b9    0x24  Code  Gb  prtfiles.o [1]
+PFILE_GetLightLayer()    0x802'c175    0x24  Code  Gb  prtfiles.o [1]
+PFILE_GetLightPause()    0x802'c1fd    0x24  Code  Gb  prtfiles.o [1]
+PFILE_GetPrintTime()     0x802'bee1   0x202  Code  Gb  prtfiles.o [1]
+PFILE_GetResinVolume()   0x802'c311    0x24  Code  Gb  prtfiles.o [1]
+PFILE_GetResolutionX()   0x802'c35b    0x22  Code  Gb  prtfiles.o [1]
+PFILE_GetResolutionY()   0x802'c37d    0x22  Code  Gb  prtfiles.o [1]
+PFILE_GetTotalLayers()   0x802'c0e3    0x24  Code  Gb  prtfiles.o [1]
 PFILE_Init(FIL *, FILES_TYPE)
-                         0x802'bde5    0xac  Code  Gb  prtfiles.o [1]
-PFILE_IsInited()         0x802'be91     0x8  Code  Gb  prtfiles.o [1]
+                         0x802'be05    0xac  Code  Gb  prtfiles.o [1]
+PFILE_IsInited()         0x802'beb1     0x8  Code  Gb  prtfiles.o [1]
 PFILE_SetDropSpeed(float)
-                         0x802'c2d1    0x20  Code  Gb  prtfiles.o [1]
+                         0x802'c2f1    0x20  Code  Gb  prtfiles.o [1]
 PFILE_SetLiftHeight(float)
-                         0x802'c249    0x20  Code  Gb  prtfiles.o [1]
+                         0x802'c269    0x20  Code  Gb  prtfiles.o [1]
 PFILE_SetLiftSpeed(float)
-                         0x802'c28d    0x20  Code  Gb  prtfiles.o [1]
+                         0x802'c2ad    0x20  Code  Gb  prtfiles.o [1]
 PFILE_SetLightBottom(float)
-                         0x802'c1bd    0x20  Code  Gb  prtfiles.o [1]
+                         0x802'c1dd    0x20  Code  Gb  prtfiles.o [1]
 PFILE_SetLightLayer(float)
-                         0x802'c179    0x20  Code  Gb  prtfiles.o [1]
+                         0x802'c199    0x20  Code  Gb  prtfiles.o [1]
 PFILE_SetLightPause(float)
-                         0x802'c205    0x20  Code  Gb  prtfiles.o [1]
+                         0x802'c225    0x20  Code  Gb  prtfiles.o [1]
 PRINT_ClearLayerPreview()
-                         0x802'bc7d    0x3a  Code  Gb  printing.o [1]
-PRINT_Complete()         0x802'b78d   0x1ac  Code  Gb  printing.o [1]
+                         0x802'bc9d    0x3a  Code  Gb  printing.o [1]
+PRINT_Complete()         0x802'b7ad   0x1ac  Code  Gb  printing.o [1]
 PRINT_DrawLayerPreview()
-                         0x802'bcb7    0xc2  Code  Gb  printing.o [1]
-PRINT_Init()             0x802'b68d   0x100  Code  Gb  printing.o [1]
-PRINT_ReadLayerBegin()   0x802'bbef    0x4c  Code  Gb  printing.o [1]
-PRINT_ReadLayerInfo()    0x802'b939    0x60  Code  Gb  printing.o [1]
+                         0x802'bcd7    0xc2  Code  Gb  printing.o [1]
+PRINT_Init()             0x802'b6ad   0x100  Code  Gb  printing.o [1]
+PRINT_ReadLayerBegin()   0x802'bc0f    0x4c  Code  Gb  printing.o [1]
+PRINT_ReadLayerInfo()    0x802'b959    0x60  Code  Gb  printing.o [1]
 PRINT_ReadRLEDecode(unsigned char)
-                         0x802'b999   0x256  Code  Gb  printing.o [1]
+                         0x802'b9b9   0x256  Code  Gb  printing.o [1]
 PRINT_ReadSublayerContinue()
-                         0x802'bc3b    0x42  Code  Gb  printing.o [1]
+                         0x802'bc5b    0x42  Code  Gb  printing.o [1]
 PendSV_Handler           0x804'889f     0x2  Code  Gb  stm32f4xx_it.o [1]
-Planner::Planner()       0x802'cedd     0xe  Code  Gb  z_planner.o [1]
+Planner::Planner()       0x802'cefd     0xe  Code  Gb  z_planner.o [1]
 Planner::_buffer_steps(int, float, float)
-                         0x802'd501    0x68  Code  Gb  z_planner.o [1]
+                         0x802'd521    0x68  Code  Gb  z_planner.o [1]
 Planner::_populate_block(block_t *, bool, int, float, float)
-                         0x802'd595   0x5f8  Code  Gb  z_planner.o [1]
+                         0x802'd5b5   0x5f8  Code  Gb  z_planner.o [1]
 Planner::_populate_block(block_t *, bool, int32_t, float, float)::previous_safe_speed
                         0x2000'a2e8     0x4  Data  Lc  z_planner.o [1]
 Planner::block_buffer   0x2000'6528   0x400  Data  Gb  z_planner.o [1]
@@ -1983,11 +1982,11 @@ Planner::block_buffer_planned
 Planner::block_buffer_tail
                         0x2000'a365     0x1  Data  Gb  z_planner.o [1]
 Planner::buffer_segment(float, float, float const &)
-                         0x802'dbdd    0x46  Code  Gb  z_planner.o [1]
+                         0x802'dbfd    0x46  Code  Gb  z_planner.o [1]
 Planner::buffer_sync_block()
-                         0x802'db95    0x42  Code  Gb  z_planner.o [1]
+                         0x802'dbb5    0x42  Code  Gb  z_planner.o [1]
 Planner::calculate_trapezoid_for_block(block_t *, float const &, float const &)
-                         0x802'cf8b   0x124  Code  Gb  z_planner.o [1]
+                         0x802'cfab   0x124  Code  Gb  z_planner.o [1]
 Planner::cleaning_buffer_counter
                         0x2000'a33a     0x2  Data  Gb  z_planner.o [1]
 Planner::clear_block_buffer()
@@ -1996,20 +1995,20 @@ Planner::cutoff_long    0x2000'a2dc     0x4  Data  Gb  z_planner.o [1]
 Planner::delay_before_delivering
                         0x2000'a366     0x1  Data  Gb  z_planner.o [1]
 Planner::endstop_triggered()
-                         0x802'd4dd     0x8  Code  Gb  z_planner.o [1]
+                         0x802'd4fd     0x8  Code  Gb  z_planner.o [1]
 Planner::estimate_acceleration_distance(float, float, float)
                          0x803'159d    0xac  Code  Gb  z_planner.o [1]
 Planner::forward_pass()
-                         0x802'd2f7    0x56  Code  Gb  z_planner.o [1]
+                         0x802'd317    0x56  Code  Gb  z_planner.o [1]
 Planner::forward_pass_kernel(block_t const *, block_t *, unsigned char)
-                         0x802'd267    0x90  Code  Gb  z_planner.o [1]
+                         0x802'd287    0x90  Code  Gb  z_planner.o [1]
 Planner::get_current_block()
-                         0x802'cf13    0x78  Code  Gb  z_planner.o [1]
+                         0x802'cf33    0x78  Code  Gb  z_planner.o [1]
 Planner::get_next_free_block(unsigned char &, unsigned char)
                          0x803'1799    0x38  Code  Gb  z_planner.o [1]
 Planner::has_blocks_queued()
                          0x802'f4f9    0x20  Code  Gb  z_stepper.o [1]
-Planner::init()          0x802'ceeb    0x28  Code  Gb  z_planner.o [1]
+Planner::init()          0x802'cf0b    0x28  Code  Gb  z_planner.o [1]
 Planner::intersection_distance(float, float, float, float)
                          0x803'1685    0xbc  Code  Gb  z_planner.o [1]
 Planner::max_acceleration_steps_per_s2
@@ -2030,32 +2029,32 @@ Planner::previous_nominal_speed_sqr
                         0x2000'a2e4     0x4  Data  Gb  z_planner.o [1]
 Planner::previous_speed
                         0x2000'a2e0     0x4  Data  Gb  z_planner.o [1]
-Planner::quick_stop()    0x802'd4a7    0x36  Code  Gb  z_planner.o [1]
-Planner::recalculate()   0x802'd483    0x24  Code  Gb  z_planner.o [1]
+Planner::quick_stop()    0x802'd4c7    0x36  Code  Gb  z_planner.o [1]
+Planner::recalculate()   0x802'd4a3    0x24  Code  Gb  z_planner.o [1]
 Planner::recalculate_trapezoids()
-                         0x802'd355   0x12e  Code  Gb  z_planner.o [1]
+                         0x802'd375   0x12e  Code  Gb  z_planner.o [1]
 Planner::refresh_positioning()
-                         0x802'dc85    0x32  Code  Gb  z_planner.o [1]
+                         0x802'dca5    0x32  Code  Gb  z_planner.o [1]
 Planner::release_current_block()
                          0x803'27b1    0x1c  Code  Gb  z_stepper.o [1]
 Planner::reset_acceleration_rates()
-                         0x802'dc55    0x30  Code  Gb  z_planner.o [1]
+                         0x802'dc75    0x30  Code  Gb  z_planner.o [1]
 Planner::reverse_pass()
-                         0x802'd1e5    0x82  Code  Gb  z_planner.o [1]
+                         0x802'd205    0x82  Code  Gb  z_planner.o [1]
 Planner::reverse_pass_kernel(block_t *, block_t const *)
-                         0x802'd0b1   0x134  Code  Gb  z_planner.o [1]
+                         0x802'd0d1   0x134  Code  Gb  z_planner.o [1]
 Planner::set_machine_position_mm(float)
-                         0x802'dc23    0x2a  Code  Gb  z_planner.o [1]
+                         0x802'dc43    0x2a  Code  Gb  z_planner.o [1]
 Planner::set_position_mm(float)
-                         0x802'dc4d     0x8  Code  Gb  z_planner.o [1]
+                         0x802'dc6d     0x8  Code  Gb  z_planner.o [1]
 Planner::settings       0x2000'a0b0    0x28  Data  Gb  z_planner.o [1]
 Planner::steps_to_mm    0x2000'a2d4     0x4  Data  Gb  z_planner.o [1]
-Planner::synchronize()   0x802'd4e5    0x1c  Code  Gb  z_planner.o [1]
+Planner::synchronize()   0x802'd505    0x1c  Code  Gb  z_planner.o [1]
 RTC_Bcd2ToByte           0x802'279d    0x1a  Code  Gb  stm32f4xx_hal_rtc.o [1]
 RTC_ByteToBcd2           0x802'2785    0x18  Code  Gb  stm32f4xx_hal_rtc.o [1]
-RTC_Enable               0x802'9f3b    0x10  Code  Gb  rtc.o [1]
+RTC_Enable               0x802'9f5b    0x10  Code  Gb  rtc.o [1]
 RTC_EnterInitMode        0x802'274b    0x3a  Code  Gb  stm32f4xx_hal_rtc.o [1]
-RTC_Init                 0x802'9e99    0xa2  Code  Gb  rtc.o [1]
+RTC_Init                 0x802'9eb9    0xa2  Code  Gb  rtc.o [1]
 Region$$Table$$Base      0x804'9e20           --   Gb  - Linker created -
 Region$$Table$$Limit     0x804'9e4c           --   Gb  - Linker created -
 SHT$$INIT_ARRAY$$Base    0x804'c0e4           --   Gb  - Linker created -
@@ -2065,11 +2064,11 @@ SHT$$PREINIT_ARRAY$$Base
 SHT$$PREINIT_ARRAY$$Limit
                          0x804'c0e4           --   Gb  - Linker created -
 SPIFL_Driver             0x804'b3b4    0x14  Data  Gb  spifl_diskio.o [1]
-SPIFL_EraseSector        0x802'9cf9    0x60  Code  Gb  spi_flash.o [1]
-SPIFL_Init               0x802'9bc3    0x42  Code  Gb  spi_flash.o [1]
-SPIFL_ReadBuff           0x802'9c6b    0x8e  Code  Gb  spi_flash.o [1]
-SPIFL_ReadID             0x802'9c05    0x66  Code  Gb  spi_flash.o [1]
-SPIFL_WriteBuff          0x802'9d59   0x12a  Code  Gb  spi_flash.o [1]
+SPIFL_EraseSector        0x802'9d19    0x60  Code  Gb  spi_flash.o [1]
+SPIFL_Init               0x802'9be3    0x42  Code  Gb  spi_flash.o [1]
+SPIFL_ReadBuff           0x802'9c8b    0x8e  Code  Gb  spi_flash.o [1]
+SPIFL_ReadID             0x802'9c25    0x66  Code  Gb  spi_flash.o [1]
+SPIFL_WriteBuff          0x802'9d79   0x12a  Code  Gb  spi_flash.o [1]
 SPIFL_initialize         0x804'8429    0x1c  Code  Gb  spifl_diskio.o [1]
 SPIFL_ioctl              0x804'84f9    0x58  Code  Gb  spifl_diskio.o [1]
 SPIFL_read               0x804'8455    0x52  Code  Gb  spifl_diskio.o [1]
@@ -2190,7 +2189,7 @@ TGUI_PrintScreenExit(void *, void *)
 TGUI_PrintScreenShow(void *, void *)
                          0x804'29b9    0xa2  Code  Gb  tgui_printscreenfuncs.o [1]
 TGUI_Process()           0x801'bfe5    0x26  Code  Gb  tgui.o [1]
-TGUI_ScreenSaverShow()   0x802'ac35    0x9a  Code  Gb  tgui_screensaverfuncs.o [1]
+TGUI_ScreenSaverShow()   0x802'ac55    0x9a  Code  Gb  tgui_screensaverfuncs.o [1]
 TGUI_USBStateChanged()   0x801'c02d    0x22  Code  Gb  tgui.o [1]
 TIM2_IRQHandler          0x804'88e5     0xe  Code  Gb  stm32f4xx_it.o [1]
 TIM_Base_SetConfig       0x802'f1b7    0xba  Code  Gb  stm32f4xx_hal_tim.o [1]
@@ -2307,7 +2306,7 @@ USBH_SetAddress          0x803'1dc7    0x26  Code  Gb  usbh_ctlreq.o [1]
 USBH_SetCfg              0x803'1ded    0x24  Code  Gb  usbh_ctlreq.o [1]
 USBH_SetFeature          0x803'1e11    0x26  Code  Gb  usbh_ctlreq.o [1]
 USBH_Start               0x802'fd19    0x16  Code  Gb  usbh_core.o [1]
-USBH_UserProcess         0x802'abd9    0x3a  Code  Lc  usb_host.o [1]
+USBH_UserProcess         0x802'abf9    0x3a  Code  Lc  usb_host.o [1]
 USBH_initialize          0x804'7a25     0x4  Code  Gb  usbh_diskio.o [1]
 USBH_ioctl               0x804'7adf    0x86  Code  Gb  usbh_diskio.o [1]
 USBH_msc                0x2000'0290    0x20  Data  Gb  usbh_msc.o [1]
@@ -2331,10 +2330,10 @@ USB_HC_ReadInterrupt     0x803'406f     0xa  Code  Gb  stm32f4xx_ll_usb.o [1]
 USB_HC_StartXfer         0x803'3ead   0x1c2  Code  Gb  stm32f4xx_ll_usb.o [1]
 USB_HC_StartXfer::tmpreg
                         0x2000'a2a0     0x4  Data  Lc  stm32f4xx_ll_usb.o [1]
-USB_HOST_DeInit          0x802'abc5     0xa  Code  Gb  usb_host.o [1]
-USB_HOST_Init            0x802'ab8d    0x38  Code  Gb  usb_host.o [1]
-USB_HOST_Process         0x802'abcf     0xa  Code  Gb  usb_host.o [1]
-USB_HOST_VbusFS          0x802'ab6d    0x20  Code  Gb  usbh_platform.o [1]
+USB_HOST_DeInit          0x802'abe5     0xa  Code  Gb  usb_host.o [1]
+USB_HOST_Init            0x802'abad    0x38  Code  Gb  usb_host.o [1]
+USB_HOST_Process         0x802'abef     0xa  Code  Gb  usb_host.o [1]
+USB_HOST_VbusFS          0x802'ab8d    0x20  Code  Gb  usbh_platform.o [1]
 USB_HostInit             0x803'3acd   0x102  Code  Gb  stm32f4xx_ll_usb.o [1]
 USB_InitFSLSPClkSel      0x803'3bd1    0x4e  Code  Gb  stm32f4xx_ll_usb.o [1]
 USB_ReadInterrupts       0x803'3a81     0xa  Code  Gb  stm32f4xx_ll_usb.o [1]
@@ -2347,10 +2346,10 @@ UTF8ToUnicode_Str(unsigned short *, char *, unsigned short)
                          0x802'1cc3    0x5e  Code  Gb  unicode_utils.o [1]
 UTF8toANSI(char *)       0x802'1bcd    0x3a  Code  Gb  unicode_utils.o [1]
 UTF8toUnicode(char *)    0x802'1c11    0x44  Code  Gb  unicode_utils.o [1]
-UVD_Init()               0x802'a6c1     0xc  Code  Gb  uvdisplay.o [1]
-UVD_Off()                0x802'a6dd     0x8  Code  Gb  uvdisplay.o [1]
-UVD_Sleep()              0x802'a6cd     0x8  Code  Gb  uvdisplay.o [1]
-UVD_Wakeup()             0x802'a6d5     0x8  Code  Gb  uvdisplay.o [1]
+UVD_Init()               0x802'a6e1     0xc  Code  Gb  uvdisplay.o [1]
+UVD_Off()                0x802'a6fd     0x8  Code  Gb  uvdisplay.o [1]
+UVD_Sleep()              0x802'a6ed     0x8  Code  Gb  uvdisplay.o [1]
+UVD_Wakeup()             0x802'a6f5     0x8  Code  Gb  uvdisplay.o [1]
 UVFAN_TimerOn            0x801'd7e7     0xc  Code  Gb  sys_timer.o [1]
 UVLED_TimerOn            0x801'd7c9     0xc  Code  Gb  sys_timer.o [1]
 UVLED_TimerState         0x801'd7d5     0x6  Code  Gb  sys_timer.o [1]
@@ -2370,29 +2369,29 @@ UsbMounted              0x2000'a342     0x1  Data  Gb  main.o [1]
 UsbPath                 0x2000'a228     0x8  Data  Gb  fatfs.o [1]
 WWDG_IRQHandler          0x804'892d     0x2  Code  Gb  stm32f4xx_it.o [1]
 ZMOTOR_DisableEndstops()
-                         0x802'a3f3     0x8  Code  Gb  motor.o [1]
+                         0x802'a413     0x8  Code  Gb  motor.o [1]
 ZMOTOR_EnableEndstops()
-                         0x802'a3eb     0x8  Code  Gb  motor.o [1]
+                         0x802'a40b     0x8  Code  Gb  motor.o [1]
 ZMOTOR_GetCurrentPosition()
-                         0x802'a3d3    0x18  Code  Gb  motor.o [1]
+                         0x802'a3f3    0x18  Code  Gb  motor.o [1]
 ZMOTOR_GetEndstopState()
-                         0x802'a39f     0x8  Code  Gb  motor.o [1]
-ZMOTOR_Init()            0x802'a21d    0xda  Code  Gb  motor.o [1]
+                         0x802'a3bf     0x8  Code  Gb  motor.o [1]
+ZMOTOR_Init()            0x802'a23d    0xda  Code  Gb  motor.o [1]
 ZMOTOR_IsMotorEnabled()
-                         0x802'a341     0x6  Code  Gb  motor.o [1]
-ZMOTOR_IsMoving()        0x802'a3a7    0x1c  Code  Gb  motor.o [1]
-ZMOTOR_MotorDisable()    0x802'a329    0x18  Code  Gb  motor.o [1]
-ZMOTOR_MotorEnable()     0x802'a2f7    0x32  Code  Gb  motor.o [1]
+                         0x802'a361     0x6  Code  Gb  motor.o [1]
+ZMOTOR_IsMoving()        0x802'a3c7    0x1c  Code  Gb  motor.o [1]
+ZMOTOR_MotorDisable()    0x802'a349    0x18  Code  Gb  motor.o [1]
+ZMOTOR_MotorEnable()     0x802'a317    0x32  Code  Gb  motor.o [1]
 ZMOTOR_MoveAbsolute(float, float)
-                         0x802'a347     0xe  Code  Gb  motor.o [1]
+                         0x802'a367     0xe  Code  Gb  motor.o [1]
 ZMOTOR_SetFullCurrent()
-                         0x802'a357    0x24  Code  Gb  motor.o [1]
+                         0x802'a377    0x24  Code  Gb  motor.o [1]
 ZMOTOR_SetHoldCurrent()
-                         0x802'a37b    0x24  Code  Gb  motor.o [1]
+                         0x802'a39b    0x24  Code  Gb  motor.o [1]
 ZMOTOR_SetPosition(float)
-                         0x802'a3c3     0x8  Code  Gb  motor.o [1]
-ZMOTOR_StartHoming()     0x802'a3fd    0x9e  Code  Gb  motor.o [1]
-ZMOTOR_Stop()            0x802'a3cb     0x8  Code  Gb  motor.o [1]
+                         0x802'a3e3     0x8  Code  Gb  motor.o [1]
+ZMOTOR_StartHoming()     0x802'a41d    0x9e  Code  Gb  motor.o [1]
+ZMOTOR_Stop()            0x802'a3eb     0x8  Code  Gb  motor.o [1]
 [local to z_stepper_cpp]::DELAY_CYCLES(unsigned int)
                          0x802'e5e1    0x48  Code  Lc  z_stepper.o [1]
 [local to z_stepper_cpp]::MultiU32X24toH32(unsigned int, unsigned int)
@@ -2466,17 +2465,17 @@ __NVIC_GetPriorityGrouping
 __NVIC_SetPriority       0x802'3cfd    0x24  Code  Lc  stm32f4xx_hal_cortex.o [1]
 __NVIC_SetPriorityGrouping
                          0x802'3cbd    0x1a  Code  Lc  stm32f4xx_hal_cortex.o [1]
-___spifl_wait_cs         0x802'dd01    0x20  Code  Gb  spi_flash.o [1]
+___spifl_wait_cs         0x802'9b25    0x20  Code  Lc  spi_flash.o [1]
 __aeabi_cdcmple          0x802'4cb1          Code  Gb  DblCmpLe.o [4]
 __aeabi_cdrcmple         0x802'4ce1          Code  Gb  DblCmpGe.o [4]
-__aeabi_d2f              0x802'b101          Code  Gb  DblToFlt.o [4]
+__aeabi_d2f              0x802'b121          Code  Gb  DblToFlt.o [4]
 __aeabi_d2iz             0x802'4e4d          Code  Gb  DblToS32.o [4]
 __aeabi_d2uiz            0x802'51d9          Code  Gb  DblToU32.o [4]
 __aeabi_dadd             0x802'7db1          Code  Gb  DblAdd.o [4]
 __aeabi_ddiv             0x802'4f91          Code  Gb  DblDiv.o [4]
 __aeabi_dmul             0x802'4a9d          Code  Gb  DblMul.o [4]
 __aeabi_dsub             0x802'4ead          Code  Gb  DblSub.o [4]
-__aeabi_f2d              0x802'b0b9          Code  Gb  FltToDbl.o [4]
+__aeabi_f2d              0x802'b0d9          Code  Gb  FltToDbl.o [4]
 __aeabi_i2d              0x802'4e89          Code  Gb  S32ToDbl.o [4]
 __aeabi_memclr4          0x802'521d          Code  Gb  ABImemclr4.o [5]
 __aeabi_memcpy           0x801'cd9d          Code  Gb  ABImemcpy.o [5]
@@ -2490,7 +2489,7 @@ __cmain                  0x804'a765          Code  Gb  cmain.o [5]
 __data_GetMemChunk       0x803'cdf9    0x2c  Code  Gb  xgetmemchunk.o [2]
 __data_GetMemChunk::start
                         0x2000'a328     0x4  Data  Lc  xgetmemchunk.o [2]
-__exit                   0x802'ca9d    0x14  Code  Gb  exit.o [6]
+__exit                   0x802'cabd    0x14  Code  Gb  exit.o [6]
 __iar_Fail_s             0x802'4791    0x1c  Code  Gb  xfail_s.o [2]
 __iar_Mbcurmax           0x802'4861     0xa  Code  Gb  xmbcurmax.o [2]
 __iar_Memchr             0x802'4809          Code  Gb  memchr.o [5]
@@ -2503,7 +2502,7 @@ __iar_Stoflt             0x803'23b1   0x1c4  Code  Gb  iar_Stoflt.o [2]
 __iar_Stollx             0x804'1745    0x96  Code  Gb  iar_Stollx.o [2]
 __iar_Stopfx             0x803'228f   0x122  Code  Gb  iar_Stopfx.o [2]
 __iar_Stoullx            0x804'17e5   0x1a4  Code  Gb  iar_Stoullx.o [2]
-__iar_Stoulx             0x802'cd7d   0x13a  Code  Gb  iar_Stoulx.o [2]
+__iar_Stoulx             0x802'cd9d   0x13a  Code  Gb  iar_Stoulx.o [2]
 __iar_Stoxflt            0x803'2575   0x1e6  Code  Gb  iar_Stoxflt.o [2]
 __iar_Stoxflt::digits    0x803'2760    0x18  Data  Lc  iar_Stoxflt.o [2]
 __iar_Stoxflt::vals      0x803'2778    0x18  Data  Lc  iar_Stoxflt.o [2]
@@ -2545,13 +2544,13 @@ __iar_vfp___iar_floor32
                          0x803'1649          Code  Gb  floorf.o [4]
 __iar_vfp___iar_lround32
                          0x803'17e9          Code  Gb  lroundf.o [4]
-__iar_vfp_atof           0x802'cd73     0x8  Code  Gb  math_wrappers64.o [4]
+__iar_vfp_atof           0x802'cd93     0x8  Code  Gb  math_wrappers64.o [4]
 __iar_vfp_ceilf          0x803'1561          Code  Gb  ceilf.o [4]
 __iar_vfp_floorf         0x803'1649          Code  Gb  floorf.o [4]
 __iar_vfp_lroundf        0x803'17e9          Code  Gb  lroundf.o [4]
 __iar_zero_init3         0x801'ce43    0x3a  Code  Gb  zero_init3.o [5]
 __low_level_init         0x804'a783     0x4  Code  Gb  low_level_init.o [2]
-__sti__routine           0x802'ced1     0xc  Code  Lc  z_planner.o [1]
+__sti__routine           0x802'cef1     0xc  Code  Lc  z_planner.o [1]
 __vector_table           0x801'0000          Data  Gb  startup_stm32f407xx.o [1]
 _call_main               0x804'a771          Code  Gb  cmain.o [5]
 _cfg_GetParamName(char *, char *, unsigned short)
@@ -2561,12 +2560,12 @@ _cfg_GetParamValue(char *, PARAM_VALUE *)
 _cpld_CRC16_XMODEM_new(unsigned char *, unsigned int)
                          0x802'f539    0x30  Code  Gb  cpld_utils.o [1]
 _cpld_bank2disp_enable(unsigned char, unsigned char, unsigned char)
-                         0x802'a4d9    0x5c  Code  Gb  cpld_utils.o [1]
-_cpld_bank2disp_read()   0x802'a535    0x3a  Code  Gb  cpld_utils.o [1]
-_cpld_get_version()      0x802'a56f    0x18  Code  Gb  cpld_utils.o [1]
+                         0x802'a4f9    0x5c  Code  Gb  cpld_utils.o [1]
+_cpld_bank2disp_read()   0x802'a555    0x3a  Code  Gb  cpld_utils.o [1]
+_cpld_get_version()      0x802'a58f    0x18  Code  Gb  cpld_utils.o [1]
 _cpld_line_gen_data(unsigned short, unsigned char)
-                         0x802'a5e9    0xb4  Code  Gb  cpld_utils.o [1]
-_cpld_reTransmission()   0x802'a587    0x62  Code  Gb  cpld_utils.o [1]
+                         0x802'a609    0xb4  Code  Gb  cpld_utils.o [1]
+_cpld_reTransmission()   0x802'a5a7    0x62  Code  Gb  cpld_utils.o [1]
 _exit                    0x804'a78d          Code  Gb  cexit.o [5]
 _flash_SPIGetFlags       0x802'4345     0xc  Code  Gb  fst_spi.o [1]
 _gLocale_mblen           0x802'474f     0x4  Code  Gb  xlocale_c.o [2]
@@ -2580,13 +2579,13 @@ _lcdui_DrawCircle_helper(short, short, short, unsigned char)
                          0x801'db0b    0xce  Code  Gb  lcd_ui.o [1]
 _lcdui_FillCircle_helper(short, short, short, unsigned char, short)
                          0x801'dbd9    0xc4  Code  Gb  lcd_ui.o [1]
-_lcdui_GetCharData(char)
+_lcdui_GetCharData(unsigned char)
                          0x801'e0cf    0x8c  Code  Gb  lcd_ui.o [1]
-_lcdui_GetCharWidth(char)
+_lcdui_GetCharWidth(unsigned char)
                          0x801'e07f    0x50  Code  Gb  lcd_ui.o [1]
 _main                    0x804'a77f          Code  Gb  cmain.o [5]
-_spifl_WaitBusy          0x802'9b25    0x60  Code  Gb  spi_flash.o [1]
-_spifl_WriteEnable       0x802'9b85    0x3e  Code  Gb  spi_flash.o [1]
+_spifl_WaitBusy          0x802'9b45    0x60  Code  Gb  spi_flash.o [1]
+_spifl_WriteEnable       0x802'9ba5    0x3e  Code  Gb  spi_flash.o [1]
 _spifl_bust_counts      0x2000'a294     0x4  Data  Gb  spi_flash.o [1]
 _spifl_info             0x2000'a21c     0xc  Data  Gb  spi_flash.o [1]
 _ssd_cfg(unsigned char)
@@ -2691,25 +2690,25 @@ _tgui_InfoScreenInfoPaint(void *, void *)
 _tgui_LanguageButtonPress(void *, void *)
                          0x804'ae29    0x1c  Code  Gb  tgui_langscreenfuncs.o [1]
 _tgui_MovezBackButtonPress(void *, void *)
-                         0x802'b169    0x28  Code  Gb  tgui_movezscreenfuncs.o [1]
+                         0x802'b189    0x28  Code  Gb  tgui_movezscreenfuncs.o [1]
 _tgui_MovezDownButtonPress(void *, void *)
-                         0x802'b3bf   0x18e  Code  Gb  tgui_movezscreenfuncs.o [1]
+                         0x802'b3df   0x18e  Code  Gb  tgui_movezscreenfuncs.o [1]
 _tgui_MovezHomeButtonPress(void *, void *)
-                         0x802'b1dd    0x26  Code  Gb  tgui_movezscreenfuncs.o [1]
+                         0x802'b1fd    0x26  Code  Gb  tgui_movezscreenfuncs.o [1]
 _tgui_MovezScreenProcess(void *, void *)
-                         0x802'b685     0x8  Code  Gb  tgui_movezscreenfuncs.o [1]
+                         0x802'b6a5     0x8  Code  Gb  tgui_movezscreenfuncs.o [1]
 _tgui_MovezSetZ0ButtonPress(void *, void *)
-                         0x802'b54d    0x48  Code  Gb  tgui_movezscreenfuncs.o [1]
+                         0x802'b56d    0x48  Code  Gb  tgui_movezscreenfuncs.o [1]
 _tgui_MovezSetZHome(void *, void *)
-                         0x802'b629    0x28  Code  Gb  tgui_movezscreenfuncs.o [1]
+                         0x802'b649    0x28  Code  Gb  tgui_movezscreenfuncs.o [1]
 _tgui_MovezStepSelectButtonPress(void *, void *)
-                         0x802'b219    0x54  Code  Gb  tgui_movezscreenfuncs.o [1]
+                         0x802'b239    0x54  Code  Gb  tgui_movezscreenfuncs.o [1]
 _tgui_MovezStopButtonPress(void *, void *)
-                         0x802'b191    0x4c  Code  Gb  tgui_movezscreenfuncs.o [1]
+                         0x802'b1b1    0x4c  Code  Gb  tgui_movezscreenfuncs.o [1]
 _tgui_MovezUpButtonPress(void *, void *)
-                         0x802'b26d   0x152  Code  Gb  tgui_movezscreenfuncs.o [1]
+                         0x802'b28d   0x152  Code  Gb  tgui_movezscreenfuncs.o [1]
 _tgui_MovezUpdateHomed()
-                         0x802'b595    0x92  Code  Gb  tgui_movezscreenfuncs.o [1]
+                         0x802'b5b5    0x92  Code  Gb  tgui_movezscreenfuncs.o [1]
 _tgui_MsgBoxButtonProcess(void *, void *)
                          0x801'd4bd   0x142  Code  Gb  tgui_messagebox.o [1]
 _tgui_MsgBoxPaint()      0x801'd2b1   0x20c  Code  Gb  tgui_messagebox.o [1]
@@ -2761,15 +2760,15 @@ _tgui_PrnparamsScreenShow(void *, void *)
 _tgui_PrnparamsUpButtonPress(void *, void *)
                          0x804'2023   0x218  Code  Gb  tgui_prnparamsscreenfuncs.o [1]
 _tgui_ScreenSaverDatePaint()
-                         0x802'ad8b   0x13e  Code  Gb  tgui_screensaverfuncs.o [1]
+                         0x802'adab   0x13e  Code  Gb  tgui_screensaverfuncs.o [1]
 _tgui_ScreenSaverPaint(void *, void *)
-                         0x802'accf    0x32  Code  Gb  tgui_screensaverfuncs.o [1]
+                         0x802'acef    0x32  Code  Gb  tgui_screensaverfuncs.o [1]
 _tgui_ScreenSaverProcess(void *, void *)
-                         0x802'afc1    0xac  Code  Gb  tgui_screensaverfuncs.o [1]
+                         0x802'afe1    0xac  Code  Gb  tgui_screensaverfuncs.o [1]
 _tgui_ScreenSaverProgressPaint()
-                         0x802'aec9    0xf8  Code  Gb  tgui_screensaverfuncs.o [1]
+                         0x802'aee9    0xf8  Code  Gb  tgui_screensaverfuncs.o [1]
 _tgui_ScreenSaverTimePaint()
-                         0x802'ad01    0x8a  Code  Gb  tgui_screensaverfuncs.o [1]
+                         0x802'ad21    0x8a  Code  Gb  tgui_screensaverfuncs.o [1]
 _tgui_ScreenTimeInit()   0x801'c2a5    0x24  Code  Gb  tgui_defaultfuncs.o [1]
 _tgui_ScreenTimePaint(void *, void *)
                          0x801'c307    0xc2  Code  Gb  tgui_defaultfuncs.o [1]
@@ -2798,36 +2797,36 @@ _tgui_SettingsPauseliftButtonPress(void *, void *)
 _tgui_SettingsSaveButtonPress(void *, void *)
                          0x804'6d33    0x30  Code  Gb  tgui_settingsscreenfuncs.o [1]
 _tgui_StartHoming(void *, void *)
-                         0x802'b205    0x14  Code  Gb  tgui_movezscreenfuncs.o [1]
+                         0x802'b225    0x14  Code  Gb  tgui_movezscreenfuncs.o [1]
 _tgui_UVTestBackButtonPress(void *, void *)
-                         0x802'a9cb    0x36  Code  Gb  tgui_uvtestscreenfuncs.o [1]
+                         0x802'a9eb    0x36  Code  Gb  tgui_uvtestscreenfuncs.o [1]
 _tgui_UVTestDisableDisp()
-                         0x802'a745    0x26  Code  Gb  tgui_uvtestscreenfuncs.o [1]
+                         0x802'a765    0x26  Code  Gb  tgui_uvtestscreenfuncs.o [1]
 _tgui_UVTestDisableLight()
-                         0x802'a701    0x1e  Code  Gb  tgui_uvtestscreenfuncs.o [1]
+                         0x802'a721    0x1e  Code  Gb  tgui_uvtestscreenfuncs.o [1]
 _tgui_UVTestDispButtonPaint(void *, void *)
-                         0x802'aae3    0x4a  Code  Gb  tgui_uvtestscreenfuncs.o [1]
+                         0x802'ab03    0x4a  Code  Gb  tgui_uvtestscreenfuncs.o [1]
 _tgui_UVTestDispButtonPress(void *, void *)
-                         0x802'aa75    0x24  Code  Gb  tgui_uvtestscreenfuncs.o [1]
+                         0x802'aa95    0x24  Code  Gb  tgui_uvtestscreenfuncs.o [1]
 _tgui_UVTestEnableDisp()
-                         0x802'a71f    0x26  Code  Gb  tgui_uvtestscreenfuncs.o [1]
+                         0x802'a73f    0x26  Code  Gb  tgui_uvtestscreenfuncs.o [1]
 _tgui_UVTestEnableLight()
-                         0x802'a6e5    0x1c  Code  Gb  tgui_uvtestscreenfuncs.o [1]
+                         0x802'a705    0x1c  Code  Gb  tgui_uvtestscreenfuncs.o [1]
 _tgui_UVTestImgSelectButtonPress(void *, void *)
-                         0x802'aa01    0x50  Code  Gb  tgui_uvtestscreenfuncs.o [1]
+                         0x802'aa21    0x50  Code  Gb  tgui_uvtestscreenfuncs.o [1]
 _tgui_UVTestLightButtonPaint(void *, void *)
-                         0x802'aa99    0x4a  Code  Gb  tgui_uvtestscreenfuncs.o [1]
+                         0x802'aab9    0x4a  Code  Gb  tgui_uvtestscreenfuncs.o [1]
 _tgui_UVTestLightButtonPress(void *, void *)
-                         0x802'aa51    0x24  Code  Gb  tgui_uvtestscreenfuncs.o [1]
+                         0x802'aa71    0x24  Code  Gb  tgui_uvtestscreenfuncs.o [1]
 _tgui_UVTestReadImage(unsigned char)
-                         0x802'a76b   0x260  Code  Gb  tgui_uvtestscreenfuncs.o [1]
+                         0x802'a78b   0x260  Code  Gb  tgui_uvtestscreenfuncs.o [1]
 _touch_ReadCoords        0x802'1f8d   0x124  Code  Gb  touch.o [1]
 _touch_RefreshState      0x802'20b1   0x150  Code  Gb  touch.o [1]
 abort                    0x802'7da7     0x6  Code  Gb  abort.o [2]
 activefilelist          0x2000'a34f     0x1  Data  Gb  tgui_filesscreenfuncs.o [1]
 add_segment              0x803'bce1   0x1f2  Code  Lc  dlmalloc.o [2]
 atof                     0x803'14ed     0x8  Code  Gb  strto64.o [4]
-atoi                     0x802'cebd     0x2  Code  Gb  iar_Stoulx.o [2]
+atoi                     0x802'cedd     0x2  Code  Gb  iar_Stoulx.o [2]
 buzz_timer              0x2000'a2a4     0x4  Data  Gb  sys_timer.o [1]
 calib_screen_state      0x2000'a34c     0x1  Data  Gb  tgui_calibscreenfuncs.o [1]
 calib_x                 0x2000'a248     0x8  Data  Gb  tgui_calibscreenfuncs.o [1]
@@ -2978,7 +2977,7 @@ hZRefTim                0x2000'9c34    0x40  Data  Gb  tim.o [1]
 hhcd_USB_OTG_FS         0x2000'7af8   0x2c4  Data  Gb  usbh_conf.o [1]
 hsram1                  0x2000'9ba4    0x50  Data  Gb  fsmc.o [1]
 i2c_timer               0x2000'a33d     0x1  Data  Gb  eeprom.o [1]
-idle()                   0x802'a211     0xa  Code  Gb  motor.o [1]
+idle()                   0x802'a231     0xa  Code  Gb  motor.o [1]
 idle()::idlecount       0x2000'a278     0x4  Data  Lc  motor.o [1]
 init_mparams             0x803'b933    0x32  Code  Lc  dlmalloc.o [2]
 init_top                 0x803'b965    0x36  Code  Lc  dlmalloc.o [2]
@@ -3072,14 +3071,14 @@ st_dword                 0x801'ec6d    0x18  Code  Lc  ff.o [1]
 st_word                  0x801'ec5f     0xe  Code  Lc  ff.o [1]
 strcat                   0x802'fb51    0x1e  Code  Gb  strcat.o [2]
 strchr                   0x802'4771          Code  Gb  strchr.o [5]
-strcmp                   0x802'ac21          Code  Gb  strcmp.o [5]
+strcmp                   0x802'ac41          Code  Gb  strcmp.o [5]
 strcpy                   0x802'fb39          Code  Gb  strcpy.o [5]
 strcpy_utf(char *, char *)
                          0x802'1df1    0x28  Code  Gb  unicode_utils.o [1]
 strlen                   0x802'47d1          Code  Gb  strlen.o [5]
 strncpy                  0x802'2331          Code  Gb  strncpy.o [5]
 strtoll                  0x804'17dd     0x2  Code  Gb  iar_Stollx.o [2]
-strtoul                  0x802'cec9     0x2  Code  Gb  iar_Stoulx.o [2]
+strtoul                  0x802'cee9     0x2  Code  Gb  iar_Stoulx.o [2]
 strtoull                 0x804'1991     0x2  Code  Gb  iar_Stoullx.o [2]
 strtrim(char *)          0x802'1eab    0x5e  Code  Gb  unicode_utils.o [1]
 strupper_utf(char *)     0x802'1f09    0x5e  Code  Gb  unicode_utils.o [1]

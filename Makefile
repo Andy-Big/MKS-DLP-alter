@@ -37,6 +37,7 @@ distr:
 	mkdir -p distr/alterupd/images/icn
 	cp IMGS/original/btn_*.cimg distr/alterupd/images/btn/
 	cp IMGS/original/scr_*.cimg distr/alterupd/images/scr/
+	cp IMGS/original/logo_*.cimg distr/alterupd/images/scr/
 	cp IMGS/original/icn_*.cimg distr/alterupd/images/icn/
 	cp IMGS/original/uvtest_*.cimg distr/alterupd/images/icn/
 

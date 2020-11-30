@@ -4,6 +4,8 @@
 
 Using IAR 8.32 with ST HAL library.
 
+[GCC build](BUILD_GCC.md)
+
 **Screenshots**
 ![Main menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/main_menu.jpg)
 ![Service menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/service_menu.jpg)
