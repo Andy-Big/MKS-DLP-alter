@@ -365,7 +365,7 @@ extern uint8_t 			tguiDBuff[UIDBUFF_SIZE];
 extern uint8_t 			tguiFBuff[UIFBUFF_SIZE];
 
 extern FIL				tguiFile;
-extern TCHAR			tfname[512] @ "CCMRAM";
+extern TCHAR			tfname[512] PLACE_TO_CCMRAM;
 
 
 extern TG_CONFIG		tguiDefaultConfig;

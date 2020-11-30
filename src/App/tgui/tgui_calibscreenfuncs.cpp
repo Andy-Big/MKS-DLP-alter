@@ -99,7 +99,7 @@ void		_tgui_CalibScreenPaint(void *tguiobj, void *param)
 
 	uint16_t		bwidth  = 0, bheight = 0, t_x = 0, t_y = 0;
 	uint8_t			is_img = 0;
-	uint32_t		readed = 0;
+	UINT		readed = 0;
 	
 	uint16_t		oldcolor = LCDUI_SetColor(thisscr->textcolor);
 	uint16_t		oldbackcolor = LCDUI_SetBackColor(thisscr->backcolor);

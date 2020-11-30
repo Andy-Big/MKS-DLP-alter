@@ -13,7 +13,7 @@
 
 extern TG_SCREEN		*tguiActiveScreen;
 extern char				msg[512];
-extern __no_init FIL	ufile @ "CCMRAM";
+extern __no_init FIL	ufile PLACE_TO_CCMRAM;
 
 extern char				fv_filename[256];
 extern char				fv_dirname[256];
@@ -39,7 +39,7 @@ const uint16_t			prevcolors[2] = {LCDUI_RGB(0x000000), LCDUI_RGB(0xEFEFEF)};
 const uint32_t			prevheight = CPLD_Y_RATIO / PRT_PREV_SCALE;
 const uint32_t			prevwidth = CPLD_X_RATIO / PRT_PREV_SCALE;
 const uint32_t			prevheightbytes = prevheight / 8 + 1;
-uint8_t					previmage[prevheightbytes * prevwidth] @ "CCMRAM";
+uint8_t					previmage[prevheightbytes * prevwidth] PLACE_TO_CCMRAM;
 
 
 extern uint8_t			Line_Pixel[CPLD_Y_RATIO + CPLD_FILLCODE * 2];
@@ -258,7 +258,7 @@ uint8_t		PRINT_ReadRLEDecode(uint8_t preview)
 	uint8_t		pbyte = 0;
 	uint8_t		poffset = 0;
 	uint8_t		*pimage = previmage;
-	uint32_t	rd = 0;
+	UINT	rd = 0;
 
 	cpld_bmp.current_line = 0;
 	p = Line_Pixel;
@@ -410,7 +410,7 @@ uint8_t		PRINT_ReadSublayerContinue()
 		{
 			if (FPHOTON_GetVersion() > 2)
 			{
-				uint32_t	rd = 0;
+				UINT	rd = 0;
 				FPHOTON_LAYERSINFOEXT	i_infoext;
 				if (f_read(&ufile, &i_infoext, sizeof(FPHOTON_LAYERSINFOEXT), &rd) != FR_OK || rd != sizeof(FPHOTON_LAYERSINFOEXT))
 					return 0;

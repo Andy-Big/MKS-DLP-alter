@@ -57,8 +57,6 @@ void		LCD_PutChar(uint16_t x,uint16_t y,uint8_t c,uint16_t charColor,uint16_t bk
 void		LCD_PutChar_16x24(uint16_t x,uint16_t y,uint8_t c,uint16_t charColor,uint16_t bkColor);
 
 
-
-
 #ifdef __cplusplus
 }
 #endif

@@ -87,8 +87,8 @@ typedef struct
 
 void		LCDUI_DrawCircle_helper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername);
 void		LCDUI_FillCircle_helper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta);
-uint16_t	_lcdui_GetCharWidth(char c);
-uint8_t*	_lcdui_GetCharData(char c);
+uint16_t	_lcdui_GetCharWidth(uint8_t c);
+uint8_t*	_lcdui_GetCharData(uint8_t c);
 
 
 

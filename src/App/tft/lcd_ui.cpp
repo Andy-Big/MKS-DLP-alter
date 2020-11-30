@@ -535,7 +535,7 @@ void	LCDUI_DrawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1)
 
 
 */
-uint16_t	_lcdui_GetCharWidth(char c)
+uint16_t	_lcdui_GetCharWidth(uint8_t c)
 {
 	if (c < 32)
 		return 0;
@@ -555,7 +555,7 @@ uint16_t	_lcdui_GetCharWidth(char c)
 
 
 
-uint8_t*	_lcdui_GetCharData(char c)
+uint8_t*	_lcdui_GetCharData(uint8_t c)
 {
 	if (c < 32)
 		return 0;
@@ -867,7 +867,7 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 				for (uint16_t j = 0; j < sp; )
 				{
 					LCDUI_DrawChar(UTF8toANSI(cp+j), copt);
-					if (*(cp+j) < 0x80)
+					if ((*(cp+j) & 0x80)==0)
 						j++;
 					else
 						j += 2;
@@ -880,7 +880,7 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 			sp = 0;
 			while(UTF8toANSI(cp) == ' ')
 			{
-				if (*cp < 0x80)
+				if ((*cp & 0x80)==0)
 					cp++;
 				else
 					cp += 2;
@@ -896,7 +896,7 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 				i++;;
 			continue;
 		}
-		if (*((uint8_t*)cp+i) < 0x80)
+		if ((*(cp+i) & 0x80)==0)
 			i++;
 		else
 			i += 2;

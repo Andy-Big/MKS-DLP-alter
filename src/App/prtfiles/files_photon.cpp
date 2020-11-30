@@ -3,9 +3,9 @@
 
 
 
-extern __no_init uint8_t 		fbuff[16384] @ "CCMRAM";
-extern __no_init FIL			ufile @ "CCMRAM";
-extern __no_init FIL			sfile @ "CCMRAM";
+extern __no_init uint8_t 		fbuff[16384] PLACE_TO_CCMRAM;
+extern __no_init FIL			ufile PLACE_TO_CCMRAM;
+extern __no_init FIL			sfile PLACE_TO_CCMRAM;
 
 
 FPHOTON_HEADER			fphoton_header;
@@ -17,7 +17,7 @@ FPHOTON_PREVIEW			fphoton_preview_small;
 
 uint8_t		FPHOTON_ReadFileInfo(FIL *file)
 {
-	uint32_t	readed;
+	UINT	readed;
 	
 	memset(&fphoton_header, 0, sizeof(FPHOTON_HEADER));
 	memset(&fphoton_info, 0, sizeof(FPHOTON_INFO));
@@ -161,7 +161,7 @@ uint8_t		FPHOTON_DrawPreview(FIL *file, TG_RECT *rect, uint8_t small)
 	float			pscale = 0;
 	uint16_t		columns_readed = 0, lines_readed = 0, read_col = 0, read_line = 0;
 	uint16_t		paint_col = 0, paint_line = 0;
-	uint32_t		readed = 0;
+	UINT		readed = 0;
 	uint16_t		*read_buff;
 	uint32_t		doffset = FPHOTON_GetPreviewDataOffset(small);
 	uint32_t		read_buff_pos = 0, btoread = 0, total_readed = 0;
@@ -470,7 +470,7 @@ uint8_t		FPHOTON_GetLayerInfo(uint32_t layer_num, LAYER_INFO *layer_info)
 	if (layer_num >= fphoton_header.total_layers)
 		return 0;
 	
-	uint32_t			readed = 0;
+	UINT			readed = 0;
 	uint32_t			data_offset = fphoton_header.layersdef_offset;
 	FPHOTON_LAYERSINFO	photon_linfo;
 	

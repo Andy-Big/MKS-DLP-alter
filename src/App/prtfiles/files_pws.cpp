@@ -3,9 +3,9 @@
 
 
 
-extern __no_init uint8_t 		fbuff[16384] @ "CCMRAM";
-extern __no_init FIL			ufile @ "CCMRAM";
-extern __no_init FIL			sfile @ "CCMRAM";
+extern __no_init uint8_t 		fbuff[16384] PLACE_TO_CCMRAM;
+extern __no_init FIL			ufile PLACE_TO_CCMRAM;
+extern __no_init FIL			sfile PLACE_TO_CCMRAM;
 
 
 FPWS_HEADER			fpws_header;
@@ -17,7 +17,7 @@ FPWS_LAYERSDEF		fpws_layersdata;
 
 uint8_t		FPWS_ReadFileInfo(FIL *file)
 {
-	uint32_t	rd;
+	UINT	rd;
 	
 	memset(&fpws_header, 0, sizeof(FPWS_HEADER));
 	memset(&fpws_info, 0, sizeof(FPWS_INFO));
@@ -127,7 +127,7 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 	float			pscale = 0, nextcol = 0, nextline = 0;
 	uint32_t		cpainted = 0;
 	uint32_t		lpainted = 0;
-	uint32_t		rd = 0;
+	UINT		rd = 0;
 	uint16_t		*buff;
 	uint32_t		doffset = FPWS_GetPreviewDataOffset();
 	uint16_t		dbuff[480];
@@ -403,7 +403,7 @@ uint8_t		FPWS_GetLayerInfo(uint32_t layer_num, LAYER_INFO *layer_info)
 	if (layer_num >= fpws_layersdata.total_layers)
 		return 0;
 	
-	uint32_t			rd = 0;
+	UINT			rd = 0;
 	uint32_t			data_offset = fpws_header.layersdef_offset;
 	FPWS_LAYERSINFO		pws_linfo;
 	

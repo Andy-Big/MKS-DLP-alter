@@ -30,3 +30,7 @@ settings/*.*
 *.dbgdt
 *.dnx
 *.db
+/build/
+/bin/
+/distr/
+/config.mk
