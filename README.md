@@ -4,7 +4,7 @@
 
 Using IAR 8.32 with ST HAL library.
 
-[GCC build](BUILD_GCC.md)
+Thanks to [andryblack](https://github.com/andryblack), it became possible to [build a project for GCC](BUILD_GCC.md).
 
 **Screenshots**
 ![Main menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/main_menu.jpg)
