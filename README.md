@@ -136,3 +136,14 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 1. Runtime counters reset.
 1. Lifting platform request after Z=0 setting.
 
+## 30.11.2020 Updates
+### v0.04
+**Added/changed:**
++ Added support for board version 2.0
++ Added firmware update manual
+
+**To do in the near future:**
+1. Upgradeable bootloader and firmware.
+1. Runtime counters reset.
+1. Lifting platform request after Z=0 setting.
+

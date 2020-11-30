@@ -1,0 +1,22 @@
+Upgrading original firmware on MKS DLP board to Alter
+
+Updating the original firmware to the Alter firmware is done using the native bootloader.
+To update, unpack the contents of the archive corresponding to the board version to the root of the flash drive:
+mksdlp_1_1_alter_x.x.x.zip - for board version 1.1
+mksdlp_2_0_alter_x.x.x.zip - for board version 2.0
+(x.x.x - Alter firmware version)
+It is advisable to pre-format the flash drive in FAT32 format.
+After that, insert the flash drive into the USB connector of the board and turn on the power. The native bootloader will find the firmware file on the flash drive and start the update. Upon completion of the update, a new firmware will start.
+At the first start, the Alter firmware will detect the lack of necessary resources in the internal memory and will automatically start copying them from certain directories of the flash drive. After the message about the end of copying appears, turn off and on the board power supply. After that, the new firmware should boot normally, you can start working.
+
+
+Updating the Alter firmware to a new version
+
+Updating the old version of the Alter firmware to the new one is also done using the native bootloader.
+To update, unpack the contents of the archive corresponding to the board version to the root of the flash drive:
+mksdlp_1_1_alter_x.x.x.zip - for board version 1.1
+mksdlp_2_0_alter_x.x.x.zip - for board version 2.0
+(x.x.x - Alter firmware version)
+It is advisable to pre-format the flash drive in FAT32 format.
+After that, insert the flash drive into the USB connector of the board and turn on the power. The native bootloader will find the firmware file on the flash drive and start the update. Upon completion of the update, a new firmware will start. With such an update, the new version will not automatically copy new resources from the flash drive catalogs. To force it to do this, turn off the power, press the upper right corner of the display and turn on the power while continuing to press. After the copy messages appear, you can release the press.
+After the message about the end of copying appears, turn off and on the board power supply. After that, the new firmware should boot normally, you can start working.
