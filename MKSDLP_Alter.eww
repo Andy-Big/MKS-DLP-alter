@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspace>
-  <project>
-    <path>$WS_DIR$\MKSDLP_Alter.ewp</path>
-  </project>
-  <batchBuild />
+    <project>
+        <path>$WS_DIR$\MKSDLP_Alter.ewp</path>
+    </project>
+    <batchBuild>
+        <batchDefinition>
+            <name>All debug</name>
+            <member>
+                <project>MKSDLP_Alter</project>
+                <configuration>MKSDLP_Alter_debug_1_1</configuration>
+            </member>
+            <member>
+                <project>MKSDLP_Alter</project>
+                <configuration>MKSDLP_Alter_debug_2_0</configuration>
+            </member>
+        </batchDefinition>
+    </batchBuild>
 </workspace>

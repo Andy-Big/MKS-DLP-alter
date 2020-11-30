@@ -1,123 +1,123 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.1.169/W32 for ARM                  13/Oct/2020  23:59:22
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  30/Nov/2020  12:30:16
 # Copyright 2007-2018 IAR Systems AB.
 #
 #    Output file  =  
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Exe\mksDLP.out
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Exe\mksDLP.out
 #    Map file     =  
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\List\mksDLP.map
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\List\mksDLP.map
 #    Command line =  
-#        -f C:\Temp\EW3363.tmp
-#        (D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\config.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\cpld_utils.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\datetime.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\diskio.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\ds3231.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\eeprom.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\ext_i2c.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\fatfs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\ff.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\ff_gen_drv.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\ffsystem.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\ffunicode.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\files_photon.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\files_pws.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\fnt12.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\fnt12bold.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\fnt170num_lcd.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\fnt18.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\fnt18bold.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\fnt24.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\fnt24bold.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\fnt36.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\fnt36num.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\fsmc.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\fst_spi.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\gpio.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\languages.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\lcd_low.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\lcd_ui.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\main.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\motor.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\printing.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\prtfiles.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\rtc.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\spi_flash.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\spifl_diskio.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\ssd_utils.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\startup_stm32f407xx.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_cortex.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_dma.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_dma_ex.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_exti.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_flash.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_flash_ex.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_flash_ramfunc.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_gpio.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_hcd.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_i2c.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_msp.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_pwr.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_pwr_ex.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_rcc.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_rcc_ex.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_rtc.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_rtc_ex.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_spi.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_sram.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_tim.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_tim_ex.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_hal_wwdg.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_it.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_ll_fsmc.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\stm32f4xx_ll_usb.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\sys_timer.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\system_stm32f4xx.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_calibscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_clocksetscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_defaultfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_filesscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_fileviewscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_infoscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_langscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_mainscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_messagebox.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_movezscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_numenterscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_printscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_prnparamsscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_screensaverfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_servicescreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_settingsscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tgui_uvtestscreenfuncs.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\tim.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\touch.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\unicode_utils.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\usb_host.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\usbh_conf.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\usbh_core.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\usbh_ctlreq.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\usbh_diskio.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\usbh_ioreq.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\usbh_msc.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\usbh_msc_bot.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\usbh_msc_scsi.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\usbh_pipes.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\usbh_platform.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\uvdisplay.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\z_endstops.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\z_planner.o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj\z_stepper.o
+#        -f C:\Temp\EW3DC3.tmp
+#        (D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\config.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\cpld_utils.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\datetime.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\diskio.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\ds3231.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\eeprom.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\ext_i2c.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\fatfs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\ff.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\ff_gen_drv.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\ffsystem.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\ffunicode.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\files_photon.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\files_pws.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\fnt12.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\fnt12bold.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\fnt170num_lcd.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\fnt18.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\fnt18bold.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\fnt24.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\fnt24bold.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\fnt36.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\fnt36num.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\fsmc.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\fst_spi.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\gpio.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\languages.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\lcd_low.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\lcd_ui.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\main.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\motor.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\printing.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\prtfiles.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\rtc.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\spi_flash.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\spifl_diskio.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\ssd_utils.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\startup_stm32f407xx.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_cortex.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_dma.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_dma_ex.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_exti.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_flash.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_flash_ex.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_flash_ramfunc.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_gpio.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_hcd.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_i2c.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_msp.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_pwr.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_pwr_ex.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_rcc.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_rcc_ex.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_rtc.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_rtc_ex.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_spi.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_sram.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_tim.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_tim_ex.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_hal_wwdg.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_it.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_ll_fsmc.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\stm32f4xx_ll_usb.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\sys_timer.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\system_stm32f4xx.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_calibscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_clocksetscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_defaultfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_filesscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_fileviewscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_infoscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_langscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_mainscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_messagebox.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_movezscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_numenterscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_printscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_prnparamsscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_screensaverfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_servicescreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_settingsscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tgui_uvtestscreenfuncs.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\tim.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\touch.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\unicode_utils.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\usb_host.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\usbh_conf.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\usbh_core.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\usbh_ctlreq.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\usbh_diskio.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\usbh_ioreq.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\usbh_msc.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\usbh_msc_bot.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\usbh_msc_scsi.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\usbh_pipes.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\usbh_platform.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\uvdisplay.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\z_endstops.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\z_planner.o
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj\z_stepper.o
 #        --redirect _Printf=_PrintfFull --redirect _Scanf=_ScanfFull
 #        --no_out_extension -o
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Exe\mksDLP.out
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Exe\mksDLP.out
 #        --map
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\List\mksDLP.map
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\List\mksDLP.map
 #        --log libraries,call_graph --log_file
-#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\List\mksDLP.log
+#        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\List\mksDLP.log
 #        --config
 #        D:\Electronics\Projects\MKS_DLP_new\SRC\firmware/config/stm32f407xx_flash.icf
 #        --semihosting --entry __iar_program_start --merge_duplicate_sections
@@ -1325,7 +1325,7 @@ command line/config:
     ------------------------------------------------------
     Total:
 
-D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj: [1]
+D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj: [1]
     config.o                       4 564      468    1 764
     cpld_utils.o                     534      512      424
     datetime.o                       620       48
@@ -3167,7 +3167,7 @@ zHoldTimer              0x2000'a344     0x1  Data  Gb  main.o [1]
 zPlanner                0x2000'a361     0x1  Data  Gb  z_planner.o [1]
 
 
-[1] = D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug\Obj
+[1] = D:\Electronics\Projects\MKS_DLP_new\SRC\firmware\MKSDLP_Alter_debug_1_1\Obj
 [2] = dl7M_tlf.a
 [3] = dlpp7M_tl_fc.a
 [4] = m7M_tls.a
