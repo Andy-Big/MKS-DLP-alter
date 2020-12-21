@@ -254,7 +254,7 @@ void		_tgui_FileviewPreviewPaint(void *tguiobj, void *param)
 			break;
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			FPHOTON_DrawPreview(&ufile, &rc, 0);
 			break;
 	}	

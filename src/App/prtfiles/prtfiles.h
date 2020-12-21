@@ -18,7 +18,7 @@ typedef enum
 	
 	FTYPE_PWS,
 	FTYPE_PHOTON,
-	FTYPE_CTB,
+	FTYPE_CBDDLP,
 	
 } FILES_TYPE;
 

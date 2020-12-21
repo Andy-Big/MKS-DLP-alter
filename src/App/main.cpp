@@ -1065,6 +1065,40 @@ int main()
 						}
 					}
 					
+					systemInfo.print_current_sublayer = 0;
+					systemInfo.print_current_layer++;
+					if (systemInfo.print_current_layer >= PFILE_GetTotalLayers() || systemInfo.target_position > cfgzMotor.max_pos)
+					{
+						systemInfo.print_current_layer--;
+						PRINT_Complete();
+						break;
+					}
+					// TODO - file read error processing!
+					PRINT_ReadLayerInfo();
+					systemInfo.printer_state = PST_PRINT_LIFT;
+					systemInfo.target_position = cfgConfig.zero_pos + l_info.layer_position;
+					systemInfo.print_current_height = systemInfo.target_position - cfgConfig.zero_pos;
+					systemInfo.target_position += l_info.lift_height;
+
+					// slow accelerate and fast decelerate moving
+					ZMOTOR_MoveAbsolute(systemInfo.target_position - (l_info.lift_height / 3), l_info.lift_speed);
+					systemInfo.print_is_printing = 0;
+					ZMOTOR_MoveAbsolute(systemInfo.target_position, l_info.lift_speed);
+					systemInfo.print_is_printing = 1;
+
+					// check pause
+					if (systemInfo.print_is_paused)
+					{
+						systemInfo.printer_state = PST_PRINT_PAUSELIFT;
+						systemInfo.target_position += cfgConfig.pause_lift;
+						if (systemInfo.target_position > cfgzMotor.max_pos)
+							systemInfo.target_position = cfgzMotor.max_pos;
+						systemInfo.print_is_printing = 0;
+						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
+						systemInfo.print_is_printing = 1;
+					}
+					PRINT_ClearLayerPreview();
+
 					// save work timers
 					uint32_t	unix_time = DTIME_GetCurrentUnixtime();
 					if ((unix_time - systemInfo.print_timer_secs) > TIMERS_SAVE_PERIOD)
@@ -1081,34 +1115,6 @@ int main()
 						CFG_SaveTimers();
 					}
 					
-					systemInfo.print_current_sublayer = 0;
-					systemInfo.print_current_layer++;
-					// TODO - file read error processing!
-					PRINT_ReadLayerInfo();
-					systemInfo.printer_state = PST_PRINT_LIFT;
-					systemInfo.target_position = cfgConfig.zero_pos + l_info.layer_position;
-					systemInfo.print_current_height = systemInfo.target_position - cfgConfig.zero_pos;
-					systemInfo.target_position += l_info.lift_height;
-					if (systemInfo.print_current_layer >= PFILE_GetTotalLayers() || systemInfo.target_position > cfgzMotor.max_pos)
-					{
-						systemInfo.print_current_layer--;
-						PRINT_Complete();
-						break;
-					}
-
-					ZMOTOR_MoveAbsolute(systemInfo.target_position, l_info.lift_speed);
-					// check pause
-					if (systemInfo.print_is_paused)
-					{
-						systemInfo.printer_state = PST_PRINT_PAUSELIFT;
-						systemInfo.target_position += cfgConfig.pause_lift;
-						if (systemInfo.target_position > cfgzMotor.max_pos)
-							systemInfo.target_position = cfgzMotor.max_pos;
-						systemInfo.print_is_printing = 0;
-						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
-						systemInfo.print_is_printing = 1;
-					}
-					PRINT_ClearLayerPreview();
 					// TODO - file read error processing!
 					PRINT_ReadLayerBegin();
 
@@ -1128,7 +1134,13 @@ int main()
 				{
 					systemInfo.printer_state = PST_PRINT_DROP;
 					systemInfo.target_position = cfgConfig.zero_pos + l_info.layer_position;
+
+					// fast accelerate and slow decelerate moving
+					systemInfo.print_is_printing = 0;
+					ZMOTOR_MoveAbsolute(systemInfo.target_position + (l_info.lift_height / 1.5), l_info.drop_speed);
+					systemInfo.print_is_printing = 1;
 					ZMOTOR_MoveAbsolute(systemInfo.target_position, l_info.drop_speed);
+
 				}
 				break;
 

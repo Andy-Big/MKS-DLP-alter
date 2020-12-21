@@ -117,7 +117,7 @@ uint8_t		_tgui_FilesReadDir()
 				else if (strcmp(fext, (char*)"ctb") == 0)
 				{
 					if (currfilenum >= lastfilenum)
-						ftype = FTYPE_CTB;
+						ftype = FTYPE_CBDDLP;
 					currfilenum++;
 				}
 				else if (strcmp(fext, (char*)"cimg") == 0)
@@ -311,7 +311,7 @@ void		_tgui_FilesFileButtonPaint(void *tguiobj, void *param)
 		// PWS, PHOTON preview
 		case FTYPE_PWS:
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			// preview paint
 			_tgui_FilesDrawPreview(&rc, &files[thisbtn->button_id-1]);
 			break;
@@ -650,7 +650,7 @@ void		_tgui_FilesFileButtonPress(void *tguiobj, void *param)
 
 		case FTYPE_PWS:
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			TGUI_FileviewScreenShow(files[thisbtn->button_id-1].fname, currdir, files[thisbtn->button_id-1].type);
 			thisbtn->options.pressed = 0;
 			tguiScreenFileview.prevscreen = tguiActiveScreen;

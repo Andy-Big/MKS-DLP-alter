@@ -64,6 +64,11 @@ void			CFG_Init()
 						CFG_RefreshMotor();
 					break;
 
+				case 0x0003:
+				case 0x0004:
+					CFG_RefreshTimers();
+					break;
+
 				default:
 					CFG_SetMotorDefault();
 			}
@@ -123,6 +128,11 @@ void			CFG_Init()
 					}
 					break;
 
+				case 0x0003:
+				case 0x0004:
+					CFG_RefreshTimers();
+					break;
+
 				default:
 					CFG_SetConfigDefault();
 			}
@@ -164,6 +174,11 @@ void			CFG_Init()
 						CFG_SetTimersDefault();
 					else
 						CFG_RefreshTimers();
+					break;
+
+				case 0x0003:
+				case 0x0004:
+					CFG_RefreshTimers();
 					break;
 
 				default:

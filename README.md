@@ -149,3 +149,14 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 1. Runtime counters reset.
 1. Lifting platform request after Z=0 setting.
 
+## 21.12.2020 Updates
+### v0.05
+**Added/changed:**
+* Fixed a bug due to which the platform, after the end of printing, could go down, not up.
+* The algorithm of platform movement during printing has been changed: now the platform stops after lifting and the beginning of its lowering are performed with the acceleration of idle movements. Accelerations when lifting from the film and when lowering to it are still taken from the print acceleration settings. This makes it possible to reduce the time required to raise and lower the platform, and thus the printing time, without any deterioration in print quality.
+
+**To do in the near future:**
+1. Upgradeable bootloader and firmware.
+1. Runtime counters reset.
+1. Lifting platform request after Z=0 setting.
+

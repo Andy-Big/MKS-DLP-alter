@@ -36,7 +36,7 @@ uint8_t		PFILE_Init(FIL *file, FILES_TYPE ftype)
 			break;
 		
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			res = FPHOTON_ReadFileInfo(prt_file);
 			if (res == 0)
 			{
@@ -88,7 +88,7 @@ uint8_t		PFILE_SetPointerToPreview(uint8_t small)
 			return FPWS_SetPointerToPreview(prt_file);
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_SetPointerToPreview(prt_file, small);
 
 	}
@@ -108,7 +108,7 @@ uint16_t	PFILE_GetPreviewWidth(uint8_t small)
 			return FPWS_GetPreviewWidth();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetPreviewWidth(small);
 
 	}
@@ -128,7 +128,7 @@ uint16_t	PFILE_GetPreviewHeight(uint8_t small)
 			return FPWS_GetPreviewHeight();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetPreviewHeight(small);
 
 	}
@@ -146,7 +146,7 @@ uint8_t		PFILE_GetPreviewBpp()
 	{
 		case FTYPE_PWS:
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return 16;
 		
 	}
@@ -166,7 +166,7 @@ uint8_t		PFILE_DrawPreview(FIL *file, TG_RECT *rect, uint8_t small)
 			return FPWS_DrawPreview(file, rect);
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_DrawPreview(file, rect, small);
 
 	}
@@ -190,6 +190,7 @@ uint32_t	PFILE_GetPrintTime()
 	float		set_height = PFILE_GetLiftHeight();
 	float		time1 = 0, up_time = 0, down_time = 0, total_time = 0;
 	
+	// TODO - change calculations for difference accelerations/decelerations in bottom and top points
 	
 	// distance of up accelerate/decelerate to set speed
 	float	dist_acc = (set_liftspeed * set_liftspeed) / (set_accel * 2);
@@ -262,7 +263,7 @@ uint32_t	PFILE_GetTotalLayers()
 			return FPWS_GetTotalLayers();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetTotalLayers();
 
 	}
@@ -282,7 +283,7 @@ uint32_t	PFILE_GetBottomLayers()
 			return FPWS_GetBottomLayers();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetBottomLayers();
 
 	}
@@ -302,7 +303,7 @@ float		PFILE_GetLayerThickness()
 			return FPWS_GetLayerThickness();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetLayerThickness();
 
 	}
@@ -322,7 +323,7 @@ uint32_t	PFILE_GetAntialiasing()
 			return FPWS_GetAntialiasing();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetAntialiasing();
 
 	}
@@ -342,7 +343,7 @@ float		PFILE_GetLightLayer()
 			return FPWS_GetLightLayer();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetLightLayer();
 
 	}
@@ -362,7 +363,7 @@ void		PFILE_SetLightLayer(float val)
 			return FPWS_SetLightLayer(val);
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_SetLightLayer(val);
 
 	}
@@ -381,7 +382,7 @@ float		PFILE_GetLightBottom()
 			return FPWS_GetLightBottom();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetLightBottom();
 
 	}
@@ -401,7 +402,7 @@ void		PFILE_SetLightBottom(float val)
 			return FPWS_SetLightBottom(val);
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_SetLightBottom(val);
 
 	}
@@ -420,7 +421,7 @@ float		PFILE_GetLightPause()
 			return FPWS_GetLightPause();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetLightPause();
 
 	}
@@ -440,7 +441,7 @@ void		PFILE_SetLightPause(float val)
 			return FPWS_SetLightPause(val);
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_SetLightPause(val);
 
 	}
@@ -459,7 +460,7 @@ float		PFILE_GetLiftHeight()
 			return FPWS_GetLiftHeight();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetLiftHeight();
 
 	}
@@ -479,7 +480,7 @@ void		PFILE_SetLiftHeight(float val)
 			return FPWS_SetLiftHeight(val);
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_SetLiftHeight(val);
 
 	}
@@ -498,7 +499,7 @@ float		PFILE_GetLiftBottom()
 			return FPWS_GetLiftHeight();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetLiftHeight();
 
 	}
@@ -518,7 +519,7 @@ float		PFILE_GetLiftSpeed()
 			return FPWS_GetLiftSpeed();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetLiftSpeed();
 
 	}
@@ -538,7 +539,7 @@ void		PFILE_SetLiftSpeed(float val)
 			return FPWS_SetLiftSpeed(val);
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_SetLiftSpeed(val);
 
 	}
@@ -557,7 +558,7 @@ float		PFILE_GetLiftSpeedBottom()
 			return FPWS_GetLiftSpeed();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetLiftSpeed();
 
 	}
@@ -577,7 +578,7 @@ float		PFILE_GetDropSpeed()
 			return FPWS_GetDropSpeed();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetDropSpeed();
 
 	}
@@ -597,7 +598,7 @@ void		PFILE_SetDropSpeed(float val)
 			return FPWS_SetDropSpeed(val);
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_SetDropSpeed(val);
 
 	}
@@ -616,7 +617,7 @@ float		PFILE_GetResinVolume()
 			return FPWS_GetResinVolume();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetResinVolume();
 
 	}
@@ -636,7 +637,7 @@ uint32_t	PFILE_GetIndLayerSettings()
 			return FPWS_GetIndLayerSettings();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetIndLayerSettings();
 
 	}
@@ -656,7 +657,7 @@ uint32_t	PFILE_GetResolutionX()
 			return FPWS_GetResolutionX();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetResolutionX();
 
 	}
@@ -676,7 +677,7 @@ uint32_t	PFILE_GetResolutionY()
 			return FPWS_GetResolutionY();
 
 		case FTYPE_PHOTON:
-		case FTYPE_CTB:
+		case FTYPE_CBDDLP:
 			return FPHOTON_GetResolutionY();
 
 	}
