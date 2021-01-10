@@ -177,6 +177,12 @@ typedef enum
 	LSTR_PP_LIGHT_PAUSE,
 	LSTR_PP_AA,
 	LSTR_PP_IND_SETTINGS,
+	LSTR_PP_EXT_PARAMS,
+
+// Printing extended parameters screen
+	LSTR_PPEXT_LIFT_PAUSE,
+	LSTR_PPEXT_LIFT_END,
+	LSTR_PPEXT_ACCELERATE,
 
 // Touch calibration screen
 	LSTR_PRESS_CENTER_OF_POINT,

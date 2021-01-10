@@ -25,10 +25,13 @@ extern TCHAR			fv_tfilename[512];
 extern PRINT_STATE		prtState;
 
 uint32_t				old_time = 0;
+uint32_t				old_pass = 0;
 uint32_t				old_layer = 0;
 uint8_t					old_pause = 0;
 
 uint8_t					disp_locked = 0;
+
+uint8_t					time_show = 0;	// 0 - total time, 1 - remain time, 2 - absolute time of end
 
 
 void		TGUI_PrintScreenShow(void *tguiobj, void *param)
@@ -182,6 +185,19 @@ void		_tgui_PrintScreenLockLPress(void *tguiobj, void *param)
 
 
 
+void		_tgui_PrintScreenInfoPress(void *tguiobj, void *param)
+{
+	time_show++;
+	if (time_show > 2)
+		time_show = 0;
+	old_pass = 0xFFFFFFFF;
+	_tgui_PrintScreenProgressUpdate(tguiobj, NULL);
+}
+//==============================================================================
+
+
+
+
 void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param)
 {
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
@@ -201,14 +217,39 @@ void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param)
 	LCDUI_DrawText(LANG_GetString(LSTR_TIME), 0, thisbtn->position.left + 5, thisbtn->position.top + 28, thisbtn->position.right - 366, -1);
 	LCDUI_SetFont(LCDUI_FONT_H18);
 	LCDUI_SetColor(LCDUI_RGB(0x00496C));
-	uint32_t	est_time = PFILE_GetPrintTime();
+
 	uint32_t	pass_time = DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
-	uint32_t	est_h = est_time / 3600;
-	uint32_t	est_m = (est_time - (est_h * 3600)) / 60;
 	uint32_t	pass_h = pass_time / 3600;
 	uint32_t	pass_m = (pass_time - (pass_h * 3600)) / 60;
-	sprintf(msg, (char*)"%02u:%02u:%02u/%02u:%02u:%02u", pass_h, pass_m, pass_time % 60, est_h, est_m, est_time % 60);
-	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 70, thisbtn->position.top + 28, thisbtn->position.right - 176, -1);
+
+	uint32_t	est_time, s_time, s_h, s_m;
+	DATETIME_STRUCT	end_datetime;
+
+	est_time = PFILE_GetPrintTime();
+
+	switch (time_show)
+	{
+		// total time
+		case 0:
+			s_h = est_time / 3600;
+			s_m = (est_time - (s_h * 3600)) / 60;
+			sprintf(msg, (char*)"%02u:%02u/%02u:%02u T", pass_h, pass_m, s_h, s_m );
+			break;
+		// remain time
+		case 1:
+			s_time = est_time - pass_time;
+			s_h = s_time / 3600;
+			s_m = (s_time - (s_h * 3600)) / 60;
+			sprintf(msg, (char*)"%02u:%02u/%02u:%02u R", pass_h, pass_m, s_h, s_m );
+			break;
+		// absolute time
+		case 2:
+			s_time = systemInfo.print_time_begin + est_time + systemInfo.print_pause_time;
+			DTIME_UnixtimeToDatetime(s_time, &end_datetime);
+			sprintf(msg, (char*)"%02u:%02u/%02u:%02u A", pass_h, pass_m, end_datetime.hours, end_datetime.minutes);
+			break;
+	}
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 70, thisbtn->position.top + 28, thisbtn->position.right - 196, -1);
 	
 	// layers + height
 	LCDUI_SetFont(LCDUI_FONT_H18BOLD);
@@ -217,7 +258,7 @@ void		_tgui_PrintScreenProgressPaint(void *tguiobj, void *param)
 	LCDUI_SetFont(LCDUI_FONT_H18);
 	LCDUI_SetColor(LCDUI_RGB(0x00496C));
 	sprintf(msg, (char*)"%u/%u (%0.1f %s)", systemInfo.print_current_layer + 1, PFILE_GetTotalLayers(), systemInfo.print_current_height, LANG_GetString(LSTR_SHORTMILLIMETERS));
-	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 70, thisbtn->position.top + 48, thisbtn->position.right - 176, -1);
+	LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 70, thisbtn->position.top + 48, thisbtn->position.right - 196, -1);
 
 	// progress bar
 	LCDUI_DrawRect(thisbtn->position.left + 5, thisbtn->position.top + 69, 380, 18);
@@ -276,26 +317,56 @@ void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param)
 	// clear
 	
 	// printing time
+	uint32_t	pass_time = DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin;
+	uint32_t	pass_h = pass_time / 3600;
+	uint32_t	pass_m = (pass_time - (pass_h * 3600)) / 60;
 	if (old_time != DTIME_GetCurrentUnixtime())
 	{
+		old_time = DTIME_GetCurrentUnixtime();
+		
 		if (systemInfo.printer_state == PST_PRINT_PAUSELIFT || systemInfo.printer_state == PST_HOMING_PREUP
 					|| systemInfo.printer_state == PST_HOMING_FAST || systemInfo.printer_state == PST_HOMING_UP
 					|| systemInfo.printer_state == PST_HOMING_SLOW || systemInfo.printer_state == PST_PRINT_LASTLAYERLIFT)
 		{
 			systemInfo.print_pause_time++;
 		}
+	}
+	if (old_pass != pass_m)
+	{
+		old_pass = pass_m;
+		
+		uint32_t	est_time, s_time, s_h, s_m;
+		DATETIME_STRUCT	end_datetime;
 
-		uint32_t	est_time = PFILE_GetPrintTime();
-		uint32_t	pass_time = DTIME_GetCurrentUnixtime() - systemInfo.print_time_begin - systemInfo.print_pause_time;
-		uint32_t	est_h = est_time / 3600;
-		uint32_t	est_m = (est_time - (est_h * 3600)) / 60;
-		uint32_t	pass_h = pass_time / 3600;
-		uint32_t	pass_m = (pass_time - (pass_h * 3600)) / 60;
-		sprintf(msg, (char*)"%02u:%02u:%02u/%02u:%02u:%02u", pass_h, pass_m, pass_time % 60, est_h, est_m, est_time % 60);
+		est_time = PFILE_GetPrintTime();
+
+		switch (time_show)
+		{
+			// total time
+			case 0:
+				s_h = est_time / 3600;
+				s_m = (est_time - (s_h * 3600)) / 60;
+				sprintf(msg, (char*)"%02u:%02u/%02u:%02u T", pass_h, pass_m, s_h, s_m );
+				break;
+			// remain time
+			case 1:
+				s_time = est_time - pass_time;
+				s_h = s_time / 3600;
+				s_m = (s_time - (s_h * 3600)) / 60;
+				sprintf(msg, (char*)"%02u:%02u/%02u:%02u R", pass_h, pass_m, s_h, s_m );
+				break;
+			// absolute time
+			case 2:
+				s_time = systemInfo.print_time_begin + est_time + systemInfo.print_pause_time;
+				DTIME_UnixtimeToDatetime(s_time, &end_datetime);
+				sprintf(msg, (char*)"%02u:%02u/%02u:%02u A", pass_h, pass_m, end_datetime.hours, end_datetime.minutes);
+				break;
+		}
+
 		LCDUI_SetColor(LCDUI_RGB(0xDDDDDD));
-		LCDUI_FillRect(thisbtn->position.left + 86, thisbtn->position.top + 28, 190, 18);
+		LCDUI_FillRect(thisbtn->position.left + 86, thisbtn->position.top + 28, 185, 18);
 		LCDUI_SetColor(LCDUI_RGB(0x00496C));
-		LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 70, thisbtn->position.top + 28, thisbtn->position.right - 176, -1);
+		LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 70, thisbtn->position.top + 28, thisbtn->position.right - 196, -1);
 		
 	}
 	
@@ -309,7 +380,7 @@ void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param)
 		LCDUI_FillRect(thisbtn->position.left + 386, thisbtn->position.top + 70, 72, 18);
 
 		LCDUI_SetColor(LCDUI_RGB(0x00496C));
-		LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 70, thisbtn->position.top + 48, thisbtn->position.right - 176, -1);
+		LCDUI_DrawText(msg, LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 70, thisbtn->position.top + 48, thisbtn->position.right - 196, -1);
 
 		// progress bar
 		float		f_proc = ((float)(systemInfo.print_current_layer + 1) / (float)PFILE_GetTotalLayers()) * 100;

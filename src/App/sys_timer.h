@@ -58,7 +58,6 @@ void		UVPAUSE_TimerOn(uint32_t time);
 uint32_t	UVPAUSE_TimerState();
 void		UVFAN_TimerOn(uint32_t time);
 uint32_t	UVFAN_TimerState();
-void		MBFAN_SetState(uint32_t state);
 
 
 #ifdef __cplusplus

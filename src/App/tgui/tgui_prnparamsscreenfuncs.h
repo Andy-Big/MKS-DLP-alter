@@ -23,6 +23,7 @@ void		_tgui_PrnparamsScreenShow(void *tguiobj, void *param);
 
 void		_tgui_PrnparamsScreenPaint(void *tguiobj, void *param);
 void		_tgui_PrnparamsItemButtonPaint(void *tguiobj, void *param);
+void		_tgui_PrnparamsItemSolidButtonPaint(void *tguiobj, void *param);
 
 void		_tgui_PrnparamsDownButtonPress(void *tguiobj, void *param);
 void		_tgui_PrnparamsUpButtonPress(void *tguiobj, void *param);

@@ -98,8 +98,8 @@ uint8_t		PRINT_Complete()
 
 		// prelifting
 		systemInfo.target_position += PFILE_GetLiftHeight();
-		if (systemInfo.target_position > cfgzMotor.max_pos)
-			systemInfo.target_position = cfgzMotor.max_pos;
+		if (systemInfo.target_position > cfgMotor.max_pos)
+			systemInfo.target_position = cfgMotor.max_pos;
 		ZMOTOR_MoveAbsolute(systemInfo.target_position, PFILE_GetLiftSpeed());
 
 		// main lifting
@@ -108,12 +108,12 @@ uint8_t		PRINT_Complete()
 		if (systemInfo.target_position < 30)
 		{
 			systemInfo.target_position = 30;
-			ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate / 3);
+			ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgMotor.travel_feedrate / 3);
 		}
 		systemInfo.target_position += systemInfo.print_lift_at_end;
-		if (systemInfo.target_position > cfgzMotor.max_pos)
-			systemInfo.target_position = cfgzMotor.max_pos;
-		ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.travel_feedrate);
+		if (systemInfo.target_position > cfgMotor.max_pos)
+			systemInfo.target_position = cfgMotor.max_pos;
+		ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgMotor.travel_feedrate);
 
 	}
 
@@ -122,7 +122,7 @@ uint8_t		PRINT_Complete()
 	_cpld_bank2disp_enable(CLEAN_USED_BANK,0,0);
 	UVFAN_TimerOn(10000);
 	if (cfgConfig.mb_fan_mode == MBFAN_PRINTING_ON)
-		MBFAN_SetState(0);
+		MBFAN_Off();
 	
 	// save timers
 	uint32_t	unix_time = DTIME_GetCurrentUnixtime();

@@ -352,6 +352,9 @@ typedef struct
 #define	FNAME_BTN_PRNPARAMS_ITEM_EN		(char*)"btn/btn_prnparams_item_en.cimg"
 #define	FNAME_BTN_PRNPARAMS_ITEM_PRESS	(char*)"btn/btn_prnparams_item_press.cimg"
 #define	FNAME_BTN_PRNPARAMS_ITEM_DIS	(char*)"btn/btn_prnparams_item_dis.cimg"
+#define	FNAME_BTN_PRNPARAMS_ITEMSOLID_EN		(char*)"btn/btn_prnparams_itemsolid_en.cimg"
+#define	FNAME_BTN_PRNPARAMS_ITEMSOLID_PRESS		(char*)"btn/btn_prnparams_itemsolid_press.cimg"
+#define	FNAME_BTN_PRNPARAMS_ITEMSOLID_DIS		(char*)"btn/btn_prnparams_itemsolid_dis.cimg"
 
 #define	FNAME_ICN_FILES_DIRECTORY	(char*)"icn/icn_files_dir.cimg"
 #define	FNAME_ICN_FILES_IMAGE		(char*)"icn/icn_files_image.cimg"
@@ -378,10 +381,12 @@ extern TG_CONFIG		tguiDefaultConfig;
 extern TG_MSGBOX		tguiMsgBox;
 
 
+
 #define		TG_BTN_CNT_SCREEN_MAIN			4
 #define		TG_TIMEBUTTON_ID				1
 extern TG_BUTTON		tguiScrMainButtons[TG_BTN_CNT_SCREEN_MAIN];
 extern TG_SCREEN		tguiScreenMain;
+
 
 
 #define		TG_SCR_SERVICE_UP_ID			10
@@ -398,6 +403,7 @@ extern TG_BUTTON		tguiScrServiceButtons[TG_BTN_CNT_SCREEN_SERVICE];
 extern TG_SCREEN		tguiScreenService;
 
 
+
 #define		TG_BTN_CNT_SCREEN_LANGUAGE		LNG_LANGS_COUNT + 1
 extern TG_BUTTON		tguiScrLanguageButtons[TG_BTN_CNT_SCREEN_LANGUAGE];
 extern TG_SCREEN		tguiScreenLanguage;
@@ -406,6 +412,7 @@ extern TG_SCREEN		tguiScreenLanguage;
 #define		TG_BTN_CNT_SCREEN_INFO			2
 extern TG_BUTTON		tguiScrInfoButtons[TG_BTN_CNT_SCREEN_INFO];
 extern TG_SCREEN		tguiScreenInfo;
+
 
 
 #define		TG_SCR_MOVEZ_STEP_GROUP_ID		1
@@ -419,6 +426,7 @@ extern TG_SCREEN		tguiScreenInfo;
 #define		TG_BTN_CNT_SCREEN_MOVEZ			11
 extern TG_BUTTON		tguiScrMovezButtons[TG_BTN_CNT_SCREEN_MOVEZ];
 extern TG_SCREEN		tguiScreenMovez;
+
 
 
 #define		TG_SCR_FILES_DIR_ID				20
@@ -435,6 +443,7 @@ extern TG_BUTTON		tguiScrFilesListButtons[TG_BTN_CNT_SCREEN_FILESICONS];
 extern TG_SCREEN		tguiScreenFilesList;
 
 
+
 #define		TG_SCR_SETTINGS_CLOCK_ID		20
 #define		TG_SCR_SETTINGS_LIFTPAUSE_ID	21
 #define		TG_SCR_SETTINGS_LIFTEND_ID		22
@@ -447,6 +456,7 @@ extern TG_BUTTON		tguiScrSettingsButtons[TG_BTN_CNT_SCREEN_SETTINGS];
 extern TG_SCREEN		tguiScreenSettings;
 
 
+
 #define		TG_SCR_NUMENTER_MINUS_ID		20
 #define		TG_SCR_NUMENTER_DOT_ID			21
 #define		TG_SCR_NUMENTER_DIGISCREEN		22
@@ -456,9 +466,11 @@ extern TG_BUTTON		tguiScrNumenterButtons[TG_BTN_CNT_SCREEN_NUMENTER];
 extern TG_SCREEN		tguiScreenNumenter;
 
 
+
 #define		TG_BTN_CNT_SCREEN_FILEVIEW		6
 extern TG_BUTTON		tguiScrFileviewButtons[TG_BTN_CNT_SCREEN_FILEVIEW];
 extern TG_SCREEN		tguiScreenFileview;
+
 
 
 #define		TG_SCR_PRINT_PREVIEW_ID			20
@@ -469,6 +481,7 @@ extern TG_SCREEN		tguiScreenFileview;
 #define		TG_BTN_CNT_SCREEN_PRINT			6
 extern TG_BUTTON		tguiScrPrintButtons[TG_BTN_CNT_SCREEN_PRINT];
 extern TG_SCREEN		tguiScreenPrint;
+
 
 
 #define		TG_SCR_CLOCKSET_HOURS_BTN_ID		20
@@ -492,9 +505,11 @@ extern TG_BUTTON		tguiScrClockSetButtons[TG_BTN_CNT_SCREEN_CLOCKSET];
 extern TG_SCREEN		tguiScreenClockSet;
 
 
+
 #define		TG_BTN_CNT_SCREENSAVER			1
 extern TG_BUTTON		tguiScreenSaverButtons[TG_BTN_CNT_SCREENSAVER];
 extern TG_SCREEN		tguiScreenSaver;
+
 
 
 #define		TG_SCR_UVTEST_IMG_GROUP_ID		1
@@ -507,6 +522,7 @@ extern TG_BUTTON		tguiScrUVTestButtons[TG_BTN_CNT_SCREEN_CLOCKSET];
 extern TG_SCREEN		tguiScreenUVTest;
 
 
+
 #define		TG_SCR_PRNPARAMS_LIGHTBOTTOM_ID		20
 #define		TG_SCR_PRNPARAMS_LIGHT_ID			21
 #define		TG_SCR_PRNPARAMS_LIGHTPAUSE_ID		22
@@ -515,13 +531,28 @@ extern TG_SCREEN		tguiScreenUVTest;
 #define		TG_SCR_PRNPARAMS_DROPSPEED_ID		25
 #define		TG_SCR_PRNPARAMS_AA_ID				26
 #define		TG_SCR_PRNPARAMS_INDPARAMS_ID		27
+#define		TG_SCR_PRNPARAMS_EXTPARAMS_ID		39
 
 #define		TG_SCR_PRNPARAMS_UP_ID				40
 #define		TG_SCR_PRNPARAMS_DOWN_ID			41
 
-#define		TG_BTN_CNT_SCREEN_PRNPARAMS			13
+#define		TG_BTN_CNT_SCREEN_PRNPARAMS			14
 extern TG_BUTTON		tguiScrPrnparamsButtons[TG_BTN_CNT_SCREEN_PRNPARAMS];
 extern TG_SCREEN		tguiScreenPrnparams;
+
+
+
+#define		TG_SCR_PRNPARAMSEXT_PAUSELIFT_ID		20
+#define		TG_SCR_PRNPARAMSEXT_ENDLIFT_ID			21
+#define		TG_SCR_PRNPARAMSEXT_ACCELERATE_ID		22
+
+#define		TG_SCR_PRNPARAMSEXT_UP_ID				40
+#define		TG_SCR_PRNPARAMSEXT_DOWN_ID				41
+
+#define		TG_BTN_CNT_SCREEN_PRNPARAMSEXT			7
+extern TG_BUTTON		tguiScrPrnparamsExtButtons[TG_BTN_CNT_SCREEN_PRNPARAMSEXT];
+extern TG_SCREEN		tguiScreenPrnparamsExt;
+
 
 
 #define		TG_BTN_CNT_SCREEN_CALIB				13

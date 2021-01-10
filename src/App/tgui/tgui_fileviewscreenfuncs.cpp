@@ -127,12 +127,12 @@ void		_tgui_FileviewPrintinfoPaint(void *tguiobj, void *param)
 	uint16_t	yinc = (thisbtn->position.bottom - thisbtn->position.top - fntheight * 12) / 13;	// 12 text lines and 13 intervals
 	uint16_t	ytop = thisbtn->position.top + yinc;
 	// total layers
-	if ((PFILE_GetTotalLayers() * PFILE_GetLayerThickness()) > (cfgzMotor.max_pos - PFILE_GetLiftHeight()))
+	if ((PFILE_GetTotalLayers() * PFILE_GetLayerThickness()) > (cfgMotor.max_pos - PFILE_GetLiftHeight()))
 		LCDUI_SetColor(LCDUI_RGB(0xE00000));
 	else
 		LCDUI_SetColor(LCDUI_RGB(0x000000));
 	LCDUI_DrawText(LANG_GetString(LSTR_TOTAL_LAYERS), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
-	if ((PFILE_GetTotalLayers() * PFILE_GetLayerThickness()) > (cfgzMotor.max_pos - PFILE_GetLiftHeight()))
+	if ((PFILE_GetTotalLayers() * PFILE_GetLayerThickness()) > (cfgMotor.max_pos - PFILE_GetLiftHeight()))
 		LCDUI_SetColor(LCDUI_RGB(0xE00000));
 	else
 		LCDUI_SetColor(LCDUI_RGB(0x00496C));
@@ -269,7 +269,7 @@ void		_tgui_FileviewPrintPress(void *tguiobj, void *param)
 	if (PFILE_IsInited() == 0)
 		return;
 
-	if ((PFILE_GetTotalLayers() * PFILE_GetLayerThickness()) > (cfgzMotor.max_pos - PFILE_GetLiftHeight()))
+	if ((PFILE_GetTotalLayers() * PFILE_GetLayerThickness()) > (cfgMotor.max_pos - PFILE_GetLiftHeight()))
 		TGUI_MessageBoxYesNo(LANG_GetString(LSTR_WARNING), LANG_GetString(LSTR_MSG_MODEL_TOO_HIGH), _tgui_FileviewPrintBegin);
 	else
 		_tgui_FileviewPrintBegin(NULL, NULL);

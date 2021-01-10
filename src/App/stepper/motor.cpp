@@ -41,24 +41,24 @@ void		ZMOTOR_Init()
 {
 
 //*
-	zPlanner.settings.axis_steps_per_mm = 			cfgzMotor.steps_per_mm;
-	zPlanner.settings.max_feedrate_mm_s = 			cfgzMotor.max_feedrate;
-	zPlanner.settings.max_acceleration_mm_per_s2 =	cfgzMotor.max_acceleration;
-	zPlanner.settings.acceleration = 				cfgzMotor.acceleration;
-	zPlanner.settings.travel_acceleration = 		cfgzMotor.travel_acceleration;
-	zPlanner.settings.min_feedrate_mm_s = 			cfgzMotor.min_feedrate;
-	zPlanner.settings.min_travel_feedrate_mm_s = 	cfgzMotor.min_travel_feedrate;
-	zPlanner.settings.max_jerk = 					cfgzMotor.max_jerk;
+	zPlanner.settings.axis_steps_per_mm = 			cfgMotor.steps_per_mm;
+	zPlanner.settings.max_feedrate_mm_s = 			cfgMotor.max_feedrate;
+	zPlanner.settings.max_acceleration_mm_per_s2 =	cfgMotor.max_acceleration;
+	zPlanner.settings.acceleration = 				cfgMotor.acceleration;
+	zPlanner.settings.travel_acceleration = 		cfgMotor.travel_acceleration;
+	zPlanner.settings.min_feedrate_mm_s = 			cfgMotor.min_feedrate;
+	zPlanner.settings.min_travel_feedrate_mm_s = 	cfgMotor.min_travel_feedrate;
+	zPlanner.settings.max_jerk = 					cfgMotor.max_jerk;
 /**/
 /*
-	zPlanner.axis_steps_per_mm = 			cfgzMotor.axis_steps_per_mm;
-	zPlanner.max_feedrate_mm_s = 			cfgzMotor.max_feedrate_mm_s;
-	zPlanner.max_acceleration_mm_per_s2 =	cfgzMotor.max_acceleration_mm_per_s2;
-	zPlanner.acceleration = 				cfgzMotor.acceleration;
-	zPlanner.travel_acceleration = 		cfgzMotor.travel_acceleration;
-	zPlanner.min_feedrate_mm_s = 			cfgzMotor.min_feedrate_mm_s;
-	zPlanner.min_travel_feedrate_mm_s = 	cfgzMotor.min_travel_feedrate_mm_s;
-	zPlanner.max_jerk = 					cfgzMotor.max_jerk;
+	zPlanner.axis_steps_per_mm = 			cfgMotor.axis_steps_per_mm;
+	zPlanner.max_feedrate_mm_s = 			cfgMotor.max_feedrate_mm_s;
+	zPlanner.max_acceleration_mm_per_s2 =	cfgMotor.max_acceleration_mm_per_s2;
+	zPlanner.acceleration = 				cfgMotor.acceleration;
+	zPlanner.travel_acceleration = 		cfgMotor.travel_acceleration;
+	zPlanner.min_feedrate_mm_s = 			cfgMotor.min_feedrate_mm_s;
+	zPlanner.min_travel_feedrate_mm_s = 	cfgMotor.min_travel_feedrate_mm_s;
+	zPlanner.max_jerk = 					cfgMotor.max_jerk;
 /**/
 	
 	zEndstops.init();
@@ -78,7 +78,7 @@ void		ZMOTOR_Init()
 	HAL_TIM_Base_Start_IT(&hStepperTim);
 
 	// Set motor current
-	Z_REF_TIMER->CCR1 = cfgzMotor.current_vref < 1000 ? (uint32_t)(cfgzMotor.current_vref * 0.364) : 364;
+	Z_REF_TIMER->CCR1 = cfgMotor.current_vref < 1000 ? (uint32_t)(cfgMotor.current_vref * 0.364) : 364;
 	
 	ZMOTOR_MotorDisable();
 	zEndstops.enable();
@@ -92,7 +92,7 @@ void		ZMOTOR_Init()
 void			ZMOTOR_MotorEnable()
 {
 	Z_ENA_GPIO_Port->BSRR = (uint32_t)Z_ENA_Pin << 16U;
-	Z_REF_TIMER->CCR1 = (uint32_t)(cfgzMotor.current_vref * 0.364);
+	Z_REF_TIMER->CCR1 = (uint32_t)(cfgMotor.current_vref * 0.364);
 	systemInfo.zmotor_enabled = 1;
 }
 //==============================================================================
@@ -143,8 +143,8 @@ void			ZMOTOR_SetCurrent(float current)
 {
 	if (current > 1000)
 		current = 1000;
-	cfgzMotor.current_vref = current;
-	Z_REF_TIMER->CCR1 = (uint32_t)(cfgzMotor.current_vref * 0.364);
+	cfgMotor.current_vref = current;
+	Z_REF_TIMER->CCR1 = (uint32_t)(cfgMotor.current_vref * 0.364);
 }
 //==============================================================================
 
@@ -153,7 +153,7 @@ void			ZMOTOR_SetCurrent(float current)
 
 void			ZMOTOR_SetFullCurrent()
 {
-	Z_REF_TIMER->CCR1 = (uint32_t)(cfgzMotor.current_vref * 0.364);
+	Z_REF_TIMER->CCR1 = (uint32_t)(cfgMotor.current_vref * 0.364);
 }
 //==============================================================================
 
@@ -162,7 +162,7 @@ void			ZMOTOR_SetFullCurrent()
 
 void			ZMOTOR_SetHoldCurrent()
 {
-	Z_REF_TIMER->CCR1 = (uint32_t)(cfgzMotor.current_hold_vref * 0.364);
+	Z_REF_TIMER->CCR1 = (uint32_t)(cfgMotor.current_hold_vref * 0.364);
 }
 //==============================================================================
 
@@ -207,7 +207,7 @@ void			ZMOTOR_Stop()
 
 float			ZMOTOR_GetCurrentPosition()
 {
-	return (float)systemInfo.current_position_steps / (float)cfgzMotor.steps_per_mm;
+	return (float)systemInfo.current_position_steps / (float)cfgMotor.steps_per_mm;
 }
 //==============================================================================
 
@@ -248,12 +248,12 @@ void			ZMOTOR_StartHoming()
 	ZMOTOR_SetPosition(0);
 	systemInfo.target_position = 0;
 
-	if (cfgzMotor.home_dir == -1)
+	if (cfgMotor.home_dir == -1)
 	{
 		if (ZMOTOR_GetEndstopState() & (1 << Z_MIN))
 		{
 			systemInfo.target_position += 20;
-			ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_fast);
+			ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgMotor.homing_feedrate_fast);
 		}
 	}
 	else
@@ -261,7 +261,7 @@ void			ZMOTOR_StartHoming()
 		if (ZMOTOR_GetEndstopState() & (1 << Z_MAX))
 		{
 			systemInfo.target_position -= 20;
-			ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_fast);
+			ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgMotor.homing_feedrate_fast);
 		}
 	}
 	systemInfo.printer_state = PST_HOMING_PREUP;

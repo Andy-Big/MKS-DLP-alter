@@ -47,8 +47,8 @@ void		_tgui_MovezStopButtonPress(void *tguiobj, void *param)
 	ZMOTOR_SetPosition(systemInfo.target_position);
 	
 	systemInfo.printer_state = PST_IDLE;
-	SYSTIMER_SetCountDown(zHoldTimer, cfgzMotor.hold_time);
-	SYSTIMER_SetCountDown(zDisTimer, cfgzMotor.off_time);
+	SYSTIMER_SetCountDown(zHoldTimer, cfgMotor.hold_time);
+	SYSTIMER_SetCountDown(zDisTimer, cfgMotor.off_time);
 }
 //==============================================================================
 
@@ -111,7 +111,7 @@ void		_tgui_MovezStepSelectButtonPress(void *tguiobj, void *param)
 
 void		_tgui_MovezUpButtonPress(void *tguiobj, void *param)
 {
-	if (systemInfo.position_known == 1 && systemInfo.target_position >= cfgzMotor.max_pos)
+	if (systemInfo.position_known == 1 && systemInfo.target_position >= cfgMotor.max_pos)
 		return;
 
 	if (systemInfo.zmotor_enabled == 0)
@@ -121,7 +121,7 @@ void		_tgui_MovezUpButtonPress(void *tguiobj, void *param)
 	SYSTIMER_SetCountDown(zHoldTimer, TIMER_DISABLE);
 	SYSTIMER_SetCountDown(zDisTimer, TIMER_DISABLE);
 
-	float feedrate = cfgzMotor.travel_feedrate;
+	float feedrate = cfgMotor.travel_feedrate;
 	// if not homed then decrease speed | decrease speed below 30 mm
 	if (systemInfo.position_known == 0 || systemInfo.target_position < 30)
 		feedrate /= 3;
@@ -131,8 +131,8 @@ void		_tgui_MovezUpButtonPress(void *tguiobj, void *param)
 	if (ZMOTOR_IsMoving() == 0)
 	{
 		systemInfo.target_position += fMoveStep / 2;
-		if (systemInfo.position_known == 1 && systemInfo.target_position > cfgzMotor.max_pos)
-			systemInfo.target_position = cfgzMotor.max_pos;
+		if (systemInfo.position_known == 1 && systemInfo.target_position > cfgMotor.max_pos)
+			systemInfo.target_position = cfgMotor.max_pos;
 		ZMOTOR_MoveAbsolute(systemInfo.target_position, feedrate);
 		systemInfo.target_position += fMoveStep / 2;
 	}
@@ -140,8 +140,8 @@ void		_tgui_MovezUpButtonPress(void *tguiobj, void *param)
 	{
 		systemInfo.target_position += fMoveStep;
 	}
-	if (systemInfo.position_known == 1 && systemInfo.target_position > cfgzMotor.max_pos)
-		systemInfo.target_position = cfgzMotor.max_pos;
+	if (systemInfo.position_known == 1 && systemInfo.target_position > cfgMotor.max_pos)
+		systemInfo.target_position = cfgMotor.max_pos;
 	ZMOTOR_MoveAbsolute(systemInfo.target_position, feedrate);
 
 	systemInfo.printer_state = PST_FREEMOVING_UP;
@@ -153,7 +153,7 @@ void		_tgui_MovezUpButtonPress(void *tguiobj, void *param)
 
 void		_tgui_MovezDownButtonPress(void *tguiobj, void *param)
 {
-	if (systemInfo.position_known == 1 && systemInfo.target_position <= cfgzMotor.min_pos)
+	if (systemInfo.position_known == 1 && systemInfo.target_position <= cfgMotor.min_pos)
 		return;
 
 	if (systemInfo.zmotor_enabled == 0)
@@ -163,12 +163,12 @@ void		_tgui_MovezDownButtonPress(void *tguiobj, void *param)
 	SYSTIMER_SetCountDown(zHoldTimer, TIMER_DISABLE);
 	SYSTIMER_SetCountDown(zDisTimer, TIMER_DISABLE);
 
-	float feedrate = cfgzMotor.travel_feedrate;
+	float feedrate = cfgMotor.travel_feedrate;
 	if (ZMOTOR_IsMoving() == 0)
 	{
 		systemInfo.target_position -= fMoveStep / 2;
-		if (systemInfo.position_known == 1 && systemInfo.target_position < cfgzMotor.min_pos)
-			systemInfo.target_position = cfgzMotor.min_pos;
+		if (systemInfo.position_known == 1 && systemInfo.target_position < cfgMotor.min_pos)
+			systemInfo.target_position = cfgMotor.min_pos;
 		// if not homed then decrease speed | decrease speed below 30 mm
 		if (systemInfo.position_known == 0 || systemInfo.target_position < 30)
 		{
@@ -184,10 +184,10 @@ void		_tgui_MovezDownButtonPress(void *tguiobj, void *param)
 	{
 		systemInfo.target_position -= fMoveStep;
 	}
-	if (systemInfo.position_known == 1 && systemInfo.target_position < cfgzMotor.min_pos)
-		systemInfo.target_position = cfgzMotor.min_pos;
+	if (systemInfo.position_known == 1 && systemInfo.target_position < cfgMotor.min_pos)
+		systemInfo.target_position = cfgMotor.min_pos;
 	// if not homed then decrease speed | decrease speed below 30 mm
-	if ((systemInfo.position_known == 0 || systemInfo.target_position < 30) && feedrate == cfgzMotor.travel_feedrate)
+	if ((systemInfo.position_known == 0 || systemInfo.target_position < 30) && feedrate == cfgMotor.travel_feedrate)
 	{
 		feedrate /= 3;
 		if (feedrate < 5)

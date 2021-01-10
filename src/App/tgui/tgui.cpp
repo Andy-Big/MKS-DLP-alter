@@ -21,6 +21,7 @@
 #include "tgui_screensaverfuncs.h"
 #include "tgui_uvtestscreenfuncs.h"
 #include "tgui_prnparamsscreenfuncs.h"
+#include "tgui_prnparamsextscreenfuncs.h"
 #include "tgui_calibscreenfuncs.h"
 
 
@@ -76,6 +77,9 @@ TG_SCREEN		tguiScreenUVTest;
 
 TG_BUTTON		tguiScrPrnparamsButtons[TG_BTN_CNT_SCREEN_PRNPARAMS];
 TG_SCREEN		tguiScreenPrnparams;
+
+TG_BUTTON		tguiScrPrnparamsExtButtons[TG_BTN_CNT_SCREEN_PRNPARAMSEXT];
+TG_SCREEN		tguiScreenPrnparamsExt;
 
 TG_BUTTON		tguiScrCalibButtons[TG_BTN_CNT_SCREEN_CALIB];
 TG_SCREEN		tguiScreenCalib;
@@ -2311,7 +2315,11 @@ void		TGUI_Init()
 	
 	tgb->backcolor_en = LCDUI_RGB(0xDDDDDD);
 
+	tgb->options.repaintonpress = 0;
+
 	tgb->funcs._call_paint = _tgui_PrintScreenProgressPaint;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	tgb->funcs._call_press = _tgui_PrintScreenInfoPress;
 	
 	// LOCK region
 	tgb = &(tguiScrPrintButtons[bi++]);
@@ -2329,6 +2337,7 @@ void		TGUI_Init()
 	
 	tgb->funcs._call_paint = _tgui_PrintScreenLockPaint;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	tgb->funcs._call_press = NULL;
 	tgb->funcs._call_longpress = _tgui_PrintScreenLockLPress;
 
 
@@ -3078,6 +3087,29 @@ void		TGUI_Init()
 
 	tgb->funcs._call_press = _tgui_PrnparamsItemButtonPress;
 
+	// Extended parameters
+	tgb = &(tguiScrPrnparamsButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, (int16_t)(tguiScrPrnparamsButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrPrnparamsButtons[bi-2].position.bottom + by)};
+
+	tgb->button_id = TG_SCR_PRNPARAMS_EXTPARAMS_ID;
+
+	tgb->bgimagename_en = FNAME_BTN_PRNPARAMS_ITEMSOLID_EN;
+	tgb->bgimagename_press = FNAME_BTN_PRNPARAMS_ITEMSOLID_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_PRNPARAMS_ITEMSOLID_DIS;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, (int16_t)(tguiScrPrnparamsButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrPrnparamsButtons[bi-2].position.bottom + by)};
+	tgb->text = LSTR_PP_EXT_PARAMS;
+
+	tgb->options.disabled = 0;
+
+	tgb->funcs._call_paint = _tgui_PrnparamsItemSolidButtonPaint;
+	tgb->funcs._call_press = _tgui_PrnparamsExtScreenShow;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
 
 
 	// PRNPARAMS SCREEN
@@ -3105,6 +3137,294 @@ void		TGUI_Init()
 	tgs->funcs._process = _tgui_DefaultScreenProcess;
 	
 }
+
+
+
+	// -------------------- Printing extended parameters Screen elements -----------------------
+	id = 1;
+{
+	bi = 0;
+	// BACK button
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memset((void*)tgb, 0, sizeof(TG_BUTTON));
+	
+	tgb->position = {4, 4, 167, 49};
+
+	tgb->bgimagename_en = NULL;
+	tgb->bgimagename_press = NULL;
+	tgb->bgimagename_dis = NULL;
+
+	tgb->text = LSTR_BACK;
+	tgb->textposition = {54, 6, 165, 47};
+	tgb->font = tgc->btnfont;
+	tgb->textcolor_en = LCDUI_RGB(0x074B19);
+	tgb->textcolor_press = tgc->btntextcolor_press;
+	tgb->textcolor_dis = tgc->btntextcolor_dis;
+	tgb->backcolor_en = tgc->btnbackcolor_en;
+	tgb->backcolor_press = tgc->btnbackcolor_press;
+	tgb->backcolor_dis = tgc->btnbackcolor_dis;
+	
+	tgb->options.disabled = 0;
+	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.repaintonpress = 1;
+	
+	tgb->textoptions.textalign_h = HTA_CENTER;
+	tgb->textoptions.textalign_v = VTA_CENTER;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = (pressfunc)BTNA_GOPREVSCR;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+	tgb->parentscreen = &tguiScreenPrnparamsExt;
+	tgb->childscreen = NULL;
+
+	// UP button
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsExtButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->group_id = 0;
+	tgb->position = {393, 183, 472, 243};
+
+	tgb->button_id = TG_SCR_PRNPARAMSEXT_UP_ID;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+
+	tgb->text = LSTR____;
+	tgb->textposition = {393, 183, 472, 243};
+	
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_PRNPARAMS_UP_EN;
+	tgb->bgimagename_press = FNAME_BTN_PRNPARAMS_UP_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_PRNPARAMS_UP_DIS;
+	
+	tgb->options.disabled = 1;
+
+	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
+	tgb->funcs._call_press = _tgui_PrnparamsExtUpButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+	
+	// DOWN button
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsExtButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {393, 248, 472, 308};
+
+	tgb->button_id = TG_SCR_PRNPARAMSEXT_DOWN_ID;
+
+	tgb->textposition = {393, 248, 472, 308};
+	
+	tgb->bgimagename_en = FNAME_BTN_PRNPARAMS_DOWN_EN;
+	tgb->bgimagename_press = FNAME_BTN_PRNPARAMS_DOWN_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_PRNPARAMS_DOWN_DIS;
+	
+	tgb->options.disabled = 1;
+
+	tgb->funcs._call_press = _tgui_PrnparamsExtDownButtonPress;
+
+	// OK button
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsExtButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {393, 44, 472, 104};
+
+	tgb->button_id = 0;
+
+	tgb->textposition = {393, 44, 472, 104};
+	
+	tgb->bgimagename_en = FNAME_BTN_PRNPARAMS_OK_EN;
+	tgb->bgimagename_press = FNAME_BTN_PRNPARAMS_OK_PRESS;
+
+	tgb->options.disabled = 0;
+
+	tgb->funcs._call_press = _tgui_PrnparamsExtOkButtonPress;
+
+
+	// Pause lifting height
+	by = 51;
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsExtButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, 57, 387, 104};
+
+	tgb->button_id = TG_SCR_PRNPARAMSEXT_PAUSELIFT_ID;
+
+	tgb->font = LCDUI_FONT_H24;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textcolor_dis = LCDUI_RGB(0x727272);
+	tgb->textposition = {13, 57, 382, 104};
+	tgb->text = LSTR_PPEXT_LIFT_PAUSE;
+
+	tgb->options.bgpaint = BGP_IMAGE;
+	tgb->bgimagename_en = FNAME_BTN_PRNPARAMS_ITEM_EN;
+	tgb->bgimagename_press = FNAME_BTN_PRNPARAMS_ITEM_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_PRNPARAMS_ITEM_DIS;
+
+	tgb->options.disabled = 0;
+
+	tgb->funcs._call_paint = _tgui_PrnparamsExtItemButtonPaint;
+	tgb->funcs._call_press = _tgui_PrnparamsExtItemButtonPress;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+
+	// End lifting height
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsExtButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+
+	tgb->button_id = TG_SCR_PRNPARAMSEXT_ENDLIFT_ID;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+	tgb->text = LSTR_PPEXT_LIFT_END;
+
+	tgb->funcs._call_press = _tgui_PrnparamsExtItemButtonPress;
+
+	// Accelerate
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsExtButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+
+	tgb->button_id = TG_SCR_PRNPARAMSEXT_ACCELERATE_ID;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+	tgb->text = LSTR_PPEXT_ACCELERATE;
+
+	tgb->funcs._call_press = _tgui_PrnparamsExtItemButtonPress;
+
+/*
+	// Lift speed
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsExtButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+
+	tgb->button_id = TG_SCR_PRNPARAMS_LIFTSPEED_ID;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+	tgb->text = LSTR_PP_LIFT_SPEED;
+
+	tgb->funcs._call_press = _tgui_PrnparamsExtItemButtonPress;
+
+	// Drop speed
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsExtButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+
+	tgb->button_id = TG_SCR_PRNPARAMS_DROPSPEED_ID;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+	tgb->text = LSTR_PP_DROP_SPEED;
+
+	tgb->funcs._call_press = _tgui_PrnparamsExtItemButtonPress;
+
+	// Light pause
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsExtButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, 57, 387, 104};
+
+	tgb->button_id = TG_SCR_PRNPARAMS_LIGHTPAUSE_ID;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, 57, 382, 104};
+	tgb->text = LSTR_PP_LIGHT_PAUSE;
+
+	tgb->options.disabled = 1;
+
+	tgb->funcs._call_press = _tgui_PrnparamsExtItemButtonPress;
+
+	// Antialiasing
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsExtButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+
+	tgb->button_id = TG_SCR_PRNPARAMS_AA_ID;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+	tgb->text = LSTR_PP_AA;
+
+	tgb->funcs._call_press = _tgui_PrnparamsExtItemButtonPress;
+
+	// Individual layers parameters
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsExtButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+
+	tgb->button_id = TG_SCR_PRNPARAMS_INDPARAMS_ID;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+	tgb->text = LSTR_PP_IND_SETTINGS;
+
+	tgb->funcs._call_press = _tgui_PrnparamsExtItemButtonPress;
+
+	// Extended parameters
+	tgb = &(tguiScrPrnparamsExtButtons[bi++]);
+	memcpy((void*)tgb, (void*)(&tguiScrPrnparamsExtButtons[bi-2]), sizeof(TG_BUTTON));
+	
+	tgb->position = {8, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+
+	tgb->button_id = TG_SCR_PRNPARAMS_EXTPARAMS_ID;
+
+	tgb->bgimagename_en = FNAME_BTN_PRNPARAMS_ITEMSOLID_EN;
+	tgb->bgimagename_press = FNAME_BTN_PRNPARAMS_ITEMSOLID_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_PRNPARAMS_ITEMSOLID_DIS;
+
+	tgb->textcolor_en = tgc->btntextcolor_en;
+	tgb->textcolor_act = tgc->btntextcolor_en;
+	tgb->textposition = {13, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrPrnparamsExtButtons[bi-2].position.bottom + by)};
+	tgb->text = LSTR_PP_EXT_PARAMS;
+
+	tgb->options.disabled = 0;
+
+	tgb->funcs._call_paint = _tgui_PrnparamsExtItemSolidButtonPaint;
+	tgb->funcs._call_press = _tgui_PrnparamsExtScreenShow;
+	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
+*/
+
+	// PRNPARAMSEXT SCREEN
+	tgs = &tguiScreenPrnparamsExt;
+	memset((void*)tgs, 0, sizeof(TG_SCREEN));
+	
+	tgs->bgimagename = FNAME_BKGR_EMPTY;
+	tgs->prevscreen = &tguiScreenPrnparams;
+
+	tgs->name = LSTR_PP_PRINTING_PARAMETERS;
+	tgs->nameposition = {205, 3, 475, 30};
+	tgs->nameoptions.textalign_h = HTA_CENTER;
+	tgs->nameoptions.textalign_v = VTA_CENTER;
+
+	tgs->btns_count = TG_BTN_CNT_SCREEN_PRNPARAMSEXT;
+	tgs->buttons = tguiScrPrnparamsExtButtons;
+
+	tgs->font = tgc->scrfont;
+	tgs->namefont = tgc->scrnamefont;
+	tgs->textcolor = tgc->scrtextcolor;
+	tgs->nametextcolor = tgc->scrnametextcolor;
+	tgs->backcolor = tgc->scrbackcolor;
+
+	tgs->funcs._callpaint = _tgui_PrnparamsExtScreenPaint;
+	tgs->funcs._process = _tgui_DefaultScreenProcess;
+	
+}
+
 
 
 	// -------------------- Touch calibration elements -----------------------

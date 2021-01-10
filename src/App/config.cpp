@@ -9,7 +9,7 @@
 
 
 
-MOTOR_CONFIG			cfgzMotor;
+MOTOR_CONFIG			cfgMotor;
 SYSTEM_INFO				systemInfo;
 GLOBAL_CONFIG			cfgConfig;
 WORK_TIME				cfgTimers;
@@ -37,16 +37,16 @@ void			CFG_Init()
 
 	// motor settings
 	need_update = 0;
-	data = (uint8_t*)&cfgzMotor;
+	data = (uint8_t*)&cfgMotor;
 	if (EEPROM_ReadMemBuff(EEPR_ADDR_MOTORCONFIG, data, sizeof(MOTOR_CONFIG)) == 0)
 	{
 		CFG_SetMotorDefault();
-		EEPROM_WriteMemBuff(EEPR_ADDR_MOTORCONFIG, (uint8_t*)&cfgzMotor, sizeof(MOTOR_CONFIG));
+		EEPROM_WriteMemBuff(EEPR_ADDR_MOTORCONFIG, (uint8_t*)&cfgMotor, sizeof(MOTOR_CONFIG));
 	}
 	else
 	{
 		// check version
-		if (cfgzMotor.cfg_version < FW_VERSION)
+		if (cfgMotor.cfg_version < FW_VERSION)
 		{
 			CFG_RefreshMotor();
 			need_update = 1;
@@ -59,7 +59,7 @@ void			CFG_Init()
 		{
 			// check crc
 			crc = CFG_MotorCalculateCRC();
-			if (crc != cfgzMotor.cfg_crc)
+			if (crc != cfgMotor.cfg_crc)
 			{
 				CFG_SetMotorDefault();
 				CFG_SaveMotor();
@@ -160,7 +160,7 @@ void			CFG_Init()
 
 uint16_t		CFG_MotorCalculateCRC()
 {
-	uint8_t 	*data = (uint8_t*)&cfgzMotor;
+	uint8_t 	*data = (uint8_t*)&cfgMotor;
 	uint16_t	crc = 0;
 	for (uint16_t i = 2; i < sizeof(MOTOR_CONFIG); i++)
 	{
@@ -211,37 +211,37 @@ uint16_t		CFG_TimersCalculateCRC()
 
 void			CFG_SetMotorDefault()
 {
-	memset(&cfgzMotor, 0, sizeof(MOTOR_CONFIG));
+	memset(&cfgMotor, 0, sizeof(MOTOR_CONFIG));
 
-	cfgzMotor.cfg_version = FW_VERSION;
+	cfgMotor.cfg_version = FW_VERSION;
 	
-	cfgzMotor.invert_dir = 1;
-	cfgzMotor.home_dir = -1;
-	cfgzMotor.home_pos = 0;
-	cfgzMotor.min_pos = -3;
-	cfgzMotor.max_pos = 180;
-	cfgzMotor.min_endstop_inverting = 1;
-	cfgzMotor.max_endstop_inverting = 1;
+	cfgMotor.invert_dir = 1;
+	cfgMotor.home_dir = -1;
+	cfgMotor.home_pos = 0;
+	cfgMotor.min_pos = -3;
+	cfgMotor.max_pos = 180;
+	cfgMotor.min_endstop_inverting = 1;
+	cfgMotor.max_endstop_inverting = 1;
 	
-	cfgzMotor.steps_per_mm = 1600;
-	cfgzMotor.max_feedrate = 100;
-	cfgzMotor.max_acceleration = 100;
+	cfgMotor.steps_per_mm = 1600;
+	cfgMotor.max_feedrate = 100;
+	cfgMotor.max_acceleration = 100;
 
-	cfgzMotor.homing_feedrate_fast = 6;
-	cfgzMotor.homing_feedrate_slow = 1;
-	cfgzMotor.acceleration = 0.7;
-	cfgzMotor.feedrate = 5;
-	cfgzMotor.travel_acceleration = 20;
-	cfgzMotor.travel_feedrate = 20;
-	cfgzMotor.min_feedrate = 0.01;
-	cfgzMotor.min_travel_feedrate = 0.01;
-	cfgzMotor.max_jerk = 0.05;
-	cfgzMotor.current_vref = 800;
-	cfgzMotor.current_hold_vref = 300;
-	cfgzMotor.hold_time = 30000;
-	cfgzMotor.off_time = 1800000;
+	cfgMotor.homing_feedrate_fast = 6;
+	cfgMotor.homing_feedrate_slow = 1;
+	cfgMotor.acceleration = 0.7;
+	cfgMotor.feedrate = 5;
+	cfgMotor.travel_acceleration = 20;
+	cfgMotor.travel_feedrate = 20;
+	cfgMotor.min_feedrate = 0.01;
+	cfgMotor.min_travel_feedrate = 0.01;
+	cfgMotor.max_jerk = 0.05;
+	cfgMotor.current_vref = 800;
+	cfgMotor.current_hold_vref = 300;
+	cfgMotor.hold_time = 30000;
+	cfgMotor.off_time = 1800000;
 	
-	cfgzMotor.cfg_crc = CFG_MotorCalculateCRC();
+	cfgMotor.cfg_crc = CFG_MotorCalculateCRC();
 }
 //==============================================================================
 
@@ -250,9 +250,9 @@ void			CFG_SetMotorDefault()
 
 void			CFG_RefreshMotor()
 {
-	cfgzMotor.cfg_version = FW_VERSION;
+	cfgMotor.cfg_version = FW_VERSION;
 	
-	cfgzMotor.cfg_crc = CFG_MotorCalculateCRC();
+	cfgMotor.cfg_crc = CFG_MotorCalculateCRC();
 }
 //==============================================================================
 
@@ -261,9 +261,9 @@ void			CFG_RefreshMotor()
 
 void			CFG_SaveMotor()
 {
-	cfgzMotor.cfg_crc = CFG_MotorCalculateCRC();
+	cfgMotor.cfg_crc = CFG_MotorCalculateCRC();
 	
-	EEPROM_WriteMemBuff(EEPR_ADDR_MOTORCONFIG, (uint8_t*)&cfgzMotor, sizeof(MOTOR_CONFIG));
+	EEPROM_WriteMemBuff(EEPR_ADDR_MOTORCONFIG, (uint8_t*)&cfgMotor, sizeof(MOTOR_CONFIG));
 	
 }
 //==============================================================================
@@ -276,7 +276,7 @@ void			CFG_SetConfigDefault()
 	memset(&cfgConfig, 0, sizeof(GLOBAL_CONFIG));
 	cfgConfig.cfg_version = FW_VERSION;
 	cfgConfig.language = 0;		// english default
-	cfgConfig.zero_pos = cfgzMotor.home_pos;
+	cfgConfig.zero_pos = cfgMotor.home_pos;
 	cfgConfig.pause_lift = 40.0;
 	cfgConfig.end_lift = 40.0;
 	cfgConfig.buzzer = 1;
@@ -565,10 +565,10 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.float_val < 0.1)
 							pval.float_val = 0.1;
-						if (pval.float_val > cfgzMotor.max_acceleration)
-							pval.float_val = cfgzMotor.max_acceleration;
-						cfgzMotor.acceleration = pval.float_val;
-						zPlanner.settings.acceleration = cfgzMotor.acceleration;
+						if (pval.float_val > cfgMotor.max_acceleration)
+							pval.float_val = cfgMotor.max_acceleration;
+						cfgMotor.acceleration = pval.float_val;
+						zPlanner.settings.acceleration = cfgMotor.acceleration;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -587,7 +587,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							pval.uint_val = 100;
 						if (pval.uint_val > 1000)
 							pval.uint_val = 1000;
-						cfgzMotor.current_hold_vref = pval.uint_val;
+						cfgMotor.current_hold_vref = pval.uint_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -603,7 +603,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							pval.uint_val = 100;
 						if (pval.uint_val > 1000)
 							pval.uint_val = 1000;
-						cfgzMotor.current_vref = pval.uint_val;
+						cfgMotor.current_vref = pval.uint_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -620,9 +620,9 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.float_val < 0.1)
 							pval.float_val = 0.1;
-						if (pval.float_val > cfgzMotor.max_feedrate)
-							pval.float_val = cfgzMotor.max_feedrate;
-						cfgzMotor.feedrate = pval.float_val;
+						if (pval.float_val > cfgMotor.max_feedrate)
+							pval.float_val = cfgMotor.max_feedrate;
+						cfgMotor.feedrate = pval.float_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -641,7 +641,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							pval.uint_val = TIMER_DISABLE;
 						else if (pval.uint_val > 100000)
 							pval.uint_val = 100000;
-						cfgzMotor.hold_time = pval.uint_val * 1000;
+						cfgMotor.hold_time = pval.uint_val * 1000;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -655,7 +655,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.int_val != -1.0 && pval.int_val != 1.0)
 							pval.int_val = -1;
-						cfgzMotor.home_dir = pval.int_val;
+						cfgMotor.home_dir = pval.int_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -667,7 +667,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							sprintf(msg, string, numstr);
 							break;
 						}
-						cfgzMotor.home_pos = pval.float_val;
+						cfgMotor.home_pos = pval.float_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -683,7 +683,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							pval.float_val = 0.1;
 						if (pval.float_val > 40)
 							pval.float_val = 40;
-						cfgzMotor.homing_feedrate_fast = pval.float_val;
+						cfgMotor.homing_feedrate_fast = pval.float_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -699,7 +699,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							pval.float_val = 0.1;
 						if (pval.float_val > 40)
 							pval.float_val = 40;
-						cfgzMotor.homing_feedrate_slow = pval.float_val;
+						cfgMotor.homing_feedrate_slow = pval.float_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -716,7 +716,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.int_val < 0 || pval.int_val > 1)
 							pval.int_val = 1;
-						cfgzMotor.invert_dir = pval.int_val;
+						cfgMotor.invert_dir = pval.int_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -733,7 +733,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.int_val < 0 || pval.int_val > 1)
 							pval.int_val = 1;
-						cfgzMotor.max_endstop_inverting = pval.int_val;
+						cfgMotor.max_endstop_inverting = pval.int_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -745,7 +745,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							sprintf(msg, string, numstr);
 							break;
 						}
-						cfgzMotor.max_pos = pval.float_val;
+						cfgMotor.max_pos = pval.float_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -759,7 +759,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.int_val < 0 || pval.int_val > 1)
 							pval.int_val = 1;
-						cfgzMotor.min_endstop_inverting = pval.int_val;
+						cfgMotor.min_endstop_inverting = pval.int_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -771,7 +771,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							sprintf(msg, string, numstr);
 							break;
 						}
-						cfgzMotor.min_pos = pval.float_val;
+						cfgMotor.min_pos = pval.float_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -788,11 +788,11 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.uint_val > 100000)
 							pval.uint_val = 100000;
-						else if (pval.uint_val < cfgzMotor.hold_time)
-							pval.uint_val = cfgzMotor.hold_time + 1000;
+						else if (pval.uint_val < cfgMotor.hold_time)
+							pval.uint_val = cfgMotor.hold_time + 1000;
 						else if (pval.uint_val == 0)
 							pval.uint_val = TIMER_DISABLE;
-						cfgzMotor.off_time = pval.int_val * 60000;
+						cfgMotor.off_time = pval.int_val * 60000;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -811,8 +811,8 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							pval.uint_val = 1;
 						if (pval.uint_val > 200000)
 							pval.uint_val = 200000;
-						cfgzMotor.steps_per_mm = pval.uint_val;
-						zPlanner.settings.axis_steps_per_mm = cfgzMotor.steps_per_mm;
+						cfgMotor.steps_per_mm = pval.uint_val;
+						zPlanner.settings.axis_steps_per_mm = cfgMotor.steps_per_mm;
 						zPlanner.refresh_positioning();
 						rdstate = CFGR_ZMOTOR;
 						break;
@@ -830,10 +830,10 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.float_val < 0.1)
 							pval.float_val = 0.1;
-						if (pval.float_val > cfgzMotor.max_acceleration)
-							pval.float_val = cfgzMotor.max_acceleration;
-						cfgzMotor.travel_acceleration = pval.float_val;
-						zPlanner.settings.travel_acceleration = cfgzMotor.travel_acceleration;
+						if (pval.float_val > cfgMotor.max_acceleration)
+							pval.float_val = cfgMotor.max_acceleration;
+						cfgMotor.travel_acceleration = pval.float_val;
+						zPlanner.settings.travel_acceleration = cfgMotor.travel_acceleration;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -847,9 +847,9 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						}
 						if (pval.float_val < 0.1)
 							pval.float_val = 0.1;
-						if (pval.float_val > cfgzMotor.max_feedrate)
-							pval.float_val = cfgzMotor.max_feedrate;
-						cfgzMotor.travel_feedrate = pval.float_val;
+						if (pval.float_val > cfgMotor.max_feedrate)
+							pval.float_val = cfgMotor.max_feedrate;
+						cfgMotor.travel_feedrate = pval.float_val;
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -1032,9 +1032,9 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							pval.int_val = 3;
 						cfgConfig.mb_fan_mode = pval.int_val;
 						if (cfgConfig.mb_fan_mode == MBFAN_ALWAYS_ON)
-							MBFAN_SetState(1);
+							MBFAN_On();
 						else
-							MBFAN_SetState(0);
+							MBFAN_Off();
 						rdstate = CFGR_PRINTING;
 						break;
 					}

@@ -100,7 +100,7 @@
 	# Platform acceleration in print mode, mm / sec2.
 	#---
 	# Ускорение платформы в режиме печати, мм/сек2.
-	acceleration = 0.7
+	acceleration = 3
 
 	# Platform movement speed in printing mode, mm / sec.
 	#---

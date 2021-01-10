@@ -167,4 +167,8 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 * Fixed a bug with homing after interrupted printing.
 * Changed function of updating configs after firmware update.
 + Added motherboard fan control parameter in config file
++ Disable fans when printing is paused.
++ Added switching of the time display during printing when you click on the information area: the total estimated, remaining, and absolute time of the end of printing (that is, if at 10 am you started printing a file with a duration of 4 hours, it will show 14:00).
++ Lift height on pause and at the end of printing has been added to the print settings menu.
++ Acceleration added to print settings menu.
 

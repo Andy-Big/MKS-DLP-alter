@@ -186,7 +186,7 @@ uint32_t	PFILE_GetPrintTime()
 	uint32_t	total_layers = PFILE_GetTotalLayers();
 	float		set_liftspeed = PFILE_GetLiftSpeed();
 	float		set_dropspeed = PFILE_GetDropSpeed();
-	float		set_accel = cfgzMotor.acceleration;
+	float		set_accel = cfgMotor.acceleration;
 	float		set_height = PFILE_GetLiftHeight();
 	float		time1 = 0, up_time = 0, down_time = 0, total_time = 0;
 	

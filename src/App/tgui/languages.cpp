@@ -168,6 +168,12 @@ constexpr char		*clngLangEng[_LSTR_LASTITEM] = {
 		(char*)"Light pause",
 		(char*)"Antialiasing",
 		(char*)"Ind. layers sett.",
+		(char*)"Extended parameters",
+
+// Printing extended parameters screen
+		(char*)"Lift at pause",
+		(char*)"Lift at end",
+		(char*)"Acceleration",
 
 // Touch calibration screen
 		(char*)"Press the circle, trying to get to its center.\nLong press - exit without saving the results.",
@@ -340,6 +346,12 @@ constexpr char		*clngLangRus[_LSTR_LASTITEM] = {
 		(char*)"Пауза засветки",
 		(char*)"Антиалиасинг",
 		(char*)"Инд. настр. слоев",
+		(char*)"Расширенные настройки",
+
+// Printing extended parameters screen
+		(char*)"Подъем на паузе",
+		(char*)"Подъем в конце",
+		(char*)"Ускорение",
 
 // Touch calibration screen
 		(char*)"Нажмите кружок, стараясь попасть в его центр.\nДлительное нажатие - выход без сохранения результатов.",

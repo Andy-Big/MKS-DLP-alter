@@ -198,7 +198,7 @@ typedef enum
 
 
 extern SYSTEM_INFO			systemInfo;
-extern MOTOR_CONFIG			cfgzMotor;
+extern MOTOR_CONFIG			cfgMotor;
 extern GLOBAL_CONFIG		cfgConfig;
 extern WORK_TIME			cfgTimers;
 extern char					cfgCFileName[512];
