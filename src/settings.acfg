@@ -54,7 +54,7 @@
 	# По умолчанию: 180.0
 	# Это ограничение действует только после нахождения домашней позиции. Если
 	# поиск домашней позиции не производился, то движение ограничивается концевиками.
-	max_pos = 180.0
+	max_pos = 150.0
 
 	# Work of the lower limit switch.
 	# Valid values: 0 or 1. Default: 1.
@@ -171,16 +171,6 @@
 	#		1 - Русский
 	gui_language = 1
 
-	# Platform lift height when printing is paused, in mm.
-	#---
-	# Высота подъема платформы при постановке печати на паузу, в мм.
-	lift_on_pause = 40
-
-	# Height of platform lifting after the end of printing, in mm.
-	#---
-	# Высота подъема платформы после окончания печати, в мм.
-	lift_on_completion = 50
-
 	# The duration of the buzzer sound in milliseconds (0.001 sec)
 	# at the end of printing or when displaying error messages.
 	# Valid values: from 0 to 15000. Default: 700 (0.7 sec).
@@ -243,5 +233,33 @@
 	#		1 - внешние часы подключены, использовать их как источник времени и даты
 	# По умолчанию: 0.
 	use_external_clock = 0
+
+
+# Printing process settings
+[Printing]
+
+	# Platform lift height when printing is paused, in mm.
+	#---
+	# Высота подъема платформы при постановке печати на паузу, в мм.
+	lift_on_pause = 40
+
+	# Height of platform lifting after the end of printing, in mm.
+	#---
+	# Высота подъема платформы после окончания печати, в мм.
+	lift_on_completion = 50
+
+	# Motherboard fan work mode.
+	# Valid values:
+	#		0 - The fan is always off.
+	#		1 - The fan turns on when printing starts and turns off when printing ends.
+	#		2 - The fan is always on.
+	#---
+	# Режим работы вентилятора материнской платы.
+	# Допустимые значения:
+	#		0 - Вентилятор всегда выключен.
+	#		1 - Вентилятор включается в начале печати и выключается по ее окончании.
+	#		2 - Вентилятор всегда включен.
+	mb_fan_mode = 1
+
 
 

@@ -160,3 +160,11 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 1. Runtime counters reset.
 1. Lifting platform request after Z=0 setting.
 
+## 10.01.2021 Updates
+### v0.06
+**Added/changed:**
+* Fixed a bug in which the homing from the maximum height was interrupted by the switch error.
+* Fixed a bug with homing after interrupted printing.
+* Changed function of updating configs after firmware update.
++ Added motherboard fan control parameter in config file
+

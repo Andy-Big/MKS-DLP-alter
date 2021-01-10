@@ -2563,4 +2563,7 @@
     <file>
         <name>$PROJ_DIR$\src\settings.acfg</name>
     </file>
+    <file>
+        <name>$PROJ_DIR$\src\todo.txt</name>
+    </file>
 </project>

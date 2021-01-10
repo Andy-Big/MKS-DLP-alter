@@ -113,6 +113,7 @@ typedef struct
 	uint8_t			display_rotate;
 	uint8_t			use_ext_clock;
 	float			touch_cal[6];
+	uint8_t			mb_fan_mode;
 
 } GLOBAL_CONFIG;
 
@@ -182,7 +183,17 @@ typedef enum
 	CFGR_ERROR = 0,
 	CFGR_GENERAL,
 	CFGR_ZMOTOR,
+	CFGR_PRINTING,
 } CFGREAD_STATE;
+
+
+
+typedef enum
+{
+	MBFAN_ALWAYS_OFF = 0,
+	MBFAN_PRINTING_ON = 1,
+	MBFAN_ALWAYS_ON = 2,
+} MBFAN_MODE;
 
 
 

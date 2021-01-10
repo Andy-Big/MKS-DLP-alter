@@ -121,6 +121,8 @@ uint8_t		PRINT_Complete()
 	UVD_Sleep();
 	_cpld_bank2disp_enable(CLEAN_USED_BANK,0,0);
 	UVFAN_TimerOn(10000);
+	if (cfgConfig.mb_fan_mode == MBFAN_PRINTING_ON)
+		MBFAN_SetState(0);
 	
 	// save timers
 	uint32_t	unix_time = DTIME_GetCurrentUnixtime();
@@ -147,6 +149,8 @@ uint8_t		PRINT_Complete()
 		}
 	}
 	systemInfo.print_is_printing = 0;
+	systemInfo.print_is_paused = 0;
+	systemInfo.print_is_homing = 0;
 
 	if (f_close(&ufile) != FR_OK)
 	{

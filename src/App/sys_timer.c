@@ -194,3 +194,14 @@ uint32_t	UVFAN_TimerState()
 
 
 
+void		MBFAN_SetState(uint32_t state)
+{
+	if (state)
+		MBFAN_On();
+	else
+		MBFAN_Off();
+}
+//==============================================================================	
+
+
+

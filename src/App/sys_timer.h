@@ -19,6 +19,9 @@ extern "C"
 #define UVFAN_On()				FAN_LED_GPIO_Port->BSRR = FAN_LED_Pin					// Set pin
 #define UVFAN_Off()				FAN_LED_GPIO_Port->BSRR = (uint32_t)FAN_LED_Pin << 16U	// Reset pin
 
+#define MBFAN_On()				FAN_MB_GPIO_Port->BSRR = FAN_MB_Pin						// Set pin
+#define MBFAN_Off()				FAN_MB_GPIO_Port->BSRR = (uint32_t)FAN_MB_Pin << 16U	// Reset pin
+
 
 
 	
@@ -55,6 +58,7 @@ void		UVPAUSE_TimerOn(uint32_t time);
 uint32_t	UVPAUSE_TimerState();
 void		UVFAN_TimerOn(uint32_t time);
 uint32_t	UVFAN_TimerState();
+void		MBFAN_SetState(uint32_t state);
 
 
 #ifdef __cplusplus

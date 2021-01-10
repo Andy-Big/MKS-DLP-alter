@@ -145,9 +145,6 @@ void		_tgui_PrintScreenStopping(void *tguiobj, void *param)
 	ZMOTOR_Stop();
 	while (ZMOTOR_IsMoving() != 0);
 		
-	if (systemInfo.print_is_paused)
-		systemInfo.print_is_paused = 0;
-
 	systemInfo.print_is_canceled = 1;
 	
 	PRINT_Complete();

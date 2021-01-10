@@ -33,8 +33,10 @@ void			CFG_Init()
 	
 	uint16_t	crc = 0;
 	uint8_t		*data;
+	uint8_t 	need_update = 0;
 
 	// motor settings
+	need_update = 0;
 	data = (uint8_t*)&cfgzMotor;
 	if (EEPROM_ReadMemBuff(EEPR_ADDR_MOTORCONFIG, data, sizeof(MOTOR_CONFIG)) == 0)
 	{
@@ -43,46 +45,31 @@ void			CFG_Init()
 	}
 	else
 	{
-		// calculate crc
-		crc = CFG_MotorCalculateCRC();
 		// check version
-		if (cfgzMotor.cfg_version != FW_VERSION)
+		if (cfgzMotor.cfg_version < FW_VERSION)
 		{
-			switch (cfgzMotor.cfg_version)
+			CFG_RefreshMotor();
+			need_update = 1;
+		}
+		if (need_update)
+		{
+			CFG_SaveMotor();
+		}
+		else
+		{
+			// check crc
+			crc = CFG_MotorCalculateCRC();
+			if (crc != cfgzMotor.cfg_crc)
 			{
-				case 0x0001:
-					if (crc != cfgzMotor.cfg_crc)
-						CFG_SetMotorDefault();
-					else
-						CFG_RefreshMotor();
-					break;
-
-				case 0x0002:
-					if (crc != cfgzMotor.cfg_crc)
-						CFG_SetMotorDefault();
-					else
-						CFG_RefreshMotor();
-					break;
-
-				case 0x0003:
-				case 0x0004:
-					CFG_RefreshTimers();
-					break;
-
-				default:
-					CFG_SetMotorDefault();
+				CFG_SetMotorDefault();
+				CFG_SaveMotor();
 			}
-			CFG_SaveMotor();
-		} else
-		// check crc
-		if (crc != cfgzMotor.cfg_crc)
-		{
-			CFG_SetMotorDefault();
-			CFG_SaveMotor();
 		}
 	}
 
+	
 	// global settings
+	need_update = 0;
 	data = (uint8_t*)&cfgConfig;
 	if (EEPROM_ReadMemBuff(EEPR_ADDR_GLOBALCONFIG, data, sizeof(GLOBAL_CONFIG)) == 0)
 	{
@@ -91,62 +78,50 @@ void			CFG_Init()
 	}
 	else
 	{
-		// calculate crc
-		crc = CFG_ConfigCalculateCRC();
 		// check version
-		if (cfgConfig.cfg_version != FW_VERSION)
+		if (cfgConfig.cfg_version < 0x0002)
 		{
-			switch (cfgConfig.cfg_version)
+			cfgConfig.use_ext_clock = 0;
+			need_update = 1;
+		}
+		if (cfgConfig.cfg_version < 0x0003)
+		{
+			cfgConfig.touch_cal[0] = 1;
+			cfgConfig.touch_cal[1] = 0;
+			cfgConfig.touch_cal[2] = 0;
+			cfgConfig.touch_cal[3] = 0;
+			cfgConfig.touch_cal[4] = 1;
+			cfgConfig.touch_cal[5] = 0;
+			need_update = 1;
+		}
+		if (cfgConfig.cfg_version < 0x0006)
+		{
+			cfgConfig.mb_fan_mode = 1;
+			need_update = 1;
+		}
+		if (cfgConfig.cfg_version < FW_VERSION)
+		{
+			need_update = 1;
+		}
+		if (need_update)
+		{
+			CFG_RefreshConfig();
+			CFG_SaveConfig();
+		}
+		else
+		{
+			// check crc
+			crc = CFG_ConfigCalculateCRC();
+			if (crc != cfgConfig.cfg_crc)
 			{
-				case 0x0001:
-					if (crc != cfgConfig.cfg_crc)
-					{
-						CFG_SetConfigDefault();
-					}
-					else
-					{
-						cfgConfig.use_ext_clock = 0;
-						CFG_RefreshConfig();
-					}
-					break;
-
-				case 0x0002:
-					if (crc != cfgConfig.cfg_crc)
-					{
-						CFG_SetConfigDefault();
-					}
-					else
-					{
-						cfgConfig.touch_cal[0] = 1;
-						cfgConfig.touch_cal[1] = 0;
-						cfgConfig.touch_cal[2] = 0;
-						cfgConfig.touch_cal[3] = 0;
-						cfgConfig.touch_cal[4] = 1;
-						cfgConfig.touch_cal[5] = 0;
-						CFG_RefreshConfig();
-
-					}
-					break;
-
-				case 0x0003:
-				case 0x0004:
-					CFG_RefreshTimers();
-					break;
-
-				default:
-					CFG_SetConfigDefault();
+				CFG_SetConfigDefault();
+				CFG_SaveConfig();
 			}
-			CFG_SaveConfig();
-		} else
-		// check crc
-		if (crc != cfgConfig.cfg_crc)
-		{
-			CFG_SetConfigDefault();
-			CFG_SaveConfig();
 		}
 	}
 
 	// work timers
+	need_update = 0;
 	data = (uint8_t*)&cfgTimers;
 	if (EEPROM_ReadMemBuff(EEPR_ADDR_WORKTIME, data, sizeof(WORK_TIME)) == 0)
 	{
@@ -155,42 +130,25 @@ void			CFG_Init()
 	}
 	else
 	{
-		// calculate crc
-		crc = CFG_TimersCalculateCRC();
 		// check version
-		if (cfgTimers.cfg_version != FW_VERSION)
+		if (cfgTimers.cfg_version < FW_VERSION)
 		{
-			switch (cfgTimers.cfg_version)
+			need_update = 1;
+		}
+		if (need_update)
+		{
+			CFG_RefreshTimers();
+			CFG_SaveTimers();
+		}
+		else
+		{
+			// check crc
+			crc = CFG_TimersCalculateCRC();
+			if (crc != cfgTimers.cfg_crc)
 			{
-				case 0x0001:
-					if (crc != cfgTimers.cfg_crc)
-						CFG_SetTimersDefault();
-					else
-						CFG_RefreshTimers();
-					break;
-
-				case 0x0002:
-					if (crc != cfgTimers.cfg_crc)
-						CFG_SetTimersDefault();
-					else
-						CFG_RefreshTimers();
-					break;
-
-				case 0x0003:
-				case 0x0004:
-					CFG_RefreshTimers();
-					break;
-
-				default:
-					CFG_SetTimersDefault();
+				CFG_SetTimersDefault();
+				CFG_SaveTimers();
 			}
-			CFG_SaveTimers();
-		} else
-		// check crc
-		if (crc != cfgTimers.cfg_crc)
-		{
-			CFG_SetTimersDefault();
-			CFG_SaveTimers();
 		}
 	}
 
@@ -564,6 +522,11 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 			else if (strcmp(lexem, (char*)"[GENERAL]") == 0)
 			{
 				rdstate = CFGR_GENERAL;
+				continue;
+			}
+			else if (strcmp(lexem, (char*)"[PRINTING]") == 0)
+			{
+				rdstate = CFGR_PRINTING;
 				continue;
 			}
 			else
@@ -947,41 +910,6 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						break;
 					}
 				} else
-				if (*lexem == 'L')
-				{
-					if (strcmp(lexem, (char*)"LIFT_ON_PAUSE") == 0)
-					{
-						if (pval.type != PARAMVAL_NUMERIC)
-						{
-							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
-							sprintf(msg, string, numstr);
-							break;
-						}
-						if (pval.float_val < 0.1)
-							pval.float_val = 0.1;
-						if (pval.float_val > 1000)
-							pval.float_val = 1000;
-						cfgConfig.pause_lift = pval.float_val;
-						rdstate = CFGR_GENERAL;
-						break;
-					}
-					if (strcmp(lexem, (char*)"LIFT_ON_COMPLETION") == 0)
-					{
-						if (pval.type != PARAMVAL_NUMERIC)
-						{
-							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
-							sprintf(msg, string, numstr);
-							break;
-						}
-						if (pval.float_val < 0.1)
-							pval.float_val = 0.1;
-						if (pval.float_val > 1000)
-							pval.float_val = 1000;
-						cfgConfig.end_lift = pval.float_val;
-						rdstate = CFGR_GENERAL;
-						break;
-					}
-				} else
 				if (*lexem == 'R')
 				{
 					if (strcmp(lexem, (char*)"ROTATE_DISPLAY") == 0)
@@ -1050,6 +978,68 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 				string = LANG_GetString(LSTR_MSG_UNKNOWN_PARAMNAME_IN_CFG);
 				sprintf(msg, string, numstr);
 				break;
+
+			case CFGR_PRINTING:
+				rdstate = CFGR_ERROR;
+				if (*lexem == 'L')
+				{
+					if (strcmp(lexem, (char*)"LIFT_ON_PAUSE") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.float_val < 0.1)
+							pval.float_val = 0.1;
+						if (pval.float_val > 1000)
+							pval.float_val = 1000;
+						cfgConfig.pause_lift = pval.float_val;
+						rdstate = CFGR_PRINTING;
+						break;
+					}
+					if (strcmp(lexem, (char*)"LIFT_ON_COMPLETION") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.float_val < 0.1)
+							pval.float_val = 0.1;
+						if (pval.float_val > 1000)
+							pval.float_val = 1000;
+						cfgConfig.end_lift = pval.float_val;
+						rdstate = CFGR_PRINTING;
+						break;
+					}
+				} else
+				if (*lexem == 'M')
+				{
+					if (strcmp(lexem, (char*)"MB_FAN_MODE") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.int_val < 0)
+							pval.int_val = 0;
+						if (pval.int_val > 2)
+							pval.int_val = 3;
+						cfgConfig.mb_fan_mode = pval.int_val;
+						if (cfgConfig.mb_fan_mode == MBFAN_ALWAYS_ON)
+							MBFAN_SetState(1);
+						else
+							MBFAN_SetState(0);
+						rdstate = CFGR_PRINTING;
+						break;
+					}
+				}
+
 
 		}
 		

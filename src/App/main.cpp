@@ -128,6 +128,12 @@ int main()
 	EEPROM_Init();
 
 	CFG_Init();
+	
+	// Motherboard fan
+	if (cfgConfig.mb_fan_mode == MBFAN_ALWAYS_ON)
+		MBFAN_SetState(1);
+	else
+		MBFAN_SetState(0);
 
 	// Touch interface init
 	Touch_Init();
@@ -877,9 +883,9 @@ int main()
 					else
 					{
 						if (cfgzMotor.home_dir == -1)
-							systemInfo.target_position = cfgzMotor.max_pos * (-1.0);
+							systemInfo.target_position = cfgzMotor.max_pos * (-1.0) - 2;
 						else
-							systemInfo.target_position = cfgzMotor.max_pos;
+							systemInfo.target_position = cfgzMotor.max_pos + 2;
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.homing_feedrate_fast);
 						systemInfo.printer_state = PST_HOMING_FAST;
 						if (systemInfo.print_is_homing)
@@ -1017,6 +1023,9 @@ int main()
 						systemInfo.print_current_height = systemInfo.target_position - cfgConfig.zero_pos;
 						ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgzMotor.feedrate);
 						UVFAN_On();
+						// Motherboard fan
+						if (cfgConfig.mb_fan_mode == MBFAN_PRINTING_ON)
+							MBFAN_SetState(1);
 
 						// TODO - file read error processing!
 						PRINT_ReadLayerBegin();
