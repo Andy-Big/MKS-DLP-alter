@@ -171,4 +171,13 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 + Added switching of the time display during printing when you click on the information area: the total estimated, remaining, and absolute time of the end of printing (that is, if at 10 am you started printing a file with a duration of 4 hours, it will show 14:00).
 + Lift height on pause and at the end of printing has been added to the print settings menu.
 + Acceleration added to print settings menu.
++ Added automatic platform lifting (with confirmation request) after setting Z=0.
+
+## 11.01.2021 Updates
+### v0.07
+**Added/changed:**
+* Added platform lift after calibration (Z = 0) if the user agrees. The lift height is set in the settings via the configuration file.
+* Added a linear decrease in exposure time from base layers to normal. In the configuration file, you can set the number of layers (number of steps) during which the exposure time decreases after the base layers.
+The essence of the linear decrease in exposure time is shown in this picture:
+![Printing screen](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/exp_decelerate.jpg)
 

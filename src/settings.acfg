@@ -100,7 +100,7 @@
 	# Platform acceleration in print mode, mm / sec2.
 	#---
 	# Ускорение платформы в режиме печати, мм/сек2.
-	acceleration = 3
+	acceleration = 2
 
 	# Platform movement speed in printing mode, mm / sec.
 	#---
@@ -234,6 +234,11 @@
 	# По умолчанию: 0.
 	use_external_clock = 0
 
+	# Platform lift height when calibrating complete (Z=0), in mm.
+	#---
+	# Высота подъема платформы после окончания калбировки (Z=0), в мм.
+	lift_after_calibrate = 100
+
 
 # Printing process settings
 [Printing]
@@ -260,6 +265,22 @@
 	#		1 - Вентилятор включается в начале печати и выключается по ее окончании.
 	#		2 - Вентилятор всегда включен.
 	mb_fan_mode = 1
+
+	# Decreases exposure linearly from base layer times to normal layer times.
+	# This parameter sets the number of layers for which the time will be reduced.
+	# For example, if you set the value to 5, then after the base layers the exposure
+	# of the layers with the normal time will not start immediately, but during 5
+	# layers the exposure time will decrease step by step and the normal value will
+	# reach the 6th normal layer (after the base layers).
+	# A value of 0 disables this feature.
+	#---
+	# Линейное уменьшение экспозиции от времени базовых слоев до времени нормальных слоев.
+	# Этот параметр задает количество слоев, за которое время будет уменьшено. Например,
+	# если задать значение 5, то после базовых слоев не сразу начнется экспозиция слоев
+	# с нормальным временем, а в течении 5 слоев время экспозиции будет пошагово уменьшаться
+	# и достигнет нормального значения к 6 нормальному слою (после базовых).
+	# Значение 0 отключает эту функцию.
+	exposure_decrease_steps = 8
 
 
 

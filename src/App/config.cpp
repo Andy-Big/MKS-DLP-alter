@@ -99,6 +99,12 @@ void			CFG_Init()
 			cfgConfig.mb_fan_mode = 1;
 			need_update = 1;
 		}
+		if (cfgConfig.cfg_version < 0x0007)
+		{
+			cfgConfig.lift_after_calibrate = 100;
+			cfgConfig.light_down_layers = 10;
+			need_update = 1;
+		}
 		if (cfgConfig.cfg_version < FW_VERSION)
 		{
 			need_update = 1;
@@ -178,11 +184,6 @@ uint16_t		CFG_ConfigCalculateCRC()
 	uint8_t 	*data = (uint8_t*)&cfgConfig;
 	uint16_t	crc = 0;
 	uint32_t	dlen = sizeof(GLOBAL_CONFIG);
-	switch(cfgConfig.cfg_version)
-	{
-		case 0x0002:
-			dlen = sizeof(GLOBAL_CONFIG_V002);
-	}
 	for (uint16_t i = 2; i < dlen; i++)
 	{
 		crc += data[i];
@@ -910,6 +911,25 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						break;
 					}
 				} else
+				if (*lexem == 'L')
+				{
+					if (strcmp(lexem, (char*)"LIFT_AFTER_CALIBRATE") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.float_val < 0)
+							pval.float_val = 0;
+						if (pval.float_val > 1000)
+							pval.float_val = 1000;
+						cfgConfig.lift_after_calibrate = pval.float_val;
+						rdstate = CFGR_GENERAL;
+						break;
+					}
+				} else
 				if (*lexem == 'R')
 				{
 					if (strcmp(lexem, (char*)"ROTATE_DISPLAY") == 0)
@@ -981,6 +1001,25 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 
 			case CFGR_PRINTING:
 				rdstate = CFGR_ERROR;
+				if (*lexem == 'E')
+				{
+					if (strcmp(lexem, (char*)"EXPOSURE_DECREASE_STEPS") == 0)
+					{
+						if (pval.type != PARAMVAL_NUMERIC)
+						{
+							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
+							sprintf(msg, string, numstr);
+							break;
+						}
+						if (pval.int_val < 0)
+							pval.int_val = 0;
+						if (pval.int_val > 1000)
+							pval.int_val = 1000;
+						cfgConfig.light_down_layers = pval.int_val;
+						rdstate = CFGR_PRINTING;
+						break;
+					}
+				} else
 				if (*lexem == 'L')
 				{
 					if (strcmp(lexem, (char*)"LIFT_ON_PAUSE") == 0)

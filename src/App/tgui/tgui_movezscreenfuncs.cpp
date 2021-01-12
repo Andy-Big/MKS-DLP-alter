@@ -245,7 +245,40 @@ void		_tgui_MovezSetZHome(void *tguiobj, void *param)
 {
 	cfgConfig.zero_pos = systemInfo.target_position;
 	CFG_SaveConfig();
-	TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LSTR_MSG_SET_CURRENT_Z0_SUCCESS));
+	if (cfgMotor.home_dir == -1)
+		TGUI_MessageBoxYesNo(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LSTR_MSG_SET_CURRENT_Z0_SUCCESS_LIFT_ASK), _tgui_MovezSetZHomeLift);
+	else
+		TGUI_MessageBoxOk(LANG_GetString(LSTR_COMPLETED), LANG_GetString(LSTR_MSG_SET_CURRENT_Z0_SUCCESS));
+}
+//==============================================================================
+
+
+
+
+void		_tgui_MovezSetZHomeLift(void *tguiobj, void *param)
+{
+	float		lift = 100;
+	float 		feedrate = cfgMotor.travel_feedrate / 3;
+
+	if (feedrate < 5)
+		feedrate = 5;
+	
+	if (lift > 30)
+	{
+		if (systemInfo.target_position < 30)
+		{
+			systemInfo.target_position = 30;
+			ZMOTOR_MoveAbsolute(systemInfo.target_position, feedrate);
+		}
+		systemInfo.target_position = lift;
+		ZMOTOR_MoveAbsolute(systemInfo.target_position, cfgMotor.travel_feedrate);
+	}
+	else
+	{
+		systemInfo.target_position = lift;
+		ZMOTOR_MoveAbsolute(systemInfo.target_position, feedrate);
+	}
+	systemInfo.printer_state = PST_FREEMOVING_UP;
 }
 //==============================================================================
 

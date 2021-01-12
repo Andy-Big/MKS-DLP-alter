@@ -80,7 +80,7 @@ extern Planner			zPlanner;
 #define MIN_STEPS_PER_SEGMENT		4
 // Delay for delivery of first block to the stepper ISR, if the queue contains 2 or
 // fewer movements. The delay is measured in milliseconds, and must be less than 250ms
-#define BLOCK_DELAY_FOR_1ST_MOVE	100
+#define BLOCK_DELAY_FOR_1ST_MOVE	20
 #define TEMP_TIMER_FREQUENCY		1000
 #define STEPPER_TIMER_RATE			(HAL_RCC_GetSysClockFreq() / 2)/STEPPER_TIMER_PRESCALE
 

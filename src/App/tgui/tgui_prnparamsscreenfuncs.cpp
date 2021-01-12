@@ -345,6 +345,7 @@ void		_tgui_PrnparamsDownButtonPress(void *tguiobj, void *param)
 					break;
 
 				case TG_SCR_PRNPARAMS_LIGHTPAUSE_ID:
+				case TG_SCR_PRNPARAMS_EXTPARAMS_ID:
 					if (pp_current_screen == 1)
 						tguiScreenPrnparams.buttons[i].options.disabled = 0;
 					else
@@ -405,6 +406,7 @@ void		_tgui_PrnparamsUpButtonPress(void *tguiobj, void *param)
 					break;
 
 				case TG_SCR_PRNPARAMS_LIGHTPAUSE_ID:
+				case TG_SCR_PRNPARAMS_EXTPARAMS_ID:
 					if (pp_current_screen == 1)
 						tguiScreenPrnparams.buttons[i].options.disabled = 0;
 					else

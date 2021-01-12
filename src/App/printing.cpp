@@ -49,6 +49,7 @@ extern DLP_BMP			cpld_bmp;
 
 uint8_t		PRINT_Init()
 {
+	systemInfo.print_time_decrement = 0;
 	systemInfo.print_current_layer = 0;
 	systemInfo.print_current_sublayer = 0;
 	systemInfo.print_time_begin = DTIME_GetCurrentUnixtime();

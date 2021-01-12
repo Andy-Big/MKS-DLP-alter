@@ -93,27 +93,11 @@ typedef struct
 	uint8_t			screensaver_type;
 	uint8_t			display_rotate;
 	uint8_t			use_ext_clock;
-
-} GLOBAL_CONFIG_V002;
-
-typedef struct
-{
-	uint16_t		cfg_crc;
-	uint16_t		cfg_version;
-
-	uint8_t			language;
-	float			zero_pos;
-	float			pause_lift;
-	float			end_lift;
-	uint8_t			buzzer;
-	uint16_t		buzzer_touch;
-	uint16_t		buzzer_msg;
-	uint32_t		screensaver_time;
-	uint8_t			screensaver_type;
-	uint8_t			display_rotate;
-	uint8_t			use_ext_clock;
 	float			touch_cal[6];
 	uint8_t			mb_fan_mode;
+	float			lift_after_calibrate;
+	uint32_t		light_down_layers;		// layers count for linear decelerate light time from base to normal layers
+	// 38
 
 } GLOBAL_CONFIG;
 
@@ -157,6 +141,10 @@ typedef struct
 	uint8_t			print_use_aa_grade;
 	uint8_t			print_use_ind_params;
 	uint32_t		print_timer_secs;
+	float			print_base_layers_count;
+	float			print_time_base_layers;
+	float			print_time_normal_layers;
+	float			print_time_decrement;		// layers count for linear decelerate light time from base to normal layers
 } SYSTEM_INFO;
 
 

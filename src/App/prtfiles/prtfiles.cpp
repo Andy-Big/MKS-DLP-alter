@@ -53,6 +53,9 @@ uint8_t		PFILE_Init(FIL *file, FILES_TYPE ftype)
 
 	if (pfile_type != FTYPE_NONE)
 	{
+		systemInfo.print_base_layers_count = PFILE_GetBottomLayers();
+		systemInfo.print_time_base_layers = PFILE_GetLightBottom();
+		systemInfo.print_time_normal_layers = PFILE_GetLightLayer();
 		if (PFILE_GetAntialiasing() > 1)
 			systemInfo.print_use_aa_grade = 1;
 		else
@@ -62,6 +65,7 @@ uint8_t		PFILE_Init(FIL *file, FILES_TYPE ftype)
 			systemInfo.print_use_ind_params = 1;
 		else
 			systemInfo.print_use_ind_params = 0;
+		
 	}
 	
 	return res;

@@ -17,6 +17,8 @@ void		_tgui_MovezSetZ0ButtonPress(void *tguiobj, void *param);
 void		_tgui_MovezUpdateHomed();
 
 void		_tgui_MovezSetZHome(void *tguiobj, void *param);
+void		_tgui_MovezSetZHomeLiftAsk(void *tguiobj, void *param);
+void		_tgui_MovezSetZHomeLift(void *tguiobj, void *param);
 void		_tgui_MovezScreenProcess(void *tguiobj, void *param);
 
 

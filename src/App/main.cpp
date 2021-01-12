@@ -1051,6 +1051,31 @@ int main()
 				if (UVPAUSE_TimerState() == 0)
 				{
 					systemInfo.printer_state = PST_PRINT_LIGHT;
+					// linear decrement light time from base to normal
+					if (systemInfo.print_use_ind_params == 0 && cfgConfig.light_down_layers > 0)
+					{
+						// first normal layer, calaulate decrement time
+						if (systemInfo.print_current_layer == systemInfo.print_base_layers_count)
+						{
+							systemInfo.print_time_base_layers = PFILE_GetLightBottom();
+							systemInfo.print_time_normal_layers = PFILE_GetLightLayer();
+							systemInfo.print_time_decrement = (systemInfo.print_time_base_layers - systemInfo.print_time_normal_layers) / (float)cfgConfig.light_down_layers;
+						}
+						// decrement light time until it is no less then normal layers time
+						if (systemInfo.print_time_decrement > 0)
+						{
+							// decrement time
+							systemInfo.print_time_base_layers -= systemInfo.print_time_decrement;
+							// set result time to current layer time
+							l_info.light_time = systemInfo.print_time_base_layers;
+							// check if result no less than normal layer time
+							if (l_info.light_time < systemInfo.print_time_normal_layers)
+							{
+								l_info.light_time = systemInfo.print_time_normal_layers;
+								systemInfo.print_time_decrement = 0;
+							}
+						}
+					}
 					UVLED_TimerOn((uint32_t)(l_info.light_time * 1000) / PFILE_GetAntialiasing());
 					PRINT_DrawLayerPreview();
 				}
