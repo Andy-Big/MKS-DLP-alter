@@ -46,7 +46,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	SetLocaleInfo(0x0419, LOCALE_IDEFAULTCODEPAGE, _T("1251"));
 	if (argc < 2)
 	{
-		printf("\r\nUsage: bmp_comp <.bmp file mask>\n");
+		printf("\r\nUsage: bmp2cimg <.bmp file mask>\n");
 		return 10;
 	}
 
