@@ -36,13 +36,18 @@ void GPIO_Init(void)
 
 	HAL_GPIO_WritePin(LED_UV_GPIO_Port, LED_UV_Pin, GPIO_PIN_RESET);
 
-	HAL_GPIO_WritePin(GPIOC, Z_DIR_Pin|FST_SPI_CS_SSDA_Pin|FST_SPI_SDC_Pin|CPLD_IO1_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(Z_DIR_GPIO_Port, Z_DIR_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(Z_STEP_GPIO_Port, Z_STEP_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(Z_ENA_GPIO_Port, Z_ENA_Pin, GPIO_PIN_SET);
 
-	HAL_GPIO_WritePin(GPIOA, Z_STEP_Pin|Z_ENA_Pin|FST_SPI_CS_SSDB_Pin|FST_SPI_CS_CPLD_Pin 
-					  |FST_SPI_CS_FLASH_Pin, GPIO_PIN_SET);
-
-	HAL_GPIO_WritePin(GPIOA, MIPI_CE_Pin|MIPI_EN_PWR_Pin, GPIO_PIN_RESET);
-
+	HAL_GPIO_WritePin(FST_SPI_CS_SSDA_GPIO_Port, FST_SPI_CS_SSDA_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(FST_SPI_SDC_GPIO_Port, FST_SPI_SDC_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(CPLD_IO1_GPIO_Port, CPLD_IO1_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(FST_SPI_CS_SSDB_GPIO_Port, FST_SPI_CS_SSDB_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(FST_SPI_CS_CPLD_GPIO_Port, FST_SPI_CS_CPLD_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(FST_SPI_CS_FLASH_GPIO_Port, FST_SPI_CS_FLASH_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(MIPI_CE_GPIO_Port, MIPI_CE_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(MIPI_EN_PWR_GPIO_Port, MIPI_EN_PWR_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(CPLD_RST_GPIO_Port, CPLD_RST_Pin, GPIO_PIN_SET);
 
 	HAL_GPIO_WritePin(TFT_LIGHT_GPIO_Port, TFT_LIGHT_Pin, GPIO_PIN_RESET);
@@ -58,6 +63,7 @@ void GPIO_Init(void)
 	HAL_GPIO_WritePin(USBH_VBUS_GPIO_Port, USBH_VBUS_Pin, GPIO_PIN_RESET);
 
 
+// set not used pins in analog mode
 #ifdef __MKSDLP11__
 	GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6 
 							|GPIO_PIN_0|GPIO_PIN_1;
@@ -67,20 +73,17 @@ void GPIO_Init(void)
 
 	GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8 
 					  		|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12;
-	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 	GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10;
-	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 	GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_11|GPIO_PIN_13|GPIO_PIN_6 
 					  		|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
-	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_2|GPIO_PIN_6;
+	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 #else
 	#ifdef __MKSDLP20__
 		GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6 
@@ -91,20 +94,18 @@ void GPIO_Init(void)
 
 		GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8 
 								|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12;
-		GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-		GPIO_InitStruct.Pull = GPIO_NOPULL;
 		HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 		GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10;
-		GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-		GPIO_InitStruct.Pull = GPIO_NOPULL;
 		HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 		GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_11|GPIO_PIN_13|GPIO_PIN_6 
 								|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
-		GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-		GPIO_InitStruct.Pull = GPIO_NOPULL;
 		HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+		GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_2|GPIO_PIN_6;
+		HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
 	#endif
 #endif
 
@@ -114,28 +115,38 @@ void GPIO_Init(void)
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(LED_UV_GPIO_Port, &GPIO_InitStruct);
 
-	GPIO_InitStruct.Pin = ZE_MIN_Pin|ZE_MAX_Pin;
+	GPIO_InitStruct.Pin = ZE_MIN_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+	HAL_GPIO_Init(ZE_MIN_GPIO_Port, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = ZE_MAX_Pin;
+	HAL_GPIO_Init(ZE_MAX_GPIO_Port, &GPIO_InitStruct);
 
-	GPIO_InitStruct.Pin = Z_DIR_Pin|FST_SPI_SDC_Pin|CPLD_IO1_Pin;
+	GPIO_InitStruct.Pin = Z_DIR_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
-	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+	HAL_GPIO_Init(Z_DIR_GPIO_Port, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = FST_SPI_SDC_Pin;
+	HAL_GPIO_Init(FST_SPI_SDC_GPIO_Port, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = CPLD_IO1_Pin;
+	HAL_GPIO_Init(CPLD_IO1_GPIO_Port, &GPIO_InitStruct);
 
-	GPIO_InitStruct.Pin = Z_STEP_Pin|Z_ENA_Pin;
+	GPIO_InitStruct.Pin = Z_STEP_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
-	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	HAL_GPIO_Init(Z_STEP_GPIO_Port, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = Z_ENA_Pin;
+	HAL_GPIO_Init(Z_ENA_GPIO_Port, &GPIO_InitStruct);
 
-	GPIO_InitStruct.Pin = MIPI_CE_Pin|MIPI_EN_PWR_Pin;
+	GPIO_InitStruct.Pin = MIPI_CE_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
-	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	HAL_GPIO_Init(MIPI_CE_GPIO_Port, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = MIPI_EN_PWR_Pin;
+	HAL_GPIO_Init(MIPI_EN_PWR_GPIO_Port, &GPIO_InitStruct);
 
 	GPIO_InitStruct.Pin = CPLD_CRC_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -165,11 +176,6 @@ void GPIO_Init(void)
 	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(FAN_MB_GPIO_Port, &GPIO_InitStruct);
-
-	GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_2|GPIO_PIN_6;
-	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
 	GPIO_InitStruct.Pin = TFT_RESET_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
