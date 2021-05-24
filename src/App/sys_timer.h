@@ -10,17 +10,17 @@ extern "C"
 #include "main.h"
 
 
-#define BUZZER_On()				BUZZER_GPIO_Port->BSRR = BUZZER_Pin						// Set pin
-#define BUZZER_Off()			BUZZER_GPIO_Port->BSRR = (uint32_t)BUZZER_Pin << 16U	// Reset pin
+#define BUZZER_On()				BUZZER_GPIO->BSRR = BUZZER_Pin						// Set pin
+#define BUZZER_Off()			BUZZER_GPIO->BSRR = (uint32_t)BUZZER_Pin << 16U	// Reset pin
 
-#define UVLED_On()				LED_UV_GPIO_Port->BSRR = LED_UV_Pin						// Set pin
-#define UVLED_Off()				LED_UV_GPIO_Port->BSRR = (uint32_t)LED_UV_Pin << 16U	// Reset pin
+#define UVLED_On()				LED_UV_GPIO->BSRR = LED_UV_Pin						// Set pin
+#define UVLED_Off()				LED_UV_GPIO->BSRR = (uint32_t)LED_UV_Pin << 16U	// Reset pin
 
-#define UVFAN_On()				FAN_LED_GPIO_Port->BSRR = FAN_LED_Pin					// Set pin
-#define UVFAN_Off()				FAN_LED_GPIO_Port->BSRR = (uint32_t)FAN_LED_Pin << 16U	// Reset pin
+#define UVFAN_On()				FAN_LED_GPIO->BSRR = FAN_LED_Pin					// Set pin
+#define UVFAN_Off()				FAN_LED_GPIO->BSRR = (uint32_t)FAN_LED_Pin << 16U	// Reset pin
 
-#define MBFAN_On()				FAN_MB_GPIO_Port->BSRR = FAN_MB_Pin						// Set pin
-#define MBFAN_Off()				FAN_MB_GPIO_Port->BSRR = (uint32_t)FAN_MB_Pin << 16U	// Reset pin
+#define MBFAN_On()				FAN_MB_GPIO->BSRR = FAN_MB_Pin						// Set pin
+#define MBFAN_Off()				FAN_MB_GPIO->BSRR = (uint32_t)FAN_MB_Pin << 16U	// Reset pin
 
 
 

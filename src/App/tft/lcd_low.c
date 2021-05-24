@@ -25,7 +25,11 @@ typedef struct
 } LCD_TypeDef;
 
 /* LCD is connected to the FSMC_Bank1_NOR/SRAM4 and NE4 is used as ship select signal */
-#define LCD_BASE		((uint32_t)(0x60000000 | 0x0003FFFE))    //A17,NE1
+#ifdef __LV3_BOARD__
+  #define LCD_BASE		((uint32_t)(0x6C000000 | 0x00001FFE))    //A12,NE4
+#else
+  #define LCD_BASE		((uint32_t)(0x60000000 | 0x0003FFFE))    //A17,NE1
+#endif
 
 #define LCD				((LCD_TypeDef *) LCD_BASE)
 
@@ -309,7 +313,7 @@ void		LCD_Initializtion(void)
 
 	if(DeviceCode < 0XFF || DeviceCode == 0XFFFF || DeviceCode == 0)//Read the ID is incorrect, add lcddev.id==0X9300 judgment, because 9341 will be read as 9300 without reset
 	{
-		LCD_WriteCmd(0XD3);
+		LCD_WriteCmd(0xD3);
 		DeviceCode = LCD_ReadRAM(); //dummy read
 		DeviceCode = LCD_ReadRAM(); //read to 0X00
 		DeviceCode = LCD_ReadRAM(); //Read 93

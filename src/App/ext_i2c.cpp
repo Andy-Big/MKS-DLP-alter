@@ -30,12 +30,14 @@ void		EXTI2C_Init(void)
 
 //	HAL_I2CEx_ConfigAnalogFilter(&hExtI2C, I2C_ANALOGFILTER_ENABLE);
 	
-	GPIO_InitStruct.Pin = EXT_I2C_SCL_Pin | EXT_I2C_SDA_Pin;
+	GPIO_InitStruct.Pin = EXT_I2C_SCL_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
 	GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
-	HAL_GPIO_Init(EXT_I2C_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(EXT_I2C_SCL_GPIO, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = EXT_I2C_SDA_Pin;
+	HAL_GPIO_Init(EXT_I2C_SDA_GPIO, &GPIO_InitStruct);
 
 	__HAL_I2C_ENABLE(&hExtI2C);
 	
@@ -53,10 +55,12 @@ void		EXTI2C_Deinit(void)
 	__HAL_I2C_DISABLE(&hExtI2C);
 	HAL_I2C_DeInit(&hExtI2C);
 
-	GPIO_InitStruct.Pin = EXT_I2C_SCL_Pin | EXT_I2C_SDA_Pin;
+	GPIO_InitStruct.Pin = EXT_I2C_SCL_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(EXT_I2C_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(EXT_I2C_SCL_GPIO, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = EXT_I2C_SDA_Pin;
+	HAL_GPIO_Init(EXT_I2C_SDA_GPIO, &GPIO_InitStruct);
 }
 //==============================================================================
 

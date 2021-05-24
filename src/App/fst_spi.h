@@ -11,27 +11,27 @@ extern "C" {
 
 #define USE_HAL_SPI_REGISTER_CALLBACKS	1U
 
-#define		_touch_CS_Enable()	TOUCH_CS_GPIO_Port->BSRR = (uint32_t)TOUCH_CS_Pin << 16U
-#define 	_touch_CS_Disable()	TOUCH_CS_GPIO_Port->BSRR = TOUCH_CS_Pin
+#define		_touch_CS_Enable()	TOUCH_CS_GPIO->BSRR = (uint32_t)TOUCH_CS_Pin << 16U
+#define 	_touch_CS_Disable()	TOUCH_CS_GPIO->BSRR = TOUCH_CS_Pin
 #define		TOUCH_READS			(uint8_t)16
 #define		TOUCH_BUFF_SIZE		(uint8_t)6*TOUCH_READS
 
 
 
-#define		_flash_CS_Enable()	FST_SPI_CS_FLASH_GPIO_Port->BSRR = (uint32_t)FST_SPI_CS_FLASH_Pin << 16U
-#define 	_flash_CS_Disable()	FST_SPI_CS_FLASH_GPIO_Port->BSRR = FST_SPI_CS_FLASH_Pin
+#define		_flash_CS_Enable()	FST_SPI_CS_FLASH_GPIO->BSRR = (uint32_t)FST_SPI_CS_FLASH_Pin << 16U
+#define 	_flash_CS_Disable()	FST_SPI_CS_FLASH_GPIO->BSRR = FST_SPI_CS_FLASH_Pin
 
 
 
-#define		_ssda_CS_Enable()	FST_SPI_CS_SSDA_GPIO_Port->BSRR = (uint32_t)FST_SPI_CS_SSDA_Pin << 16U
-#define 	_ssda_CS_Disable()	FST_SPI_CS_SSDA_GPIO_Port->BSRR = FST_SPI_CS_SSDA_Pin
-#define		_ssdb_CS_Enable()	FST_SPI_CS_SSDB_GPIO_Port->BSRR = (uint32_t)FST_SPI_CS_SSDB_Pin << 16U
-#define 	_ssdb_CS_Disable()	FST_SPI_CS_SSDB_GPIO_Port->BSRR = FST_SPI_CS_SSDB_Pin
+#define		_ssda_CS_Enable()	FST_SPI_CS_SSDA_GPIO->BSRR = (uint32_t)FST_SPI_CS_SSDA_Pin << 16U
+#define 	_ssda_CS_Disable()	FST_SPI_CS_SSDA_GPIO->BSRR = FST_SPI_CS_SSDA_Pin
+#define		_ssdb_CS_Enable()	FST_SPI_CS_SSDB_GPIO->BSRR = (uint32_t)FST_SPI_CS_SSDB_Pin << 16U
+#define 	_ssdb_CS_Disable()	FST_SPI_CS_SSDB_GPIO->BSRR = FST_SPI_CS_SSDB_Pin
 
 
 
-#define		_cpld_CS_Enable()	FST_SPI_CS_CPLD_GPIO_Port->BSRR = (uint32_t)FST_SPI_CS_CPLD_Pin << 16U
-#define 	_cpld_CS_Disable()	FST_SPI_CS_CPLD_GPIO_Port->BSRR = FST_SPI_CS_CPLD_Pin	
+#define		_cpld_CS_Enable()	FST_SPI_CS_CPLD_GPIO->BSRR = (uint32_t)FST_SPI_CS_CPLD_Pin << 16U
+#define 	_cpld_CS_Disable()	FST_SPI_CS_CPLD_GPIO->BSRR = FST_SPI_CS_CPLD_Pin	
 
 
 extern SPI_HandleTypeDef		hFlashSpi;

@@ -73,12 +73,16 @@ void		TOUCH_SPIEnable()
 	TOUCH_SPI_CLK_ENABLE();
 
 	// TOUCH_SPI GPIO Configuration    
-	GPIO_InitStruct.Pin = TOUCH_SPI_MISO_Pin | TOUCH_SPI_MOSI_Pin | TOUCH_SPI_SCK_Pin;
+	GPIO_InitStruct.Pin = TOUCH_SPI_MISO_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.Alternate = TOUCH_SPI_GPIO_ALTERNATE;
-	HAL_GPIO_Init(TOUCH_SPI_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(TOUCH_SPI_MISO_GPIO, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = TOUCH_SPI_MOSI_Pin;
+	HAL_GPIO_Init(TOUCH_SPI_MOSI_GPIO, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = TOUCH_SPI_SCK_Pin;
+	HAL_GPIO_Init(TOUCH_SPI_SCK_GPIO, &GPIO_InitStruct);
 
 	// Touch CS
 	_touch_CS_Disable();
@@ -86,7 +90,7 @@ void		TOUCH_SPIEnable()
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(TOUCH_CS_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(TOUCH_CS_GPIO, &GPIO_InitStruct);
 
 	// DMA
 	TOUCH_SPI_DMA_CLK_ENABLE();
@@ -140,8 +144,10 @@ void		TOUCH_SPIDisable()
 	TOUCH_SPI_CLK_DISABLE();
 
 	// SPI2 GPIO Configuration    
-	HAL_GPIO_DeInit(TOUCH_SPI_GPIO_Port, TOUCH_SPI_MISO_Pin | TOUCH_SPI_MOSI_Pin | TOUCH_SPI_SCK_Pin);
-	HAL_GPIO_DeInit(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin);
+	HAL_GPIO_DeInit(TOUCH_SPI_MISO_GPIO, TOUCH_SPI_MISO_Pin);
+	HAL_GPIO_DeInit(TOUCH_SPI_MOSI_GPIO, TOUCH_SPI_MOSI_Pin);
+	HAL_GPIO_DeInit(TOUCH_SPI_SCK_GPIO, TOUCH_SPI_SCK_Pin);
+	HAL_GPIO_DeInit(TOUCH_CS_GPIO, TOUCH_CS_Pin);
 
     HAL_DMA_DeInit(hTouchSpi.hdmarx);
     HAL_DMA_DeInit(hTouchSpi.hdmatx);
@@ -231,14 +237,20 @@ void		FLASH_SPIEnable()
 	FST_SPI_CLK_ENABLE();
 
 	// SPI1 GPIO Configuration    
-	GPIO_InitStruct.Pin = FST_SPI_MISO_Pin | FST_SPI_MOSI_Pin | FST_SPI_SCK_Pin;
+	GPIO_InitStruct.Pin = FST_SPI_MISO_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.Alternate = FST_SPI_GPIO_ALTERNATE;
-	HAL_GPIO_Init(FST_SPI_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(FST_SPI_MISO_GPIO, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = FST_SPI_MOSI_Pin;
+	HAL_GPIO_Init(FST_SPI_MOSI_GPIO, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = FST_SPI_SCK_Pin;
+	HAL_GPIO_Init(FST_SPI_SCK_GPIO, &GPIO_InitStruct);
 
 	_flash_CS_Disable();
+#ifdef __LV3_BOARD__
+#else
 	_ssda_CS_Disable();
 	_ssdb_CS_Disable();
 	_cpld_CS_Disable();
@@ -247,26 +259,26 @@ void		FLASH_SPIEnable()
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(FST_SPI_CS_CPLD_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(FST_SPI_CS_CPLD_GPIO, &GPIO_InitStruct);
 
 	GPIO_InitStruct.Pin = FST_SPI_CS_SSDA_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(FST_SPI_CS_SSDA_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(FST_SPI_CS_SSDA_GPIO, &GPIO_InitStruct);
 
 	GPIO_InitStruct.Pin = FST_SPI_CS_SSDB_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(FST_SPI_CS_SSDB_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(FST_SPI_CS_SSDB_GPIO, &GPIO_InitStruct);
 
 	GPIO_InitStruct.Pin = FST_SPI_CS_FLASH_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(FST_SPI_CS_FLASH_GPIO_Port, &GPIO_InitStruct);
-
+	HAL_GPIO_Init(FST_SPI_CS_FLASH_GPIO, &GPIO_InitStruct);
+#endif
 	// DMA
 	FST_SPI_DMA_CLK_ENABLE();
 	
@@ -319,7 +331,9 @@ void		FLASH_SPIDisable()
 	// Peripheral clock disable
 	FST_SPI_CLK_DISABLE();
 
-	HAL_GPIO_DeInit(FST_SPI_GPIO_Port, FST_SPI_MISO_Pin | FST_SPI_MOSI_Pin | FST_SPI_SCK_Pin);
+	HAL_GPIO_DeInit(FST_SPI_MISO_GPIO, FST_SPI_MISO_Pin);
+	HAL_GPIO_DeInit(FST_SPI_MOSI_GPIO, FST_SPI_MOSI_Pin);
+	HAL_GPIO_DeInit(FST_SPI_SCK_GPIO, FST_SPI_SCK_Pin);
 
 	/* SPI1 DMA DeInit */
 	HAL_DMA_DeInit(hFlashSpi.hdmarx);

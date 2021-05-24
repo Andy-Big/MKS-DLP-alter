@@ -37,7 +37,11 @@ void MX_FSMC_Init(void)
   hsram1.Instance = FSMC_NORSRAM_DEVICE;
   hsram1.Extended = FSMC_NORSRAM_EXTENDED_DEVICE;
   /* hsram1.Init */
+#ifdef __LV3_BOARD__
+  hsram1.Init.NSBank = FSMC_NORSRAM_BANK4;
+#else
   hsram1.Init.NSBank = FSMC_NORSRAM_BANK1;
+#endif
   hsram1.Init.DataAddressMux = FSMC_DATA_ADDRESS_MUX_DISABLE;
   hsram1.Init.MemoryType = FSMC_MEMORY_TYPE_SRAM;
   hsram1.Init.MemoryDataWidth = FSMC_NORSRAM_MEM_BUS_WIDTH_16;
@@ -135,23 +139,23 @@ void HAL_FSMC_MspInit(void){
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.Alternate = GPIO_AF12_FSMC;
-	HAL_GPIO_Init(FSMC_GPIO_Port1, &GPIO_InitStruct);
+	HAL_GPIO_Init(FSMC_GPIO1, &GPIO_InitStruct);
 
 	GPIO_InitStruct.Pin = FSMC_Pins2;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.Alternate = GPIO_AF12_FSMC;
-	HAL_GPIO_Init(FSMC_GPIO_Port2, &GPIO_InitStruct);
+	HAL_GPIO_Init(FSMC_GPIO2, &GPIO_InitStruct);
 
-	if (FSMC_GPIO_Port3 != 0)
+	if (FSMC_GPIO3 != 0)
 	{
 		GPIO_InitStruct.Pin = FSMC_Pins3;
 		GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 		GPIO_InitStruct.Pull = GPIO_NOPULL;
 		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 		GPIO_InitStruct.Alternate = GPIO_AF12_FSMC;
-		HAL_GPIO_Init(FSMC_GPIO_Port3, &GPIO_InitStruct);
+		HAL_GPIO_Init(FSMC_GPIO3, &GPIO_InitStruct);
 	}
 }
 
@@ -172,11 +176,11 @@ static void HAL_FSMC_MspDeInit(void)
 	/* Peripheral clock enable */
 	__HAL_RCC_FSMC_CLK_DISABLE();
 
-	HAL_GPIO_DeInit(FSMC_GPIO_Port1, FSMC_Pins1);
-	HAL_GPIO_DeInit(FSMC_GPIO_Port2, FSMC_Pins2);
-	if (FSMC_GPIO_Port3 != 0)
+	HAL_GPIO_DeInit(FSMC_GPIO1, FSMC_Pins1);
+	HAL_GPIO_DeInit(FSMC_GPIO2, FSMC_Pins2);
+	if (FSMC_GPIO3 != 0)
 	{
-		HAL_GPIO_DeInit(FSMC_GPIO_Port3, FSMC_Pins3);
+		HAL_GPIO_DeInit(FSMC_GPIO3, FSMC_Pins3);
 	}
 }
 

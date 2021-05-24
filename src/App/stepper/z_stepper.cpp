@@ -193,12 +193,12 @@ void Stepper::set_directions()
 	
 	if (motor_direction())
 	{
-		HAL_GPIO_WritePin(Z_DIR_GPIO_Port, Z_DIR_Pin, (GPIO_PinState)cfgMotor.invert_dir);
+		HAL_GPIO_WritePin(Z_DIR_GPIO, Z_DIR_Pin, (GPIO_PinState)cfgMotor.invert_dir);
 		count_direction = -1;
 	}
 	else
 	{
-		HAL_GPIO_WritePin(Z_DIR_GPIO_Port, Z_DIR_Pin, (GPIO_PinState)!cfgMotor.invert_dir);
+		HAL_GPIO_WritePin(Z_DIR_GPIO, Z_DIR_Pin, (GPIO_PinState)!cfgMotor.invert_dir);
 		count_direction = 1;
 	}
 	
@@ -669,7 +669,7 @@ void Stepper::pulse_phase_isr()
 #endif
 		
 		if (step_needed)
-			Z_STEP_GPIO_Port->BSRR = Z_STEP_Pin;
+			Z_STEP_GPIO->BSRR = Z_STEP_Pin;
 		
 		// TODO: need to deal with MINIMUM_STEPPER_PULSE over i2s
 #ifdef ISR_MULTI_STEPS
@@ -678,7 +678,7 @@ void Stepper::pulse_phase_isr()
 #endif
 		
 		if (step_needed)
-			Z_STEP_GPIO_Port->BSRR = (uint32_t)Z_STEP_Pin << 16U;
+			Z_STEP_GPIO->BSRR = (uint32_t)Z_STEP_Pin << 16U;
 		
 #ifdef ISR_MULTI_STEPS
 		if (events_to_do)
@@ -893,9 +893,9 @@ void Stepper::init()
 	count_position = 0;
 	
 	// step pin
-	Z_STEP_GPIO_Port->BSRR = (uint32_t)Z_STEP_Pin << 16U;
+	Z_STEP_GPIO->BSRR = (uint32_t)Z_STEP_Pin << 16U;
 	// enable pin
-	Z_ENA_GPIO_Port->BSRR = (uint32_t)Z_ENA_Pin;
+	Z_ENA_GPIO->BSRR = (uint32_t)Z_ENA_Pin;
 	
 	ENABLE_STEPPER_DRIVER_INTERRUPT();
 	wake_up();

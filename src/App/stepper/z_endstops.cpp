@@ -81,8 +81,8 @@ void Endstops::update()
 {
 	if (enabled)
 	{
-		__SET_BIT(live_state, Z_MIN, (HAL_GPIO_ReadPin(ZE_MIN_GPIO_Port, ZE_MIN_Pin) != cfgMotor.min_endstop_inverting));
-		__SET_BIT(live_state, Z_MAX, (HAL_GPIO_ReadPin(ZE_MAX_GPIO_Port, ZE_MAX_Pin) != cfgMotor.max_endstop_inverting));
+		__SET_BIT(live_state, Z_MIN, (HAL_GPIO_ReadPin(ZE_MIN_GPIO, ZE_MIN_Pin) != cfgMotor.min_endstop_inverting));
+		__SET_BIT(live_state, Z_MAX, (HAL_GPIO_ReadPin(ZE_MAX_GPIO, ZE_MAX_Pin) != cfgMotor.max_endstop_inverting));
 
 		// Signal, after validation, if an endstop limit is pressed or not
 

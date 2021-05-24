@@ -1,0 +1,49 @@
+
+	FILE HEADER:
+header  ----------------------  0x12fd0086
+version  ---------------------  0x00000003
+bed_x_mm  --------------------  82.62
+bed_y_mm  --------------------  130.56
+bed_z_mm  --------------------  150.00
+model_height_mm  -------------  4.000
+slicer_layers_thickness  -----  0.040
+slicer_exp_time  -------------  2.00
+slicer_expbottom_time  -------  2.00
+slicer_lightoff_time  --------  2.00
+bottom_layers  ---------------  4
+res_x  -----------------------  1620
+res_y  -----------------------  2560
+preview_large_offset  --------  0x00000070 (112)
+layersdef_offset  ------------  0x00007c01 (31745)
+total_layers  ----------------  100
+preview_small_offset  --------  0x0000627a (25210)
+print_time_seconds  ----------  700 (00:11:40)
+mirror_show  -----------------  0x00000001
+print_parameters_offset  -----  0x00007b72 (31602)
+print_parameters_size  -------  0x0000003c (60)
+aa_grade  --------------------  1
+light_pwm  -------------------  255
+light_bottom_pwm  ------------  255
+encryption_key  --------------  0xfcd694bd
+slicer_offset  ---------------  0x00007bae (31662)
+slicer_size  -----------------  0x0000004c (76)
+
+	FILE INFO:
+lift_height_bottom  ----------  1.00
+lift_speed_bottom  -----------  260.00
+lift_height  -----------------  1.00
+lift_speed  ------------------  260.00
+down_speed  ------------------  320.00
+resin_volume  ----------------  6.63
+resin_weight  ----------------  1.07
+resin_price  -----------------  0.03
+slicer_lightoff_time_bottom  -  2.00
+slicer_lightoff_time  --------  0
+bottom_layers  ---------------  4
+	FILE INFOEXT:
+machine_type_offset  ---------  0x00007bfa (31738)
+machine_type_len  ------------  0x00000007 (7)
+encryption_mode  -------------  0x2000000f
+count_unknown  ---------------  0x019c66e6 (27027174)
+aa_grade  --------------------  2
+software_version  ------------  0x01080100 (1.8.1.0)

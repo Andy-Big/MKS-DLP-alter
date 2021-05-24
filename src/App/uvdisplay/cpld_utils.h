@@ -4,10 +4,10 @@
 #include "stm32f4xx_hal.h"
 #include "main.h"
 	 
-#define CPLD_RST_Off()				CPLD_RST_GPIO_Port->BSRR = CPLD_RST_Pin
-#define CPLD_RST_On()				CPLD_RST_GPIO_Port->BSRR = (uint32_t)CPLD_RST_Pin << 16U
+#define CPLD_RST_Off()				CPLD_RST_GPIO->BSRR = CPLD_RST_Pin
+#define CPLD_RST_On()				CPLD_RST_GPIO->BSRR = (uint32_t)CPLD_RST_Pin << 16U
 
-#define CPLD_Get_CRC()				(CPLD_CRC_GPIO_Port->IDR & CPLD_CRC_Pin)
+#define CPLD_Get_CRC()				(CPLD_CRC_GPIO->IDR & CPLD_CRC_Pin)
 
 
 

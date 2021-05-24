@@ -91,7 +91,7 @@ void		ZMOTOR_Init()
 
 void			ZMOTOR_MotorEnable()
 {
-	Z_ENA_GPIO_Port->BSRR = (uint32_t)Z_ENA_Pin << 16U;
+	Z_ENA_GPIO->BSRR = (uint32_t)Z_ENA_Pin << 16U;
 	Z_REF_TIMER->CCR1 = (uint32_t)(cfgMotor.current_vref * 0.364);
 	systemInfo.zmotor_enabled = 1;
 }
@@ -102,7 +102,7 @@ void			ZMOTOR_MotorEnable()
 
 void			ZMOTOR_MotorDisable()
 {
-	Z_ENA_GPIO_Port->BSRR = Z_ENA_Pin;
+	Z_ENA_GPIO->BSRR = Z_ENA_Pin;
 	// Set motor current
 	Z_REF_TIMER->CCR1 = 1;
 	systemInfo.zmotor_enabled = 0;

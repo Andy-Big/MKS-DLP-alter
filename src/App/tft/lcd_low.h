@@ -9,11 +9,11 @@
 #include "main.h"
 	 
 //Hardware-related sub-functions
-#define Lcd_Light_ON()		TFT_LIGHT_GPIO_Port->BSRR = TFT_LIGHT_Pin
-#define Lcd_Light_OFF()		TFT_LIGHT_GPIO_Port->BSRR = (uint32_t)TFT_LIGHT_Pin << 16U
+#define Lcd_Light_ON()		TFT_LIGHT_GPIO->BSRR = TFT_LIGHT_Pin
+#define Lcd_Light_OFF()		TFT_LIGHT_GPIO->BSRR = (uint32_t)TFT_LIGHT_Pin << 16U
 
-#define Lcd_SET()			TFT_RESET_GPIO_Port->BSRR = TFT_RESET_Pin
-#define Lcd_RESET()			TFT_RESET_GPIO_Port->BSRR = (uint32_t)TFT_RESET_Pin << 16U
+#define Lcd_SET()			TFT_RESET_GPIO->BSRR = TFT_RESET_Pin
+#define Lcd_RESET()			TFT_RESET_GPIO->BSRR = (uint32_t)TFT_RESET_Pin << 16U
 
 #define LCD_WIDTH			(uint16_t)480
 #define LCD_HEIGHT			(uint16_t)320

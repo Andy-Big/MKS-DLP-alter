@@ -694,7 +694,7 @@ float Planner::triggered_position_mm()
 void Planner::finish_and_disable()
 {
 	while (has_blocks_queued() || cleaning_buffer_counter) idle();
-	Z_ENA_GPIO_Port->BSRR = Z_ENA_Pin;
+	Z_ENA_GPIO->BSRR = Z_ENA_Pin;
 }
 
 /**
@@ -832,7 +832,7 @@ bool Planner::_populate_block(block_t * const block, bool split_move, const int3
 	// Enable active axes
 	if (block->steps)
 		// enable pin
-		Z_ENA_GPIO_Port->BSRR = (uint32_t)Z_ENA_Pin << 16U;
+		Z_ENA_GPIO->BSRR = (uint32_t)Z_ENA_Pin << 16U;
 	
 	const float inverse_millimeters = 1.0f / block->millimeters;  // Inverse millimeters to remove multiple divides
 	

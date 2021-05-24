@@ -5,21 +5,21 @@
 #include "main.h"
 
 // LS_VSP_N_ENA_OP
-#define MIPI_PwrEn_On()				MIPI_EN_PWR_GPIO_Port->BSRR = MIPI_EN_PWR_Pin					// Set bit
-#define MIPI_PwrEn_Off()			MIPI_EN_PWR_GPIO_Port->BSRR = (uint32_t)MIPI_EN_PWR_Pin << 16U	// Reset bit
+#define MIPI_PwrEn_On()				MIPI_EN_PWR_GPIO->BSRR = MIPI_EN_PWR_Pin					// Set bit
+#define MIPI_PwrEn_Off()			MIPI_EN_PWR_GPIO->BSRR = (uint32_t)MIPI_EN_PWR_Pin << 16U	// Reset bit
 
 // LS_IOVCC_ENA_OP
-#define MIPI_Ce_On()				MIPI_CE_GPIO_Port->BSRR = MIPI_CE_Pin
-#define MIPI_Ce_Off()				MIPI_CE_GPIO_Port->BSRR = (uint32_t)MIPI_CE_Pin << 16U
+#define MIPI_Ce_On()				MIPI_CE_GPIO->BSRR = MIPI_CE_Pin
+#define MIPI_Ce_Off()				MIPI_CE_GPIO->BSRR = (uint32_t)MIPI_CE_Pin << 16U
 
-#define MIPI_SDC_Off()				FST_SPI_SDC_GPIO_Port->BSRR = FST_SPI_SDC_Pin
-#define MIPI_SDC_On()				FST_SPI_SDC_GPIO_Port->BSRR = (uint32_t)FST_SPI_SDC_Pin << 16U
+#define MIPI_SDC_Off()				FST_SPI_SDC_GPIO->BSRR = FST_SPI_SDC_Pin
+#define MIPI_SDC_On()				FST_SPI_SDC_GPIO->BSRR = (uint32_t)FST_SPI_SDC_Pin << 16U
 
-#define MIPI_SsdA_Cs_Off()			FST_SPI_CS_SSDA_GPIO_Port->BSRR = FST_SPI_CS_SSDA_Pin
-#define MIPI_SsdA_Cs_On()			FST_SPI_CS_SSDA_GPIO_Port->BSRR = (uint32_t)FST_SPI_CS_SSDA_Pin << 16U
+#define MIPI_SsdA_Cs_Off()			FST_SPI_CS_SSDA_GPIO->BSRR = FST_SPI_CS_SSDA_Pin
+#define MIPI_SsdA_Cs_On()			FST_SPI_CS_SSDA_GPIO->BSRR = (uint32_t)FST_SPI_CS_SSDA_Pin << 16U
 
-#define MIPI_SsdB_Cs_Off()			FST_SPI_CS_SSDB_GPIO_Port->BSRR = FST_SPI_CS_SSDB_Pin
-#define MIPI_SsdB_Cs_On()			FST_SPI_CS_SSDB_GPIO_Port->BSRR = (uint32_t)FST_SPI_CS_SSDB_Pin << 16U
+#define MIPI_SsdB_Cs_Off()			FST_SPI_CS_SSDB_GPIO->BSRR = FST_SPI_CS_SSDB_Pin
+#define MIPI_SsdB_Cs_On()			FST_SPI_CS_SSDB_GPIO->BSRR = (uint32_t)FST_SPI_CS_SSDB_Pin << 16U
 
 
 

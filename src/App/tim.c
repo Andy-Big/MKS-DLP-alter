@@ -131,7 +131,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
 		GPIO_InitStruct.Pull = GPIO_NOPULL;
 		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 		GPIO_InitStruct.Alternate = Z_REF_ALTERNATE;
-		HAL_GPIO_Init(Z_REF_Port, &GPIO_InitStruct);
+		HAL_GPIO_Init(Z_REF_GPIO, &GPIO_InitStruct);
 
 	}
 

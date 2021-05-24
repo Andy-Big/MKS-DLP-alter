@@ -14,7 +14,6 @@ FPHOTON_PREVIEW			fphoton_preview_big;
 FPHOTON_PREVIEW			fphoton_preview_small;
 
 
-
 uint8_t		FPHOTON_ReadFileInfo(FIL *file)
 {
 	UINT	readed;
