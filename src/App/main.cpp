@@ -113,13 +113,13 @@ int main()
 	SCB->VTOR = FLASH_BASE | 0x20000;
 #endif  // __CHITU_BOARD__
 	HAL_PWR_DeInit();
-	SystemClock_Config();
-	SysTick->CTRL = 0;
 	HAL_DeInit();
 	HAL_Init();
+	SystemClock_Config();
 	__ASM volatile("cpsie i");
 
 
+	
 	GPIO_Init();
 
 	// FatFS init
@@ -133,8 +133,36 @@ int main()
 	tguiScreenTimer = SYSTIMER_NewCountDown(TIMER_DISABLE);
 	timerWorkTimeTimer = SYSTIMER_NewCountDown(TIMERS_SAVE_PERIOD * 1000);
 
+	
 	EEPROM_Init();
 
+	
+	
+	
+	
+	
+/*
+	// clear EPROM and SPI-FLASH	
+	FLASH_SPIInit();
+	FLASH_SPIEnable();
+	FLASH_SPISetSpeed(FST_SPI_CLOCKSPEED);
+	SPIFL_Init();
+	
+	memset(fbuff, 0xFFFFFFFF, 2048);
+	EEPROM_WriteMemBuff(0, fbuff, 2048);
+	memset(fbuff, 0x00000000, 2048);
+	EEPROM_ReadMemBuff(0, fbuff, 2048);
+
+	memset(fbuff, 0xFFFFFFFF, 4096);
+	for (uint32_t i = 0; i < 1024; i++)
+		SPIFL_WriteBuff(i * 4096, 4096, fbuff);
+	while (1);
+*/
+	
+	
+	
+	
+		
 	CFG_Init();
 	
 	// Motherboard fan
@@ -160,9 +188,8 @@ int main()
 	FLASH_SPISetSpeed(FST_SPI_CLOCKSPEED);
 	// SPI flash logic init
 	SPIFL_Init();
-//	_touch_ReadCoords();
-//	_touch_ReadCoords();
 
+	
 	LCDUI_SetFont(LCDUI_FONT_H18);
 	LCDUI_SetColor(COLOR_WHITE);
 	LCDUI_SetBackColor(COLOR_BLACK);
@@ -202,7 +229,7 @@ int main()
 		{
 			srvMode = 1;
 		}
-		if ( tp.xc < 50 && tp.yc < 50)
+		else
 		{
 			cfgConfig.touch_cal[0] = cfgConfig.touch_cal[4] = 1;
 			cfgConfig.touch_cal[1] = cfgConfig.touch_cal[2] = cfgConfig.touch_cal[3] = cfgConfig.touch_cal[5] = 0;
@@ -1351,10 +1378,12 @@ void SystemClock_Config(void)
 	PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_HSE_DIV20;
 #endif  // __CHITU_BOARD__
 
-	if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-	{
-		Error_Handler();
-	}
+	PWR->CR |= PWR_CR_DBP;
+    while((PWR->CR & PWR_CR_DBP) == 0);
+	RCC->BDCR |= RCC_BDCR_BDRST;
+	RCC->BDCR &= ~RCC_BDCR_BDRST;
+	__HAL_RCC_RTC_CONFIG(PeriphClkInitStruct.RTCClockSelection);
+	RCC->BDCR |= RCC_BDCR_RTCEN;
 }
 //==============================================================================
 

@@ -578,6 +578,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 				{
 					if (strcmp(lexem, (char*)"CURRENT_HOLD_VREF") == 0)
 					{
+#ifdef __MKSDLP_BOARD__
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
 							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
@@ -589,11 +590,13 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						if (pval.uint_val > 1000)
 							pval.uint_val = 1000;
 						cfgMotor.current_hold_vref = pval.uint_val;
+#endif
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
 					if (strcmp(lexem, (char*)"CURRENT_VREF") == 0)
 					{
+#ifdef __MKSDLP_BOARD__
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
 							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
@@ -605,6 +608,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						if (pval.uint_val > 1000)
 							pval.uint_val = 1000;
 						cfgMotor.current_vref = pval.uint_val;
+#endif
 						rdstate = CFGR_ZMOTOR;
 						break;
 					}
@@ -980,6 +984,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 				{
 					if (strcmp(lexem, (char*)"USE_EXTERNAL_CLOCK") == 0)
 					{
+#ifdef __MKSDLP_BOARD__
 						if (pval.type != PARAMVAL_NUMERIC)
 						{
 							string = LANG_GetString(LSTR_MSG_INVALID_PARAMVAL_IN_CFG);
@@ -990,6 +995,7 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 							cfgConfig.use_ext_clock = 1;
 						else
 							cfgConfig.use_ext_clock = 0;
+#endif
 						rdstate = CFGR_GENERAL;
 						break;
 					}

@@ -126,13 +126,17 @@
 	travel_feedrate = 25.0
 
 	# Motor current for the driver integrated into the board, mA.
+	# Ignored for Chitu L V3 board.
 	#---
 	# Ток двигателя для интегрированного в плату драйвера, мА.
+	# Игнорируется для плат Citu L V3
 	current_vref = 800.0
 
 	# Motor current for the driver integrated into the board in hold mode, mA.
+	# Ignored for Chitu L V3 board.
 	#---
 	# Ток двигателя для интегрированного в плату драйвера в режиме удержания, мА.
+	# Игнорируется для плат Citu L V3
 	current_hold_vref = 300.0
 
 	# The time since the last movement of the motor, after which the hold mode
@@ -218,6 +222,7 @@
 	# the current date and time from it at startup.
 	# When setting the date and time through the settings, the new values ​​are
 	# also saved in the external clock.
+	# Ignored for Chitu L V3 board.
 	# Valid values:
 	#		0 - external clock is not connected
 	# 		1 - external clock is connected, use it as a source of time and date
@@ -228,6 +233,7 @@
 	# берет из них текущие дату и время.
 	# При установке даты и времени через настройки новые значения так же
 	# сохраняются во внешние часы.
+	# Игнорируется для плат Citu L V3
 	# Допустимые значения:
 	#		0 - внешние часы не подключены
 	#		1 - внешние часы подключены, использовать их как источник времени и даты

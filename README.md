@@ -1,6 +1,6 @@
 # MKS-DLP-alter
  
-**Alternative firmware for MKS DLP board v1.1**
+**Alternative firmware for MKS DLP 1.1/2.0 and soon for Chitu L V3 boards**
 
 Using IAR 8.32 with ST HAL library.
 
@@ -180,4 +180,9 @@ https://www.youtube.com/watch?v=ob9bVc12w_o
 * Added a linear decrease in exposure time from base layers to normal. In the configuration file, you can set the number of layers (number of steps) during which the exposure time decreases after the base layers.
 The essence of the linear decrease in exposure time is shown in this picture:
 ![Printing screen](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/exp_decelerate.jpg)
+
+## 25.05.2021 Updates
+### v0.08
+**Added/changed:**
+* Work has begun on adapting the firmware for Chitu L V3 boards. At the moment, the work with UV display has not yet been implemented, but everything else is already working.
 

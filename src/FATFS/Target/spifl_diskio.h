@@ -4,7 +4,7 @@
 #include "spi_flash.h"
 
 
-#define		_SPIFL_SECT_DIVIDER		1
+#define		_SPIFL_SECT_DIVIDER			1
 
 
 extern const Diskio_drvTypeDef  SPIFL_Driver;

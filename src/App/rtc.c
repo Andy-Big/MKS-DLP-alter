@@ -60,8 +60,8 @@ void RTC_Init(void)
 
 		/** Initialize RTC and set the Time and Date 
 		*/
-		sTime.Hours = 07;
-		sTime.Minutes = 56;
+		sTime.Hours = 9;
+		sTime.Minutes = 00;
 		sTime.Seconds = 0;
 		sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
 		sTime.StoreOperation = RTC_STOREOPERATION_RESET;
@@ -70,9 +70,9 @@ void RTC_Init(void)
 			Error_Handler();
 		}
 		sDate.WeekDay = RTC_WEEKDAY_TUESDAY;
-		sDate.Month = RTC_MONTH_SEPTEMBER;
-		sDate.Date = 15;
-		sDate.Year = 20;
+		sDate.Month = RTC_MONTH_MAY;
+		sDate.Date = 25;
+		sDate.Year = 21;
 
 		if (HAL_RTC_SetDate(&hRTC, &sDate, RTC_FORMAT_BIN) != HAL_OK)
 		{
