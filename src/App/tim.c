@@ -54,6 +54,8 @@ void TIM_ZStepper_Init(void)
 }
 
 
+#ifdef __MKSDLP_BOARD__
+
 // TIM5 init function - Z Vref output
 void TIM_ZRef_Init(void)
 {
@@ -97,6 +99,7 @@ void TIM_ZRef_Init(void)
 	HAL_TIM_MspPostInit(&hZRefTim);
 
 }
+#endif  // __MKSDLP_BOARD__
 
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
 {
@@ -110,17 +113,21 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
 		HAL_NVIC_EnableIRQ(TIM2_IRQn);
 	}
 
+#ifdef __MKSDLP_BOARD__
 	if(tim_baseHandle->Instance == Z_REF_TIMER)
 	{
 		/* TIM5 clock enable */
 		Z_REF_TIMER_CLK_ENABLE();
 
 	}
+#endif  // __MKSDLP_BOARD__
+
 }
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
 {
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
+#ifdef __MKSDLP_BOARD__
 	if(timHandle->Instance == Z_REF_TIMER)
 	{
 		/**TIM5 GPIO Configuration    
@@ -134,6 +141,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
 		HAL_GPIO_Init(Z_REF_GPIO, &GPIO_InitStruct);
 
 	}
+#endif  // __MKSDLP_BOARD__
 
 }
 
@@ -148,6 +156,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 		HAL_NVIC_DisableIRQ(TIM2_IRQn);
 	}
 
+#ifdef __MKSDLP_BOARD__
 	if(tim_baseHandle->Instance == Z_REF_TIMER)
 	{
 		/* Peripheral clock disable */
@@ -156,6 +165,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 		/* TIM5 interrupt Deinit */
 		HAL_NVIC_DisableIRQ(Z_REF_TIMER_IRQ);
 	}
+#endif  // __MKSDLP_BOARD__
 } 
 
 

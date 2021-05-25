@@ -185,24 +185,49 @@ void TIM2_IRQHandler(void)
 }
 
 
-/**
-  * @brief This function handles EXTI line0 interrupt - Z_Min endstop
-  */
+
+
+#ifdef __MKSDLP_BOARD__
+  #ifdef __MKSDLP_V11__
 void EXTI0_IRQHandler(void)
 {
   HAL_GPIO_EXTI_IRQHandler(ZE_MIN_Pin);
   EndstopsInterrupt();
 }
 
-/**
-  * @brief This function handles EXTI line2 interrupt - Z_Max endstop
-  */
 void EXTI2_IRQHandler(void)
 {
   HAL_GPIO_EXTI_IRQHandler(ZE_MAX_Pin);
   EndstopsInterrupt();
 }
+  #endif  // __MKSDLP_V11__
+  #ifdef __MKSDLP_V20__
+void EXTI0_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(ZE_MIN_Pin);
+  EndstopsInterrupt();
+}
 
+void EXTI2_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(ZE_MAX_Pin);
+  EndstopsInterrupt();
+}
+  #endif  // __MKSDLP_V20__
+#endif  // __MKSDLP_BOARD__
+
+
+#ifdef __CHITU_BOARD__
+  #ifdef __CHITU_LV3__
+void EXTI15_10_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(ZE_MIN_Pin);
+  HAL_GPIO_EXTI_IRQHandler(ZE_MAX_Pin);
+  EndstopsInterrupt();
+}
+
+  #endif  // __CHITU_LV3__
+#endif  // __CHITU_BOARD__
 
 void WWDG_IRQHandler(void)
 {

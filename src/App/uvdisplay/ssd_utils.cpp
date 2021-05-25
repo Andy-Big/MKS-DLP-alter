@@ -1,3 +1,6 @@
+#ifdef __MKSDLP_BOARD__
+
+
 #include "ssd_utils.h"
 #include "cpld_utils.h"
 #include "fst_spi.h"
@@ -396,3 +399,4 @@ void		MIPI_On()
 
 
 
+#endif  // __MKSDLP_BOARD__

@@ -43,7 +43,8 @@ extern "C"
 
 
 
-#ifdef __MKSDLP11__
+#ifdef __MKSDLP_BOARD__
+  #ifdef __MKSDLP_V11__
 	// --------- FSMC (TFT) ----------
 	#define FSMC_Pins1				GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_12 | GPIO_PIN_14 | GPIO_PIN_15
 	#define FSMC_GPIO1				GPIOD
@@ -228,8 +229,8 @@ extern "C"
 
 	#define EXT_I2C_CLK_ENABLE()	__HAL_RCC_I2C1_CLK_ENABLE()
 	#define EXT_I2C_CLK_DISABLE()	__HAL_RCC_I2C1_CLK_DISABLE()
-#endif
-#ifdef __MKSDLP20__
+  #endif
+  #ifdef __MKSDLP_V20__
 	// --------- FSMC (TFT) ----------
 	#define FSMC_Pins1				GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_12 | GPIO_PIN_14 | GPIO_PIN_15
 	#define FSMC_GPIO1				GPIOD
@@ -414,8 +415,10 @@ extern "C"
 
 	#define EXT_I2C_CLK_ENABLE()	__HAL_RCC_I2C1_CLK_ENABLE()
 	#define EXT_I2C_CLK_DISABLE()	__HAL_RCC_I2C1_CLK_DISABLE()
+  #endif
 #endif
-#ifdef __LV3_BOARD__
+#ifdef __CHITU_BOARD__
+  #ifdef __CHITU_LV3__
 	// --------- FSMC (TFT) ----------
 	#define FSMC_Pins1				GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_14 | GPIO_PIN_15
 	#define FSMC_GPIO1				GPIOD
@@ -459,11 +462,11 @@ extern "C"
 	// --------- ENDSTOPS ----------
 	#define ZE_MIN_Pin				GPIO_PIN_13
 	#define ZE_MIN_GPIO				GPIOC
-	#define ZE_MIN_EXTI_IRQn		EXTI13_IRQn
+	#define ZE_MIN_EXTI_IRQn		EXTI15_10_IRQn
 		
 	#define ZE_MAX_Pin				GPIO_PIN_11
 	#define ZE_MAX_GPIO				GPIOF
-	#define ZE_MAX_EXTI_IRQn		EXTI11_IRQn
+	#define ZE_MAX_EXTI_IRQn		EXTI15_10_IRQn
 
 	// --------- STEPPER ----------
 	#define Z_DIR_Pin				GPIO_PIN_15
@@ -474,18 +477,6 @@ extern "C"
 
 	#define Z_ENA_Pin				GPIO_PIN_5
 	#define Z_ENA_GPIO				GPIOA
-
-/*
-	#define Z_REF_Pin				GPIO_PIN_0
-	#define Z_REF				GPIOA
-	#define Z_REF_ALTERNATE			GPIO_AF2_TIM5
-
-	#define Z_REF_TIMER				TIM5
-	#define Z_REF_TIMER_IRQ			TIM5_IRQn
-
-	#define Z_REF_TIMER_CLK_ENABLE()		__HAL_RCC_TIM5_CLK_ENABLE()
-	#define Z_REF_TIMER_CLK_DISABLE()		__HAL_RCC_TIM5_CLK_DISABLE()
-*/
 
 	// --------- SPI (FLASH) ----------
 	#define FST_SPI					SPI1
@@ -577,6 +568,8 @@ extern "C"
 	#define EEPROM_SCL_GPIO			GPIOB
 	#define EEPROM_SDA_Pin			GPIO_PIN_9
 	#define EEPROM_SDA_GPIO			GPIOB
+	#define EEPROM_WP_Pin			GPIO_PIN_7
+	#define EEPROM_WP_GPIO			GPIOB
 
 	#define EEPROM_CLK_ENABLE()		__HAL_RCC_I2C1_CLK_ENABLE()
 	#define EEPROM_CLK_DISABLE()	__HAL_RCC_I2C1_CLK_DISABLE()
@@ -604,6 +597,7 @@ extern "C"
 	#define EXT_I2C_CLK_ENABLE()	__HAL_RCC_I2C1_CLK_ENABLE()
 	#define EXT_I2C_CLK_DISABLE()	__HAL_RCC_I2C1_CLK_DISABLE()
 */
+  #endif
 #endif
 
 

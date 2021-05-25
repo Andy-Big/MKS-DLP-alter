@@ -8,6 +8,7 @@
 #include "tgui_defaultfuncs.h"
 #include "config.h"
 #include "cpld_utils.h"
+#include "cpld_utils.h"
 
 
 extern char				msg[512];
@@ -26,7 +27,12 @@ void		_tgui_InfoScreenInfoPaint(void *tguiobj, void *param)
 	uint16_t	yinc = (thisbtn->position.bottom - thisbtn->position.top - fntheight * 7) / 8;	// 8 text lines and 9 intervals
 	uint16_t	ytop = thisbtn->position.top + yinc;
 	// version
+#ifdef __MKSDLP_BOARD__
 	uint8_t		fpgav = _cpld_get_version();
+#endif
+#ifdef __CHITU_BOARD__
+	uint8_t		fpgav = 0x00;
+#endif
 	LCDUI_SetColor(LCDUI_RGB(0x000000));
 	LCDUI_DrawText(LANG_GetString(LSTR_VERSION), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
 	LCDUI_SetColor(LCDUI_RGB(0x00496C));

@@ -224,7 +224,8 @@
                 </option>
                 <option>
                     <name>CCDefines</name>
-                    <state>__MKSDLP11__</state>
+                    <state>__MKSDLP_BOARD__</state>
+                    <state>__MKSDLP_V11__</state>
                     <state>__DEBUG1__</state>
                     <state>USE_HAL_DRIVER</state>
                     <state>STM32F407xx</state>
@@ -1281,7 +1282,8 @@
                 </option>
                 <option>
                     <name>CCDefines</name>
-                    <state>__MKSDLP20__</state>
+                    <state>__MKSDLP_BOARD__</state>
+                    <state>__MKSDLP_V20__</state>
                     <state>__DEBUG1__</state>
                     <state>USE_HAL_DRIVER</state>
                     <state>STM32F407xx</state>
@@ -2338,7 +2340,9 @@
                 </option>
                 <option>
                     <name>CCDefines</name>
-                    <state>__LV3_BOARD__</state>
+                    <state>__CHITU_BOARD__</state>
+                    <state>__CHITU_LV3__</state>
+                    <state>__DISP_MONO2K__</state>
                     <state>__DEBUG1__</state>
                     <state>USE_HAL_DRIVER</state>
                     <state>STM32F407xx</state>
@@ -3436,6 +3440,9 @@
                 <configuration>MKSDLP_Alter_debug_2_0</configuration>
                 <configuration>CHITU_Alter_debug_LV3</configuration>
             </excluded>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\config\stm32f407xx_lv3_flash.icf</name>
         </file>
         <file>
             <name>$PROJ_DIR$\src\System\stm32f4xx_hal_conf.h</name>

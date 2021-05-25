@@ -106,10 +106,18 @@ int main()
 		NVIC->ICPR[i] = 0xFFFFFFFF;
 	}
 	
+#ifdef __MKSDLP_BOARD__
 	SCB->VTOR = FLASH_BASE | 0x10000;
+#endif  // __MKSDLP_BOARD__
+#ifdef __CHITU_BOARD__
+	SCB->VTOR = FLASH_BASE | 0x20000;
+#endif  // __CHITU_BOARD__
 	HAL_PWR_DeInit();
-	HAL_Init();
 	SystemClock_Config();
+	SysTick->CTRL = 0;
+	HAL_DeInit();
+	HAL_Init();
+	__ASM volatile("cpsie i");
 
 
 	GPIO_Init();
@@ -144,6 +152,8 @@ int main()
 	// LCD init
 	LCD_Initializtion();
 	LCDUI_Init();
+	
+	
 	// SPI flash interface init
 	FLASH_SPIInit();
 	FLASH_SPIEnable();
@@ -170,7 +180,7 @@ int main()
 		HAL_Delay(10);
 		if (f_mkfs(SpiflPath, 0, fbuff, sizeof(fbuff)) != FR_OK)
 		{
-			LCDUI_DrawText((char*)"> !! Failed to formate internal filesystem\n");
+			LCDUI_DrawText((char*)"> !! Failed to format internal filesystem\n");
 		}
 		else
 		{
@@ -271,6 +281,7 @@ int main()
 	RTC_Init();
 	RTC_Enable(&hRTC);
 	
+#ifdef __MKSDLP_BOARD__
 	// external clock
 	while (cfgConfig.use_ext_clock)
 	{
@@ -373,6 +384,7 @@ int main()
 		HAL_Delay(1000);
 		break;
 	}
+#endif  // __MKSDLP_BOARD__
 	systemInfo.timerWorkTimeSecs = DTIME_GetCurrentUnixtime();
 	
 	LANG_SetLanguage(cfgConfig.language);
@@ -384,6 +396,7 @@ int main()
 	SYSTIMER_SetCountDown(zDisTimer, TIMER_DISABLE);
 	SYSTIMER_SetCountDown(tguiScreenTimer, cfgConfig.screensaver_time);
 	
+#ifdef __MKSDLP_BOARD__
 	_cpld_bank2disp_enable(CLEAN_USED_BANK,0,0);
 
 	if (srvMode == 0)
@@ -401,6 +414,7 @@ int main()
 		LCDUI_DrawText((char*)"UV DISPLAY PREPARING...", LCDUI_TEXT_TRANSBACK | LCDUI_TEXT_ALIGN_CENTER, 10, 276, 470, -1);
 		_tgui_UVTestReadImage(0);
 	}
+#endif  // __MKSDLP_BOARD__
 
 	// Disable USB power line
 	if (srvMode == 0)
@@ -1281,48 +1295,66 @@ int main()
 
 void SystemClock_Config(void)
 {
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+	RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
-  /** Configure the main internal regulator output voltage 
-  */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-  /** Initializes the CPU, AHB and APB busses clocks 
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 4;
-  RCC_OscInitStruct.PLL.PLLN = 168;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = 7;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Initializes the CPU, AHB and APB busses clocks 
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+	__HAL_RCC_PWR_CLK_ENABLE();
+	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
-  PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
+#ifdef __MKSDLP_BOARD__
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_LSE;
+	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+	RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+	RCC_OscInitStruct.PLL.PLLM = 4;
+	RCC_OscInitStruct.PLL.PLLN = 168;
+	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+	RCC_OscInitStruct.PLL.PLLQ = 7;
+#endif  // __MKSDLP_BOARD__
+#ifdef __CHITU_BOARD__
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_LSE;
+	RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+	RCC_OscInitStruct.LSEState = RCC_LSE_OFF;
+	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+	RCC_OscInitStruct.PLL.PLLM = 10;
+	RCC_OscInitStruct.PLL.PLLN = 168;
+	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+	RCC_OscInitStruct.PLL.PLLQ = 7;
+#endif  // __CHITU_BOARD__
+
+	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+						  | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
+	{
+		Error_Handler();
+	}
+	PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+#ifdef __MKSDLP_BOARD__
+	// external rezonator
+	PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+#endif  // __MKSDLP_BOARD__
+#ifdef __CHITU_BOARD__
+	// external rezonator missing, so using external clock 20 MHz divided by 20
+	PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_HSE_DIV20;
+#endif  // __CHITU_BOARD__
+
+	if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+	{
+		Error_Handler();
+	}
 }
 //==============================================================================
 

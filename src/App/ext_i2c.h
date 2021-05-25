@@ -1,3 +1,6 @@
+#ifdef __MKSDLP_BOARD__
+
+
 #ifndef __ext_i2c_H
 #define __ext_i2c_H
 
@@ -72,5 +75,7 @@ uint8_t		EXTI2C_WriteBuff(uint8_t addr, uint8_t reg, uint8_t *buff, uint16_t cou
 
 	
 
-#endif /*__ext_i2c_H */
+#endif  // __ext_i2c_H
 
+
+#endif  // __MKSDLP_BOARD__

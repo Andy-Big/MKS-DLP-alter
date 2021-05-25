@@ -43,7 +43,9 @@ uint8_t					previmage[prevheightbytes * prevwidth] PLACE_TO_CCMRAM;
 
 
 extern uint8_t			Line_Pixel[CPLD_Y_RATIO + CPLD_FILLCODE * 2];
+#ifdef __MKSDLP_BOARD__
 extern DLP_BMP			cpld_bmp;
+#endif  // __MKSDLP_BOARD__
 
 
 
@@ -120,7 +122,9 @@ uint8_t		PRINT_Complete()
 
 	UVLED_Off();
 	UVD_Sleep();
+#ifdef __MKSDLP_BOARD__
 	_cpld_bank2disp_enable(CLEAN_USED_BANK,0,0);
+#endif  // __MKSDLP_BOARD__
 	UVFAN_TimerOn(10000);
 	if (cfgConfig.mb_fan_mode == MBFAN_PRINTING_ON)
 		MBFAN_Off();
@@ -193,64 +197,8 @@ uint8_t		PRINT_ReadLayerInfo()
 
 uint8_t		PRINT_ReadRLEDecode(uint8_t preview)
 {
+#ifdef __MKSDLP_BOARD__
 	_cpld_bank2disp_enable(WORK_USED_BANK, 0, 0);
-
-			// original method
-/*
-{
-			uint8_t		color;
-			uint16_t	length, length_sum;
-			uint16_t	curpoint;
-			uint8_t		*p;
-			uint8_t		remaining;
-			uint8_t		rc;
-			BYTE		sd_char;
-
-			cpld_bmp.current_line = 0;
-			p = Line_Pixel;
-			curpoint = 0;
-			for(uint32_t i = 0; i < ldata_length, cpld_bmp.current_line < resY; i++)
-			{
-				f_read(&ufile, &sd_char, 1, &rd);
-				color = (sd_char & 0x80) >> 7;
-				length = sd_char & 0x7f;
-				
-				for(uint32_t j = 0; j < length; j++)
-				{
-					if(curpoint < CPLD_Y_RATIO / 2)
-					{
-						*p = color;
-					}
-					else
-					{
-						*(p + CPLD_FILLCODE) = color;
-					}
-					p++;
-					curpoint++;
-					
-					if(curpoint > resX)
-					{
-						_cpld_line_gen_data(cpld_bmp.current_line, WORK_USED_BANK);
-//						if((work_bank == BANK_USED_ID0) || work_bank == WORK_USED_BANK)
-//							_cpld_line_gen_data_TFT(mksdlp.bmp.current_line);
-						cpld_bmp.current_line++;
-						curpoint = 0;
-						memset(Line_Pixel, 0, sizeof(Line_Pixel));
-						p = &Line_Pixel[0];
-						remaining = length - j;//结尾多余颜色，放到下一行。
-						for(uint32_t k = 0; k < remaining; k++)
-						{
-							*p = color;
-							p++;
-							curpoint++;
-						}
-						break;
-					}
-				}
-			}
-}
-/*/
-			// modified original method
 
 	uint8_t		color;
 	uint16_t	length;
@@ -368,6 +316,7 @@ uint8_t		PRINT_ReadRLEDecode(uint8_t preview)
 	}
 
 	_cpld_bank2disp_enable(WORK_USED_BANK, 1, 1);
+#endif  // __MKSDLP_BOARD__
 
 	return 1;
 }

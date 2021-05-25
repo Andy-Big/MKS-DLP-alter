@@ -16,7 +16,9 @@ extern FIL				sfile PLACE_TO_CCMRAM;
 extern TCHAR			s_tfname[512];
 
 extern uint8_t			Line_Pixel[CPLD_Y_RATIO + CPLD_FILLCODE * 2];
+#ifdef __MKSDLP_BOARD__
 extern DLP_BMP			cpld_bmp;
+#endif  // __MKSDLP_BOARD__
 
 
 uint8_t		uvlight_on = 0;
@@ -51,7 +53,9 @@ void		_tgui_UVTestEnableDisp()
 {
 	if (uvdisp_on != 0)
 		return;
+#ifdef __MKSDLP_BOARD__
 	_cpld_bank2disp_enable(TEST_USED_BANK, 1, 1);
+#endif  // __MKSDLP_BOARD__
 	HAL_Delay(100);
 	UVD_Wakeup();
 	uvdisp_on = 1;
@@ -67,7 +71,9 @@ void		_tgui_UVTestDisableDisp()
 		return;
 	UVD_Sleep();
 	HAL_Delay(100);
+#ifdef __MKSDLP_BOARD__
 	_cpld_bank2disp_enable(TEST_USED_BANK, 0, 0);
+#endif  // __MKSDLP_BOARD__
 	uvdisp_on = 0;
 }
 //==============================================================================
@@ -81,6 +87,7 @@ void		_tgui_UVTestReadImage(uint8_t imgnum)
 	if (disp_has_en != 0)
 		_tgui_UVTestDisableDisp();
 
+#ifdef __MKSDLP_BOARD__
 
 	uint16_t	color_f;
 	uint8_t		color;
@@ -177,6 +184,8 @@ void		_tgui_UVTestReadImage(uint8_t imgnum)
 		curpoint = remaining;
 		remaining = 0;
 	}
+
+#endif  // __MKSDLP_BOARD__
 
 	if (disp_has_en != 0)
 		_tgui_UVTestEnableDisp();

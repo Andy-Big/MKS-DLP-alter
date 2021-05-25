@@ -1,6 +1,10 @@
 #ifndef __ds3231_H
 #define __ds3231_H
 
+
+#ifdef __MKSDLP_BOARD__
+
+
 #include "includes.h"
 #include "main.h"
 #include "datetime.h"
@@ -64,6 +68,7 @@ uint8_t		DS3231_GetTime(DATETIME_STRUCT *dtime);
 uint8_t		DS3231_SetTime(DATETIME_STRUCT *dtime, uint8_t ampm = 0);
 
 	
+#endif  // __MKSDLP_BOARD__
 
-#endif /*__ds3231_H */
+#endif  // __ds3231_H
 

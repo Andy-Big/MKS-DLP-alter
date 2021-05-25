@@ -30,8 +30,10 @@ void		HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 
 void 		HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
 {
+#ifdef __MKSDLP_BOARD__
 	_cpld_CS_Disable();
 	_flash_CS_Disable();
+#endif
 }
 
 
@@ -243,14 +245,22 @@ void		FLASH_SPIEnable()
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_InitStruct.Alternate = FST_SPI_GPIO_ALTERNATE;
 	HAL_GPIO_Init(FST_SPI_MISO_GPIO, &GPIO_InitStruct);
+	
 	GPIO_InitStruct.Pin = FST_SPI_MOSI_Pin;
 	HAL_GPIO_Init(FST_SPI_MOSI_GPIO, &GPIO_InitStruct);
+	
 	GPIO_InitStruct.Pin = FST_SPI_SCK_Pin;
 	HAL_GPIO_Init(FST_SPI_SCK_GPIO, &GPIO_InitStruct);
 
+
+	GPIO_InitStruct.Pin = FST_SPI_CS_FLASH_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(FST_SPI_CS_FLASH_GPIO, &GPIO_InitStruct);
+
 	_flash_CS_Disable();
-#ifdef __LV3_BOARD__
-#else
+#ifdef __MKSDLP_BOARD__
 	_ssda_CS_Disable();
 	_ssdb_CS_Disable();
 	_cpld_CS_Disable();
@@ -272,12 +282,6 @@ void		FLASH_SPIEnable()
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(FST_SPI_CS_SSDB_GPIO, &GPIO_InitStruct);
-
-	GPIO_InitStruct.Pin = FST_SPI_CS_FLASH_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(FST_SPI_CS_FLASH_GPIO, &GPIO_InitStruct);
 #endif
 	// DMA
 	FST_SPI_DMA_CLK_ENABLE();

@@ -66,19 +66,21 @@ void		ZMOTOR_Init()
 	zPlanner.refresh_positioning();
 	zStepper.init();
 
+	// Stepper timer
+	TIM_ZStepper_Init();
+	HAL_TIM_Base_MspInit(&hStepperTim);
+	HAL_TIM_Base_Start_IT(&hStepperTim);
+
+#ifdef __MKSDLP_BOARD__
 	// Z motor reference voltage out PWM
 	TIM_ZRef_Init();
 	HAL_TIM_PWM_Start(&hZRefTim, TIM_CHANNEL_1);
 	hZRefTim.Instance->CCR1 = 0;
 	HAL_TIM_Base_MspInit(&hZRefTim);
 	
-	// Stepper timer
-	TIM_ZStepper_Init();
-	HAL_TIM_Base_MspInit(&hStepperTim);
-	HAL_TIM_Base_Start_IT(&hStepperTim);
-
 	// Set motor current
 	Z_REF_TIMER->CCR1 = cfgMotor.current_vref < 1000 ? (uint32_t)(cfgMotor.current_vref * 0.364) : 364;
+#endif  // __MKSDLP_BOARD__
 	
 	ZMOTOR_MotorDisable();
 	zEndstops.enable();
@@ -92,7 +94,9 @@ void		ZMOTOR_Init()
 void			ZMOTOR_MotorEnable()
 {
 	Z_ENA_GPIO->BSRR = (uint32_t)Z_ENA_Pin << 16U;
+#ifdef __MKSDLP_BOARD__
 	Z_REF_TIMER->CCR1 = (uint32_t)(cfgMotor.current_vref * 0.364);
+#endif  // __MKSDLP_BOARD__
 	systemInfo.zmotor_enabled = 1;
 }
 //==============================================================================
@@ -103,8 +107,10 @@ void			ZMOTOR_MotorEnable()
 void			ZMOTOR_MotorDisable()
 {
 	Z_ENA_GPIO->BSRR = Z_ENA_Pin;
+#ifdef __MKSDLP_BOARD__
 	// Set motor current
 	Z_REF_TIMER->CCR1 = 1;
+#endif  // __MKSDLP_BOARD__
 	systemInfo.zmotor_enabled = 0;
 	systemInfo.position_known = 0;
 }
@@ -141,10 +147,12 @@ void			ZMOTOR_MoveAbsolute(float pos, float speed)
 
 void			ZMOTOR_SetCurrent(float current)
 {
+#ifdef __MKSDLP_BOARD__
 	if (current > 1000)
 		current = 1000;
 	cfgMotor.current_vref = current;
 	Z_REF_TIMER->CCR1 = (uint32_t)(cfgMotor.current_vref * 0.364);
+#endif  // __MKSDLP_BOARD__
 }
 //==============================================================================
 
@@ -153,7 +161,9 @@ void			ZMOTOR_SetCurrent(float current)
 
 void			ZMOTOR_SetFullCurrent()
 {
+#ifdef __MKSDLP_BOARD__
 	Z_REF_TIMER->CCR1 = (uint32_t)(cfgMotor.current_vref * 0.364);
+#endif  // __MKSDLP_BOARD__
 }
 //==============================================================================
 
@@ -162,7 +172,9 @@ void			ZMOTOR_SetFullCurrent()
 
 void			ZMOTOR_SetHoldCurrent()
 {
+#ifdef __MKSDLP_BOARD__
 	Z_REF_TIMER->CCR1 = (uint32_t)(cfgMotor.current_hold_vref * 0.364);
+#endif  // __MKSDLP_BOARD__
 }
 //==============================================================================
 

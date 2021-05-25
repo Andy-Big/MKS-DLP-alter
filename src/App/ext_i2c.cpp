@@ -1,3 +1,7 @@
+#ifdef __MKSDLP_BOARD__
+
+
+
 #include "ext_i2c.h"
 
 
@@ -645,3 +649,4 @@ uint8_t		EXTI2C_WriteBuff(uint8_t addr, uint8_t reg, uint8_t *buff, uint16_t cou
 
 
 
+#endif  // __MKSDLP_BOARD__

@@ -32,6 +32,8 @@ void GPIO_Init(void)
 	__HAL_RCC_GPIOC_CLK_ENABLE();
 	__HAL_RCC_GPIOD_CLK_ENABLE();
 	__HAL_RCC_GPIOE_CLK_ENABLE();
+	__HAL_RCC_GPIOF_CLK_ENABLE();
+	__HAL_RCC_GPIOG_CLK_ENABLE();
 	__HAL_RCC_GPIOH_CLK_ENABLE();
 
 	HAL_GPIO_WritePin(LED_UV_GPIO, LED_UV_Pin, GPIO_PIN_RESET);
@@ -40,15 +42,18 @@ void GPIO_Init(void)
 	HAL_GPIO_WritePin(Z_STEP_GPIO, Z_STEP_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(Z_ENA_GPIO, Z_ENA_Pin, GPIO_PIN_SET);
 
+#ifdef __MKSDLP_BOARD__
 	HAL_GPIO_WritePin(FST_SPI_CS_SSDA_GPIO, FST_SPI_CS_SSDA_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(FST_SPI_SDC_GPIO, FST_SPI_SDC_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(CPLD_IO1_GPIO, CPLD_IO1_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(FST_SPI_CS_SSDB_GPIO, FST_SPI_CS_SSDB_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(FST_SPI_CS_CPLD_GPIO, FST_SPI_CS_CPLD_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(FST_SPI_CS_FLASH_GPIO, FST_SPI_CS_FLASH_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(MIPI_CE_GPIO, MIPI_CE_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(MIPI_EN_PWR_GPIO, MIPI_EN_PWR_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(CPLD_RST_GPIO, CPLD_RST_Pin, GPIO_PIN_SET);
+#endif
+	
+	HAL_GPIO_WritePin(FST_SPI_CS_FLASH_GPIO, FST_SPI_CS_FLASH_Pin, GPIO_PIN_SET);
 
 	HAL_GPIO_WritePin(TFT_LIGHT_GPIO, TFT_LIGHT_Pin, GPIO_PIN_RESET);
 
@@ -64,7 +69,8 @@ void GPIO_Init(void)
 
 
 // set not used pins in analog mode
-#ifdef __MKSDLP11__
+#ifdef __MKSDLP_BOARD__
+  #ifdef __MKSDLP_V11__
 	GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6 
 							|GPIO_PIN_0|GPIO_PIN_1;
 	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
@@ -84,8 +90,8 @@ void GPIO_Init(void)
 
 	GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_2|GPIO_PIN_6;
 	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-#endif
-#ifdef __MKSDLP20__
+  #endif
+  #ifdef __MKSDLP_V20__
 	GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6 
 							|GPIO_PIN_0|GPIO_PIN_1;
 	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
@@ -105,27 +111,97 @@ void GPIO_Init(void)
 
 	GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_2|GPIO_PIN_6;
 	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+  #endif
 #endif
-#ifdef __LV3_BOARD__
-	GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6 
-							|GPIO_PIN_0|GPIO_PIN_1;
+#ifdef __CHITU_BOARD__
+  #ifdef __CHITU_LV3__
+	GPIO_InitStruct.Pin = GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_7;
 	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
-
-	GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8 
-							|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12;
-	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-	GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10;
 	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-	GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_11|GPIO_PIN_13|GPIO_PIN_6 
-							|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
+	GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_2 | GPIO_PIN_10 | GPIO_PIN_11;
 	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-	GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_2|GPIO_PIN_6;
+	GPIO_InitStruct.Pin = GPIO_PIN_14 | GPIO_PIN_15 | GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3
+						| GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9
+						| GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12;
+	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = GPIO_PIN_13 | GPIO_PIN_13 | GPIO_PIN_2 | GPIO_PIN_3;
 	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 
+							| GPIO_PIN_0 | GPIO_PIN_1;
+	HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_4  | GPIO_PIN_5
+							| GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_10 | GPIO_PIN_12;
+	HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = GPIO_PIN_1 | GPIO_PIN_3 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7  | GPIO_PIN_9
+							| GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_13 | GPIO_PIN_14;
+	HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  #endif
+#endif
+
+
+#ifdef __MKSDLP_BOARD__
+  #ifdef __MKSDLP_V11__
+	GPIO_InitStruct.Pin = MIPI_CE_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
+	HAL_GPIO_Init(MIPI_CE_GPIO, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = MIPI_EN_PWR_Pin;
+	HAL_GPIO_Init(MIPI_EN_PWR_GPIO, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = CPLD_CRC_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	HAL_GPIO_Init(CPLD_CRC_GPIO, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = CPLD_RST_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
+	HAL_GPIO_Init(CPLD_RST_GPIO, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = FST_SPI_SDC_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	HAL_GPIO_Init(FST_SPI_SDC_GPIO, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = CPLD_IO1_Pin;
+	HAL_GPIO_Init(CPLD_IO1_GPIO, &GPIO_InitStruct);
+  #endif
+  #ifdef __MKSDLP_V20__
+	GPIO_InitStruct.Pin = MIPI_CE_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
+	HAL_GPIO_Init(MIPI_CE_GPIO, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = MIPI_EN_PWR_Pin;
+	HAL_GPIO_Init(MIPI_EN_PWR_GPIO, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = CPLD_CRC_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	HAL_GPIO_Init(CPLD_CRC_GPIO, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = CPLD_RST_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
+	HAL_GPIO_Init(CPLD_RST_GPIO, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = FST_SPI_SDC_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	HAL_GPIO_Init(FST_SPI_SDC_GPIO, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = CPLD_IO1_Pin;
+	HAL_GPIO_Init(CPLD_IO1_GPIO, &GPIO_InitStruct);
+  #endif
 #endif
 
 	GPIO_InitStruct.Pin = LED_UV_Pin;
@@ -146,10 +222,7 @@ void GPIO_Init(void)
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
 	HAL_GPIO_Init(Z_DIR_GPIO, &GPIO_InitStruct);
-	GPIO_InitStruct.Pin = FST_SPI_SDC_Pin;
-	HAL_GPIO_Init(FST_SPI_SDC_GPIO, &GPIO_InitStruct);
-	GPIO_InitStruct.Pin = CPLD_IO1_Pin;
-	HAL_GPIO_Init(CPLD_IO1_GPIO, &GPIO_InitStruct);
+
 
 	GPIO_InitStruct.Pin = Z_STEP_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -158,25 +231,6 @@ void GPIO_Init(void)
 	HAL_GPIO_Init(Z_STEP_GPIO, &GPIO_InitStruct);
 	GPIO_InitStruct.Pin = Z_ENA_Pin;
 	HAL_GPIO_Init(Z_ENA_GPIO, &GPIO_InitStruct);
-
-	GPIO_InitStruct.Pin = MIPI_CE_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
-	HAL_GPIO_Init(MIPI_CE_GPIO, &GPIO_InitStruct);
-	GPIO_InitStruct.Pin = MIPI_EN_PWR_Pin;
-	HAL_GPIO_Init(MIPI_EN_PWR_GPIO, &GPIO_InitStruct);
-
-	GPIO_InitStruct.Pin = CPLD_CRC_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	HAL_GPIO_Init(CPLD_CRC_GPIO, &GPIO_InitStruct);
-
-	GPIO_InitStruct.Pin = CPLD_RST_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
-	HAL_GPIO_Init(CPLD_RST_GPIO, &GPIO_InitStruct);
 
 	GPIO_InitStruct.Pin = TFT_LIGHT_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;

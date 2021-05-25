@@ -25,7 +25,7 @@ typedef struct
 } LCD_TypeDef;
 
 /* LCD is connected to the FSMC_Bank1_NOR/SRAM4 and NE4 is used as ship select signal */
-#ifdef __LV3_BOARD__
+#ifdef __CHITU_BOARD__
   #define LCD_BASE		((uint32_t)(0x6C000000 | 0x00001FFE))    //A12,NE4
 #else
   #define LCD_BASE		((uint32_t)(0x60000000 | 0x0003FFFE))    //A17,NE1
@@ -51,7 +51,7 @@ void		LCD_CtrlLinesConfig(void)
 	volatile unsigned long delayCnt=0;
 
 
-	Lcd_Light_OFF();
+//	Lcd_Light_OFF();
 	Lcd_RESET();
 	HAL_Delay(50);
 	//      for(delayCnt=0;delayCnt<10000;delayCnt++);

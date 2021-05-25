@@ -35,7 +35,9 @@ extern TIM_HandleTypeDef	hZRefTim;
 
 
 void TIM_ZStepper_Init(void);
+#ifdef __MKSDLP_BOARD__
 void TIM_ZRef_Init(void);
+#endif  // __MKSDLP_BOARD__
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 

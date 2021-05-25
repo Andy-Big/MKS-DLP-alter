@@ -1,3 +1,6 @@
+#ifdef __MKSDLP_BOARD__
+
+
 #ifndef _ssd_utils_H_
 #define _ssd_utils_H_
 
@@ -138,3 +141,5 @@ void		MIPI_On();
 
 
 #endif // _ssd_utils_H
+
+#endif  // __MKSDLP_BOARD__

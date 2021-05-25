@@ -1,7 +1,10 @@
 #include "cpld_utils.h"
 #include "fst_spi.h"
-//#include "mks_dlp_main.h"
 
+
+
+
+#ifdef __MKSDLP_BOARD__
 
 
 const unsigned short Crc16Table[256] = {
@@ -263,3 +266,23 @@ void		CPLD_Init()
 
 
 
+#endif  // __MKSDLP_BOARD__
+
+
+
+#ifdef __CHITU_BOARD__
+
+
+void		CPLD_Init()
+{
+}
+//==============================================================================
+
+
+
+
+
+
+
+
+#endif  // __CHITU_BOARD__

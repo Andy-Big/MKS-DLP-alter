@@ -36,8 +36,16 @@ void RTC_Init(void)
 	*/
 	hRTC.Instance = RTC;
 	hRTC.Init.HourFormat = RTC_HOURFORMAT_24;
+#ifdef __MKSDLP_BOARD__
+	// dividers for 32768 Hz
 	hRTC.Init.AsynchPrediv = 127;
 	hRTC.Init.SynchPrediv = 255;
+#endif  // __MKSDLP_BOARD__
+#ifdef __CHITU_BOARD__
+	// dividers for 1000000 Hz
+	hRTC.Init.AsynchPrediv = 124;
+	hRTC.Init.SynchPrediv = 7999;
+#endif  // __CHITU_BOARD__
 	hRTC.Init.OutPut = RTC_OUTPUT_DISABLE;
 	hRTC.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
 	hRTC.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;

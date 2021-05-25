@@ -141,6 +141,13 @@ void		SPIFL_Init()
 	uint16_t f_id = SPIFL_ReadID();
 	switch (f_id)
 	{
+		// w25q32
+		case 0xEF15:
+			_spifl_info.sectors_count = 1024;
+			_spifl_info.sector_size = 4096;
+			_spifl_info.page_size = 256;
+			break;
+			
 		// w25q64
 		case 0xEF16:
 			_spifl_info.sectors_count = 2048;

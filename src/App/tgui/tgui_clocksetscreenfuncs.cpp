@@ -316,6 +316,7 @@ void		_tgui_ClockSetOkButtonPress(void *tguiobj, void *param)
 	datetime.seconds = 0;
 	DTIME_SetWeekDay(&datetime);
 	DTIME_SetCurrentDatetime(&datetime);
+#ifdef __MKSDLP_BOARD__
 	if (cfgConfig.use_ext_clock)
 	{
 		EEPROM_Deinit();
@@ -341,6 +342,7 @@ void		_tgui_ClockSetOkButtonPress(void *tguiobj, void *param)
 		if (ds_state == 0)
 			return;
 	}
+#endif  // __MKSDLP_BOARD__
 
 	_tgui_ClockSetClose(tguiobj, param);
 }

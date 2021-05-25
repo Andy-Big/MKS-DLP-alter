@@ -31,11 +31,23 @@ void		EEPROM_Init(void)
 	GPIO_InitStruct.Pin = EEPROM_SCL_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
 	GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
 	HAL_GPIO_Init(EEPROM_SCL_GPIO, &GPIO_InitStruct);
 	GPIO_InitStruct.Pin = EEPROM_SDA_Pin;
 	HAL_GPIO_Init(EEPROM_SDA_GPIO, &GPIO_InitStruct);
+
+#ifdef __CHITU_BOARD__
+  #ifdef __CHITU_LV3__
+	GPIO_InitStruct.Pin = EEPROM_WP_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
+	HAL_GPIO_Init(EEPROM_WP_GPIO, &GPIO_InitStruct);
+	EEPROM_WP_GPIO->BSRR = (uint32_t)EEPROM_WP_Pin << 16U;
+  #endif  // __CHITU_LV3__
+#endif  // __CHITU_BOARD__
 
 	__HAL_I2C_ENABLE(&hI2C);
 	

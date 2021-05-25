@@ -17,12 +17,8 @@
   ******************************************************************************
   */
 
-/* Includes ------------------------------------------------------------------*/
 #include "fsmc.h"
 
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
 
 SRAM_HandleTypeDef hsram1;
 
@@ -32,15 +28,14 @@ void MX_FSMC_Init(void)
   FSMC_NORSRAM_TimingTypeDef Timing = {0};
 //  FSMC_NORSRAM_TimingTypeDef ExtTiming = {0};
 
-  /** Perform the SRAM1 memory initialization sequence
-  */
   hsram1.Instance = FSMC_NORSRAM_DEVICE;
   hsram1.Extended = FSMC_NORSRAM_EXTENDED_DEVICE;
   /* hsram1.Init */
-#ifdef __LV3_BOARD__
-  hsram1.Init.NSBank = FSMC_NORSRAM_BANK4;
-#else
+#ifdef __MKSDLP_BOARD__
   hsram1.Init.NSBank = FSMC_NORSRAM_BANK1;
+#endif
+#ifdef __CHITU_BOARD__
+  hsram1.Init.NSBank = FSMC_NORSRAM_BANK4;
 #endif
   hsram1.Init.DataAddressMux = FSMC_DATA_ADDRESS_MUX_DISABLE;
   hsram1.Init.MemoryType = FSMC_MEMORY_TYPE_SRAM;
@@ -96,6 +91,17 @@ writeTiming.FSMC_AccessMode = FSMC_AccessMode_A; //Mode A
 */
   
   /* Timing */
+/*
+  // CHITU original settings
+  // 0x00203C0F
+  Timing.AddressSetupTime = 15;
+  Timing.AddressHoldTime = 0;
+  Timing.DataSetupTime = 60;
+  Timing.BusTurnAroundDuration = 0;
+  Timing.CLKDivision = 2;
+  Timing.DataLatency = 0;
+  Timing.AccessMode = FSMC_ACCESS_MODE_A;
+*/
   Timing.AddressSetupTime = 5;
   Timing.AddressHoldTime = 0;
   Timing.DataSetupTime = 4;
@@ -103,16 +109,7 @@ writeTiming.FSMC_AccessMode = FSMC_AccessMode_A; //Mode A
   Timing.CLKDivision = 0;
   Timing.DataLatency = 0;
   Timing.AccessMode = FSMC_ACCESS_MODE_A;
-/*
-  // ExtTiming 
-  ExtTiming.AddressSetupTime = 9;
-  ExtTiming.AddressHoldTime = 0;
-  ExtTiming.DataSetupTime = 8;
-  ExtTiming.BusTurnAroundDuration = 0;
-  ExtTiming.CLKDivision = 0;
-  ExtTiming.DataLatency = 0;
-  ExtTiming.AccessMode = FSMC_ACCESS_MODE_A;
-*/  
+
   if (HAL_SRAM_Init(&hsram1, &Timing,  &Timing) != HAL_OK)
   {
     Error_Handler( );
@@ -137,14 +134,14 @@ void HAL_FSMC_MspInit(void){
 	GPIO_InitStruct.Pin = FSMC_Pins1;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	GPIO_InitStruct.Alternate = GPIO_AF12_FSMC;
 	HAL_GPIO_Init(FSMC_GPIO1, &GPIO_InitStruct);
 
 	GPIO_InitStruct.Pin = FSMC_Pins2;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	GPIO_InitStruct.Alternate = GPIO_AF12_FSMC;
 	HAL_GPIO_Init(FSMC_GPIO2, &GPIO_InitStruct);
 
@@ -152,8 +149,8 @@ void HAL_FSMC_MspInit(void){
 	{
 		GPIO_InitStruct.Pin = FSMC_Pins3;
 		GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-		GPIO_InitStruct.Pull = GPIO_NOPULL;
-		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+		GPIO_InitStruct.Pull = GPIO_PULLUP;
+		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 		GPIO_InitStruct.Alternate = GPIO_AF12_FSMC;
 		HAL_GPIO_Init(FSMC_GPIO3, &GPIO_InitStruct);
 	}

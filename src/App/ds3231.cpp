@@ -1,3 +1,6 @@
+#ifdef __MKSDLP_BOARD__
+
+
 #include "ds3231.h"
 #include "ext_i2c.h"
 
@@ -138,3 +141,4 @@ uint8_t		DS3231_SetTime(DATETIME_STRUCT *dtime, uint8_t ampm)
 
 
 
+#endif  // __MKSDLP_BOARD__

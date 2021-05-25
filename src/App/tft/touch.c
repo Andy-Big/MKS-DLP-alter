@@ -44,7 +44,12 @@ void		_touch_ReadCoords()
 	}
 	else
 	{
+#ifdef __MKSDLP_BOARD__
 		if (cfgConfig.display_rotate == 0)
+#endif
+#ifdef __CHITU_BOARD__
+		if (cfgConfig.display_rotate == 1)
+#endif
 			touch_point.xc = LCD_WIDTH - (vavg - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
 		else
 			touch_point.xc = (vavg - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
@@ -68,7 +73,12 @@ void		_touch_ReadCoords()
 	}
 	else
 	{
+#ifdef __MKSDLP_BOARD__
 		if (cfgConfig.display_rotate == 0)
+#endif
+#ifdef __CHITU_BOARD__
+		if (cfgConfig.display_rotate == 1)
+#endif
 			touch_point.yc = (vavg - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
 		else
 			touch_point.yc = LCD_HEIGHT - (vavg - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
@@ -208,9 +218,9 @@ void		Touch_Init(void)
 	TOUCH_SPIInit();
 	
 	touch_info.x_min = 1500;
-	touch_info.x_max = 31300;
+	touch_info.x_max = 30500;
 	touch_info.y_min = 1000;
-	touch_info.y_max = 31200;
+	touch_info.y_max = 30500;
 	touch_info.state = TS_FREE;
 	touch_info.time = 0;
 	touch_info.xc = 0;
