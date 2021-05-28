@@ -1,5 +1,12 @@
 #include "cpld_utils.h"
 #include "fst_spi.h"
+#include "gpio.h"
+
+
+
+uint16_t		CPLD_X_RATIO = 2560;
+uint16_t		CPLD_Y_RATIO = 1440;
+
 
 
 
@@ -46,7 +53,7 @@ const unsigned short Crc16Table[256] = {
 
 
 volatile uint32_t		reTransmission_zero_cnt = 0, reTransmission_data_cnt = 0, reTransmission_all_cnt = 0;
-extern uint8_t			Line_Pixel[CPLD_Y_RATIO + CPLD_FILLCODE * 2];
+extern uint8_t			Line_Pixel[3000];
 
 CPLD_CMD_FRAME			cpld_cmd;
 DLP_BMP					cpld_bmp;
@@ -261,6 +268,8 @@ void		_cpld_line_gen_data(uint16_t line, uint8_t bank_used_id)
 
 void		CPLD_Init()
 {
+	CPLD_X_RATIO = 2560;
+	CPLD_Y_RATIO = 1440;
 }
 //==============================================================================
 
@@ -275,8 +284,90 @@ void		CPLD_Init()
 
 void		CPLD_Init()
 {
+	CPLD_X_RATIO = 2560;
+	CPLD_Y_RATIO = 1620;
+
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+	GPIO_InitStruct.Pin = CPLD_CS_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
+	HAL_GPIO_Init(CPLD_CS_GPIO, &GPIO_InitStruct);
+	CPLD_CS_DISABLE();
+
+	GPIO_InitStruct.Pin = CPLD_CLK_Pin;
+	HAL_GPIO_Init(CPLD_CLK_GPIO, &GPIO_InitStruct);
+	CPLD_CLK_SET();
+	
+	GPIO_InitStruct.Pin = CPLD_MOSI_Pin;
+	HAL_GPIO_Init(CPLD_MOSI_GPIO, &GPIO_InitStruct);
+	CPLD_MOSI_RESET();
+
+	GPIO_InitStruct.Pin = CPLD_MISO_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(CPLD_MISO_GPIO, &GPIO_InitStruct);
+
+	
+	
 }
 //==============================================================================
+
+
+
+void		CPLD_Deinit()
+{
+	HAL_GPIO_DeInit(CPLD_CS_GPIO, CPLD_CS_Pin);
+	HAL_GPIO_DeInit(CPLD_CLK_GPIO, CPLD_CLK_Pin);
+	HAL_GPIO_DeInit(CPLD_MOSI_GPIO, CPLD_MOSI_Pin);
+	HAL_GPIO_DeInit(CPLD_MISO_GPIO, CPLD_MISO_Pin);
+}
+//==============================================================================
+
+
+
+void		CPLD_EnableCS()
+{
+	CPLD_CS_ENABLE();
+}
+//==============================================================================
+
+
+
+void		CPLD_DisableCS()
+{
+	CPLD_CS_DISABLE();
+}
+//==============================================================================
+
+
+
+uint8_t	CPLD_SendReceiveByte(uint8_t val)
+{
+	uint8_t		retval = 0;
+	for (uint32_t i = 0; i < 8; i++)
+	{
+		retval <<= 1;
+		CPLD_CLK_RESET();
+		if (val & 0x80)
+			CPLD_MOSI_SET();
+		else
+			CPLD_MOSI_RESET();
+		for (uint32_t p = 0; p < 8; p++)
+			__asm("nop");
+		retval |= CPLD_MISO_READ();
+		val <<= 1;
+		CPLD_CLK_SET();
+		for (uint32_t p = 0; p < 8; p++)
+			__asm("nop");
+	}
+	return retval;
+}
+//==============================================================================
+
+
+
 
 
 

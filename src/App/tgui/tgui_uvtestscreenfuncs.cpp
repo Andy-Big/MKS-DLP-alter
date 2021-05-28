@@ -5,6 +5,7 @@
 ********************************************************************************/
 
 #include "tgui_uvtestscreenfuncs.h"
+#include "gpio.h"
 #include "tgui_defaultfuncs.h"
 #include "config.h"
 #include "sys_timer.h"
@@ -15,10 +16,13 @@ extern char				msg[512];
 extern FIL				sfile PLACE_TO_CCMRAM;
 extern TCHAR			s_tfname[512];
 
-extern uint8_t			Line_Pixel[CPLD_Y_RATIO + CPLD_FILLCODE * 2];
+extern uint8_t			Line_Pixel[3000];
 #ifdef __MKSDLP_BOARD__
 extern DLP_BMP			cpld_bmp;
 #endif  // __MKSDLP_BOARD__
+
+extern uint16_t			CPLD_X_RATIO;
+extern uint16_t			CPLD_Y_RATIO;
 
 
 uint8_t		uvlight_on = 0;
@@ -98,16 +102,19 @@ void		_tgui_UVTestReadImage(uint8_t imgnum)
 	UINT	rd = 0;
 
 	tstrcpy(tfname, SpiflPath);
+	tstrcat_utf(tfname, (char*)"//");
+	tstrcat_utf(tfname, SDIR_FILES);
+	tstrcat_utf(tfname, (char*)"//");
 	switch (imgnum)
 	{
 		case 1:
-			tstrcat_utf(tfname, (char*)"icn/uvtest_image2.cimg");
+			tstrcat_utf(tfname, (char*)"uvtest_image2.cimg");
 			break;
 		case 2:
-			tstrcat_utf(tfname, (char*)"icn/uvtest_image3.cimg");
+			tstrcat_utf(tfname, (char*)"uvtest_image3.cimg");
 			break;
 		default:
-			tstrcat_utf(tfname, (char*)"icn/uvtest_image1.cimg");
+			tstrcat_utf(tfname, (char*)"uvtest_image1.cimg");
 			break;
 	}
 	

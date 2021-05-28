@@ -1,5 +1,6 @@
 
 #include "motor.h"
+#include "gpio.h"
 
 #include "config.h"
 #include "z_planner.h"

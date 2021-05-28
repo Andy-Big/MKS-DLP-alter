@@ -1,13 +1,19 @@
 #ifndef _cpld_utils_H_
 #define _cpld_utils_H_
 
+#include "stm32f4xx_hal.h"
+#include "main.h"
+	 
+
+
+void		CPLD_Init();
+void		CPLD_Deinit();
+
+
 
 #ifdef __MKSDLP_BOARD__
 
 
-#include "stm32f4xx_hal.h"
-#include "main.h"
-	 
 #define CPLD_RST_Off()				CPLD_RST_GPIO->BSRR = CPLD_RST_Pin
 #define CPLD_RST_On()				CPLD_RST_GPIO->BSRR = (uint32_t)CPLD_RST_Pin << 16U
 
@@ -15,8 +21,6 @@
 
 
 
-#define  CPLD_X_RATIO		2560
-#define  CPLD_Y_RATIO		1440
 #define  CPLD_FILLCODE		48
 #define  CPLD_DATA_LEN		192 	// (Y_RATIO+2*FILLCODE)/8				//tan ---Одна строка данных длиной (720 + 48 + 720 + 48) бит
 #define  CPLD_DATA_CRC_LEN	194 	// mark16 + DATA_LEN
@@ -119,8 +123,6 @@ uint8_t		_cpld_get_version();
 
 
 
-void		CPLD_Init();
-
 #endif // __MKSDLP_BOARD__
 
 
@@ -130,17 +132,19 @@ void		CPLD_Init();
 
 #ifdef __CHITU_BOARD__
 
-  #ifdef __DISP_MONO2K__
-#define  CPLD_X_RATIO		2560
-#define  CPLD_Y_RATIO		1620
-#define  CPLD_FILLCODE		0
-#define  CPLD_DATA_LEN		512
-  #endif  // __DISP_MONO2K__
 
-void		CPLD_Init();
+#define		CPLD_CS_ENABLE()		CPLD_CS_GPIO->BSRR = (uint32_t)CPLD_CS_Pin << 16U
+#define		CPLD_CS_DISABLE()		CPLD_CS_GPIO->BSRR = CPLD_CS_Pin
+#define		CPLD_CLK_RESET()		CPLD_CLK_GPIO->BSRR = (uint32_t)CPLD_CLK_Pin << 16U
+#define		CPLD_CLK_SET()			CPLD_CLK_GPIO->BSRR = CPLD_CLK_Pin
+#define		CPLD_MOSI_RESET()		CPLD_MOSI_GPIO->BSRR = (uint32_t)CPLD_MOSI_Pin << 16U
+#define		CPLD_MOSI_SET()			CPLD_MOSI_GPIO->BSRR = CPLD_MOSI_Pin
+#define		CPLD_MISO_READ()		(CPLD_MISO_GPIO->IDR & CPLD_MISO_Pin) != 0
 
 
-
+void		CPLD_EnableCS();
+void		CPLD_DisableCS();
+uint8_t		CPLD_SendReceiveByte(uint8_t val);
 
 
 #endif  // __CHITU_BOARD__

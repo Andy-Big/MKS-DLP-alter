@@ -10,6 +10,8 @@
 #include "sys_timer.h"
 #include "config.h"
 
+extern uint16_t					LCD_WIDTH;
+extern uint16_t					LCD_HEIGHT;
 
 extern TG_SCREEN				*tguiActiveScreen;
 

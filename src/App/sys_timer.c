@@ -1,4 +1,5 @@
 #include "sys_timer.h"
+#include "gpio.h"
 #include "touch.h"
 #include "config.h"
 

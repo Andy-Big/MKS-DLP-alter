@@ -1,4 +1,5 @@
 #include "printing.h"
+#include "gpio.h"
 #include "sys_timer.h"
 #include "cpld_utils.h"
 #include "uvdisplay.h"
@@ -23,6 +24,10 @@ extern TCHAR			fv_tfilename[512];
 extern uint8_t			tguiScreenTimer;
 extern uint8_t			timerWorkTimeTimer;
 
+extern uint16_t			CPLD_X_RATIO;
+extern uint16_t			CPLD_Y_RATIO;
+
+
 PRINT_STATE				prtState;
 
 LAYER_INFO				l_info;
@@ -33,16 +38,18 @@ uint32_t				ldata_offset_current = 0;
 uint32_t				ldata_length = 0;
 uint32_t				resX = 0, resY = 0;
 
-#define PRT_PREV_SCALE	8
-TG_RECT					prev_position;
-const uint16_t			prevcolors[2] = {LCDUI_RGB(0x000000), LCDUI_RGB(0xEFEFEF)};
-const uint32_t			prevheight = CPLD_Y_RATIO / PRT_PREV_SCALE;
-const uint32_t			prevwidth = CPLD_X_RATIO / PRT_PREV_SCALE;
-const uint32_t			prevheightbytes = prevheight / 8 + 1;
-uint8_t					previmage[prevheightbytes * prevwidth] PLACE_TO_CCMRAM;
+uint16_t			PRT_PREV_SCALE_X = 8;
+uint16_t			PRT_PREV_SCALE_Y = 8;
+
+TG_RECT				prev_position;
+uint16_t			prevcolors[2] = {LCDUI_RGB(0x000000), LCDUI_RGB(0xEFEFEF)};
+uint32_t			prevheight;
+uint32_t			prevwidth;
+uint32_t			prevheightbytes;
+uint8_t				previmage[480*320/8] PLACE_TO_CCMRAM;
 
 
-extern uint8_t			Line_Pixel[CPLD_Y_RATIO + CPLD_FILLCODE * 2];
+extern uint8_t			Line_Pixel[3000];
 #ifdef __MKSDLP_BOARD__
 extern DLP_BMP			cpld_bmp;
 #endif  // __MKSDLP_BOARD__
@@ -51,6 +58,19 @@ extern DLP_BMP			cpld_bmp;
 
 uint8_t		PRINT_Init()
 {
+#ifdef __MKSDLP_BOARD__
+	PRT_PREV_SCALE_X = 8;
+	PRT_PREV_SCALE_Y = 8;
+#endif
+#ifdef __CHITU_BOARD__
+	PRT_PREV_SCALE_X = 8;
+	PRT_PREV_SCALE_Y = 9;
+#endif
+	
+	prevheight = CPLD_Y_RATIO / PRT_PREV_SCALE_Y;
+	prevwidth = CPLD_X_RATIO / PRT_PREV_SCALE_X;
+	prevheightbytes = prevheight / 8 + 1;
+
 	systemInfo.print_time_decrement = 0;
 	systemInfo.print_current_layer = 0;
 	systemInfo.print_current_sublayer = 0;
@@ -267,7 +287,7 @@ uint8_t		PRINT_ReadRLEDecode(uint8_t preview)
 			pimage = previmage + prevcolumn * prevheightbytes;
 			pbyte = 0;
 			poffset = 0;
-			if ((cpld_bmp.current_line % PRT_PREV_SCALE) == 0)
+			if ((cpld_bmp.current_line % PRT_PREV_SCALE_Y) == 0)
 			{
 				p = &Line_Pixel[0];
 				curpoint = 0;
@@ -284,7 +304,7 @@ uint8_t		PRINT_ReadRLEDecode(uint8_t preview)
 					pbyte <<= 1;
 					poffset++;
 					curpoint++;
-					p += PRT_PREV_SCALE;
+					p += PRT_PREV_SCALE_X;
 				}
 				p += CPLD_FILLCODE;
 				while (curpoint < prevheight)
@@ -300,7 +320,7 @@ uint8_t		PRINT_ReadRLEDecode(uint8_t preview)
 					pbyte <<= 1;
 					poffset++;
 					curpoint++;
-					p += PRT_PREV_SCALE;
+					p += PRT_PREV_SCALE_X;
 				}
 				if (poffset)
 					*pimage = pbyte;

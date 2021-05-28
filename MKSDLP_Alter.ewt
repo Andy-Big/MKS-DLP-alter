@@ -3599,6 +3599,12 @@
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt12bold.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt14.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt14bold.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt170num_lcd.c</name>
                 </file>
                 <file>

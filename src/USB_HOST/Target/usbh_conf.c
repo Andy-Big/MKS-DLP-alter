@@ -22,6 +22,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usbh_core.h"
 #include "usbh_platform.h"
+#include "gpio.h"
 
 /* USER CODE BEGIN Includes */
 

@@ -1,4 +1,5 @@
 #include "fst_spi.h"
+#include "gpio.h"
 #include "lcd_low.h"
 
 

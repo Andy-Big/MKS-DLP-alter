@@ -7,6 +7,13 @@
 #define FW_DATE				(char*)__DATE__
 
 
+#define	SDIR_UPD					(char*)"alterupd"
+#define SDIR_UI						(char*)"ui"
+#define	SDIR_UI_480					(char*)"480"		// UI images for 480x320 resolution
+#define	SDIR_UI_320					(char*)"320"		// UI images for 320x240 resolution
+#define	SDIR_FILES					(char*)"files"
+
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>

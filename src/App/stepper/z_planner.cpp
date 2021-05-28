@@ -63,6 +63,7 @@
 */
 
 #include "z_planner.h"
+#include "gpio.h"
 #include "z_stepper.h"
 #include "config.h"
 #include "motor.h"

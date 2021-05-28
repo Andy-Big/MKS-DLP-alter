@@ -15,8 +15,6 @@
 #define Lcd_SET()			TFT_RESET_GPIO->BSRR = TFT_RESET_Pin
 #define Lcd_RESET()			TFT_RESET_GPIO->BSRR = (uint32_t)TFT_RESET_Pin << 16U
 
-#define LCD_WIDTH			(uint16_t)480
-#define LCD_HEIGHT			(uint16_t)320
 
 
 
@@ -39,7 +37,7 @@ void		LCD_CtrlLinesConfig(void);
 void		LCD_FSMCConfig(void);
 void		LCD_X_Init(void);
 
-void		LCD_Initializtion(void);
+void		LCD_Init(void);
 void		LCD_SetCursor(uint16_t x, uint16_t y);
 void		LCD_SetWindows(uint16_t StartX, uint16_t StartY, uint16_t width, uint16_t heigh);
 void		LCD_Clear(uint16_t Color);

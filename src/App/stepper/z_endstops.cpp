@@ -25,6 +25,7 @@
  */
 
 #include "z_endstops.h"
+#include "gpio.h"
 #include "z_planner.h"
 #include "z_stepper.h"
 #include "config.h"

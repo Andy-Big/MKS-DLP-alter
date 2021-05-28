@@ -1,4 +1,5 @@
 #include "spi_flash.h"
+#include "gpio.h"
 
 
 extern			SPI_HandleTypeDef	hFlashSpi;

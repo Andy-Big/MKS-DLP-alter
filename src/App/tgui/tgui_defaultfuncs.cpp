@@ -16,7 +16,12 @@
 #define		MS_SECTIMER_PERIOD			500
 
 
-uint8_t		scrTimeTimer = INVALID_TIMER;
+extern uint16_t		LCD_WIDTH;
+extern uint16_t		LCD_HEIGHT;
+
+
+uint8_t				scrTimeTimer = INVALID_TIMER;
+
 
 
 
@@ -151,7 +156,7 @@ void		_tgui_DrawStringInRect(char *str, TG_RECT *rect, TG_TEXTOPTIONS *opt)
 
 
 
-void		_tgui_DrawFileBmpBackground(char* file)
+void		_tgui_DrawFileBmpBackground(char* file, uint8_t ui)
 {
 	UINT		readed = 0;
 	uint32_t	bwidth = 0;
@@ -165,7 +170,18 @@ void		_tgui_DrawFileBmpBackground(char* file)
 	uint32_t	btoread = 0;
 
 	tstrcpy(tfname, SpiflPath);
+	if (ui)
+	{
+		tstrcat_utf(tfname, SDIR_UI);
+		tstrcat_utf(tfname, (char*)"\\");
+		if (LCD_WIDTH == 480)
+			tstrcat_utf(tfname, SDIR_UI_480);
+		else
+			tstrcat_utf(tfname, SDIR_UI_320);
+		tstrcat_utf(tfname, (char*)"\\");
+	}
 	tstrcat_utf(tfname, file);
+
 	if (f_open(&tguiFile, tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
 	{
 		return;
@@ -664,7 +680,7 @@ closeexit:
 
 // DMA double buffer - 62 ms in low optimize, 47 ms in high optimize
 
-void		_tgui_DrawFileCimgBackground(char* file)
+void		_tgui_DrawFileCimgBackground(char* file, uint8_t ui)
 {
 	UINT	readed = 0;
 	uint32_t	bwidth = 0;
@@ -674,6 +690,16 @@ void		_tgui_DrawFileCimgBackground(char* file)
 	
 
 	tstrcpy(tfname, SpiflPath);
+	if (ui)
+	{
+		tstrcat_utf(tfname, SDIR_UI);
+		tstrcat_utf(tfname, (char*)"\\");
+		if (LCD_WIDTH == 480)
+			tstrcat_utf(tfname, SDIR_UI_480);
+		else
+			tstrcat_utf(tfname, SDIR_UI_320);
+		tstrcat_utf(tfname, (char*)"\\");
+	}
 	tstrcat_utf(tfname, file);
 
 	if (f_open(&tguiFile, tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
@@ -722,7 +748,7 @@ closeexit:
 
 
 
-void		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y)
+void		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y, uint8_t ui)
 {
 	UINT	readed = 0;
 	uint32_t	bwidth = 0;
@@ -732,6 +758,16 @@ void		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y)
 	
 
 	tstrcpy(tfname, SpiflPath);
+	if (ui)
+	{
+		tstrcat_utf(tfname, SDIR_UI);
+		tstrcat_utf(tfname, (char*)"\\");
+		if (LCD_WIDTH == 480)
+			tstrcat_utf(tfname, SDIR_UI_480);
+		else
+			tstrcat_utf(tfname, SDIR_UI_320);
+		tstrcat_utf(tfname, (char*)"\\");
+	}
 	tstrcat_utf(tfname, file);
 
 	if (f_open(&tguiFile, tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)

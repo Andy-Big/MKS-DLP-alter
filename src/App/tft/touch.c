@@ -8,6 +8,9 @@
 
 #define TOUCH_PRESSED()		(touch_point.xc || touch_point.yc)
 
+extern uint16_t				LCD_WIDTH;
+extern uint16_t				LCD_HEIGHT;
+
 extern uint8_t				tguiScreenTimer;
 
 extern uint8_t				touch_buff[TOUCH_BUFF_SIZE];
@@ -26,49 +29,32 @@ void		_touch_ReadCoords()
 		return;
 	}
 	
-	uint32_t	vavg = 0;
+	uint32_t	vavg_x = 0, vavg_y = 0;
 	uint8_t		*buff = touch_buff+1;
 
 	// Calculate X coord
 	for (uint8_t i = 0; i < TOUCH_READS; i++)
 	{
-		vavg += (uint16_t)(*buff)<<8;
+		vavg_x += (uint16_t)(*buff)<<8;
 		buff++;
-		vavg += *buff;
+		vavg_x += *buff;
 		buff += 5;
 	}
-	vavg = vavg / TOUCH_READS;
-	if (vavg < touch_info.x_min || vavg > touch_info.x_max)
-	{
-		touch_point.xc = 0;
-	}
-	else
-	{
-#ifdef __MKSDLP_BOARD__
-		if (cfgConfig.display_rotate == 0)
-#endif
-#ifdef __CHITU_BOARD__
-		if (cfgConfig.display_rotate == 1)
-#endif
-			touch_point.xc = LCD_WIDTH - (vavg - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
-		else
-			touch_point.xc = (vavg - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
-	}
+	vavg_x = vavg_x / TOUCH_READS;
 
 	// Calculate Y coord
-	vavg = 0;
 	buff = touch_buff+4;
-
 	for (uint8_t i = 0; i < TOUCH_READS; i++)
 	{
-		vavg += (uint16_t)(*buff)<<8;
+		vavg_y += (uint16_t)(*buff)<<8;
 		buff++;
-		vavg += *buff;
+		vavg_y += *buff;
 		buff += 5;
 	}
-	vavg = vavg / TOUCH_READS;
-	if (vavg < touch_info.y_min || vavg > touch_info.y_max)
+	vavg_y = vavg_y / TOUCH_READS;
+	if (vavg_y < touch_info.y_min || vavg_y > touch_info.y_max || vavg_x < touch_info.x_min || vavg_x > touch_info.x_max)
 	{
+		touch_point.xc = 0;
 		touch_point.yc = 0;
 	}
 	else
@@ -77,11 +63,17 @@ void		_touch_ReadCoords()
 		if (cfgConfig.display_rotate == 0)
 #endif
 #ifdef __CHITU_BOARD__
-		if (cfgConfig.display_rotate == 1)
+		if ((cfgConfig.display_rotate == 1 && LCD_WIDTH == 480) || (cfgConfig.display_rotate == 0 && LCD_WIDTH == 320))
 #endif
-			touch_point.yc = (vavg - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
+		{
+			touch_point.xc = LCD_WIDTH - (vavg_x - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
+			touch_point.yc = (vavg_y - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
+		}
 		else
-			touch_point.yc = LCD_HEIGHT - (vavg - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
+		{
+			touch_point.xc = (vavg_x - touch_info.x_min) * LCD_WIDTH / (touch_info.x_max - touch_info.x_min);
+			touch_point.yc = LCD_HEIGHT - (vavg_y - touch_info.y_min) * LCD_HEIGHT / (touch_info.y_max - touch_info.y_min);
+		}
 	}
 	
 	
@@ -216,11 +208,21 @@ void		_touch_RefreshState()
 void		Touch_Init(void)
 {
 	TOUCH_SPIInit();
-	
-	touch_info.x_min = 1500;
-	touch_info.x_max = 30500;
-	touch_info.y_min = 1000;
-	touch_info.y_max = 30500;
+
+	if (LCD_WIDTH == 480)
+	{
+		touch_info.x_min = 1500;
+		touch_info.x_max = 30500;
+		touch_info.y_min = 1000;
+		touch_info.y_max = 30500;
+	}
+	else
+	{
+		touch_info.x_min = 1000;
+		touch_info.x_max = 30000;
+		touch_info.y_min = 1700;
+		touch_info.y_max = 26300;
+	}
 	touch_info.state = TS_FREE;
 	touch_info.time = 0;
 	touch_info.xc = 0;

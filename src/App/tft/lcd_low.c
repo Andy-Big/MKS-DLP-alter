@@ -13,8 +13,10 @@
 #include "config.h"
 
 
-uint16_t DeviceCode;
+uint16_t	DeviceCode;
 
+uint16_t	LCD_WIDTH = 480;
+uint16_t	LCD_HEIGHT = 320;
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -37,14 +39,6 @@ typedef struct
 DMA_HandleTypeDef		hLcdDma;
 
 
-/*******************************************************************************
-* Function Name  : LCD_CtrlLinesConfig
-* Description    : Configures LCD Control lines (FSMC Pins) in alternate function
-Push-Pull mode.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
 void		LCD_CtrlLinesConfig(void)
 {
 	__IO uint32_t i=0;
@@ -86,13 +80,6 @@ void		LCD_CtrlLinesConfig(void)
 
 
 
-/************************************************* ******************************
-* Function Name: LCD_FSMCConfig
-* Description: Configures the Parallel interface (FSMC) for LCD(Parallel mode)
-* Input: None
-* Output: None
-* Return: None
-************************************************** *****************************/
 void		LCD_FSMCConfig(void)
 {
 	MX_FSMC_Init();			// initialization FSMC core
@@ -113,14 +100,6 @@ void		LCD_X_Init(void)
 
 
 
-/*******************************************************************************
-* Function Name  : LCD_WriteReg
-* Description    : Writes to the selected LCD register.
-* Input          : - LCD_Reg: address of the selected register.
-*                  - LCD_RegValue: value to write to the selected register.
-* Output         : None
-* Return         : None
-*******************************************************************************/
 void		LCD_WriteReg(uint16_t LCD_Reg, uint16_t LCD_RegValue)
 {
 	/* Write 16-bit Index, then Write Reg */
@@ -132,13 +111,6 @@ void		LCD_WriteReg(uint16_t LCD_Reg, uint16_t LCD_RegValue)
 
 
 
-/*******************************************************************************
-* Function Name  : LCD_ReadReg
-* Description    : Reads the selected LCD Register.
-* Input          : None
-* Output         : None
-* Return         : LCD Register Value.
-*******************************************************************************/
 uint16_t	LCD_ReadReg(uint8_t LCD_Reg)
 {
 	uint16_t data;	  /* Write 16-bit Index (then Read Reg) */
@@ -159,13 +131,6 @@ void		LCD_WriteCmd(uint16_t LCD_RegValue)
 
 
 
-/*******************************************************************************
-* Function Name  : LCD_WriteRAM_Prepare
-* Description    : Prepare to write to the LCD RAM.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
 void		LCD_WriteRAM_Prepare(void)
 {
 	LCD_WriteCmd(0x002C);
@@ -182,13 +147,6 @@ void		LCD_WriteRAM_Continue(void)
 
 
 
-/*******************************************************************************
-* Function Name  : LCD_WriteRAM
-* Description    : Writes to the LCD RAM.
-* Input          : - RGB_Code: the pixel color in RGB mode (5-6-5).
-* Output         : None
-* Return         : None
-*******************************************************************************/
 void		LCD_WriteRAM(uint16_t RGB_Code)					 
 {
 	/* Write 16-bit GRAM Reg */
@@ -233,13 +191,6 @@ void		LCD_ReadRAM_Continue(void)
 
 
 
-/*******************************************************************************
-* Function Name  : LCD_ReadRAM
-* Description    : Reads the LCD RAM.
-* Input          : None
-* Output         : None
-* Return         : LCD RAM Value.
-*******************************************************************************/
 uint16_t	LCD_ReadRAM(void)
 {
 	uint16_t temp;
@@ -279,15 +230,7 @@ uint16_t	LCD_get_lshift_freq(void)
 
 
 
-/************************************************* ***************************
-* Name: void LCD_Initializtion()
-* Function: Initialize the controller of Shenzhou TFT LCD screen
-* Entry parameters: none
-* Export parameters: none
-* Explanation:
-* Calling method: LCD_Initializtion();
-************************************************** **************************/
-void		LCD_Initializtion(void)
+void		LCD_Init(void)
 {
 	volatile uint16_t i;
 	volatile uint16_t data1, data2, data3;
@@ -322,6 +265,74 @@ void		LCD_Initializtion(void)
 	}
 	if(DeviceCode == 0x9488)
 	{
+
+/*		--- 9488 ---
+0xe0 =>TFT_REG 
+0x0  =>TFT_DATA
+0x3  =>TFT_DATA
+0xc  =>TFT_DATA
+0x9  =>TFT_DATA
+0x17 =>TFT_DATA
+0x9  =>TFT_DATA
+0x3e =>TFT_DATA
+0x89 =>TFT_DATA
+0x49 =>TFT_DATA
+0x8  =>TFT_DATA
+0xd  =>TFT_DATA
+0xa  =>TFT_DATA
+0x13 =>TFT_DATA
+0x15 =>TFT_DATA
+0xf  =>TFT_DATA
+0xe1 =>TFT_REG 
+0x0  =>TFT_DATA
+0x11 =>TFT_DATA
+0x15 =>TFT_DATA
+0x3  =>TFT_DATA
+0xf  =>TFT_DATA
+0x5  =>TFT_DATA
+0x2d =>TFT_DATA
+0x34 =>TFT_DATA
+0x41 =>TFT_DATA
+0x2  =>TFT_DATA
+0xb  =>TFT_DATA
+0xa  =>TFT_DATA
+0x33 =>TFT_DATA
+0x37 =>TFT_DATA
+0xf  =>TFT_DATA
+0xc0 =>TFT_REG 
+0x17 =>TFT_DATA
+0x15 =>TFT_DATA
+0xc1 =>TFT_REG 
+0x41 =>TFT_DATA
+0xc5 =>TFT_REG 
+0x0  =>TFT_DATA
+0x12 =>TFT_DATA
+0x80 =>TFT_DATA
+0x3a =>TFT_REG 
+0x55 =>TFT_DATA
+0xb0 =>TFT_REG 
+0x0  =>TFT_DATA
+0xb1 =>TFT_REG 
+0xa0 =>TFT_DATA
+0xb4 =>TFT_REG 
+0x2  =>TFT_DATA
+0xe9 =>TFT_REG 
+0x0  =>TFT_DATA
+0xf7 =>TFT_REG 
+0xa9 =>TFT_DATA
+0x51 =>TFT_DATA
+0x2c =>TFT_DATA
+0x82 =>TFT_DATA
+0xb6 =>TFT_REG 
+0x2  =>TFT_DATA
+0x2  =>TFT_DATA
+0x36 =>TFT_REG 
+0xe8 =>TFT_DATA
+0x11 =>TFT_REG 
+0x78 FUN_0804fd30          
+0x29 =>TFT_REG 
+
+*/
 		//************* Start Initial Sequence **********//
 		LCD_WriteCmd(0x00E0);
 		LCD_WriteRAM(0x0000);
@@ -418,7 +429,329 @@ void		LCD_Initializtion(void)
 		LCD_SetWindows(0,0,480,320);
 		LCD_Clear(0x0000);
 
+		LCD_WIDTH = 480;
+		LCD_HEIGHT = 320;
+	} else
+	if(DeviceCode == 0x9486)
+	{
+/*		--- 9486 ---
+0xf2 =>TFT_REG 
+0x18 =>TFT_DATA
+0xa3 =>TFT_DATA
+0x12 =>TFT_DATA
+0x2  =>TFT_DATA
+0xb2 =>TFT_DATA
+0x12 =>TFT_DATA
+0xff =>TFT_DATA
+0x10 =>TFT_DATA
+0x0  =>TFT_DATA
+0xf8 =>TFT_REG 
+0x21 =>TFT_DATA
+0x4  =>TFT_DATA
+0xf9 =>TFT_REG 
+0x0  =>TFT_DATA
+0x8  =>TFT_DATA
+0x36 =>TFT_REG 
+0xa8 =>TFT_DATA
+0x3a =>TFT_REG 
+0x5  =>TFT_DATA
+0xb4 =>TFT_REG 
+0x1  =>TFT_DATA
+0xb6 =>TFT_REG 
+0x2  =>TFT_DATA
+0x22 =>TFT_DATA
+0xc1 =>TFT_REG 
+0x41 =>TFT_DATA
+0xc5 =>TFT_REG 
+0x0  =>TFT_DATA
+0x7  =>TFT_DATA
+0xe0 =>TFT_REG 
+0xf  =>TFT_DATA
+0x1f =>TFT_DATA
+0x1c =>TFT_DATA
+0xc  =>TFT_DATA
+0xf  =>TFT_DATA
+0x8  =>TFT_DATA
+0x48 =>TFT_DATA
+0x98 =>TFT_DATA
+0x37 =>TFT_DATA
+0xa  =>TFT_DATA
+0x13 =>TFT_DATA
+0x4  =>TFT_DATA
+0x11 =>TFT_DATA
+0xd  =>TFT_DATA
+0x0  =>TFT_DATA
+0xe1 =>TFT_REG 
+0xf  =>TFT_DATA
+0x32 =>TFT_DATA
+0x2e =>TFT_DATA
+0xb  =>TFT_DATA
+0xd  =>TFT_DATA
+0x5  =>TFT_DATA
+0x47 =>TFT_DATA
+0x75 =>TFT_DATA
+0x37 =>TFT_DATA
+0x6  =>TFT_DATA
+0x10 =>TFT_DATA
+0x3  =>TFT_DATA
+0x24 =>TFT_DATA
+0x20 =>TFT_DATA
+0x0  =>TFT_DATA
+0x11 =>TFT_REG 
+0x29 =>TFT_REG 
+*/
+		LCD_WIDTH = 480;
+		LCD_HEIGHT = 320;
+	} else
+	if(DeviceCode == 0x9481)
+	{
+/*		--- 9481 ---
+0x11 =>TFT_REG 
+0x14 FUN_0804fd30          
+0xd0 =>TFT_REG 
+0x7  =>TFT_DATA
+0x42 =>TFT_DATA
+0x18 =>TFT_DATA
+0xd1 =>TFT_REG 
+0x0  =>TFT_DATA
+0x7  =>TFT_DATA
+0x10 =>TFT_DATA
+0xd2 =>TFT_REG 
+0x1  =>TFT_DATA
+0x2  =>TFT_DATA
+0xc0 =>TFT_REG 
+0x10 =>TFT_DATA
+0x3b =>TFT_DATA
+0x0  =>TFT_DATA
+0x2  =>TFT_DATA
+0x11 =>TFT_DATA
+0xc5 =>TFT_REG 
+0x3  =>TFT_DATA
+0xc8 =>TFT_REG 
+0x0  =>TFT_DATA
+0x32 =>TFT_DATA
+0x36 =>TFT_DATA
+0x45 =>TFT_DATA
+0x6  =>TFT_DATA
+0x16 =>TFT_DATA
+0x37 =>TFT_DATA
+0x75 =>TFT_DATA
+0x77 =>TFT_DATA
+0x54 =>TFT_DATA
+0xc  =>TFT_DATA
+0x0  =>TFT_DATA
+0x36 =>TFT_REG 
+0xa  =>TFT_DATA
+0x3a =>TFT_REG 
+0x55 =>TFT_DATA
+0x2a =>TFT_REG 
+0x0  =>TFT_DATA
+0x0  =>TFT_DATA
+0x1  =>TFT_DATA
+0x3f =>TFT_DATA
+0x2b =>TFT_REG 
+0x0  =>TFT_DATA
+0x0  =>TFT_DATA
+0x1  =>TFT_DATA
+0xe0 =>TFT_DATA
+0x29 =>TFT_REG 
+0x2c =>TFT_REG 
+
+*/
+		LCD_WIDTH = 480;
+		LCD_HEIGHT = 320;
+	} else
+	if(DeviceCode == 0x9341)
+	{
+/*		--- 9341 ---
+0x3a =>TFT_REG  
+0x55 =>TFT_DATA 
+0xf6 =>TFT_REG  
+0x1  =>TFT_DATA  
+0x33 =>TFT_DATA 
+0xb5 =>TFT_REG  
+0x4  =>TFT_DATA  
+0x4  =>TFT_DATA  
+0xa  =>TFT_DATA  
+0x14 =>TFT_DATA 
+0x35 =>TFT_REG  
+0x0  =>TFT_DATA  
+0xcf =>TFT_REG  
+0x0  =>TFT_DATA  
+0xea =>TFT_DATA 
+0xf0 =>TFT_DATA 
+0xed =>TFT_REG  
+0x64 =>TFT_DATA 
+0x3 =>TFT_DATA  
+0x12 =>TFT_DATA 
+0x81 =>TFT_DATA 
+0xe8 =>TFT_REG  
+0x85 =>TFT_DATA 
+0x0  =>TFT_DATA  
+0x78 =>TFT_DATA 
+0xcb =>TFT_REG  
+0x39 =>TFT_DATA 
+0x2c =>TFT_DATA 
+0x0  =>TFT_DATA  
+0x33 =>TFT_DATA 
+0x6  =>TFT_DATA  
+0xf7 =>TFT_REG  
+0x20 =>TFT_DATA 
+0xea =>TFT_REG  
+0x0  =>TFT_DATA  
+0x0  =>TFT_DATA  
+0xc0 =>TFT_REG  
+0x21 =>TFT_DATA 
+0xc1 =>TFT_REG  
+0x10 =>TFT_DATA 
+0xc5 =>TFT_REG  
+0x4f =>TFT_DATA 
+0x38 =>TFT_DATA 
+0xc7 =>TFT_REG  
+0x98 =>TFT_DATA 
+0x36 =>TFT_REG  
+0xa8 =>TFT_DATA 
+0xb1 =>TFT_REG  
+0x0  =>TFT_DATA  
+0x13 =>TFT_DATA 
+0xb6 =>TFT_REG  
+0xa  =>TFT_DATA  
+0xa2 =>TFT_DATA 
+0xf2 =>TFT_REG  
+0x2  =>TFT_DATA  
+0xe0 =>TFT_REG  
+0xf  =>TFT_DATA  
+0x27 =>TFT_DATA 
+0x24 =>TFT_DATA 
+0xc  =>TFT_DATA  
+0x10 =>TFT_DATA 
+0x8  =>TFT_DATA  
+0x55 =>TFT_DATA 
+0x87 =>TFT_DATA 
+0x45 =>TFT_DATA 
+0x8  =>TFT_DATA  
+0x14 =>TFT_DATA 
+0x7  =>TFT_DATA  
+0x13 =>TFT_DATA 
+0x8  =>TFT_DATA  
+0x0  =>TFT_DATA  
+0xe1 =>TFT_REG  
+0x0  =>TFT_DATA  
+0xf  =>TFT_DATA  
+0x12 =>TFT_DATA 
+0x5  =>TFT_DATA  
+0x11 =>TFT_DATA 
+0x6  =>TFT_DATA  
+0x25 =>TFT_DATA 
+0x34 =>TFT_DATA 
+0x37 =>TFT_DATA 
+0x1  =>TFT_DATA  
+0x8  =>TFT_DATA  
+0x7  =>TFT_DATA  
+0x2b =>TFT_DATA 
+0x34 =>TFT_DATA 
+0xf  =>TFT_DATA  
+0x11 =>TFT_REG  
+0x29 =>TFT_REG  
+
+*/
+
+		LCD_WriteCmd(0x003a); // =>TFT_REG  
+		LCD_WriteRAM(0x0055); // =>TFT_DATA 
+		LCD_WriteCmd(0x00f6); // =>TFT_REG  
+		LCD_WriteRAM(0x0001); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0033); // =>TFT_DATA 
+		LCD_WriteCmd(0x00b5); // =>TFT_REG  
+		LCD_WriteRAM(0x0004); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0004); //  =>TFT_DATA  
+		LCD_WriteRAM(0x000a); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0014); // =>TFT_DATA 
+		LCD_WriteCmd(0x0035); // =>TFT_REG  
+		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
+		LCD_WriteCmd(0x00cf); // =>TFT_REG  
+		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
+		LCD_WriteRAM(0x00ea); // =>TFT_DATA 
+		LCD_WriteRAM(0x00f0); // =>TFT_DATA 
+		LCD_WriteCmd(0x00ed); // =>TFT_REG  
+		LCD_WriteRAM(0x0064); // =>TFT_DATA 
+		LCD_WriteRAM(0x0003); // =>TFT_DATA  
+		LCD_WriteRAM(0x0012); // =>TFT_DATA 
+		LCD_WriteRAM(0x0081); // =>TFT_DATA 
+		LCD_WriteCmd(0x00e8); // =>TFT_REG  
+		LCD_WriteRAM(0x0085); // =>TFT_DATA 
+		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0078); // =>TFT_DATA 
+		LCD_WriteCmd(0x00cb); // =>TFT_REG  
+		LCD_WriteRAM(0x0039); // =>TFT_DATA 
+		LCD_WriteRAM(0x002c); // =>TFT_DATA 
+		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0033); // =>TFT_DATA 
+		LCD_WriteRAM(0x0006); //  =>TFT_DATA  
+		LCD_WriteCmd(0x00f7); // =>TFT_REG  
+		LCD_WriteRAM(0x0020); // =>TFT_DATA 
+		LCD_WriteCmd(0x00ea); // =>TFT_REG  
+		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
+		LCD_WriteCmd(0x00c0); // =>TFT_REG  
+		LCD_WriteRAM(0x0021); // =>TFT_DATA 
+		LCD_WriteCmd(0x00c1); // =>TFT_REG  
+		LCD_WriteRAM(0x0010); // =>TFT_DATA 
+		LCD_WriteCmd(0x00c5); // =>TFT_REG  
+		LCD_WriteRAM(0x004f); // =>TFT_DATA 
+		LCD_WriteRAM(0x0038); // =>TFT_DATA 
+		LCD_WriteCmd(0x00c7); // =>TFT_REG  
+		LCD_WriteRAM(0x0098); // =>TFT_DATA 
+		LCD_WriteCmd(0x0036); // =>TFT_REG  
+		LCD_WriteRAM(0x00a8); // =>TFT_DATA 
+		LCD_WriteCmd(0x00b1); // =>TFT_REG  
+		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0013); // =>TFT_DATA 
+		LCD_WriteCmd(0x00b6); // =>TFT_REG  
+		LCD_WriteRAM(0x000a); //  =>TFT_DATA  
+		LCD_WriteRAM(0x00a2); // =>TFT_DATA 
+		LCD_WriteCmd(0x00f2); // =>TFT_REG  
+		LCD_WriteRAM(0x0002); //  =>TFT_DATA  
+		LCD_WriteCmd(0x00e0); // =>TFT_REG  
+		LCD_WriteRAM(0x000f); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0027); // =>TFT_DATA 
+		LCD_WriteRAM(0x0024); // =>TFT_DATA 
+		LCD_WriteRAM(0x000c); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0010); // =>TFT_DATA 
+		LCD_WriteRAM(0x0008); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0055); // =>TFT_DATA 
+		LCD_WriteRAM(0x0087); // =>TFT_DATA 
+		LCD_WriteRAM(0x0045); // =>TFT_DATA 
+		LCD_WriteRAM(0x0008); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0014); // =>TFT_DATA 
+		LCD_WriteRAM(0x0007); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0013); // =>TFT_DATA 
+		LCD_WriteRAM(0x0008); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
+		LCD_WriteCmd(0x00e1); // =>TFT_REG  
+		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
+		LCD_WriteRAM(0x000f); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0012); // =>TFT_DATA 
+		LCD_WriteRAM(0x0005); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0011); // =>TFT_DATA 
+		LCD_WriteRAM(0x0006); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0025); // =>TFT_DATA 
+		LCD_WriteRAM(0x0034); // =>TFT_DATA 
+		LCD_WriteRAM(0x0037); // =>TFT_DATA 
+		LCD_WriteRAM(0x0001); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0008); //  =>TFT_DATA  
+		LCD_WriteRAM(0x0007); //  =>TFT_DATA  
+		LCD_WriteRAM(0x002b); // =>TFT_DATA 
+		LCD_WriteRAM(0x0034); // =>TFT_DATA 
+		LCD_WriteRAM(0x000f); //  =>TFT_DATA  
+		LCD_WriteCmd(0x0011); // =>TFT_REG  
+		LCD_WriteCmd(0x0029); // =>TFT_REG  
+		
+		HAL_Delay(300);
+
+		LCD_WIDTH = 320;
+		LCD_HEIGHT = 240;
 	}
+		
 }
 
 

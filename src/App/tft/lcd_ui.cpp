@@ -4,8 +4,12 @@
 
 
 
+extern uint16_t			LCD_WIDTH;
+extern uint16_t			LCD_HEIGHT;
+
 
 extern LCDUI_FONT		font_fnt12;
+extern LCDUI_FONT		font_fnt14;
 extern LCDUI_FONT		font_fnt12bold;
 extern LCDUI_FONT		font_fnt18;
 extern LCDUI_FONT		font_fnt18bold;
@@ -596,6 +600,14 @@ LCDUI_FONT_TYPE		LCDUI_SetFont(LCDUI_FONT_TYPE newfont)
 
 		case LCDUI_FONT_H12BOLD:
 			lcdui_current_font = &font_fnt12bold;
+			break;
+
+		case LCDUI_FONT_H14:
+			lcdui_current_font = &font_fnt14;
+			break;
+
+		case LCDUI_FONT_H14BOLD:
+			lcdui_current_font = &font_fnt14;
 			break;
 
 		case LCDUI_FONT_H18:

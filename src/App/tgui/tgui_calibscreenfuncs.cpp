@@ -11,7 +11,10 @@
 
 #define CALIB_TARGET_SIZE_X			(uint16_t)36
 #define CALIB_TARGET_SIZE_Y			(uint16_t)36
-#define CALIB_TARGET_IMAGE_FILE		(char*)"icn/icn_calib_target.cimg"
+#define CALIB_TARGET_IMAGE_FILE		(char*)"icn_calib_target.cimg"
+
+extern uint16_t						LCD_WIDTH;
+extern uint16_t						LCD_HEIGHT;
 
 #define CALIB_XD1					(LCD_WIDTH * 90) / 100
 #define CALIB_YD1					(LCD_HEIGHT * 50) / 100

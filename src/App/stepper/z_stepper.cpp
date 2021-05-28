@@ -78,6 +78,7 @@
 */
 
 #include "z_stepper.h"
+#include "gpio.h"
 #include "z_endstops.h"
 #include "z_planner.h"
 #include "config.h"
