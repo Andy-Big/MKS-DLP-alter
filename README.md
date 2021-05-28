@@ -6,7 +6,10 @@ Using IAR 8.32 with ST HAL library.
 
 Thanks to [andryblack](https://github.com/andryblack), it became possible to [build a project for GCC](BUILD_GCC.md).
 
+**Attention!** Versions up to 0.07 inclusive contain a screensaver error, due to which setting the value of 0 for the _screensaver_time_ parameter in the _settings.acfg_ settings file or other circumstances may lead to the appearance of an unrecoverable screensaver with a clock. The solution to this problem is described and shown in this video - https://youtu.be/U_eCy2t2BZw
+
 **Screenshots**
+
 ![Main menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/main_menu.jpg)
 ![Service menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/service_menu.jpg)
 ![MoveZ menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/movez_menu.jpg)
