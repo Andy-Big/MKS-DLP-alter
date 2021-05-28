@@ -6,8 +6,6 @@ Using IAR 8.32 with ST HAL library.
 
 Thanks to [andryblack](https://github.com/andryblack), it became possible to [build a project for GCC](BUILD_GCC.md).
 
-**Attention!** Versions up to 0.07 inclusive contain a screensaver error, due to which setting the value of 0 for the _screensaver_time_ parameter in the _settings.acfg_ settings file or other circumstances may lead to the appearance of an unrecoverable screensaver with a clock. The solution to this problem is described and shown in this video - https://youtu.be/U_eCy2t2BZw
-
 **Screenshots**
 
 ![Main menu](https://raw.githubusercontent.com/Andy-Big/MKS-DLP-alter/master/_screenshots/main_menu.jpg)
@@ -188,4 +186,8 @@ The essence of the linear decrease in exposure time is shown in this picture:
 ### v0.08
 **Added/changed:**
 * Work has begun on adapting the firmware for Chitu L V3 boards. At the moment, the work with UV display has not yet been implemented, but everything else is already working.
+
+## 28.05.2021 Update old releases
+## v0.04, v0.05, v0.06, v0.07
+Versions up to and including 0.07 contained a critical screensaver bug. Therefore, the binaries in the releases were replaced with new ones, in which this bug was fixed. Because of this, the binaries do not match the sources saved at the time of the release of these versions.
 
