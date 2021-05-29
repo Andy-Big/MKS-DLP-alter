@@ -8,6 +8,7 @@ extern uint16_t			LCD_WIDTH;
 extern uint16_t			LCD_HEIGHT;
 
 
+extern LCDUI_FONT		font_fnt11;
 extern LCDUI_FONT		font_fnt12;
 extern LCDUI_FONT		font_fnt14;
 extern LCDUI_FONT		font_fnt12bold;
@@ -21,7 +22,7 @@ extern LCDUI_FONT		font_fnt170num_lcd;
 
 
 //uint8_t 		lcdui_startH, lcdui_endH, lcdui_startV, lcdui_endV, lcdui_ramAddrOne, lcdui_ramAddrTwo;
-int16_t			lcdui_width = 480, lcdui_height = 320, lcdui_cursor_x = 0, lcdui_cursor_y = 0;
+int16_t			lcdui_cursor_x = 0, lcdui_cursor_y = 0;
 LCDUI_FONT		*lcdui_current_font = &font_fnt18;
 LCDUI_FONT_TYPE	lcdui_current_font_type = LCDUI_FONT_H18;
 uint16_t		lcdui_bgcolor = LCDUI_RGB(0x000000), lcdui_color = LCDUI_RGB(0xFFFFFF);
@@ -32,8 +33,6 @@ uint16_t		lcdui_bgcolor = LCDUI_RGB(0x000000), lcdui_color = LCDUI_RGB(0xFFFFFF)
 
 void	LCDUI_Init()
 {
-	lcdui_width = 480;
-	lcdui_height = 320;
 	lcdui_cursor_x = 0;
 	lcdui_cursor_y = 0;
 	lcdui_current_font = &font_fnt18;
@@ -168,7 +167,7 @@ void	LCDUI_SetCursorCoord(int16_t x, int16_t y)
 
 uint16_t	LCDUI_GetScreenWidth()
 {
-	return lcdui_width;
+	return LCD_WIDTH;
 }
 //==============================================================================
 
@@ -178,7 +177,7 @@ uint16_t	LCDUI_GetScreenWidth()
 
 uint16_t	LCDUI_GetScreenHeight()
 {
-	return lcdui_height;
+	return LCD_HEIGHT;
 }
 //==============================================================================
 
@@ -240,7 +239,7 @@ void	LCDUI_Clear()
 
 void	LCDUI_DrawPixel(uint16_t x1, uint16_t y1)
 {
-	if((x1 >= lcdui_width) || (y1 >= lcdui_height))
+	if((x1 >= LCD_WIDTH) || (y1 >= LCD_HEIGHT))
 		return;
 
 	LCD_SetCursor(x1, y1);
@@ -255,15 +254,15 @@ void	LCDUI_DrawPixel(uint16_t x1, uint16_t y1)
 
 void	LCDUI_DrawFastVLine(int16_t x, int16_t y, int16_t h)
 {
-	if((x >= lcdui_width) || (y >= lcdui_height))
+	if((x >= LCD_WIDTH) || (y >= LCD_HEIGHT))
 		return;
-	if((y+h) >= lcdui_height)
-		h = lcdui_height-y;
+	if((y+h) >= LCD_HEIGHT)
+		h = LCD_HEIGHT-y;
 	LCD_SetWindows(x, y, 1, h);
 	LCD_WriteRAM_Prepare();
 	while (h-- > 0)
 		LCD_WriteRAM(lcdui_color);
-//	LCD_SetWindows(0, 0, lcdui_width-1, lcdui_height-1);
+//	LCD_SetWindows(0, 0, LCD_WIDTH-1, LCD_HEIGHT-1);
 }
 //==============================================================================
 
@@ -273,15 +272,15 @@ void	LCDUI_DrawFastVLine(int16_t x, int16_t y, int16_t h)
 
 void	LCDUI_DrawFastHLine(int16_t x, int16_t y, int16_t w)
 {
-	if((x >= lcdui_width) || (y >= lcdui_height))
+	if((x >= LCD_WIDTH) || (y >= LCD_HEIGHT))
 		return;
-	if((x+w) >= lcdui_width)
-		w = lcdui_width-x;
+	if((x+w) >= LCD_WIDTH)
+		w = LCD_WIDTH-x;
 	LCD_SetWindows(x, y, w, 1);
 	LCD_WriteRAM_Prepare();
 	while (w-- > 0)
 		LCD_WriteRAM(lcdui_color);
-//	LCD_SetWindows(0, 0, lcdui_width-1, lcdui_height-1);
+//	LCD_SetWindows(0, 0, LCD_WIDTH-1, LCD_HEIGHT-1);
 }
 //==============================================================================
 
@@ -303,12 +302,12 @@ void	LCDUI_DrawRect(int16_t x, int16_t y, int16_t w, int16_t h)
 
 void	LCDUI_FillRect(int16_t x, int16_t y, int16_t w, int16_t h)
 {
-	if((x >= lcdui_width) || (y >= lcdui_height))
+	if((x >= LCD_WIDTH) || (y >= LCD_HEIGHT))
 		return;
-	if((x + w) >= lcdui_width)
-		w = lcdui_width - x;
-	if((y + h) >= lcdui_height)
-		h = lcdui_height - y;
+	if((x + w) >= LCD_WIDTH)
+		w = LCD_WIDTH - x;
+	if((y + h) >= LCD_HEIGHT)
+		h = LCD_HEIGHT - y;
 
 	LCD_SetWindows(x, y, w, h);
 	LCD_WriteRAM_Prepare();
@@ -317,7 +316,7 @@ void	LCDUI_FillRect(int16_t x, int16_t y, int16_t w, int16_t h)
 	{
 		LCD_WriteRAM(lcdui_color);
 	}
-//	LCDUI_set_window(0, 0, lcdui_width-1, lcdui_height-1);
+//	LCDUI_set_window(0, 0, LCD_WIDTH-1, LCD_HEIGHT-1);
 }
 //==============================================================================
 
@@ -411,12 +410,12 @@ void	LCDUI_DrawCircle(uint16_t x0, uint16_t y0, uint16_t r)
 /*
 void	LCDUI_FillRect(int16_t x, int16_t y, int16_t w, int16_t h)
 {
-	if((x >= lcdui_width) || (y >= lcdui_height))
+	if((x >= LCD_WIDTH) || (y >= LCD_HEIGHT))
 		return;
-	if((x + w) >= lcdui_width)
-		w = lcdui_width - x;
-	if((y + h) >= lcdui_height)
-		h = lcdui_height - y;
+	if((x + w) >= LCD_WIDTH)
+		w = LCD_WIDTH - x;
+	if((y + h) >= LCD_HEIGHT)
+		h = LCD_HEIGHT - y;
 
 	LCDUI_set_window(x, y, x+w-1, y+h-1);
 	LCDUI_write_reg_beg(ILI9225_GRAM_DATA_REG);
@@ -426,7 +425,7 @@ void	LCDUI_FillRect(int16_t x, int16_t y, int16_t w, int16_t h)
 		LCDUI_write_data_cont(lcdui_color);
 	}
 	LCDUI_write_data_close();
-	LCDUI_set_window(0, 0, lcdui_width-1, lcdui_height-1);
+	LCDUI_set_window(0, 0, LCD_WIDTH-1, LCD_HEIGHT-1);
 }
 //==============================================================================
 
@@ -594,6 +593,10 @@ LCDUI_FONT_TYPE		LCDUI_SetFont(LCDUI_FONT_TYPE newfont)
 {
 	switch (newfont)
 	{
+		case LCDUI_FONT_H11:
+			lcdui_current_font = &font_fnt11;
+			break;
+
 		case LCDUI_FONT_H12:
 			lcdui_current_font = &font_fnt12;
 			break;
@@ -713,7 +716,7 @@ uint32_t	LCDUI_GetCurrentFontHeight()
 
 void	LCDUI_DrawChar(char c,  uint16_t opt, int16_t x, int16_t y)
 {
-	if((x > lcdui_width) || (y > lcdui_height) || c < 32)
+	if((x > LCD_WIDTH) || (y > LCD_HEIGHT) || c < 32)
 	{
 		return;
 	}
@@ -721,7 +724,7 @@ void	LCDUI_DrawChar(char c,  uint16_t opt, int16_t x, int16_t y)
 		lcdui_cursor_x = x;
 	if (y >= 0)
 		lcdui_cursor_y = y;
-	if((lcdui_cursor_x > lcdui_width) || (lcdui_cursor_y > lcdui_height))
+	if((lcdui_cursor_x > LCD_WIDTH) || (lcdui_cursor_y > LCD_HEIGHT))
 		return;
 
 	uint16_t	cres[2];
@@ -827,16 +830,16 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 {
 	uint16_t i = 0, oldcolor = lcdui_color, oldbgcolor = lcdui_bgcolor, copt = opt;
 	char c;
-	if (x1 > lcdui_width-1 || y1 > lcdui_height-1)
+	if (x1 > LCD_WIDTH-1 || y1 > LCD_HEIGHT-1)
 		return;
 	if (x1 < 0)
 		x1 = lcdui_cursor_x;
 	if (y1 < 0)
 		y1 = lcdui_cursor_y;
 	if (x2 < 0)
-		x2 = lcdui_width-1;
+		x2 = LCD_WIDTH-1;
 	if (y2 < 0)
-		y2 = lcdui_height-1;
+		y2 = LCD_HEIGHT-1;
 	if ((opt & LCDUI_TEXT_GETSIZE) == 0)
 	{
 		lcdui_cursor_x = x1;
@@ -945,16 +948,16 @@ void	LCDUI_DrawTextUTF(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t 
 {
 	uint16_t i = 0, oldcolor = lcdui_color, oldbgcolor = lcdui_bgcolor, copt = opt;
 	char c;
-	if (x1 > lcdui_width-1 || y1 > lcdui_height-1)
+	if (x1 > LCD_WIDTH-1 || y1 > LCD_HEIGHT-1)
 		return;
 	if (x1 < 0)
 		x1 = lcdui_cursor_x;
 	if (y1 < 0)
 		y1 = lcdui_cursor_y;
 	if (x2 < 0)
-		x2 = lcdui_width-1;
+		x2 = LCD_WIDTH-1;
 	if (y2 < 0)
-		y2 = lcdui_height-1;
+		y2 = LCD_HEIGHT-1;
 	lcdui_cursor_x = x1;
 	lcdui_cursor_y = y1;
 

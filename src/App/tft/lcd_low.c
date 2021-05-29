@@ -381,9 +381,6 @@ void		LCD_Init(void)
 		LCD_WriteRAM(0x0080);
 
 		LCD_WriteCmd(0x0036);
-		//LCD_WriteRAM(0x0068);
-//		LCD_WriteRAM(0x0098);	// rotate 90
-//		LCD_WriteRAM(0x0078);	// rotate 180
 		if (cfgConfig.display_rotate == 0)
 			LCD_WriteRAM(0x00B8);
 		else
@@ -408,10 +405,6 @@ void		LCD_Init(void)
 
 		LCD_WriteCmd(0x00B7);
 		LCD_WriteRAM(0x00C6);
-
-		//WriteComm(0XBE);
-		//WriteData(0x00);
-		//WriteData(0x04);
 
 		LCD_WriteCmd(0x00E9);
 		LCD_WriteRAM(0x0000);
@@ -656,95 +649,119 @@ void		LCD_Init(void)
 
 */
 
-		LCD_WriteCmd(0x003a); // =>TFT_REG  
-		LCD_WriteRAM(0x0055); // =>TFT_DATA 
-		LCD_WriteCmd(0x00f6); // =>TFT_REG  
-		LCD_WriteRAM(0x0001); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0033); // =>TFT_DATA 
-		LCD_WriteCmd(0x00b5); // =>TFT_REG  
-		LCD_WriteRAM(0x0004); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0004); //  =>TFT_DATA  
-		LCD_WriteRAM(0x000a); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0014); // =>TFT_DATA 
-		LCD_WriteCmd(0x0035); // =>TFT_REG  
-		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
-		LCD_WriteCmd(0x00cf); // =>TFT_REG  
-		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
-		LCD_WriteRAM(0x00ea); // =>TFT_DATA 
-		LCD_WriteRAM(0x00f0); // =>TFT_DATA 
-		LCD_WriteCmd(0x00ed); // =>TFT_REG  
-		LCD_WriteRAM(0x0064); // =>TFT_DATA 
-		LCD_WriteRAM(0x0003); // =>TFT_DATA  
-		LCD_WriteRAM(0x0012); // =>TFT_DATA 
-		LCD_WriteRAM(0x0081); // =>TFT_DATA 
-		LCD_WriteCmd(0x00e8); // =>TFT_REG  
-		LCD_WriteRAM(0x0085); // =>TFT_DATA 
-		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0078); // =>TFT_DATA 
-		LCD_WriteCmd(0x00cb); // =>TFT_REG  
-		LCD_WriteRAM(0x0039); // =>TFT_DATA 
-		LCD_WriteRAM(0x002c); // =>TFT_DATA 
-		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0033); // =>TFT_DATA 
-		LCD_WriteRAM(0x0006); //  =>TFT_DATA  
-		LCD_WriteCmd(0x00f7); // =>TFT_REG  
-		LCD_WriteRAM(0x0020); // =>TFT_DATA 
-		LCD_WriteCmd(0x00ea); // =>TFT_REG  
-		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
-		LCD_WriteCmd(0x00c0); // =>TFT_REG  
-		LCD_WriteRAM(0x0021); // =>TFT_DATA 
-		LCD_WriteCmd(0x00c1); // =>TFT_REG  
-		LCD_WriteRAM(0x0010); // =>TFT_DATA 
-		LCD_WriteCmd(0x00c5); // =>TFT_REG  
-		LCD_WriteRAM(0x004f); // =>TFT_DATA 
-		LCD_WriteRAM(0x0038); // =>TFT_DATA 
-		LCD_WriteCmd(0x00c7); // =>TFT_REG  
-		LCD_WriteRAM(0x0098); // =>TFT_DATA 
-		LCD_WriteCmd(0x0036); // =>TFT_REG  
-		LCD_WriteRAM(0x00a8); // =>TFT_DATA 
-		LCD_WriteCmd(0x00b1); // =>TFT_REG  
-		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0013); // =>TFT_DATA 
-		LCD_WriteCmd(0x00b6); // =>TFT_REG  
-		LCD_WriteRAM(0x000a); //  =>TFT_DATA  
-		LCD_WriteRAM(0x00a2); // =>TFT_DATA 
-		LCD_WriteCmd(0x00f2); // =>TFT_REG  
-		LCD_WriteRAM(0x0002); //  =>TFT_DATA  
-		LCD_WriteCmd(0x00e0); // =>TFT_REG  
-		LCD_WriteRAM(0x000f); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0027); // =>TFT_DATA 
-		LCD_WriteRAM(0x0024); // =>TFT_DATA 
-		LCD_WriteRAM(0x000c); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0010); // =>TFT_DATA 
-		LCD_WriteRAM(0x0008); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0055); // =>TFT_DATA 
-		LCD_WriteRAM(0x0087); // =>TFT_DATA 
-		LCD_WriteRAM(0x0045); // =>TFT_DATA 
-		LCD_WriteRAM(0x0008); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0014); // =>TFT_DATA 
-		LCD_WriteRAM(0x0007); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0013); // =>TFT_DATA 
-		LCD_WriteRAM(0x0008); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
-		LCD_WriteCmd(0x00e1); // =>TFT_REG  
-		LCD_WriteRAM(0x0000); //  =>TFT_DATA  
-		LCD_WriteRAM(0x000f); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0012); // =>TFT_DATA 
-		LCD_WriteRAM(0x0005); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0011); // =>TFT_DATA 
-		LCD_WriteRAM(0x0006); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0025); // =>TFT_DATA 
-		LCD_WriteRAM(0x0034); // =>TFT_DATA 
-		LCD_WriteRAM(0x0037); // =>TFT_DATA 
-		LCD_WriteRAM(0x0001); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0008); //  =>TFT_DATA  
-		LCD_WriteRAM(0x0007); //  =>TFT_DATA  
-		LCD_WriteRAM(0x002b); // =>TFT_DATA 
-		LCD_WriteRAM(0x0034); // =>TFT_DATA 
-		LCD_WriteRAM(0x000f); //  =>TFT_DATA  
-		LCD_WriteCmd(0x0011); // =>TFT_REG  
-		LCD_WriteCmd(0x0029); // =>TFT_REG  
+		LCD_WriteCmd(0x003a);
+		LCD_WriteRAM(0x0055);
+		
+		LCD_WriteCmd(0x00f6);
+		LCD_WriteRAM(0x0001);
+		LCD_WriteRAM(0x0033);
+		
+		LCD_WriteCmd(0x00b5);
+		LCD_WriteRAM(0x0004);
+		LCD_WriteRAM(0x0004);
+		LCD_WriteRAM(0x000a);
+		LCD_WriteRAM(0x0014);
+		
+		LCD_WriteCmd(0x0035);
+		LCD_WriteRAM(0x0000);
+		
+		LCD_WriteCmd(0x00cf);
+		LCD_WriteRAM(0x0000);
+		LCD_WriteRAM(0x00ea);
+		LCD_WriteRAM(0x00f0);
+		
+		LCD_WriteCmd(0x00ed);
+		LCD_WriteRAM(0x0064);
+		LCD_WriteRAM(0x0003);
+		LCD_WriteRAM(0x0012);
+		LCD_WriteRAM(0x0081);
+		
+		LCD_WriteCmd(0x00e8);
+		LCD_WriteRAM(0x0085);
+		LCD_WriteRAM(0x0000);
+		LCD_WriteRAM(0x0078);
+		
+		LCD_WriteCmd(0x00cb);
+		LCD_WriteRAM(0x0039);
+		LCD_WriteRAM(0x002c);
+		LCD_WriteRAM(0x0000);
+		LCD_WriteRAM(0x0033);
+		LCD_WriteRAM(0x0006);
+		
+		LCD_WriteCmd(0x00f7);
+		LCD_WriteRAM(0x0020);
+		
+		LCD_WriteCmd(0x00ea);
+		LCD_WriteRAM(0x0000);
+		LCD_WriteRAM(0x0000);
+		
+		LCD_WriteCmd(0x00c0);
+		LCD_WriteRAM(0x0021);
+		
+		LCD_WriteCmd(0x00c1);
+		LCD_WriteRAM(0x0010);
+		
+		LCD_WriteCmd(0x00c5);
+		LCD_WriteRAM(0x004f);
+		LCD_WriteRAM(0x0038);
+		
+		LCD_WriteCmd(0x00c7);
+		LCD_WriteRAM(0x0098);
+		
+		LCD_WriteCmd(0x0036);		// memory access control
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00a8);		// normal
+		else
+			LCD_WriteRAM(0x0068);		// rotated
+		
+		LCD_WriteCmd(0x00b1);
+		LCD_WriteRAM(0x0000);
+		LCD_WriteRAM(0x0013);
+		
+		LCD_WriteCmd(0x00b6);
+		LCD_WriteRAM(0x000a);
+		LCD_WriteRAM(0x00a2);
+		
+		LCD_WriteCmd(0x00f2);
+		LCD_WriteRAM(0x0002);
+		
+		LCD_WriteCmd(0x00e0);
+		LCD_WriteRAM(0x000f);
+		LCD_WriteRAM(0x0027);
+		LCD_WriteRAM(0x0024);
+		LCD_WriteRAM(0x000c);
+		LCD_WriteRAM(0x0010);
+		LCD_WriteRAM(0x0008);
+		LCD_WriteRAM(0x0055);
+		LCD_WriteRAM(0x0087);
+		LCD_WriteRAM(0x0045);
+		LCD_WriteRAM(0x0008);
+		LCD_WriteRAM(0x0014);
+		LCD_WriteRAM(0x0007);
+		LCD_WriteRAM(0x0013);
+		LCD_WriteRAM(0x0008);
+		LCD_WriteRAM(0x0000);
+		
+		LCD_WriteCmd(0x00e1);
+		LCD_WriteRAM(0x0000);
+		LCD_WriteRAM(0x000f);
+		LCD_WriteRAM(0x0012);
+		LCD_WriteRAM(0x0005);
+		LCD_WriteRAM(0x0011);
+		LCD_WriteRAM(0x0006);
+		LCD_WriteRAM(0x0025);
+		LCD_WriteRAM(0x0034);
+		LCD_WriteRAM(0x0037);
+		LCD_WriteRAM(0x0001);
+		LCD_WriteRAM(0x0008);
+		LCD_WriteRAM(0x0007);
+		LCD_WriteRAM(0x002b);
+		LCD_WriteRAM(0x0034);
+		LCD_WriteRAM(0x000f);
+		
+		LCD_WriteCmd(0x0011);
+		
+		LCD_WriteCmd(0x0029);
 		
 		HAL_Delay(300);
 
@@ -1152,6 +1169,29 @@ void		LCD_WindowMax (unsigned int xsta,unsigned int ysta,unsigned int xend,unsig
 	LCD_WriteRAM(ysta&0X00FF);
 	LCD_WriteRAM(yend>>8);
 	LCD_WriteRAM(yend&0X00FF);
+}
+
+
+
+
+void		LCD_Rotate(uint8_t rotate)
+{
+	if(DeviceCode == 0x9488)
+	{
+		LCD_WriteCmd(0x0036);
+		if (cfgConfig.display_rotate == 0)
+			LCD_WriteRAM(0x00B8);
+		else
+			LCD_WriteRAM(0x0078);
+	} else
+	if(DeviceCode == 0x9341)
+	{
+		LCD_WriteCmd(0x0036);		// memory access control
+		if (rotate == 0)
+			LCD_WriteRAM(0x00a8);		// normal
+		else
+			LCD_WriteRAM(0x0068);		// rotated
+	}
 }
 
 

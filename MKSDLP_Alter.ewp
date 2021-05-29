@@ -2788,7 +2788,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>mksDLP.bin</state>
+                    <state>update.LCD</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -3214,6 +3214,9 @@
             <name>LCD_UI</name>
             <group>
                 <name>fonts</name>
+                <file>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt11.c</name>
+                </file>
                 <file>
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt12.c</name>
                 </file>

@@ -101,15 +101,21 @@ void		_tgui_CalibScreenPaint(void *tguiobj, void *param)
 	TG_SCREEN		*thisscr = (TG_SCREEN*)tguiobj;
 
 	uint16_t		bwidth  = 0, bheight = 0, t_x = 0, t_y = 0;
-	uint8_t			is_img = 0;
-	UINT		readed = 0;
+	UINT			readed = 0;
 	
 	uint16_t		oldcolor = LCDUI_SetColor(thisscr->textcolor);
 	uint16_t		oldbackcolor = LCDUI_SetBackColor(thisscr->backcolor);
 	LCDUI_FONT_TYPE oldfont = LCDUI_SetFont(thisscr->font);
 
 	LCDUI_Clear();
-	LCDUI_DrawText(LANG_GetString(LSTR_PRESS_CENTER_OF_POINT), LCDUI_TEXT_ALIGN_CENTER, 10, 75, 470);
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		LCDUI_DrawText(LANG_GetString(LSTR_PRESS_CENTER_OF_POINT), LCDUI_TEXT_ALIGN_CENTER, 10, 75, 470);
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		LCDUI_DrawText(LANG_GetString(LSTR_PRESS_CENTER_OF_POINT), LCDUI_TEXT_ALIGN_CENTER, 5, 60, 320);
+	}
 	LCDUI_SetColor(LCDUI_RGB(0x94FF9C));
 
 	switch(calib_screen_state)
@@ -134,32 +140,16 @@ void		_tgui_CalibScreenPaint(void *tguiobj, void *param)
 	tstrcpy(tfname, SpiflPath);
 	tstrcat_utf(tfname, CALIB_TARGET_IMAGE_FILE);
 
-	if (f_open(&tguiFile, tfname, FA_OPEN_EXISTING | FA_READ) == FR_OK)
+	if (_tgui_DrawFileCimg(CALIB_TARGET_IMAGE_FILE, t_x - (bwidth / 2), t_y - (bheight / 2)) == 0)
 	{
-		// Reading CIMG header
-		if (f_read(&tguiFile, tguiDBuff, 4, &readed) == FR_OK && readed == 4)
+		if (LCDUI_GetScreenWidth() == 480)
 		{
-			// Image width
-			bwidth = *(uint16_t*)(tguiDBuff);
-			// Image height
-			bheight = *(uint16_t*)(tguiDBuff+2);
-			if (bheight & 0x8000)
-			{
-				// If standart row order
-				bheight &= 0x7FFF;
-			}
-			is_img = 1;
+			LCDUI_FillCircle(t_x, t_y, 10);
+		} else
+		if (LCDUI_GetScreenWidth() == 320)
+		{
+			LCDUI_FillCircle(t_x, t_y, 6);
 		}
-		f_close(&tguiFile);
-	}
-
-	if (is_img == 0)
-	{
-		LCDUI_FillCircle(t_x, t_y, 10);
-	}
-	else
-	{
-		_tgui_DrawFileCimg(CALIB_TARGET_IMAGE_FILE, t_x - (bwidth / 2), t_y - (bheight / 2));
 	}
 
 	

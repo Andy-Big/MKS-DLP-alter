@@ -228,9 +228,9 @@ void		_tgui_MovezUpdateHomed()
 		if (tguiScreenMovez.buttons[i].button_id == TG_SCR_MOVEZ_HOME_ID)
 		{
 			if (systemInfo.position_known == 0)
-				tguiScreenMovez.buttons[i].options.active = 0;
+				tguiScreenMovez.buttons[i].bgimagename_en = FNAME_BTN_MOVEZ_HOMENRDY_EN;
 			else
-				tguiScreenMovez.buttons[i].options.active = 1;
+				tguiScreenMovez.buttons[i].bgimagename_en = FNAME_BTN_MOVEZ_HOMERDY_EN;
 			tguiScreenMovez.buttons[i].options.needrepaint = 1;
 			break;
 		}

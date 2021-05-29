@@ -76,8 +76,18 @@ void		_tgui_InfoScreenInfoPaint(void *tguiobj, void *param)
 	LCDUI_DrawFastHLine(thisbtn->position.left + 5, ytop - (yinc / 2) - 1, thisbtn->position.right - thisbtn->position.left - 10);
 	LCDUI_DrawText(LANG_GetString(LSTR_URL), 0, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
 	LCDUI_SetColor(LCDUI_RGB(0x00496C));
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		LCDUI_SetFont(LCDUI_FONT_H14);
+		ytop += 2;
+	}
 	LCDUI_DrawText((char*)"github.com/Andy-Big/MKS-DLP-alter", LCDUI_TEXT_ALIGN_RIGHT, thisbtn->position.left + 5, ytop, thisbtn->position.right - 5, -1);
-	// URL 
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		LCDUI_SetFont(LCDUI_FONT_H18);
+		ytop -= 2;
+	}
+	// UI author 
 	ytop += fntheight + yinc;
 	LCDUI_SetColor(LCDUI_RGB(0x000000));
 	LCDUI_DrawFastHLine(thisbtn->position.left + 5, ytop - (yinc / 2) - 1, thisbtn->position.right - thisbtn->position.left - 10);

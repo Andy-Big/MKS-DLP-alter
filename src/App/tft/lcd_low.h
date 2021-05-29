@@ -46,6 +46,7 @@ uint16_t	LCD_BGR2RGB(uint16_t c);
 uint16_t	LCD_Color565(uint32_t c);
 void		LCD_BackLight(uint8_t status);
 void		LCD_WindowMax (unsigned int xsta,unsigned int ysta,unsigned int xend,unsigned int yend);
+void		LCD_Rotate(uint8_t rotate);
 
 uint16_t	LCD_GetPoint(uint16_t x, uint16_t y);
 void		LCD_SetPoint(uint16_t x,uint16_t y,uint16_t point);

@@ -19,6 +19,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "tim.h"
+#include "gpio.h"
 
 TIM_HandleTypeDef	hStepperTim;
 TIM_HandleTypeDef	hZRefTim;

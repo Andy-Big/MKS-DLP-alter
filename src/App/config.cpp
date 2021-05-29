@@ -948,15 +948,12 @@ void			CFG_LoadFromFile(void *par1, void *par2)
 						if (pval.uint_val > 0)
 						{
 							cfgConfig.display_rotate = 1;
-							LCD_WriteCmd(0x0036);
-							LCD_WriteRAM(0x0078);
 						}
 						else
 						{
 							cfgConfig.display_rotate = 0;
-							LCD_WriteCmd(0x0036);
-							LCD_WriteRAM(0x00B8);
 						}
+						LCD_Rotate(cfgConfig.display_rotate);
 						rdstate = CFGR_GENERAL;
 						break;
 					}

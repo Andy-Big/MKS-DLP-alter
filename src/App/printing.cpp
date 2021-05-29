@@ -165,7 +165,7 @@ uint8_t		PRINT_Complete()
 	{
 		tguiActiveScreen = (TG_SCREEN*)tguiScreenSaver.prevscreen;
 		TGUI_ForceRepaint();
-		if (cfgConfig.screensaver_time != TIMER_DISABLE)
+		if (cfgConfig.screensaver_time != TIMER_DISABLE && cfgConfig.screensaver_time > 0)
 		{
 			if (cfgConfig.screensaver_time < 120000)
 				SYSTIMER_SetCountDown(tguiScreenTimer, 120000);

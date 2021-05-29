@@ -4,6 +4,7 @@
 #include "ssd_utils.h"
 #include "cpld_utils.h"
 #include "fst_spi.h"
+#include "gpio.h"
 
 
 

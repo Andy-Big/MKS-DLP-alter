@@ -11,7 +11,8 @@
 // ****************** fonts definitions *******************
 typedef enum
 {
-	LCDUI_FONT_H12 = 0,
+	LCDUI_FONT_H11 = 0,
+	LCDUI_FONT_H12,
 	LCDUI_FONT_H12BOLD,
 	LCDUI_FONT_H14,
 	LCDUI_FONT_H14BOLD,

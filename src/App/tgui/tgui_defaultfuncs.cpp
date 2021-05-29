@@ -680,7 +680,7 @@ closeexit:
 
 // DMA double buffer - 62 ms in low optimize, 47 ms in high optimize
 
-void		_tgui_DrawFileCimgBackground(char* file, uint8_t ui)
+uint8_t		_tgui_DrawFileCimgBackground(char* file, uint8_t ui)
 {
 	UINT	readed = 0;
 	uint32_t	bwidth = 0;
@@ -704,7 +704,7 @@ void		_tgui_DrawFileCimgBackground(char* file, uint8_t ui)
 
 	if (f_open(&tguiFile, tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
 	{
-		return;
+		return 0;
 	}
 
 	// Reading CIMG header
@@ -741,14 +741,62 @@ void		_tgui_DrawFileCimgBackground(char* file, uint8_t ui)
 
 closeexit:
 	f_close(&tguiFile);
-	return;
+	return 1;
 }
 //==============================================================================
 /**/
 
 
 
-void		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y, uint8_t ui)
+void		_tgui_GetFileCimgSize(char* file, TSIZE *size, uint8_t ui)
+{
+	UINT	readed = 0;
+	
+	size->x_size = 0;
+	size->y_size = 0;
+
+	tstrcpy(tfname, SpiflPath);
+	if (ui)
+	{
+		tstrcat_utf(tfname, SDIR_UI);
+		tstrcat_utf(tfname, (char*)"\\");
+		if (LCD_WIDTH == 480)
+			tstrcat_utf(tfname, SDIR_UI_480);
+		else
+			tstrcat_utf(tfname, SDIR_UI_320);
+		tstrcat_utf(tfname, (char*)"\\");
+	}
+	tstrcat_utf(tfname, file);
+
+	if (f_open(&tguiFile, tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
+	{
+		return;
+	}
+
+	// Reading CIMG header
+	if (f_read(&tguiFile, tguiDBuff, 4, &readed) != FR_OK || readed < 4)
+	{
+		f_close(&tguiFile);
+		return;
+	}
+	
+	// Image width
+	size->x_size = *(uint16_t*)(tguiDBuff);
+	// Image height
+	size->y_size = *(uint16_t*)(tguiDBuff+2);
+	if (size->y_size & 0x8000)
+	{
+		// If standart row order
+		size->y_size &= 0x7FFF;
+	}
+	f_close(&tguiFile);
+	return;
+}
+//==============================================================================
+
+
+
+uint8_t		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y, uint8_t ui)
 {
 	UINT	readed = 0;
 	uint32_t	bwidth = 0;
@@ -772,7 +820,7 @@ void		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y, uint8_t ui)
 
 	if (f_open(&tguiFile, tfname, FA_OPEN_EXISTING | FA_READ) != FR_OK)
 	{
-		return;
+		return 0;
 	}
 
 	// Reading CIMG header
@@ -809,7 +857,7 @@ void		_tgui_DrawFileCimg(char* file, int16_t x, int16_t y, uint8_t ui)
 
 closeexit:
 	f_close(&tguiFile);
-	return;
+	return 1;
 }
 //==============================================================================
 
@@ -856,7 +904,14 @@ void		_tgui_DefaultButtonPaint(void *tguiobj, void *param)
 	if (thisbtn->options.bgpaint == BGP_FILL)
 	{
 		LCDUI_SetColor(newbackcolor);
-		LCDUI_FillRoundRect(thisbtn->position.left, thisbtn->position.top, thisbtn->position.right - thisbtn->position.left, thisbtn->position.bottom - thisbtn->position.top, 7);
+		if (LCDUI_GetScreenWidth() == 480)
+		{
+			LCDUI_FillRoundRect(thisbtn->position.left, thisbtn->position.top, thisbtn->position.right - thisbtn->position.left, thisbtn->position.bottom - thisbtn->position.top, 7);
+		} else
+		if (LCDUI_GetScreenWidth() == 320)
+		{
+			LCDUI_FillRoundRect(thisbtn->position.left, thisbtn->position.top, thisbtn->position.right - thisbtn->position.left, thisbtn->position.bottom - thisbtn->position.top, 3);
+		}
 		LCDUI_SetColor(newcolor);
 	}
 	else

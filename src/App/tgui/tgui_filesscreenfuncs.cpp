@@ -290,6 +290,7 @@ void		_tgui_FilesFileButtonPaint(void *tguiobj, void *param)
 
 	uint16_t	fh = LCDUI_GetCurrentFontHeight() * 2 + 2;
 	TG_RECT		rc;
+	TSIZE		imgsize;
 	rc.left = thisbtn->position.left + 5;
 	rc.right = thisbtn->position.right - 5;
 	rc.top = thisbtn->position.top + 5;
@@ -298,7 +299,8 @@ void		_tgui_FilesFileButtonPaint(void *tguiobj, void *param)
 	{
 		// directory icon
 		case FTYPE_DIR:
-			_tgui_DrawFileCimg(FNAME_ICN_FILES_DIRECTORY, thisbtn->position.left, thisbtn->position.top);
+			_tgui_GetFileCimgSize(FNAME_ICN_FILES_DIRECTORY, &imgsize);
+			_tgui_DrawFileCimg(FNAME_ICN_FILES_DIRECTORY, thisbtn->position.left + (thisbtn->position.right - thisbtn->position.left - imgsize.x_size) / 2, thisbtn->position.top + 1);
 			break;
 		// config icon
 		case FTYPE_CONFIG:

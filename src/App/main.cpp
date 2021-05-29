@@ -99,6 +99,7 @@ FILINFO							finfo = {0};
 void		SystemClock_Config(void);
 
 
+
 int main()
 {
 	for (uint8_t i = 0; i < 8; i++)
@@ -234,7 +235,7 @@ int main()
 	{
 		TOUCH_POINT tp;
 		Touch_GetCurrentCoordsRaw(&tp);
-		if ( tp.xc > 430 && tp.yc < 50)
+		if ((LCDUI_GetScreenWidth() == 480 && tp.xc > 430 && tp.yc < 50) || LCDUI_GetScreenWidth() == 320 && tp.xc > 270 && tp.yc < 50)
 		{
 			srvMode = 1;
 		}
@@ -959,7 +960,7 @@ int main()
 			SYSTIMER_SetCountDown(tguiTimer, 25);
 			TGUI_Process();
 		}
-		if (SYSTIMER_GetCountDown(zHoldTimer) == 0)
+		if (SYSTIMER_GetCountDown(zHoldTimer) == 0 && cfgMotor.hold_time > 0)
 		{
 			if (ZMOTOR_IsMotorEnabled())
 			{
@@ -967,13 +968,13 @@ int main()
 				SYSTIMER_SetCountDown(zHoldTimer, TIMER_DISABLE);
 			}
 		}
-		if (SYSTIMER_GetCountDown(zDisTimer) == 0)
+		if (SYSTIMER_GetCountDown(zDisTimer) == 0 && cfgMotor.off_time > 0)
 		{
 			ZMOTOR_MotorDisable();
 			SYSTIMER_SetCountDown(zDisTimer, TIMER_DISABLE);
 			systemInfo.position_known = 0;
 		}
-		if (SYSTIMER_GetCountDown(tguiScreenTimer) == 0)
+		if (SYSTIMER_GetCountDown(tguiScreenTimer) == 0 && cfgConfig.screensaver_time > 0)
 		{
 			SYSTIMER_SetCountDown(tguiScreenTimer, TIMER_DISABLE);
 			TGUI_ScreenSaverShow();

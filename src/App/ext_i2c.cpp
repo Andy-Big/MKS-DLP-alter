@@ -3,6 +3,7 @@
 
 
 #include "ext_i2c.h"
+#include "gpio.h"
 
 
 

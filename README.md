@@ -191,3 +191,4 @@ The essence of the linear decrease in exposure time is shown in this picture:
 ## v0.04, v0.05, v0.06, v0.07
 Versions up to and including 0.07 contained a critical screensaver bug. Therefore, the binaries in the releases were replaced with new ones, in which this bug was fixed. Because of this, the binaries do not match the sources saved at the time of the release of these versions.
 
+

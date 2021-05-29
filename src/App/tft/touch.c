@@ -152,7 +152,8 @@ void		_touch_RefreshState()
 					touch_info.state = TS_SPRESSED;
 					touch_info.xc = touch_point.xc;
 					touch_info.yc = touch_point.yc;
-					SYSTIMER_SetCountDown(tguiScreenTimer, cfgConfig.screensaver_time);
+					if (cfgConfig.screensaver_time > 0)
+						SYSTIMER_SetCountDown(tguiScreenTimer, cfgConfig.screensaver_time);
 				}
 				else
 					touch_info.time++;
@@ -221,7 +222,7 @@ void		Touch_Init(void)
 		touch_info.x_min = 1000;
 		touch_info.x_max = 30000;
 		touch_info.y_min = 1700;
-		touch_info.y_max = 26300;
+		touch_info.y_max = 29000;
 	}
 	touch_info.state = TS_FREE;
 	touch_info.time = 0;
