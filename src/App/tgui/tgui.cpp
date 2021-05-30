@@ -1294,6 +1294,8 @@ void		TGUI_Init()
 
 	// -------------------- Files Screen elements -----------------------
 {
+	_tgui_FilesReinit();
+	
 	bi = 0;
 	// BACK button
 	tgb = &(tguiScrFilesButtons[bi++]);
@@ -1393,7 +1395,7 @@ void		TGUI_Init()
 	if (LCDUI_GetScreenWidth() == 320)
 	{
 		tgb->position = {4, 59, 131, 143};
-		tgb->textposition = {(int16_t)(tgb->position.left + 1), (int16_t)(tgb->position.bottom - 21), (int16_t)(tgb->position.right - 1), (int16_t)(tgb->position.bottom)};
+		tgb->textposition = {(int16_t)(tgb->position.left + 1), (int16_t)(tgb->position.bottom - 22), (int16_t)(tgb->position.right - 1), (int16_t)(tgb->position.bottom)};
 		tgb->font = LCDUI_FONT_H11;
 	}
 
@@ -1438,7 +1440,7 @@ void		TGUI_Init()
 	if (LCDUI_GetScreenWidth() == 320)
 	{
 		tgb->position = {136, 59, 263, 143};
-		tgb->textposition = {(int16_t)(tgb->position.left + 1), (int16_t)(tgb->position.bottom - 21), (int16_t)(tgb->position.right - 1), (int16_t)(tgb->position.bottom)};
+		tgb->textposition = {(int16_t)(tgb->position.left + 1), (int16_t)(tgb->position.bottom - 22), (int16_t)(tgb->position.right - 1), (int16_t)(tgb->position.bottom)};
 	}
 
 	tgb->funcs._call_press = _tgui_FilesFileButtonPress;		// must not be zero or a predefined value
@@ -1458,7 +1460,7 @@ void		TGUI_Init()
 	if (LCDUI_GetScreenWidth() == 320)
 	{
 		tgb->position = {4, 148, 131, 232};
-		tgb->textposition = {(int16_t)(tgb->position.left + 1), (int16_t)(tgb->position.bottom - 21), (int16_t)(tgb->position.right - 1), (int16_t)(tgb->position.bottom)};
+		tgb->textposition = {(int16_t)(tgb->position.left + 1), (int16_t)(tgb->position.bottom - 22), (int16_t)(tgb->position.right - 1), (int16_t)(tgb->position.bottom)};
 	}
 
 	tgb->funcs._call_press = _tgui_FilesFileButtonPress;		// must not be zero or a predefined value
@@ -1478,7 +1480,7 @@ void		TGUI_Init()
 	if (LCDUI_GetScreenWidth() == 320)
 	{
 		tgb->position = {136, 148, 263, 232};
-		tgb->textposition = {(int16_t)(tgb->position.left + 1), (int16_t)(tgb->position.bottom - 21), (int16_t)(tgb->position.right - 1), (int16_t)(tgb->position.bottom)};
+		tgb->textposition = {(int16_t)(tgb->position.left + 1), (int16_t)(tgb->position.bottom - 22), (int16_t)(tgb->position.right - 1), (int16_t)(tgb->position.bottom)};
 	}
 
 	tgb->funcs._call_press = _tgui_FilesFileButtonPress;		// must not be zero or a predefined value
@@ -1542,6 +1544,7 @@ void		TGUI_Init()
 
 	tgb->bgimagename_en = FNAME_BTN_FILES_PREV_EN;
 	tgb->bgimagename_press = FNAME_BTN_FILES_PREV_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_FILES_PREV_DIS;
 	
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
 	tgb->funcs._call_press = _tgui_FilesPrevButtonPress;
@@ -1567,7 +1570,8 @@ void		TGUI_Init()
 
 	tgb->bgimagename_en = FNAME_BTN_FILES_UP_EN;
 	tgb->bgimagename_press = FNAME_BTN_FILES_UP_PRESS;
-	
+	tgb->bgimagename_dis = FNAME_BTN_FILES_UP_DIS;
+
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
 	tgb->funcs._call_press = _tgui_FilesUpButtonPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
@@ -1590,7 +1594,7 @@ void		TGUI_Init()
 
 	tgb->bgimagename_en = FNAME_BTN_FILES_DN_EN;
 	tgb->bgimagename_press = FNAME_BTN_FILES_DN_PRESS;
-	
+	tgb->bgimagename_dis = FNAME_BTN_FILES_DN_DIS;
 
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
 	tgb->funcs._call_press = _tgui_FilesDownButtonPress;
@@ -1683,20 +1687,28 @@ void		TGUI_Init()
 	
 	tgb->button_id = TG_SCR_FILES_DIR_ID;
 
-	tgb->position = {8, 53, 385, 68};
-
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		tgb->position = {8, 53, 385, 68};
+		tgb->textposition = {9, 54, 384, 67};
+		tgb->font = LCDUI_FONT_H12BOLD;
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		tgb->position = {3, 41, 315, 56};
+		tgb->textposition = {5, 43, 313, 54};
+		tgb->font = LCDUI_FONT_H11;
+	}
 	tgb->bgimagename_en = NULL;
 	tgb->bgimagename_press = NULL;
 	tgb->bgimagename_dis = NULL;
 
 	tgb->text = LSTR_TESTSTRING;
-	tgb->textposition = {9, 54, 384, 67};
-	tgb->font = LCDUI_FONT_H12BOLD;
 	tgb->textcolor_en = LCDUI_RGB(0x0000);
-	tgb->backcolor_en = LCDUI_RGB(0xC7C7C7);
+	tgb->backcolor_en = LCDUI_RGB(0xE0E0E0);
 	
 	tgb->options.disabled = 0;
-	tgb->options.bgpaint = BGP_NONE;
+	tgb->options.bgpaint = BGP_FILL;
 	tgb->options.repaintonpress = 0;
 	
 	tgb->textoptions.textalign_h = HTA_LEFT;
@@ -1706,7 +1718,7 @@ void		TGUI_Init()
 	tgb->funcs._call_press = NULL;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
 
-	tgb->parentscreen = &tguiScreenFilesList;
+	tgb->parentscreen = &tguiScreenFiles;
 	tgb->childscreen = NULL;
 
 	id = 1;
@@ -1718,15 +1730,24 @@ void		TGUI_Init()
 		
 		tgb->button_id = id++;
 		
-		tgb->position = {8, (int16_t)(71 + i * 30), 385, (int16_t)(101 + i * 30)};
+		if (LCDUI_GetScreenWidth() == 480)
+		{
+			tgb->position = {8, (int16_t)(71 + i * 30), 385, (int16_t)(101 + i * 30)};
+			tgb->textposition = {8, (int16_t)(71 + i * 30), 385, (int16_t)(101 + i * 30)};
+			tgb->font = LCDUI_FONT_H18;
+		} else
+		if (LCDUI_GetScreenWidth() == 320)
+		{
+			tgb->position = {5, (int16_t)(63 + i * 21), 263, (int16_t)(83 + i * 21)};
+			tgb->textposition = {5, (int16_t)(63 + i * 21), 263, (int16_t)(83 + i * 21)};
+			tgb->font = LCDUI_FONT_H11;
+		}
 
 		tgb->bgimagename_en = NULL;
 		tgb->bgimagename_press = NULL;
 		tgb->bgimagename_dis = NULL;
 
 		tgb->text = LSTR_TESTSTRING;
-		tgb->textposition = {8, (int16_t)(71 + i * 30), 385, (int16_t)(101 + i * 30)};
-		tgb->font = LCDUI_FONT_H18;
 
 		tgb->textcolor_en = LCDUI_RGB(0x000000);
 		tgb->textcolor_press = LCDUI_RGB(0xFFFFFF);
@@ -1756,19 +1777,27 @@ void		TGUI_Init()
 	memcpy((void*)tgb, (void*)(&tguiScrFilesListButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->button_id = TG_SCR_FILES_LIST_ID;
-	tgb->position = {393, 43, 472, 107};
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		tgb->position = {393, 43, 472, 107};
+		tgb->textposition = {393, 43, 472, 107};
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		tgb->position = {268, 58, 315, 99};
+		tgb->textposition = {268, 58, 315, 99};
+	}
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
 	tgb->text = LSTR____;
-	tgb->textposition = {393, 43, 472, 107};
 	
 	tgb->options.bgpaint = BGP_IMAGE;
 	tgb->options.repaintonpress = 1;
 	tgb->options.disabled = 0;
 
-	tgb->bgimagename_en = FNAME_BTN_FILES_ICONS_EN;
-	tgb->bgimagename_press = FNAME_BTN_FILES_ICONS_PRESS;
+	tgb->bgimagename_en = FNAME_BTN_FILES_LIST_EN;
+	tgb->bgimagename_press = FNAME_BTN_FILES_LIST_PRESS;
 	
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
 	tgb->funcs._call_press = _tgui_FilesListButtonPress;
@@ -1779,12 +1808,20 @@ void		TGUI_Init()
 	memcpy((void*)tgb, (void*)(&tguiScrFilesListButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->button_id = TG_SCR_FILES_PREV_ID;
-	tgb->position = {393, 111, 472, 175};
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		tgb->position = {393, 111, 472, 175};
+		tgb->textposition = {393, 111, 472, 175};
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		tgb->position = {268, 102, 315, 143};
+		tgb->textposition = {268, 102, 315, 143};
+	}
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
 	tgb->text = LSTR____;
-	tgb->textposition = {393, 111, 472, 175};
 	
 	tgb->options.bgpaint = BGP_IMAGE;
 	tgb->options.repaintonpress = 1;
@@ -1792,6 +1829,7 @@ void		TGUI_Init()
 
 	tgb->bgimagename_en = FNAME_BTN_FILES_PREV_EN;
 	tgb->bgimagename_press = FNAME_BTN_FILES_PREV_PRESS;
+	tgb->bgimagename_dis = FNAME_BTN_FILES_PREV_DIS;
 	
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
 	tgb->funcs._call_press = _tgui_FilesPrevButtonPress;
@@ -1802,15 +1840,23 @@ void		TGUI_Init()
 	memcpy((void*)tgb, (void*)(&tguiScrFilesListButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->button_id = TG_SCR_FILES_UP_ID;
-	tgb->position = {393, 179, 472, 243};
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		tgb->position = {393, 179, 472, 243};
+		tgb->textposition = {393, 179, 472, 243};
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		tgb->position = {268, 150, 315, 191};
+		tgb->textposition = {268, 150, 315, 191};
+	}
 
-	tgb->textposition = {393, 179, 472, 243};
-	
 	tgb->options.disabled = 0;
 
 	tgb->bgimagename_en = FNAME_BTN_FILES_UP_EN;
 	tgb->bgimagename_press = FNAME_BTN_FILES_UP_PRESS;
-	
+	tgb->bgimagename_dis = FNAME_BTN_FILES_UP_DIS;
+
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
 	tgb->funcs._call_press = _tgui_FilesUpButtonPress;
 	tgb->funcs._call_process = _tgui_DefaultButtonProcess;
@@ -1820,13 +1866,20 @@ void		TGUI_Init()
 	memcpy((void*)tgb, (void*)(&tguiScrFilesListButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->button_id = TG_SCR_FILES_DOWN_ID;
-	tgb->position = {393, 247, 472, 311};
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		tgb->position = {393, 247, 472, 311};
+		tgb->textposition = {393, 247, 472, 311};
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		tgb->position = {268, 194, 315, 235};
+		tgb->textposition = {268, 194, 315, 235};
+	}
 
-	tgb->textposition = {393, 247, 472, 311};
-	
 	tgb->bgimagename_en = FNAME_BTN_FILES_DN_EN;
 	tgb->bgimagename_press = FNAME_BTN_FILES_DN_PRESS;
-	
+	tgb->bgimagename_dis = FNAME_BTN_FILES_DN_DIS;
 
 	tgb->funcs._call_paint = _tgui_DefaultButtonPaint;
 	tgb->funcs._call_press = _tgui_FilesDownButtonPress;
@@ -1837,7 +1890,7 @@ void		TGUI_Init()
 	tgs = &tguiScreenFilesList;
 	memset((void*)tgs, 0, sizeof(TG_SCREEN));
 	
-	tgs->bgimagename = FNAME_BKGR_FILESLIST;
+	tgs->bgimagename = FNAME_BKGR_EMPTY;
 	tgs->prevscreen = &tguiScreenMain;
 
 	tgs->name = LSTR_PRINT;

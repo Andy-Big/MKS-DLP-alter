@@ -915,7 +915,7 @@ void	LCDUI_DrawText(char *str, uint16_t opt, int16_t x1, int16_t y1, int16_t x2,
 			i++;
 		else
 			i += 2;
-		if (c == '.' || c == ',' || c == ':' || c == ';' || c == '!' || c == '?' || c == '_' || c == '-' || c == '(' || c == ')')
+		if (c == '.' || c == ',' || c == ':' || c == ';' || c == '!' || c == '?' || c == '_' || c == '-' || c == '(' || c == ')' || c == '_')
 		{
 //			cw += _lcdui_GetCharWidth(c);
 			sp = i;

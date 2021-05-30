@@ -11,6 +11,8 @@
 #include "config.h"
 
 
+#define							MAX_SUBDIR_DEPTH	(uint8_t)16
+
 extern uint8_t					UsbMounted;
 
 extern __no_init uint8_t 		fbuff[8192] PLACE_TO_CCMRAM;
@@ -23,11 +25,12 @@ extern TG_SCREEN				*tguiActiveScreen;
 uint8_t							oldUsbMounted;
 uint8_t							activefilelist = 0;
 
-uint8_t			lastfilenum = 255;
-char			currdir[512] = {'/'};
-FILES_ITEM		files[8];
-uint8_t			subdir = 0;
-uint8_t			nomorefiles = 0;
+uint8_t							lastfilenum[MAX_SUBDIR_DEPTH];
+char							currdir[512] = {'/'};
+FILES_ITEM						files[8];
+uint8_t							subdir = 0;
+uint8_t							nomorefiles = 0;
+uint8_t							filesreq = 4;
 
 
 void		_tgui_FilesDrawPreview(TG_RECT *rect, FILES_ITEM *fitem)
@@ -59,17 +62,27 @@ closeexit:
 
 
 
+void		_tgui_FilesReinit()
+{
+	memset(lastfilenum, 255, sizeof(lastfilenum));
+}
+//==============================================================================
+
+
+
+
 uint8_t		_tgui_FilesReadDir()
 {
 	TG_SCREEN		*thisscr = &tguiScreenFiles;
-	TCHAR		dirname[512];
-	DIR			dir;
-	FILINFO		finfo;
-	char		fname[256];
-	uint8_t		fcount = 0;
-	uint8_t		currfilenum = 0;
-	FILES_TYPE	ftype;
-	uint8_t		filesreq = 4;
+	TCHAR			dirname[512];
+	DIR				dir;
+	FILINFO			finfo;
+	char			fname[256];
+	uint8_t			fcount = 0;
+	uint8_t			currfilenum = 0;
+	FILES_TYPE		ftype;
+	
+	filesreq = 4;
 	if (activefilelist == 1)
 	{
 		thisscr = &tguiScreenFilesList;
@@ -83,9 +96,9 @@ uint8_t		_tgui_FilesReadDir()
 	if (f_opendir(&dir, dirname) == FR_OK)
 	{
 		// read from begin
-		if (lastfilenum == 255)
+		if (lastfilenum[subdir] == 255)
 		{
-			lastfilenum = 0;
+			lastfilenum[subdir] = 0;
 		}
 		
 		fcount = 0;
@@ -98,44 +111,44 @@ uint8_t		_tgui_FilesReadDir()
 				char *fext = FATFS_GetFileExtension(fname);
 				if (finfo.fattrib & AM_DIR)
 				{
-					if (currfilenum >= lastfilenum)
+					if (currfilenum >= lastfilenum[subdir])
 						ftype = FTYPE_DIR;
 					currfilenum++;
 				}
 				else if (strcmp(fext, (char*)"pws") == 0)
 				{
-					if (currfilenum >= lastfilenum)
+					if (currfilenum >= lastfilenum[subdir])
 						ftype = FTYPE_PWS;
 					currfilenum++;
 				}
 				else if (strcmp(fext, (char*)"photon") == 0 || strcmp(fext, (char*)"cbddlp") == 0)
 				{
-					if (currfilenum >= lastfilenum)
+					if (currfilenum >= lastfilenum[subdir])
 						ftype = FTYPE_PHOTON;
 					currfilenum++;
 				}
 				else if (strcmp(fext, (char*)"ctb") == 0)
 				{
-					if (currfilenum >= lastfilenum)
+					if (currfilenum >= lastfilenum[subdir])
 						ftype = FTYPE_CBDDLP;
 					currfilenum++;
 				}
 				else if (strcmp(fext, (char*)"cimg") == 0)
 				{
-					if (currfilenum >= lastfilenum)
+					if (currfilenum >= lastfilenum[subdir])
 						ftype = FTYPE_IMAGE;
 					currfilenum++;
 				}
 				else if (strcmp(fext, (char*)"acfg") == 0)
 				{
-					if (currfilenum >= lastfilenum)
+					if (currfilenum >= lastfilenum[subdir])
 						ftype = FTYPE_CONFIG;
 					currfilenum++;
 				}
 
 				if (ftype != FTYPE_NONE)
 				{
-					if (currfilenum > lastfilenum)
+					if (currfilenum > lastfilenum[subdir])
 					{
 						if (fcount < filesreq)
 						{
@@ -155,9 +168,9 @@ uint8_t		_tgui_FilesReadDir()
 			}
 		}
 		f_closedir(&dir);
-		lastfilenum = currfilenum;
-		if (nomorefiles == 0 && lastfilenum > 0)
-			lastfilenum--;
+		lastfilenum[subdir] = currfilenum;
+		if (nomorefiles == 0 && lastfilenum[subdir] > 0)
+			lastfilenum[subdir]--;
 		
 		uint8_t		fcnt = fcount;
 		if (fcount > 0)
@@ -178,7 +191,7 @@ uint8_t		_tgui_FilesReadDir()
 	{
 		if (thisscr->buttons[i].button_id == TG_SCR_FILES_UP_ID)
 		{
-			if (lastfilenum > filesreq)
+			if (lastfilenum[subdir] > filesreq)
 				thisscr->buttons[i].options.disabled = 0;
 			else
 				thisscr->buttons[i].options.disabled = 1;
@@ -212,11 +225,13 @@ void		_tgui_FilesScreenProcess(void *tguiobj, void *param)
 	// USB disk state changed
 	if (oldUsbMounted != UsbMounted)
 	{
+		// reinit
+		_tgui_FilesReinit();
+		
 		// USB disk removed
 		if (UsbMounted != 1)
 		{
 			subdir = 0;
-			lastfilenum = 255;
 			currdir[0] = '/';
 			currdir[1] = 0;
 			uint32_t gg = sizeof(files);
@@ -253,7 +268,7 @@ void		_tgui_FilesScreenPaint(void *tguiobj, void *param)
 {
 //	TG_SCREEN		*thisscr = (TG_SCREEN*)tguiobj;
 	// USB disk removed/inserted after last read files
-	if (UsbMounted == 1 && lastfilenum == 255)
+	if (UsbMounted == 1 && lastfilenum[subdir] == 255)
 	{
 	}
 	if (activefilelist == 1)
@@ -293,8 +308,16 @@ void		_tgui_FilesFileButtonPaint(void *tguiobj, void *param)
 	TSIZE		imgsize;
 	rc.left = thisbtn->position.left + 5;
 	rc.right = thisbtn->position.right - 5;
-	rc.top = thisbtn->position.top + 5;
-	rc.bottom = thisbtn->position.bottom - fh - 5;
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		rc.top = thisbtn->position.top + 5;
+		rc.bottom = thisbtn->position.bottom - fh - 5;
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		rc.top = thisbtn->position.top + 2;
+		rc.bottom = thisbtn->position.bottom - fh;
+	}
 	switch (files[thisbtn->button_id-1].type)
 	{
 		// directory icon
@@ -304,11 +327,13 @@ void		_tgui_FilesFileButtonPaint(void *tguiobj, void *param)
 			break;
 		// config icon
 		case FTYPE_CONFIG:
-			_tgui_DrawFileCimg(FNAME_ICN_FILES_CONFIG, thisbtn->position.left, thisbtn->position.top);
+			_tgui_GetFileCimgSize(FNAME_ICN_FILES_CONFIG, &imgsize);
+			_tgui_DrawFileCimg(FNAME_ICN_FILES_CONFIG, thisbtn->position.left + (thisbtn->position.right - thisbtn->position.left - imgsize.x_size) / 2, thisbtn->position.top);
 			break;
 		// image icon
 		case FTYPE_IMAGE:
-			_tgui_DrawFileCimg(FNAME_ICN_FILES_IMAGE, thisbtn->position.left, thisbtn->position.top);
+			_tgui_GetFileCimgSize(FNAME_ICN_FILES_IMAGE, &imgsize);
+			_tgui_DrawFileCimg(FNAME_ICN_FILES_IMAGE, thisbtn->position.left + (thisbtn->position.right - thisbtn->position.left - imgsize.x_size) / 2, thisbtn->position.top);
 			break;
 		// PWS, PHOTON preview
 		case FTYPE_PWS:
@@ -356,7 +381,7 @@ void		_tgui_FilesListFileButtonPaint(void *tguiobj, void *param)
 	{
 		if (files[thisbtn->button_id-1].type == FTYPE_DIR)
 		{
-			bcolor = LCDUI_RGB(0xE0EA48);
+			bcolor = LCDUI_RGB(0xF0EE72);
 		}
 		else
 		{
@@ -367,8 +392,10 @@ void		_tgui_FilesListFileButtonPaint(void *tguiobj, void *param)
 		bcolor = thisbtn->backcolor_press;
 		fcolor = thisbtn->textcolor_press;
 	}
+	LCDUI_SetColor(LCDUI_RGB(0xA9A9A9));
+	LCDUI_DrawFastHLine(thisbtn->position.left, thisbtn->position.bottom, thisbtn->position.right - thisbtn->position.left);
 	LCDUI_SetColor(bcolor);
-	LCDUI_FillRect(thisbtn->position.left, thisbtn->position.top, thisbtn->position.right - thisbtn->position.left + 1, thisbtn->position.bottom - thisbtn->position.top + 1);
+	LCDUI_FillRect(thisbtn->position.left, thisbtn->position.top, thisbtn->position.right - thisbtn->position.left + 1, thisbtn->position.bottom - thisbtn->position.top);
 
 	LCDUI_SetColor(fcolor);
 	LCDUI_SetBackColor(bcolor);
@@ -380,13 +407,38 @@ void		_tgui_FilesListFileButtonPaint(void *tguiobj, void *param)
 	fext = FATFS_GetFileExtensionUTF(files[thisbtn->button_id-1].fname);
 	if (*fext != 0)
 		fext--;
-	FATFS_DelFileExtensionUTF(fname);
+	if (files[thisbtn->button_id-1].type != FTYPE_DIR)
+		FATFS_DelFileExtensionUTF(fname);
 
 	// file name
 	ii = 0;
 	tw = 0;
-	wc = 182;
-	xc = 2;
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		if (files[thisbtn->button_id-1].type == FTYPE_DIR)
+		{
+			wc = 330;
+			xc = 2;
+		}
+		else
+		{
+			wc = 182;
+			xc = 2;
+		}
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		if (files[thisbtn->button_id-1].type == FTYPE_DIR)
+		{
+			wc = 230;
+			xc = 2;
+		}
+		else
+		{
+			wc = 147;
+			xc = 2;
+		}
+	}
 	while (fname[ii])
 	{
 		tw += _lcdui_GetCharWidth(UTF8toANSI((char*)(fname + ii)));
@@ -403,28 +455,46 @@ void		_tgui_FilesListFileButtonPaint(void *tguiobj, void *param)
 	}
 	LCDUI_DrawText(fname, 0, thisbtn->textposition.left + xc, thisbtn->textposition.top + yc, thisbtn->textposition.right, thisbtn->textposition.bottom);
 
-	// file extension
-	ii = 0;
-	tw = 0;
-	wc = 65;
-	xc = 205;
-	while (fext[ii])
+	if (files[thisbtn->button_id-1].type != FTYPE_DIR)
 	{
-		tw += _lcdui_GetCharWidth(UTF8toANSI((char*)(fext + ii)));
-		if (tw > wc)
+		// file extension
+		ii = 0;
+		tw = 0;
+		if (LCDUI_GetScreenWidth() == 480)
 		{
-			fext[ii] = 0;
-			break;
+			wc = 65;
+			xc = 205;
+		} else
+		if (LCDUI_GetScreenWidth() == 320)
+		{
+			wc = 42;
+			xc = 152;
 		}
-		if (fext[ii] < 0x80)
-			ii++;
-		else
-			ii += 2;
+		while (fext[ii])
+		{
+			tw += _lcdui_GetCharWidth(UTF8toANSI((char*)(fext + ii)));
+			if (tw > wc)
+			{
+				fext[ii] = 0;
+				break;
+			}
+			if (fext[ii] < 0x80)
+				ii++;
+			else
+				ii += 2;
+		}
+		LCDUI_DrawText(fext, 0, thisbtn->textposition.left + xc, thisbtn->textposition.top + yc, thisbtn->textposition.right, thisbtn->textposition.bottom);
 	}
-	LCDUI_DrawText(fext, 0, thisbtn->textposition.left + xc, thisbtn->textposition.top + yc, thisbtn->textposition.right, thisbtn->textposition.bottom);
 
 	// file date time
-	xc = 278;
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		xc = 278;
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		xc = 199;
+	}
 
 	char		dt[16];
 	if (files[thisbtn->button_id-1].type == FTYPE_DIR)
@@ -479,7 +549,8 @@ void		_tgui_FilesDownButtonPress(void *tguiobj, void *param)
 {
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
 	TG_SCREEN		*thisscr = (TG_SCREEN*)(thisbtn->parentscreen);
-	uint8_t		filesreq = 4;
+	
+	filesreq = 4;
 	if (activefilelist == 1)
 		filesreq = 8;
 
@@ -507,18 +578,18 @@ void		_tgui_FilesUpButtonPress(void *tguiobj, void *param)
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
 	TG_SCREEN		*thisscr = (TG_SCREEN*)(thisbtn->parentscreen);
 
-	uint8_t		filesreq = 4;
+	filesreq = 4;
 	if (activefilelist == 1)
 		filesreq = 8;
 
 	// if no more files
-	if (lastfilenum < filesreq+1)
+	if (lastfilenum[subdir] < filesreq+1)
 		return;
 	
-	uint8_t		cpage = lastfilenum % filesreq;
-	lastfilenum -= (filesreq + cpage);
+	uint8_t		cpage = lastfilenum[subdir] % filesreq;
+	lastfilenum[subdir] -= (filesreq + cpage);
 	if (cpage == 0)
-		lastfilenum -= filesreq;
+		lastfilenum[subdir] -= filesreq;
 	
 	if (_tgui_FilesReadDir() > 0)
 	{
@@ -538,7 +609,7 @@ void		_tgui_FilesUpButtonPress(void *tguiobj, void *param)
 void		_tgui_FilesBackButtonPress(void *tguiobj, void *param)
 {
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
-	lastfilenum = 0;
+	lastfilenum[subdir] = 0;
 	_tgui_FilesReadDir();
 	thisbtn->options.pressed = 0;
 	tguiActiveScreen = (TG_SCREEN*)tguiActiveScreen->prevscreen;
@@ -557,6 +628,10 @@ void		_tgui_FilesPrevButtonPress(void *tguiobj, void *param)
 	if (subdir == 0)
 		return;
 	
+	filesreq = 4;
+	if (activefilelist == 1)
+		filesreq = 8;
+
 	uint8_t		pos = strlen(currdir);
 	while (currdir[pos] != '/' && pos > 1)
 	{
@@ -567,9 +642,14 @@ void		_tgui_FilesPrevButtonPress(void *tguiobj, void *param)
 	currdir[pos] = 0;
 	
 	memset(&files, 0, sizeof(files));
-	lastfilenum = 0;
+	lastfilenum[subdir] = 0;
 	subdir--;
+	if (lastfilenum[subdir] < filesreq)
+		lastfilenum[subdir] = 0;
+	else
+		lastfilenum[subdir] -= filesreq;
 	_tgui_FilesReadDir();
+
 	for (uint8_t i = 0; i < thisscr->btns_count; i++)
 	{
 		if (thisscr->buttons[i].button_id == TG_SCR_FILES_PREV_ID && subdir == 0)
@@ -578,7 +658,6 @@ void		_tgui_FilesPrevButtonPress(void *tguiobj, void *param)
 			thisscr->buttons[i].funcs._call_paint(&(thisscr->buttons[i]), 0);
 		thisscr->buttons[i].options.needrepaint = 0;
 	}
-	
 }
 //==============================================================================
 
@@ -588,6 +667,11 @@ void		_tgui_FilesPrevButtonPress(void *tguiobj, void *param)
 void		_tgui_FilesListButtonPress(void *tguiobj, void *param)
 {
 	TG_BUTTON		*thisbtn = (TG_BUTTON*)tguiobj;
+
+	if (lastfilenum[subdir] < filesreq)
+		lastfilenum[subdir] = 0;
+	else
+		lastfilenum[subdir] -= filesreq;
 
 	if (activefilelist == 0)
 	{
@@ -600,7 +684,7 @@ void		_tgui_FilesListButtonPress(void *tguiobj, void *param)
 		activefilelist = 0;
 	}
 	
-	lastfilenum = 0;
+//	lastfilenum = 0;
 	_tgui_FilesReadDir();
 	thisbtn->options.pressed = 0;
 	TGUI_ForceRepaint();
@@ -619,14 +703,16 @@ void		_tgui_FilesFileButtonPress(void *tguiobj, void *param)
 	switch (files[thisbtn->button_id-1].type)
 	{
 		case FTYPE_DIR:
+			if (subdir >= MAX_SUBDIR_DEPTH)
+				break;
 			if (subdir > 0)
 			{
 				strcat(currdir, (char*)"/");
 			}
 			strcat(currdir, files[thisbtn->button_id-1].fname);
 			memset(&files, 0, sizeof(files));
-			lastfilenum = 0;
 			subdir++;
+			lastfilenum[subdir] = 0;
 			_tgui_FilesReadDir();
 			for (uint8_t i = 0; i < thisscr->btns_count; i++)
 			{

@@ -256,10 +256,13 @@ typedef struct
 #define	FNAME_BTN_MOVEZ_STOP_PRESS	(char*)"btn_movez_stop_press.cimg"
 
 #define	FNAME_BTN_FILES_UP_EN		(char*)"btn_files_up_en.cimg"
+#define	FNAME_BTN_FILES_UP_DIS		(char*)"btn_files_up_dis.cimg"
 #define	FNAME_BTN_FILES_UP_PRESS	(char*)"btn_files_up_press.cimg"
 #define	FNAME_BTN_FILES_DN_EN		(char*)"btn_files_down_en.cimg"
+#define	FNAME_BTN_FILES_DN_DIS		(char*)"btn_files_down_dis.cimg"
 #define	FNAME_BTN_FILES_DN_PRESS	(char*)"btn_files_down_press.cimg"
 #define	FNAME_BTN_FILES_PREV_EN		(char*)"btn_files_prev_en.cimg"
+#define	FNAME_BTN_FILES_PREV_DIS	(char*)"btn_files_prev_dis.cimg"
 #define	FNAME_BTN_FILES_PREV_PRESS	(char*)"btn_files_prev_press.cimg"
 #define	FNAME_BTN_FILES_LIST_EN		(char*)"btn_files_list_en.cimg"
 #define	FNAME_BTN_FILES_LIST_PRESS	(char*)"btn_files_list_press.cimg"

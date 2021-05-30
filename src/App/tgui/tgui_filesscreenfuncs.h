@@ -19,6 +19,8 @@ typedef struct
 
 void		_tgui_FilesDrawPreview(TG_RECT *rect, FILES_ITEM *fitem);
 
+void		_tgui_FilesReinit();
+
 uint8_t		_tgui_FilesReadDir();
 
 void		_tgui_FilesScreenProcess(void *tguiobj, void *param);
