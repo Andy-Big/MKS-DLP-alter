@@ -1972,12 +1972,21 @@ void		TGUI_Init()
 	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
 	
 	tgb->group_id = 0;
-	tgb->position = {393, 56, 472, 120};
+
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		tgb->position = {393, 56, 472, 120};
+		tgb->textposition = {393, 56, 472, 120};
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		tgb->position = {267, 136, 314, 183};
+		tgb->textposition = {267, 136, 314, 183};
+	}
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 
 	tgb->text = LSTR____;
-	tgb->textposition = {393, 56, 472, 120};
 	
 	tgb->options.bgpaint = BGP_IMAGE;
 	tgb->bgimagename_en = FNAME_BTN_SETTINGS_UP_EN;
@@ -1994,10 +2003,17 @@ void		TGUI_Init()
 	tgb = &(tguiScrSettingsButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {393, 247, 472, 311};
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		tgb->position = {393, 247, 472, 311};
+		tgb->textposition = {393, 247, 472, 311};
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		tgb->position = {268, 189, 314, 235};
+		tgb->textposition = {268, 189, 314, 235};
+	}
 
-	tgb->textposition = {393, 247, 472, 311};
-	
 	tgb->bgimagename_en = FNAME_BTN_SETTINGS_DN_EN;
 	tgb->bgimagename_press = FNAME_BTN_SETTINGS_DN_PRESS;
 	tgb->bgimagename_dis = FNAME_BTN_SETTINGS_DN_DIS;
@@ -2008,10 +2024,17 @@ void		TGUI_Init()
 	tgb = &(tguiScrSettingsButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {393, 56, 472, 120};
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		tgb->position = {393, 56, 472, 120};
+		tgb->textposition = {393, 56, 472, 120};
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		tgb->position = {267, 42, 314, 88};
+		tgb->textposition = {267, 42, 314, 88};
+	}
 
-	tgb->textposition = {393, 56, 472, 120};
-	
 	tgb->bgimagename_en = FNAME_BTN_SETTINGS_SAVE_EN;
 	tgb->bgimagename_press = FNAME_BTN_SETTINGS_SAVE_PRESS;
 
@@ -2020,19 +2043,36 @@ void		TGUI_Init()
 	tgb->funcs._call_press = _tgui_SettingsSaveButtonPress;
 
 	// Clock
-	by = 51;
+	// button vertical period (from top one button to top next button)
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		by = 51;
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		by = 49;
+	}
 	tgb = &(tguiScrSettingsButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {8, 57, 387, 104};
+	if (LCDUI_GetScreenWidth() == 480)
+	{
+		tgb->position = {8, 57, 387, 104};
+		tgb->textposition = {13, 57, 382, 104};
+		tgb->font = LCDUI_FONT_H24;
+	} else
+	if (LCDUI_GetScreenWidth() == 320)
+	{
+		tgb->position = {4, 41, 263, 85};
+		tgb->textposition = {9, 41, 260, 85};
+		tgb->font = LCDUI_FONT_H18;
+	}
 
 	tgb->button_id = TG_SCR_SETTINGS_CLOCK_ID;
 
-	tgb->font = LCDUI_FONT_H24;
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 	tgb->textcolor_act = tgc->btntextcolor_en;
-	tgb->textposition = {13, 57, 382, 104};
 	tgb->text = LSTR_CLOCK;
 
 	tgb->options.bgpaint = BGP_IMAGE;
@@ -2050,13 +2090,15 @@ void		TGUI_Init()
 	tgb = &(tguiScrSettingsButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {8, (int16_t)(tguiScrSettingsButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrSettingsButtons[bi-2].position.bottom + by)};
+	tgb->position.top += by;
+	tgb->position.bottom += by;
+	tgb->textposition.top += by;
+	tgb->textposition.bottom += by;
 
 	tgb->button_id = TG_SCR_SETTINGS_LIFTPAUSE_ID;
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 	tgb->textcolor_act = tgc->btntextcolor_en;
-	tgb->textposition = {13, (int16_t)(tguiScrSettingsButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrSettingsButtons[bi-2].position.bottom + by)};
 	tgb->text = LSTR_LIFT_ON_PAUSE;
 
 	tgb->options.bgpaint = BGP_IMAGE;
@@ -2074,13 +2116,15 @@ void		TGUI_Init()
 	tgb = &(tguiScrSettingsButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {8, (int16_t)(tguiScrSettingsButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrSettingsButtons[bi-2].position.bottom + by)};
+	tgb->position.top += by;
+	tgb->position.bottom += by;
+	tgb->textposition.top += by;
+	tgb->textposition.bottom += by;
 
 	tgb->button_id = TG_SCR_SETTINGS_LIFTEND_ID;
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 	tgb->textcolor_act = tgc->btntextcolor_en;
-	tgb->textposition = {13, (int16_t)(tguiScrSettingsButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrSettingsButtons[bi-2].position.bottom + by)};
 	tgb->text = LSTR_LIFT_ON_COMPLETION;
 
 	tgb->options.bgpaint = BGP_IMAGE;
@@ -2098,13 +2142,15 @@ void		TGUI_Init()
 	tgb = &(tguiScrSettingsButtons[bi++]);
 	memcpy((void*)tgb, (void*)(&tguiScrSettingsButtons[bi-2]), sizeof(TG_BUTTON));
 	
-	tgb->position = {8, (int16_t)(tguiScrSettingsButtons[bi-2].position.top + by), 387, (int16_t)(tguiScrSettingsButtons[bi-2].position.bottom + by)};
+	tgb->position.top += by;
+	tgb->position.bottom += by;
+	tgb->textposition.top += by;
+	tgb->textposition.bottom += by;
 
 	tgb->button_id = TG_SCR_SETTINGS_BUZZER_ID;
 
 	tgb->textcolor_en = tgc->btntextcolor_en;
 	tgb->textcolor_act = tgc->btntextcolor_en;
-	tgb->textposition = {13, (int16_t)(tguiScrSettingsButtons[bi-2].position.top + by), 382, (int16_t)(tguiScrSettingsButtons[bi-2].position.bottom + by)};
 	tgb->text = LSTR_BUZZER;
 
 	tgb->options.bgpaint = BGP_IMAGE;
