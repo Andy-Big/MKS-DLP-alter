@@ -121,17 +121,17 @@ void		_tgui_PrnparamsItemButtonPaint(void *tguiobj, void *param)
 		{
 			case TG_SCR_PRNPARAMS_LIGHTBOTTOM_ID:
 				sprintf(msg, (char*)"%0.1f", prnparams.bottom_light);
-				meas = LANG_GetString(LSTR_SHORTSECOND);
+				meas = LANG_GetString(LSTR_SHORT_SECOND);
 				break;
 
 			case TG_SCR_PRNPARAMS_LIGHT_ID:
 				sprintf(msg, (char*)"%0.1f", prnparams.light);
-				meas = LANG_GetString(LSTR_SHORTSECOND);
+				meas = LANG_GetString(LSTR_SHORT_SECOND);
 				break;
 
 			case TG_SCR_PRNPARAMS_LIFTHEIGHT_ID:
 				sprintf(msg, (char*)"%0.1f", prnparams.lift_height);
-				meas = LANG_GetString(LSTR_SHORTMILLIMETERS);
+				meas = LANG_GetString(LSTR_SHORT_MILLIMETERS);
 				break;
 
 			case TG_SCR_PRNPARAMS_LIFTSPEED_ID:
@@ -152,7 +152,7 @@ void		_tgui_PrnparamsItemButtonPaint(void *tguiobj, void *param)
 		{
 			case TG_SCR_PRNPARAMS_LIGHTPAUSE_ID:
 				sprintf(msg, (char*)"%0.1f", prnparams.light_pause);
-				meas = LANG_GetString(LSTR_SHORTSECOND);
+				meas = LANG_GetString(LSTR_SHORT_SECOND);
 				break;
 
 			case TG_SCR_PRNPARAMS_AA_ID:

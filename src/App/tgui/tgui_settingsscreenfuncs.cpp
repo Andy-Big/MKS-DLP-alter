@@ -90,12 +90,12 @@ void		_tgui_SettingsItemButtonPaint(void *tguiobj, void *param)
 	{
 		case TG_SCR_SETTINGS_LIFTPAUSE_ID:
 			sprintf(msg, (char*)"%0.1f", cfgConfig.pause_lift);
-			meas = LANG_GetString(LSTR_SHORTMILLIMETERS);
+			meas = LANG_GetString(LSTR_SHORT_MILLIMETERS);
 			break;
 
 		case TG_SCR_SETTINGS_LIFTEND_ID:
 			sprintf(msg, (char*)"%0.1f", cfgConfig.end_lift);
-			meas = LANG_GetString(LSTR_SHORTMILLIMETERS);
+			meas = LANG_GetString(LSTR_SHORT_MILLIMETERS);
 			break;
 
 		case TG_SCR_SETTINGS_BUZZER_ID:

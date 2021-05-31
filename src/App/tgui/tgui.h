@@ -315,7 +315,8 @@ typedef struct
 
 #define	FNAME_BTN_PRINT_PAUSE_EN		(char*)"btn_print_pause_en.cimg"
 #define	FNAME_BTN_PRINT_PAUSE_PRESS		(char*)"btn_print_pause_press.cimg"
-#define	FNAME_BTN_PRINT_PAUSE_ACT		(char*)"btn_print_pause_act.cimg"
+#define	FNAME_BTN_PRINT_RESUME_EN		(char*)"btn_print_resume_en.cimg"
+#define	FNAME_BTN_PRINT_RESUME_PRESS	(char*)"btn_print_resume_press.cimg"
 #define	FNAME_BTN_PRINT_SETT_EN			(char*)"btn_print_sett_en.cimg"
 #define	FNAME_BTN_PRINT_SETT_PRESS		(char*)"btn_print_sett_press.cimg"
 #define	FNAME_BTN_PRINT_STOP_EN			(char*)"btn_print_stop_en.cimg"

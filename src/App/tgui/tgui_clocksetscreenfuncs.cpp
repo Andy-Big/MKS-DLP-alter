@@ -312,7 +312,6 @@ void		_tgui_ClockSetDownButtonPress(void *tguiobj, void *param)
 
 void		_tgui_ClockSetOkButtonPress(void *tguiobj, void *param)
 {
-	uint8_t			ds_state = 0;
 	datetime.seconds = 0;
 	DTIME_SetWeekDay(&datetime);
 	DTIME_SetCurrentDatetime(&datetime);

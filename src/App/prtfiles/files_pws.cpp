@@ -124,7 +124,7 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 		return 0;
 
 	uint32_t		pw = 0, ph = 0, rw = 0, rh = 0, iw = 0, ih = 0, ix = 0, iy = 0, prev_datasize = 0;
-	float			pscale = 0, nextcol = 0, nextline = 0;
+	float			p_scale = 0, nextcol = 0, nextline = 0;
 	uint32_t		cpainted = 0;
 	uint32_t		lpainted = 0;
 	UINT		rd = 0;
@@ -136,25 +136,25 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 
 	pw = FPWS_GetPreviewWidth();
 	ph = FPWS_GetPreviewHeight();
+	if (pw == 0 || ph == 0)
+		return 0;
+	
 	prev_datasize = FPWS_GetPreviewSize();
 	// read by full lines of source preview image
 	btoread = sizeof(fbuff) / ( pw * 2) * pw;
 	if (btoread > prev_datasize)
 		btoread = prev_datasize;
 
-	if (pw == 0 || ph == 0)
-		return 0;
-	
 	rw = rect->right - rect->left + 1;
 	rh = rect->bottom - rect->top + 1;
-	pscale = (float)pw / (float)rw;
-	if ((float)ph / (float)rh > pscale)
-		pscale = (float)ph / (float)rh;
-//	if (pscale < 1)
-//		pscale = 1;
+	p_scale = (float)pw / (float)rw;
+	if ((float)ph / (float)rh > p_scale)
+		p_scale = (float)ph / (float)rh;
+//	if (p_scale < 1)
+//		p_scale = 1;
 	
-	iw = (uint32_t)((float)pw / pscale);
-	ih = (uint32_t)((float)ph / pscale);
+	iw = (uint32_t)((float)pw / p_scale);
+	ih = (uint32_t)((float)ph / p_scale);
 	ix = rect->left + (rw - iw) / 2;
 	iy = rect->top + (rh - ih) / 2;
 
@@ -188,21 +188,22 @@ uint8_t		FPWS_DrawPreview(FIL *file, TG_RECT *rect)
 			}
 			dbuff[cpainted] = buff[bufpos];
 //			LCD_WriteRAM(buff[(uint32_t)(nextcol)]);
-			nextcol += pscale;
+			nextcol += p_scale;
 			cpainted++;
 			bufpos = oldbufpos + (uint32_t)(nextcol);
 		}
 		LCD_WriteRAM_DMA(dbuff, cpainted);
 		nextcol = 0;
-		nextline += pscale;
+//		while ((uint32_t)nextline == oldline)
+			nextline += p_scale;
 		cpainted = 0;
 		lpainted++;
-		if (((uint32_t)nextline - oldline) > 1)
+		if (((uint32_t)nextline - oldline) > 0)
 			bufpos += ((uint32_t)nextline - oldline) * pw;
 		if (((uint32_t)nextline - oldline) == 0)
 			bufpos -= pw;
-		if (bufpos % pw)
-			bufpos -= (bufpos % pw);
+		if ((bufpos + 1) % pw)
+			bufpos -= ((bufpos + 1) % pw);
 		oldline = (uint32_t)nextline;
 		oldbufpos = bufpos;
 

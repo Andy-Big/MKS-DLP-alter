@@ -3218,6 +3218,9 @@
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt11.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\src\App\tft\fonts\fnt11bold.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\src\App\tft\fonts\fnt12.c</name>
                 </file>
                 <file>

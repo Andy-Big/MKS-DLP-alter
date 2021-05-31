@@ -96,12 +96,12 @@ void		_tgui_PrnparamsExtItemButtonPaint(void *tguiobj, void *param)
 		{
 			case TG_SCR_PRNPARAMSEXT_PAUSELIFT_ID:
 				sprintf(msg, (char*)"%0.1f", prnparamsext.pause_lift);
-				meas = LANG_GetString(LSTR_SHORTMILLIMETERS);
+				meas = LANG_GetString(LSTR_SHORT_MILLIMETERS);
 				break;
 
 			case TG_SCR_PRNPARAMSEXT_ENDLIFT_ID:
 				sprintf(msg, (char*)"%0.1f", prnparamsext.end_lift);
-				meas = LANG_GetString(LSTR_SHORTMILLIMETERS);
+				meas = LANG_GetString(LSTR_SHORT_MILLIMETERS);
 				break;
 
 			case TG_SCR_PRNPARAMSEXT_ACCELERATE_ID:

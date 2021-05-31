@@ -38,8 +38,8 @@ uint32_t				ldata_offset_current = 0;
 uint32_t				ldata_length = 0;
 uint32_t				resX = 0, resY = 0;
 
-uint16_t			PRT_PREV_SCALE_X = 8;
-uint16_t			PRT_PREV_SCALE_Y = 8;
+float				PRT_PREV_SCALE_X = 8;
+float				PRT_PREV_SCALE_Y = 8;
 
 TG_RECT				prev_position;
 uint16_t			prevcolors[2] = {LCDUI_RGB(0x000000), LCDUI_RGB(0xEFEFEF)};
@@ -66,9 +66,23 @@ uint8_t		PRINT_Init()
 	PRT_PREV_SCALE_X = 8;
 	PRT_PREV_SCALE_Y = 9;
 #endif
-	
-	prevheight = CPLD_Y_RATIO / PRT_PREV_SCALE_Y;
-	prevwidth = CPLD_X_RATIO / PRT_PREV_SCALE_X;
+	prevwidth = 0;
+	prevheight = 0;
+
+	TG_BUTTON		*tgb;
+	for (uint32_t i = 0; i < TG_BTN_CNT_SCREEN_PRINT; i++)
+	{
+		tgb = &tguiScreenPrint.buttons[i];
+		if (tgb->button_id == TG_SCR_PRINT_PREVIEW_ID)
+		{
+			prevwidth = tgb->position.right - tgb->position.left + 1;
+			prevheight = tgb->position.bottom - tgb->position.top + 1;
+			PRT_PREV_SCALE_X = (float)CPLD_X_RATIO / (float)prevwidth;
+			PRT_PREV_SCALE_Y = (float)CPLD_Y_RATIO / (float)prevheight;
+			break;
+		}
+	}
+
 	prevheightbytes = prevheight / 8 + 1;
 
 	systemInfo.print_time_decrement = 0;
