@@ -13,11 +13,20 @@
 #include "config.h"
 
 
+#define		LCD_9488_BIT_FLIP_Y		(uint16_t)0x0040
+
+#define		LCD_9341_BIT_FLIP_Y		(uint16_t)0x0040
+
 uint16_t	DeviceCode;
 
 uint16_t	LCD_WIDTH = 480;
 uint16_t	LCD_HEIGHT = 320;
 
+
+uint16_t	LCD_ORIENT_NORMAL = 0x00A8;
+uint16_t	LCD_ORIENT_ROTATE = 0x0068;
+uint16_t	LCD_ORIENT_NORMAL_FLIP_Y = 0x00A8;
+uint16_t	LCD_ORIENT_ROTATE_FLIP_Y = 0x0068;
 
 /* Private typedef -----------------------------------------------------------*/
 typedef struct
@@ -114,8 +123,9 @@ void		LCD_WriteReg(uint16_t LCD_Reg, uint16_t LCD_RegValue)
 uint16_t	LCD_ReadReg(uint8_t LCD_Reg)
 {
 	uint16_t data;	  /* Write 16-bit Index (then Read Reg) */
-	//LCD->LCD_REG = LCD_Reg;
-	data = LCD->LCD_RAM; 
+	LCD->LCD_REG = LCD_Reg;
+	data = LCD->LCD_RAM;
+	data = LCD->LCD_RAM;
 	return    data;
 }
 
@@ -206,10 +216,10 @@ uint16_t	LCD_Read_ID(void) //**Read SSD1963ID
 {
 	uint16_t Lcd_ID;
 	LCD_WriteCmd(0XA1);
-	Lcd_ID=LCD_ReadRAM();
-	Lcd_ID=LCD_ReadRAM(); //read back 0X57
-	Lcd_ID<<=8;
-	Lcd_ID|=LCD_ReadRAM(); //read back 0X61
+	Lcd_ID = LCD_ReadRAM();
+	Lcd_ID = LCD_ReadRAM(); //read back 0X57
+	Lcd_ID <<= 8;
+	Lcd_ID |= LCD_ReadRAM(); //read back 0X61
 	return Lcd_ID;
 }
 
@@ -380,6 +390,11 @@ void		LCD_Init(void)
 		LCD_WriteRAM(0x0022);
 		LCD_WriteRAM(0x0080);
 
+		LCD_ORIENT_NORMAL = 0x00B8;
+		LCD_ORIENT_ROTATE = 0x0078;
+		LCD_ORIENT_NORMAL_FLIP_Y = LCD_ORIENT_NORMAL ^ LCD_9488_BIT_FLIP_Y;
+		LCD_ORIENT_ROTATE_FLIP_Y = LCD_ORIENT_ROTATE ^ LCD_9488_BIT_FLIP_Y;
+		
 		LCD_WriteCmd(0x0036);
 		if (cfgConfig.display_rotate == 0)
 			LCD_WriteRAM(0x00B8);
@@ -708,11 +723,16 @@ void		LCD_Init(void)
 		LCD_WriteCmd(0x00c7);
 		LCD_WriteRAM(0x0098);
 		
+		LCD_ORIENT_NORMAL = 0x00A8;
+		LCD_ORIENT_ROTATE = 0x0068;
+		LCD_ORIENT_NORMAL_FLIP_Y = LCD_ORIENT_NORMAL ^ LCD_9341_BIT_FLIP_Y;
+		LCD_ORIENT_ROTATE_FLIP_Y = LCD_ORIENT_ROTATE ^ LCD_9341_BIT_FLIP_Y;
+		
 		LCD_WriteCmd(0x0036);		// memory access control
 		if (cfgConfig.display_rotate == 0)
-			LCD_WriteRAM(0x00a8);		// normal
+			LCD_WriteRAM(LCD_ORIENT_NORMAL);		// normal
 		else
-			LCD_WriteRAM(0x0068);		// rotated
+			LCD_WriteRAM(LCD_ORIENT_ROTATE);		// rotated
 		
 		LCD_WriteCmd(0x00b1);
 		LCD_WriteRAM(0x0000);
@@ -1179,18 +1199,56 @@ void		LCD_Rotate(uint8_t rotate)
 	if(DeviceCode == 0x9488)
 	{
 		LCD_WriteCmd(0x0036);
-		if (cfgConfig.display_rotate == 0)
-			LCD_WriteRAM(0x00B8);
-		else
-			LCD_WriteRAM(0x0078);
 	} else
 	if(DeviceCode == 0x9341)
 	{
 		LCD_WriteCmd(0x0036);		// memory access control
-		if (rotate == 0)
-			LCD_WriteRAM(0x00a8);		// normal
+	}
+	if (cfgConfig.display_rotate == 0)
+	{
+		LCD_WriteRAM(LCD_ORIENT_NORMAL);		// normal
+	}
+	else
+	{
+		LCD_WriteRAM(LCD_ORIENT_ROTATE);		// normal
+	}
+}
+
+
+
+
+void		LCD_FlipVert(uint8_t flip)
+{
+	if(DeviceCode == 0x9488)
+	{
+		LCD_WriteCmd(0x0036);
+	} else
+	if(DeviceCode == 0x9341)
+	{
+		LCD_WriteCmd(0x0036);		// memory access control
+	}
+
+	if (cfgConfig.display_rotate == 0)
+	{
+		if (flip == 0)
+		{
+			LCD_WriteRAM(LCD_ORIENT_NORMAL);		// normal
+		}
 		else
-			LCD_WriteRAM(0x0068);		// rotated
+		{
+			LCD_WriteRAM(LCD_ORIENT_NORMAL_FLIP_Y);		// normal
+		}
+	}
+	else
+	{
+		if (flip == 0)
+		{
+			LCD_WriteRAM(LCD_ORIENT_ROTATE);		// normal
+		}
+		else
+		{
+			LCD_WriteRAM(LCD_ORIENT_ROTATE_FLIP_Y);		// normal
+		}
 	}
 }
 

@@ -462,7 +462,6 @@ void		_tgui_PrintScreenProgressUpdate(void *tguiobj, void *param)
 		float		f_proc = ((float)(systemInfo.print_current_layer + 1) / (float)PFILE_GetTotalLayers()) * 100;
 		uint32_t	proc = (uint32_t)f_proc;
 		sprintf(msg, (char*)"%u%%", proc);
-		LCDUI_SetColor(LCDUI_RGB(0xDDDDDD));
 		if (LCDUI_GetScreenWidth() == 480)
 		{
 			f_proc = (376.0 / 100.0) * f_proc;

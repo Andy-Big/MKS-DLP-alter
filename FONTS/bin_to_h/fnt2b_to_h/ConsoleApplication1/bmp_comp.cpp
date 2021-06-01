@@ -35,7 +35,12 @@ DWORD		outbuf_cnt;
 BYTE		*imgbase;
 BYTE		*endimgbase;
 
+// Image bits per pixel
 DWORD		bpp;
+// Image width
+DWORD		bwidth;
+// Image height
+DWORD		bheight;
 
 
 
@@ -87,9 +92,9 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		// check image size
 		// Image width
-		DWORD bwidth = *(DWORD*)(bmpdata+18);
+		bwidth = *(DWORD*)(bmpdata+18);
 		// Image height
-		DWORD bheight = *(DWORD*)(bmpdata+22);
+		bheight = *(DWORD*)(bmpdata+22);
 		// Image bits per pixel
 		bpp = *(WORD*)(bmpdata+28);
 
@@ -97,6 +102,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			// If standart row order
 			bheight = 0xFFFFFFFF - bheight + 1;
+			fliprows = 0;
 		}
 		else
 		{
@@ -162,66 +168,69 @@ getnextfile:
 
 
 
+UINT32	linepos = 0;
 
 void encode ()
 {
     int ret_code;
 
+	linepos = 0;
+
     tmpbuf_cnt = 0;  /* no. of char's in tmpbuf */
     outbuf_cnt = 0;  /* no. of char's in outbuf */
-    while (1)
-        {
-        if (get_word() == EOF)  /* read next byte into ch */
-           break;
-        tmpbuf[++tmpbuf_cnt] = (ITEMTYPE) ch;
-        if (tmpbuf_cnt == 3)
-            {
-            /* see if all 3 match each other */
-            if ((tmpbuf[1] == tmpbuf[2])
-             && (tmpbuf[2] == tmpbuf[3]))
-               {
-               /* they do - add compression */
-               /* this will process all bytes in input file until
-                  a non-match occurs, or 128 bytes are processed,
-                  or we find eof */
-               ret_code=process_comp();
-               if (ret_code == EOF_FOUND)
-                  break;        /* stop compressing */
-               if (ret_code == NON_MATCH)
-                  tmpbuf_cnt=1; /* save the char that didn't match */
-               else
-                  /* we just compressed the max. of 128 bytes */
-                  tmpbuf_cnt=0;    /* start over for next chunk */
-               }
-            else
-               {
-               /* we know the first byte doesn't match 2 or more
-                  others, so just send it out as uncompressed. */
-               process_uncomp(tmpbuf[1]);
+	while (1)
+	{
+		if (get_word() == EOF)  /* read next byte into ch */
+			break;
+		tmpbuf[++tmpbuf_cnt] = (ITEMTYPE) ch;
+		if (tmpbuf_cnt == 3)
+		{
+			/* see if all 3 match each other */
+			if ((tmpbuf[1] == tmpbuf[2])
+			&& (tmpbuf[2] == tmpbuf[3]))
+			{
+				/* they do - add compression */
+				/* this will process all bytes in input file until
+				a non-match occurs, or 128 bytes are processed,
+				or we find eof */
+				ret_code=process_comp();
+				if (ret_code == EOF_FOUND)
+				break;        /* stop compressing */
+				if (ret_code == NON_MATCH)
+				tmpbuf_cnt=1; /* save the char that didn't match */
+				else
+				/* we just compressed the max. of 128 bytes */
+				tmpbuf_cnt=0;    /* start over for next chunk */
+			}
+			else
+			{
+				/* we know the first byte doesn't match 2 or more
+				others, so just send it out as uncompressed. */
+				process_uncomp(tmpbuf[1]);
 
-               /* see if the last 2 bytes in the buffer match */
-               if (tmpbuf[2] == tmpbuf[3])
-                  {
-                  /* move byte 3 to position 1 and pretend we just
-                     have 2 bytes -- note that the first byte was
-                     already sent to output */
-                  tmpbuf[1]=tmpbuf[3];
-                  tmpbuf_cnt=2;
-                  }
-               else
-                  {
-                  /* send byte 2 and keep byte 3 - it may match the
-                     next byte.  Move byte 3 to position 1 and set
-                     count to 1.  Note that the first byte was
-                     already sent to output */
-                  process_uncomp(tmpbuf[2]);
-                  tmpbuf[1]=tmpbuf[3];
-                  tmpbuf_cnt=1;
-                  }
-               }
-            }
-        }  /* end while */
-    flush_outbuf();
+				/* see if the last 2 bytes in the buffer match */
+				if (tmpbuf[2] == tmpbuf[3])
+				{
+					/* move byte 3 to position 1 and pretend we just
+					have 2 bytes -- note that the first byte was
+					already sent to output */
+					tmpbuf[1]=tmpbuf[3];
+					tmpbuf_cnt=2;
+				}
+				else
+				{
+					/* send byte 2 and keep byte 3 - it may match the
+					next byte.  Move byte 3 to position 1 and set
+					count to 1.  Note that the first byte was
+					already sent to output */
+					process_uncomp(tmpbuf[2]);
+					tmpbuf[1]=tmpbuf[3];
+					tmpbuf_cnt=1;
+				}
+			}
+		}
+	}  /* end while */
+	flush_outbuf();
 }
 
 /*------------------------------------------------------------------*
@@ -325,11 +334,22 @@ int get_word()
 		DWORD dch = ((DWORD)*imgbase) + ((DWORD)*(imgbase + 1) << 8) + ((DWORD)*(imgbase + 2) << 16);
 		ch = RGB24toRGB16(dch);
 		imgbase += 3;
+		linepos += 3;
 	}
 	else
 	{
 		ch = *(WORD*)imgbase;
 		imgbase += 2;
+		linepos += 2;
+	}
+	// end of line
+	if (linepos == bwidth * (bpp / 8))
+	{
+		if (linepos % 4)
+		{
+			imgbase += 4 - (linepos % 4);
+		}
+		linepos = 0;
 	}
 	if (imgbase >= endimgbase)
 	{

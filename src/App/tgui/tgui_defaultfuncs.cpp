@@ -205,11 +205,7 @@ void		_tgui_DrawFileBmpBackground(char* file, uint8_t ui)
 	{
 		// If flip row order
 		fliprows = 1;
-		LCD_WriteCmd(0x0036);
-		if (cfgConfig.display_rotate == 0)
-			LCD_WriteRAM(0x00F8);
-		else
-			LCD_WriteRAM(0x0038);
+		LCD_FlipVert(1);
 	}
 	
 	
@@ -254,11 +250,7 @@ void		_tgui_DrawFileBmpBackground(char* file, uint8_t ui)
 flipcloseexit:
 	if (fliprows)
 	{
-		LCD_WriteCmd(0x0036);
-		if (cfgConfig.display_rotate == 0)
-			LCD_WriteRAM(0x00B8);
-		else
-			LCD_WriteRAM(0x0078);
+		LCD_FlipVert(0);
 	}
 closeexit:
 	f_close(&tguiFile);
@@ -279,13 +271,9 @@ void		_tgui_DrawFileRawImg(FIL *file, int16_t x, int16_t y, uint16_t bwidth, uin
 	uint8_t		curbuffnum = 0;
 	uint16_t	*curbuff = (uint16_t*)tguiDBuff;
 	
-	if (fliprows)
+	if (fliprows == 1)
 	{
-		LCD_WriteCmd(0x0036);
-		if (cfgConfig.display_rotate == 0)
-			LCD_WriteRAM(0x00F8);
-		else
-			LCD_WriteRAM(0x0038);
+		LCD_FlipVert(1);
 		y = LCD_HEIGHT - y - bheight;
 	}
 
@@ -384,13 +372,9 @@ void		_tgui_DrawFileRawImg(FIL *file, int16_t x, int16_t y, uint16_t bwidth, uin
 	}
 	LCD_WaitDMAReady();
 
-	if (fliprows)
+	if (fliprows == 1)
 	{
-		LCD_WriteCmd(0x0036);
-		if (cfgConfig.display_rotate == 0)
-			LCD_WriteRAM(0x00B8);
-		else
-			LCD_WriteRAM(0x0078);
+		LCD_FlipVert(0);
 	}
 	return;
 }
@@ -442,11 +426,7 @@ void		_tgui_DrawFileCimgBackground(char* file)
 	{
 		// If flip row order
 		fliprows = 1;
-		LCD_WriteCmd(0x0036);
-		if (cfgConfig.display_rotate == 0)
-			LCD_WriteRAM(0x00F8);
-		else
-			LCD_WriteRAM(0x0038);
+		LCD_FlipVert(1);
 	}
 	
 	
@@ -515,11 +495,7 @@ void		_tgui_DrawFileCimgBackground(char* file)
 flipcloseexit:
 	if (fliprows)
 	{
-		LCD_WriteCmd(0x0036);
-		if (cfgConfig.display_rotate == 0)
-			LCD_WriteRAM(0x00B8);
-		else
-			LCD_WriteRAM(0x0078);
+		LCD_FlipVert(0);
 	}
 closeexit:
 	f_close(&tguiFile);
@@ -573,11 +549,7 @@ void		_tgui_DrawFileCimgBackground(char* file)
 	{
 		// If flip row order
 		fliprows = 1;
-		LCD_WriteCmd(0x0036);
-		if (cfgConfig.display_rotate == 0)
-			LCD_WriteRAM(0x00F8);
-		else
-			LCD_WriteRAM(0x0038);
+		LCD_FlipVert(1);
 	}
 	
 	
@@ -664,11 +636,7 @@ void		_tgui_DrawFileCimgBackground(char* file)
 flipcloseexit:
 	if (fliprows)
 	{
-		LCD_WriteCmd(0x0036);
-		if (cfgConfig.display_rotate == 0)
-			LCD_WriteRAM(0x00B8);
-		else
-			LCD_WriteRAM(0x0078);
+		LCD_FlipVert(0);
 	}
 closeexit:
 	f_close(&tguiFile);
